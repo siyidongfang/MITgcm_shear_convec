@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 20*t1day;
+  simTime = 1*t1day;
   nIter0 = 0;
   % if(run_type=='init')
   %     simTime = 1*t1day;
@@ -399,16 +399,16 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 %     theta_slope = 4; %%% 4 degree slope
 %     delL = delH/tand(theta_slope); %%% length of the slope
 % 
-%     Lflat = (Ly-delL*2-Lmiddle)/2;
+%     Lflat = (Lx-delL*2-Lmiddle)/2;
 % 
 %     YUpslopeStart = Lflat;
 %     YUPslopeEnd = Lflat + delL;
 %     YDownslopeStart = YUPslopeEnd + Lmiddle;
-%     YDownslopeEnd = Ly-Lflat;
+%     YDownslopeEnd = Lx-Lflat;
 % 
 %     hh = [Hdeep Hdeep Hshallow Hshallow Hdeep Hdeep];
-%     ll = [yy(1) YUpslopeStart YUPslopeEnd YDownslopeStart YDownslopeEnd yy(end)];
-%     llf = yy;
+%     ll = [xx(1) YUpslopeStart YUPslopeEnd YDownslopeStart YDownslopeEnd xx(end)];
+%     llf = xx;
 %     h = -interp1(ll,hh,llf,'Linear');
 %     h = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(h))))))))))';
 % %%%%%% Double slopes -- end
@@ -518,14 +518,14 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   fignum = fignum + 1;
   clf;
   fontsize = 15;
-  plot(yy/m1km,h,'LineWidth',2)
+  plot(xx/m1km,h,'LineWidth',2)
   xlabel('Latitude, y (km)')
   ylabel('z (m)')
   title('Bathymetry')
   set(gca,'fontsize',fontsize);grid on;grid minor;
   PLOT = gcf;
   PLOT.Position = [263 149 567 336];
-  ylim([-1550 0])
+  ylim([-2030 0])
   %%% Save the figure
   savefig([imgpath '/bathymetry.fig']);
   saveas(gcf,[imgpath '/bathymetry.png']);
@@ -921,19 +921,19 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   end
 
   %%% Titled isotherms
-  % theta_slope = 4; %%% 4 degree slope
+  theta_slope = 4; %%% 4 degree slope
 
   % N2const = (1e-3)^2;
   % tNorth = N2const *(zz+Hz) /9.81/2e-4;
 
-  % for i=1:Nx
-  %     for j=1:Ny
-  %         for k=1:Nr
-  %             hydroTh(i,j,k) = N2const/9.81/2e-4 *...
-  %                 ( cosd(theta_slope)*(zz(k)+Hz) + sind(theta_slope)*yy(j));
-  %         end
-  %     end
-  % end
+  for i=1:Nx
+      for j=1:Ny
+          for k=1:Nr
+              hydroTh(i,j,k) = N2const/9.81/2e-4 *...
+                  ( cosd(theta_slope)*(zz(k)+Hz) + sind(theta_slope)*xx(i));
+          end
+      end
+  end
 
   figure(fignum);
   fignum = fignum + 1;
