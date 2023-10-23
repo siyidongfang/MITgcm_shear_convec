@@ -10,7 +10,7 @@
     dumpIters = round((1:nDumps)*dumpFreq/deltaT);
     dumpIters = dumpIters(dumpIters > nIter0);
 
-    o2 = 359;
+    o2 = 100;
     o1 = 1;
 
     % YLIM = [0 1500];XLIM = [0 Ly/1000];
@@ -29,8 +29,8 @@ for o=o1:o2
     tt = squeeze(rdmds([exppath,'/results/THETA_inst'],nIter));
     tt(tt==0)=NaN;
 
-    vv = squeeze(rdmds([exppath,'/results/VVEL_inst'],nIter));
-    vv(vv==0)=NaN;
+    uu = squeeze(rdmds([exppath,'/results/UVEL_inst'],nIter));
+    uu(uu==0)=NaN;
     ww = squeeze(rdmds([exppath,'/results/WVEL_inst'],nIter));
     ww(ww==0)=NaN;
 
@@ -42,7 +42,7 @@ for o=o1:o2
     N2(:,1:Nr-1) = -gravity/rhoConst.*(rho(:,1:end-1)-rho(:,2:end))./(zz(1:end-1)-zz(2:end));
 
     S = NaN*zeros(Nx,Nr);
-    S(:,1:Nr-1) = (vv(:,1:end-1)-vv(:,2:end))./(zz(1:end-1)-zz(2:end));
+    S(:,1:Nr-1) = (uu(:,1:end-1)-uu(:,2:end))./(zz(1:end-1)-zz(2:end));
 
     Ri = NaN*zeros(Nx,Nr);
     Ri = N2./(S.^2);
@@ -56,16 +56,16 @@ for o=o1:o2
     shading flat;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('y (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([0 0.8])
-    % clim([0 0.5])
+    % clim([0 0.8])
+    clim([0 0.5])
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,2)
-    pcolor(xx/1000,-zz,vv')
+    pcolor(xx/1000,-zz,uu')
     shading flat;colorbar;colormap(jet);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('y (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['v (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-1 1])
+    clim([-1 1]/2)
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,3)
@@ -83,7 +83,7 @@ for o=o1:o2
     shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('y (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['$dv/dz\ (s^{-1})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-3 3]/1e3)
+    clim([-5 5]/1e4)
     ylim(YLIM);xlim(XLIM);
 
     % subplot(3,2,5)
@@ -99,7 +99,7 @@ for o=o1:o2
     shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('y (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['w (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-2 2]/10)
+    clim([-2 2]/100)
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,6)

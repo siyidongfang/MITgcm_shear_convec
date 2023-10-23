@@ -168,8 +168,8 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       end if
 
       shearProfile = 0.
-      if((rC(kLev)-rC(Nr)).lt.300) then
-      shearProfile=(rC(kLev)-rC(Nr))/300.
+      if((rC(kLev)-rC(Nr)).lt.600) then
+      shearProfile=(rC(kLev)-rC(Nr))/600
       end if
 
       DO j=0,sNy+1

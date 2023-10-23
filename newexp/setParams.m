@@ -79,7 +79,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 10*m1km;
-  Lx = 10*m1km; 
+  Lx = 20*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -341,8 +341,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   [Y,X] = meshgrid(yy,xx);
 
   %%% Varied dz with depth  %  -- from Xiaozhou
-  Hsurface = 1000;
-  Ntop = 10;
+  Hsurface = 1200;
+  Ntop = 12;
   dz_const = 10;
   dz = dz_const.*ones(1,Nr);
   dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
@@ -358,10 +358,10 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   end
 
 
-  %%%%%% Flat bottom -- start
-  Hmax = 1500;
-  h = -Hmax*ones(Nx,Ny);
-  %%%%%% Flat bottom -- end
+  % %%%%%% Flat bottom -- start
+  % Hmax = 2000;
+  % h = -Hmax*ones(Nx,Ny);
+  % %%%%%% Flat bottom -- end
 
   % %%%%%% Add walls to the flat bottom -- start
   % h(1) = 0;
@@ -390,28 +390,28 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 % % %%%%%% Single slope -- end
 
 
-% %%%%%% Double slopes -- start
-%     Hdeep = 2000;
-%     Hshallow = 1500;
-%     Lmiddle = 2*m1km;
-% 
-%     delH = Hdeep-Hshallow; %%% elevation of the slope
-%     theta_slope = 4; %%% 4 degree slope
-%     delL = delH/tand(theta_slope); %%% length of the slope
-% 
-%     Lflat = (Lx-delL*2-Lmiddle)/2;
-% 
-%     YUpslopeStart = Lflat;
-%     YUPslopeEnd = Lflat + delL;
-%     YDownslopeStart = YUPslopeEnd + Lmiddle;
-%     YDownslopeEnd = Lx-Lflat;
-% 
-%     hh = [Hdeep Hdeep Hshallow Hshallow Hdeep Hdeep];
-%     ll = [xx(1) YUpslopeStart YUPslopeEnd YDownslopeStart YDownslopeEnd xx(end)];
-%     llf = xx;
-%     h = -interp1(ll,hh,llf,'Linear');
-%     h = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(h))))))))))';
-% %%%%%% Double slopes -- end
+%%%%%% Double slopes -- start
+    Hmax = 2000;
+    Hshallow = 1500;
+    Lmiddle = 2*m1km;
+
+    delH = Hmax-Hshallow; %%% elevation of the slope
+    theta_slope = 4; %%% 4 degree slope
+    delL = delH/tand(theta_slope); %%% length of the slope
+
+    Lflat = (Lx-delL*2-Lmiddle)/2;
+
+    YUpslopeStart = Lflat;
+    YUPslopeEnd = Lflat + delL;
+    YDownslopeStart = YUPslopeEnd + Lmiddle;
+    YDownslopeEnd = Lx-Lflat;
+
+    hh = [Hmax Hmax Hshallow Hshallow Hmax Hmax];
+    ll = [xx(1) YUpslopeStart YUPslopeEnd YDownslopeStart YDownslopeEnd xx(end)];
+    llf = xx;
+    h = -interp1(ll,hh,llf,'Linear');
+    h = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(h))))))))))';
+%%%%%% Double slopes -- end
 
 
 % % %%%%%% Sinusoidal topography -- start
@@ -920,20 +920,20 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     hydroSa(:,:,k) = squeeze(hydroSa(:,:,k))*sNorth(k);
   end
 
-  %%% Titled isotherms
-  theta_slope = 4; %%% 4 degree slope
-
-  % N2const = (1e-3)^2;
-  % tNorth = N2const *(zz+Hz) /9.81/2e-4;
-
-  for i=1:Nx
-      for j=1:Ny
-          for k=1:Nr
-              hydroTh(i,j,k) = N2const/9.81/2e-4 *...
-                  ( cosd(theta_slope)*(zz(k)+Hz) + sind(theta_slope)*xx(i));
-          end
-      end
-  end
+  % %%% Titled isotherms
+  % theta_slope = 4; %%% 4 degree slope
+  % 
+  % % N2const = (1e-3)^2;
+  % % tNorth = N2const *(zz+Hz) /9.81/2e-4;
+  % 
+  % for i=1:Nx
+  %     for j=1:Ny
+  %         for k=1:Nr
+  %             hydroTh(i,j,k) = N2const/9.81/2e-4 *...
+  %                 ( cosd(theta_slope)*(zz(k)+Hz) + sind(theta_slope)*xx(i));
+  %         end
+  %     end
+  % end
 
   figure(fignum);
   fignum = fignum + 1;
@@ -971,8 +971,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
-  Shear = 5.5e-4;
-  Hshear = Hmax-300;
+  Shear = 5.5e-4/2;
+  Hshear = Hmax-600;
   [a Nshear] = min(abs(abs(zz)-Hshear));
   for k = Nshear+1:Nr
       vrelax(k) = (zz(k)-zz(end))*Shear;
@@ -1022,13 +1022,13 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   RBCS_PARM = {rbcs_parm01,rbcs_parm02};
   
   % useRBCuVel = false;
-  useRBCvVel = true;
+  % useRBCvVel = true;
   % tauRelaxU = 10*t1min;
-  tauRelaxV = 10*t1min;
+  % tauRelaxV = 10*t1min;
   % rbcs_parm01.addParm('useRBCuVel',useRBCuVel,PARM_BOOL);
-  rbcs_parm01.addParm('useRBCvVel',useRBCvVel,PARM_BOOL);
+  % rbcs_parm01.addParm('useRBCvVel',useRBCvVel,PARM_BOOL);
   % rbcs_parm01.addParm('tauRelaxU',tauRelaxU,PARM_REAL);
-  rbcs_parm01.addParm('tauRelaxV',tauRelaxV,PARM_REAL);
+  % rbcs_parm01.addParm('tauRelaxV',tauRelaxV,PARM_REAL);
 
   useRBCtemp = true;
   % useRBCsalt = false;
@@ -1043,7 +1043,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   temp_relax = zeros(Nx,Ny,Nr);
   % salt_relax = zeros(Nx,Ny,Nr);
   % uvel_relax = zeros(Nx,Ny,Nr);
-  vvel_relax = zeros(Nx,Ny,Nr);
+  % vvel_relax = zeros(Nx,Ny,Nr);
 
   % % %%% Restore surface values 
   % % for i=1:Nx
@@ -1066,11 +1066,11 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   msk=zeros(Nx,Ny,Nr);
   %%% Horizontal Mask
-  for j = 1:spongeThickness
-      msk(:,j,:) =(spongeThickness-j+1)./spongeThickness; 
+  for i = 1:spongeThickness
+      msk(i,:,:) =(spongeThickness-i+1)./spongeThickness; 
   end
-  for j = Ny-spongeThickness+1:Ny
-      msk(:,j,:) =(j-(Ny-spongeThickness))./spongeThickness; 
+  for i = Nx-spongeThickness+1:Nx
+      msk(i,:,:) =(i-(Ny-spongeThickness))./spongeThickness; 
   end
 
   % % %%% Mask is 1 at ocean surface, and decreases to zero at the bottom of
@@ -1083,7 +1083,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   temp_mask = msk; 
   % salt_mask = msk; 
   % uvel_mask = msk; 
-  vvel_mask = msk; 
+  % vvel_mask = msk; 
 
   temp_relax = hydroTh;
 
@@ -1103,10 +1103,10 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % writeDataset(uvel_mask,fullfile(inputpath,'rbcs_uvel_mask.bin'),ieee,prec); 
   % rbcs_parm01.addParm('relaxMaskUFile','rbcs_uvel_mask.bin',PARM_STR);
 
-  writeDataset(vvel_relax,fullfile(inputpath,'sponge_vvel.bin'),ieee,prec); 
-  rbcs_parm01.addParm('relaxVFile','sponge_vvel.bin',PARM_STR);
-  writeDataset(vvel_mask,fullfile(inputpath,'rbcs_vvel_mask.bin'),ieee,prec); 
-  rbcs_parm01.addParm('relaxMaskVFile','rbcs_vvel_mask.bin',PARM_STR);
+  % writeDataset(vvel_relax,fullfile(inputpath,'sponge_vvel.bin'),ieee,prec); 
+  % rbcs_parm01.addParm('relaxVFile','sponge_vvel.bin',PARM_STR);
+  % writeDataset(vvel_mask,fullfile(inputpath,'rbcs_vvel_mask.bin'),ieee,prec); 
+  % rbcs_parm01.addParm('relaxMaskVFile','rbcs_vvel_mask.bin',PARM_STR);
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% WRITE THE 'data.rbcs' FILE %%%%%

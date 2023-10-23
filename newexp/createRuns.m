@@ -18,11 +18,11 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-Nx = 100;
+Nx = 200;
 
-Hmax = 1500;
-Hsurface = 1000; 
-Ntop = 10;
+Hmax = 2000;
+Hsurface = 1200; 
+Ntop = 12;
 dz_const = 10;
 Nr = round((Hmax-Hsurface)/dz_const) + Ntop + 1;
 
@@ -31,7 +31,7 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 %%% Name of the simulation
 exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-exp_name = ['iso_' exp_name 'shear']
+exp_name = ['sin_' exp_name 'shear2']
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
