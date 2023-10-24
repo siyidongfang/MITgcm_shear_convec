@@ -64,6 +64,9 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       REAL*8 amp_tide
       REAL*8 amp_force
       REAL*8 omega_tide
+
+      REAL*8 u_shear
+      REAL*8 h_shear
 C==========================
 
       IF ( fluidIsAir ) THEN
@@ -157,7 +160,9 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
       omega_tide  = 1.4537e-4
-      amp_tide    = 0.165
+      u_shear = 5.5e-4
+      h_shear = 300
+      amp_tide    = u_shear * h_shear
       amp_force   = amp_tide * (omega_tide*omega_tide-f0*f0)
      &                       / (omega_tide*omega_tide)
 
@@ -168,8 +173,8 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       end if
 
       shearProfile = 0.
-      if((rC(kLev)-rC(Nr)).lt.600) then
-      shearProfile=(rC(kLev)-rC(Nr))/600
+      if((rC(kLev)-rC(Nr)).lt.h_shear) then
+      shearProfile=(rC(kLev)-rC(Nr))/h_shear
       end if
 
       DO j=0,sNy+1
@@ -235,12 +240,15 @@ C     kSurface  :: index of surface level
       INTEGER kSurface
 CEOP
 
-C=== Maxim Nikurashin =====
+C=== Maxim Nikurashin, modified by Yidongfang Si =====
       REAL*8 tauTop
       REAL*8 tauProfile
 
       REAL*8 amp_tide
       REAL*8 omega_tide
+
+      REAL*8 u_shear
+      REAL*8 h_shear
 C==========================
 
       IF ( fluidIsAir ) THEN
@@ -330,9 +338,11 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
       ENDIF
 #endif /* ALLOW_MYPACKAGE */
 
-C=== Maxim Nikurashin =====
+C=== Maxim Nikurashin, modified by Yidongfang Si =====
       omega_tide  = 1.4537e-4
-      amp_tide    = 0.165 * f0/omega_tide
+      u_shear = 5.5e-4
+      h_shear = 300
+      amp_tide    = u_shear * h_shear * f0/omega_tide
 
       tauTop = 1./3600.
       tauProfile = 0.

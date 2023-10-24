@@ -10,11 +10,11 @@
     dumpIters = round((1:nDumps)*dumpFreq/deltaT);
     dumpIters = dumpIters(dumpIters > nIter0);
 
-    o2 = 100;
-    o1 = 1;
+    o2 = 227;
+    o1 = 180;
 
     % YLIM = [0 1500];XLIM = [0 Ly/1000];
-    YLIM = [0 2000];XLIM = [-Lx/2/1000 Lx/2/1000];
+    YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
     % YLIM = [1400 1700];XLIM = [8 10];
 
 
@@ -54,17 +54,17 @@ for o=o1:o2
     pcolor(xx/1000,-zz,tt');hold on;
     % contour(XX/1000,-ZZ,tt,[0:0.01:1],'k')
     shading flat;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-    xlabel('y (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
+    xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    % clim([0 0.8])
-    clim([0 0.5])
+    clim([0 1.3])
+    % clim([0 0.5])
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,2)
     pcolor(xx/1000,-zz,uu')
     shading flat;colorbar;colormap(jet);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-    xlabel('y (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
-    title(['v (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
+    xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
+    title(['u (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     clim([-1 1]/2)
     ylim(YLIM);xlim(XLIM);
 
@@ -72,7 +72,7 @@ for o=o1:o2
     % pcolor(xx/1000,-zz,real(log10(N2))')
     pcolor(xx/1000,-zz,N2')
     shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-    xlabel('y (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
+    xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     % title(['$\log(N^2)\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     title(['$N^2\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     clim([0 2]/1e6)
@@ -81,7 +81,7 @@ for o=o1:o2
     subplot(3,2,4)
     pcolor(xx/1000,-zz,S')
     shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-    xlabel('y (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
+    xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['$dv/dz\ (s^{-1})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     clim([-5 5]/1e4)
     ylim(YLIM);xlim(XLIM);
@@ -90,14 +90,14 @@ for o=o1:o2
     % plot(xx/1000,eta,'LineWidth',2);
     % grid on;grid minor;
     % set(gca,'Fontsize',fontsize);
-    % xlabel('y (km)','interpreter','latex');
+    % xlabel('x (km)','interpreter','latex');
     % title(['Sea Surface Height (m), t = ' num2str(time_h,'%.1f') ' h'],'interpreter','latex');
     % ylim([-0.1 0.1])
 
     subplot(3,2,5)
     pcolor(xx/1000,-zz,ww')
     shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-    xlabel('y (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
+    xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['w (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     clim([-2 2]/100)
     ylim(YLIM);xlim(XLIM);
@@ -105,7 +105,7 @@ for o=o1:o2
     subplot(3,2,6)
     pcolor(xx/1000,-zz,1./Ri')
     shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-    xlabel('y (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
+    xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Inverse Richardson Number, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     clim([-10 10])
     ylim(YLIM);xlim(XLIM);
