@@ -18,20 +18,22 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-Nx = 100;
+Nx = 500;
 
 Hmax = 1500;
 Hsurface = 1000; 
-Ntop = 20;
-dz_const = 10;
+Ntop = 50;
+dz_const = 3;
 Nr = round((Hmax-Hsurface)/dz_const) + Ntop + 1;
 
 run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with very small time step, spin-up run for 10 to 20 days, and product run,
 
 %%% Name of the simulation
-exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
+% exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-exp_name = 'test'
+exp_name = ['noise_shear5.5e-4_H300_Nr',num2str(Nr),'Nx',num2str(Nx)]
+
+% exp_name = 'test'
 % exp_name = ['rbcs2D_' exp_name]
 % exp_name = ['double_slope' exp_name]
 

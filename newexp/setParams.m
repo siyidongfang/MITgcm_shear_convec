@@ -112,7 +112,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   beta = 0;                                    %-- from Xiaozhou
   rhoConst = 999.8; %%% Reference density       %-- from Xiaozhou, MITgcm default value 999.8
 
-  nonHydrostatic = false; 
+  nonHydrostatic = true; 
 
   varyingtidalphase = false; % Set true to include zonally (along-slope) varying tidal phase 
   useLAYERS = false;
@@ -341,8 +341,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   %%% Varied dz with depth  %  -- from Xiaozhou
   Hsurface = 1000;
-  Ntop = 20;
-  dz_const = 10;
+  Ntop = 50;
+  dz_const = 3;
   dz = dz_const.*ones(1,Nr);
   dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
   sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
@@ -877,7 +877,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     deltaT = 5
   % end
   
-  % deltaT = 5
+  deltaT = 5
 
 
 
@@ -909,9 +909,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  % tNoise = 0.01;  
+  tNoise = 0.0001;  
   % sNoise = 0.001;
-  tNoise = 0;
+  % tNoise = 0;
   sNoise = 0;
 
   %%% Align initial temp with background
@@ -919,9 +919,12 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   hydroSa = ones(Nx,Ny,Nr);
 
   for k=1:Nr
-    % hydroTh(:,:,k) = squeeze(hydroTh(:,:,k))*tNorth(k);
+    hydroTh(:,:,k) = squeeze(hydroTh(:,:,k))*tNorth(k);
     hydroSa(:,:,k) = squeeze(hydroSa(:,:,k))*sNorth(k);
   end
+
+    hydroTh = hydroTh + tNoise*(2*rand(Nx,Ny,Nr)-1);
+    hydroSa = hydroSa + sNoise*(2*rand(Nx,Ny,Nr)-1);
 
   % %%% Titled isotherms
   % theta_slope = 4; %%% 4 degree slope
@@ -941,12 +944,12 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   figure(fignum);
   fignum = fignum + 1;
   clf;set(gcf,'Color','w')
-  % pcolor(xx/1000,-zz,squeeze(hydroTh)');axis ij;
+  pcolor(xx/1000,-zz,squeeze(hydroTh)');axis ij;
   % hold on;
-  contour(xx/1000,-zz,squeeze(hydroTh)',[0:0.03:2.5]);axis ij;
+  % contour(xx/1000,-zz,squeeze(hydroTh)',[0:0.03:2.5]);axis ij;
   hold on;
   plot(xx/1000,-h);
-  shading flat;colormap(redblue);clim([0 1]);colorbar;
+  shading flat;colormap(redblue);clim([-0.001 0.001]);colorbar;
   xlabel('Distance, y (km)');
   ylabel('Depth (m)');
   title('Initial temperature (^oC)');

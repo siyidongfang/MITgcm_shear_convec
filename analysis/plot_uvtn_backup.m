@@ -16,9 +16,9 @@
 
     yy=xx;
 
-    o2 = 227;
+    o2 = 100;
     o1 = 1;
-    YLIM = [0 1500]
+    YLIM = [1400 1500]
 
 for o=o1:o2
 
@@ -51,7 +51,7 @@ for o=o1:o2
     shading flat;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([0 1.2])
+    clim([-0.001 0.001]/10)
     ylim(YLIM)
 
     % subplot(3,2,2)
@@ -78,7 +78,7 @@ for o=o1:o2
     shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['v (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-1 1])
+    clim([-0.3 0.3])
     ylim(YLIM)
     % title('v (m/s)','Fontsize',fontsize+3,'interpreter','latex')
 
@@ -91,7 +91,7 @@ for o=o1:o2
     title(['$log(N^2)\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     % title('$N^2\ (s^{-2})$','Fontsize',fontsize+3,'interpreter','latex')
     % clim([-7 -4])
-    clim([-1 1]/1e5)
+    clim([-1 1]/1e8)
     ylim(YLIM)
 
     subplot(3,2,6)

@@ -10,8 +10,8 @@
     dumpIters = round((1:nDumps)*dumpFreq/deltaT);
     dumpIters = dumpIters(dumpIters > nIter0);
 
-    o2 = 227;
-    o1 = 180;
+    o2 = 100;
+    o1 = 60;
 
     % YLIM = [0 1500];XLIM = [0 Ly/1000];
     YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
@@ -47,6 +47,8 @@ for o=o1:o2
     Ri = NaN*zeros(Nx,Nr);
     Ri = N2./(S.^2);
 
+
+    %%
     figure(1)
     set(gcf,'Position',  [-407 32 1247 942])
     clf;set(gcf,'color','w');
@@ -56,8 +58,8 @@ for o=o1:o2
     shading flat;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([0 1.3])
-    % clim([0 0.5])
+    % clim([0 1.3])
+    clim([-0.001 0.001]/2)
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,2)
@@ -65,7 +67,7 @@ for o=o1:o2
     shading flat;colorbar;colormap(jet);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['u (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-1 1]/2)
+    clim([-0.3 0.3])
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,3)
@@ -75,7 +77,7 @@ for o=o1:o2
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     % title(['$\log(N^2)\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     title(['$N^2\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([0 2]/1e6)
+    clim([-1 1]/1e7)
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,4)
