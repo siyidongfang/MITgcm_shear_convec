@@ -241,7 +241,7 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
 
       DO j=0,sNy+1
        DO i=1,sNx+1
-        gU_arr(i,j,k,bi,bj) = gU_arr(i,j,k,bi,bj)
+        gU_arr(i,j) = gU_arr(i,j)
      &  + amp_force*omega_tide*cos(omega_tide*myTime) * shearProfile
      &  + f0*vVel(i,j,k,bi,bj)*(cosd(theta_slope)-1)
      &  + gravity_const*temp_Alpha*(theta(i,j,k,bi,bj)-Tref_const)*sind(theta_slope)
@@ -470,7 +470,7 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
 
       DO j=0,sNy+1
        DO i=1,sNx+1
-        gV_arr(i,j,k,bi,bj) = gV_arr(i,j,k,bi,bj)
+        gV_arr(i,j) = gV_arr(i,j)
       &  + f0*uVel(i,j,k,bi,bj)*(1-cosd(theta_slope))
       &  + f0*wVel(i,j,k,bi,bj)*sind(theta_slope)
  !    &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,k,bi,bj))
@@ -891,7 +891,7 @@ C=== Yidongfang Si =====
 
       DO j=0,sNy+1
        DO i=1,sNx+1
-        gT_arr(i,j,k,bi,bj) = gT_arr(i,j,k,bi,bj)
+        gT_arr(i,j) = gT_arr(i,j)
      & - uVel(i,j,k,bi,bj) * Nsquare_const * sind(theta_slope) / gravity_const / temp_Alpha
      & - wVel(i,j,k,bi,bj) * Nsquare_const * cosd(theta_slope) / gravity_const / temp_Alpha
        ENDDO
