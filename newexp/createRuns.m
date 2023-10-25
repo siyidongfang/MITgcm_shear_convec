@@ -18,11 +18,11 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-Nx = 200;
+Nx = 100;
 
 Hmax = 1500;
 Hsurface = 1000; 
-Ntop = 100;
+Ntop = 20;
 dz_const = 10;
 Nr = round((Hmax-Hsurface)/dz_const) + Ntop + 1;
 

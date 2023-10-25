@@ -416,6 +416,12 @@ C     kSurface  :: index of surface level
       _RL recip_Cp
 CEOP
 
+C=== Yidongfang Si ========
+      REAL*8 Nsquare_const
+      REAL*8 theta_slope
+      REAL*8 gravity_const
+      REAL*8 temp_Alpha
+C==========================
 
 #ifdef SHORTWAVE_HEATING
       _RL minusone
@@ -692,6 +698,21 @@ c     ENDIF
      I                 myTime, 0, myThid )
       ENDIF
 #endif /* ALLOW_MYPACKAGE */
+
+C=== Yidongfang Si =====
+      Nsquare_const = 1e-6
+      theta_slope = 4
+      gravity_const = 9.81
+      temp_Alpha = 2e-4
+
+      DO j=0,sNy+1
+       DO i=1,sNx+1
+        gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
+     & + uVel(i,j,kLev,bi,bj) * Nsquare_const * sind(theta_slope) / gravity_const / temp_Alpha
+     & + wVel(i,j,kLev,bi,bj) * Nsquare_const * cosd(theta_slope) / gravity_const / temp_Alpha
+       ENDDO
+      ENDDO
+C==========================
 
 #endif /* USE_OLD_EXTERNAL_FORCING */
       RETURN

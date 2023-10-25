@@ -79,7 +79,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 5*m1km;
-  Lx = 20*m1km; 
+  Lx = 10*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -341,7 +341,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   %%% Varied dz with depth  %  -- from Xiaozhou
   Hsurface = 1000;
-  Ntop = 100;
+  Ntop = 20;
   dz_const = 10;
   dz = dz_const.*ones(1,Nr);
   dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
@@ -580,8 +580,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   Hz = sum (dz);
   % tNorth = (0.62*2.4)^2*(1e-3)^2 *(zz+Hz) /9.81/2e-4;
-  N2const = (1e-3)^2;
-  tNorth = N2const *(zz+Hz) /9.81/2e-4;
+  % N2const = (1e-3)^2;
+  % tNorth = N2const *(zz+Hz) /9.81/2e-4;
+  tNorth = 0.*ones(1,Nr);
   sNorth = 0.*ones(1,Nr);
 
   % tNorth = interp1(pp15',pt_mean15',-zz,'Linear');
@@ -598,6 +599,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   if(sNorth==0)
       parm05.addParm('checkIniSalt',false,PARM_BOOL);
+  end
+  if(tNorth==0)
+      parm05.addParm('checkIniTemp',false,PARM_BOOL);
   end
 
   % tNorth = -1.5.*ones(1,Nr);
@@ -873,7 +877,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     deltaT = 5
   % end
   
-  deltaT = 5
+  % deltaT = 5
 
 
 
@@ -919,20 +923,20 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     hydroSa(:,:,k) = squeeze(hydroSa(:,:,k))*sNorth(k);
   end
 
-  %%% Titled isotherms
-  theta_slope = 4; %%% 4 degree slope
-
-  % N2const = (1e-3)^2;
-  % tNorth = N2const *(zz+Hz) /9.81/2e-4;
-
-  for i=1:Nx
-      for j=1:Ny
-          for k=1:Nr
-              hydroTh(i,j,k) = N2const/9.81/2e-4 *...
-                  ( cosd(theta_slope)*(zz(k)+Hz) + sind(theta_slope)*xx(i));
-          end
-      end
-  end
+  % %%% Titled isotherms
+  % theta_slope = 4; %%% 4 degree slope
+  % 
+  % % N2const = (1e-3)^2;
+  % % tNorth = N2const *(zz+Hz) /9.81/2e-4;
+  % 
+  % for i=1:Nx
+  %     for j=1:Ny
+  %         for k=1:Nr
+  %             hydroTh(i,j,k) = N2const/9.81/2e-4 *...
+  %                 ( cosd(theta_slope)*(zz(k)+Hz) + sind(theta_slope)*xx(i));
+  %         end
+  %     end
+  % end
 
   figure(fignum);
   fignum = fignum + 1;
