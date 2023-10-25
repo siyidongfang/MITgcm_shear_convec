@@ -79,7 +79,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 5*m1km;
-  Lx = 30*m1km; 
+  Lx = 20*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -123,7 +123,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   % useXRUANcode = false;
   useOBCS = false;
-  useRBCS = true;
+  useRBCS = false;
   %%% OBCS package options
   % if(useXRUANcode)
   %     useOBCS = false;
@@ -341,7 +341,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   %%% Varied dz with depth  %  -- from Xiaozhou
   Hsurface = 1000;
-  Ntop = 10;
+  Ntop = 100;
   dz_const = 10;
   dz = dz_const.*ones(1,Nr);
   dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
@@ -391,8 +391,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 % %%%%%% Double slopes -- start
 %     Hmax = 2000;
-%     Hshallow = 1500;
-%     Lmiddle = 2*m1km;
+%     Hshallow = 1000;
+%     Lmiddle = 6*m1km;
 % 
 %     delH = Hmax-Hshallow; %%% elevation of the slope
 %     theta_slope = 4; %%% 4 degree slope
@@ -1402,7 +1402,7 @@ else
             ... % 'UVEL','DRHODR','SALT','PHIHYD','PHI_NH'...
           };
       numdiags_inst = length(diag_fields_inst);  
-      diag_freq_inst = 30*t1min;
+      diag_freq_inst = 60*t1min;
       diag_phase_inst = 0;
     
       for n=1:numdiags_inst    
