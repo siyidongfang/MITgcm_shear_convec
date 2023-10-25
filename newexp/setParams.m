@@ -112,7 +112,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   beta = 0;                                    %-- from Xiaozhou
   rhoConst = 999.8; %%% Reference density       %-- from Xiaozhou, MITgcm default value 999.8
 
-  nonHydrostatic = true; 
+  nonHydrostatic = false; 
 
   varyingtidalphase = false; % Set true to include zonally (along-slope) varying tidal phase 
   useLAYERS = false;
@@ -342,7 +342,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Varied dz with depth  %  -- from Xiaozhou
   Hsurface = 1000;
   Ntop = 50;
-  dz_const = 3;
+  dz_const = 6;
   dz = dz_const.*ones(1,Nr);
   dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
   sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
@@ -580,6 +580,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   Hz = sum (dz);
   % tNorth = (0.62*2.4)^2*(1e-3)^2 *(zz+Hz) /9.81/2e-4;
+  % N2const = (1e-3)^2;
   % N2const = (1e-3)^2;
   % tNorth = N2const *(zz+Hz) /9.81/2e-4;
   tNorth = 0.*ones(1,Nr);
@@ -877,7 +878,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     deltaT = 5
   % end
   
-  deltaT = 5
+  deltaT = round(deltaT/2) 
 
 
 
@@ -909,7 +910,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 0.0001;  
+  tNoise = 0.001;  
   % sNoise = 0.001;
   % tNoise = 0;
   sNoise = 0;
@@ -949,7 +950,10 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % contour(xx/1000,-zz,squeeze(hydroTh)',[0:0.03:2.5]);axis ij;
   hold on;
   plot(xx/1000,-h);
-  shading flat;colormap(redblue);clim([-0.001 0.001]);colorbar;
+  shading flat;colormap(redblue);
+  clim([-0.001 0.001]);
+  % clim([0 1]);
+  colorbar;
   xlabel('Distance, y (km)');
   ylabel('Depth (m)');
   title('Initial temperature (^oC)');

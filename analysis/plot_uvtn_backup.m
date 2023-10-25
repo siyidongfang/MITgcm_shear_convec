@@ -16,9 +16,10 @@
 
     yy=xx;
 
-    o2 = 100;
+    o2 = 120;
     o1 = 1;
-    YLIM = [1400 1500]
+    YLIM = [1200 1500]
+    % YLIM = [0 1500]
 
 for o=o1:o2
 
@@ -48,23 +49,23 @@ for o=o1:o2
     subplot(3,2,1)
     pcolor(yy/1000,-zz,tt')
     % pcolor(yy/1000,-zz,tt'-t0')
-    shading flat;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+    shading interp;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-0.001 0.001]/10)
+    clim([0 0.14])
     ylim(YLIM)
 
     % subplot(3,2,2)
     % pcolor(yy/1000,-zz,ss'-s0')
     % clim([-0.05 0.05])
-    % shading flat;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+    % shading interp;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     % xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex')
     % title(['Salinity anomaly $S-S_0$ (psu), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     % % title('$\theta\ (^\circ \mathrm{C})$','Fontsize',fontsize+3,'interpreter','latex')
 
     subplot(3,2,3)
     pcolor(yy/1000,-zz,uu')
-    shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+    shading interp;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['u (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     clim([-0.3 0.3])
@@ -75,7 +76,7 @@ for o=o1:o2
     subplot(3,2,4)
     pcolor(yy/1000,-zz,vv')
     % ylim([-max(bathy)/1000-0.2 -min(bathy)/1000+0.05]);
-    shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+    shading interp;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['v (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     clim([-0.3 0.3])
@@ -86,12 +87,12 @@ for o=o1:o2
     pcolor(yy/1000,pp_mid,N2')
     % pcolor(yy/1000,-zz/1000,real(log10(N2))')
     % ylim([-max(bathy)/1000-0.2 -min(bathy)/1000+0.05]);
-    shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+    shading interp;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['$log(N^2)\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     % title('$N^2\ (s^{-2})$','Fontsize',fontsize+3,'interpreter','latex')
     % clim([-7 -4])
-    clim([-1 1]/1e8)
+    clim([0 2]/1e6)
     ylim(YLIM)
 
     subplot(3,2,6)

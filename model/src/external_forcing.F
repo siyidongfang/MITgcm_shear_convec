@@ -56,25 +56,6 @@ C     kSurface  :: index of surface level
       INTEGER kSurface
 CEOP
 
-C=== Maxim Nikurashin, modified by Yidongfang Si =====
-      REAL*8 tauTop
-      REAL*8 tauProfile
-      REAL*8 shearProfile
-
-      REAL*8 amp_tide
-      REAL*8 amp_force
-      REAL*8 omega_tide
-
-      REAL*8 u_shear
-      REAL*8 h_shear
-
-      REAL*8 Nsquare_const
-      REAL*8 theta_slope
-      REAL*8 gravity_const
-      REAL*8 temp_Alpha
-      REAL*8 Tref_const
-C==========================
-
       IF ( fluidIsAir ) THEN
        kSurface = 0
       ELSEIF ( usingPCoords ) THEN
@@ -82,7 +63,6 @@ C==========================
       ELSE
        kSurface = 1
       ENDIF
-
 
 C--   Forcing term
 #ifdef ALLOW_AIM
@@ -164,44 +144,6 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
       ENDIF
 #endif /* ALLOW_MYPACKAGE */
 
-C=== Maxim Nikurashin, modified by Yidongfang Si =====
-      ! omega_tide  = 1.4537e-4
-      omega_tide = 1.454441043328608e-04
-      u_shear = 5.5e-4
-      h_shear = 300
-      Nsquare_const = 1e-6
-      theta_slope = 4
-      gravity_const = 9.81
-      temp_Alpha = 2e-4
-      Tref_const = 0
-
-      amp_tide    = u_shear * h_shear
-      amp_force   = amp_tide * (omega_tide*omega_tide-f0*f0)
-     &                       / (omega_tide*omega_tide)
-
- !     tauTop = 1./3600.
- !     tauProfile = 0.
- !    if((rC(kLev)-rC(Nr)).gt.2500.) then
- !     tauProfile=tauTop*((rC(kLev)-rC(Nr))-2500.)/((rC(1)-rC(Nr))-2500.)
- !     end if
-
-      shearProfile = 0.
-      if((rC(kLev)-rC(Nr)).lt.h_shear) then
-      shearProfile=(rC(kLev)-rC(Nr))/h_shear
-      end if
-
-      DO j=0,sNy+1
-       DO i=1,sNx+1
-        gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
-     &  + amp_force*omega_tide*cos(omega_tide*myTime) * shearProfile
-     &  + f0*vVel(i,j,kLev,bi,bj)*(cosd(theta_slope)-1)
-     &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)*sind(theta_slope)
- !    &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
- !    &  * tauProfile
-       ENDDO
-      ENDDO
-C==========================
-
 #endif /* USE_OLD_EXTERNAL_FORCING */
       RETURN
       END
@@ -253,19 +195,6 @@ C     kSurface  :: index of surface level
       INTEGER i, j
       INTEGER kSurface
 CEOP
-
-C=== Maxim Nikurashin, modified by Yidongfang Si =====
-      REAL*8 tauTop
-      REAL*8 tauProfile
-
-      REAL*8 amp_tide
-      REAL*8 omega_tide
-
-      REAL*8 u_shear
-      REAL*8 h_shear
-
-      REAL*8 theta_slope
-C==========================
 
       IF ( fluidIsAir ) THEN
        kSurface = 0
@@ -354,32 +283,6 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
       ENDIF
 #endif /* ALLOW_MYPACKAGE */
 
-C=== Maxim Nikurashin, modified by Yidongfang Si =====
-      ! omega_tide  = 1.4537e-4
-      omega_tide = 1.454441043328608e-04
-      u_shear = 5.5e-4
-      h_shear = 300
-      theta_slope = 4
-
-      amp_tide    = u_shear * h_shear * f0/omega_tide
-
- !     tauTop = 1./3600.
- !     tauProfile = 0.
- !     if((rC(kLev)-rC(Nr)).gt.2500.) then
- !     tauProfile=tauTop*((rC(kLev)-rC(Nr))-2500.)/((rC(1)-rC(Nr))-2500.)
- !     end if
-
-      DO j=0,sNy+1
-       DO i=1,sNx+1
-        gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
-      &  + f0*uVel(i,j,kLev,bi,bj)*(1-cosd(theta_slope))
-      &  + f0*wVel(i,j,kLev,bi,bj)*sind(theta_slope)
- !    &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
- !    &  * tauProfile
-       ENDDO
-      ENDDO
-C==========================
-
 #endif /* USE_OLD_EXTERNAL_FORCING */
       RETURN
       END
@@ -436,14 +339,6 @@ C     kSurface  :: index of surface level
       _RL tmpFac, delPI
       _RL recip_Cp
 CEOP
-
-C=== Yidongfang Si ========
-      REAL*8 Nsquare_const
-      REAL*8 theta_slope
-      REAL*8 gravity_const
-      REAL*8 temp_Alpha
-C==========================
-
 #ifdef SHORTWAVE_HEATING
       _RL minusone
       PARAMETER (minusOne=-1.)
@@ -719,21 +614,6 @@ c     ENDIF
      I                 myTime, 0, myThid )
       ENDIF
 #endif /* ALLOW_MYPACKAGE */
-
-C=== Yidongfang Si =====
-      Nsquare_const = 1e-6
-      theta_slope = 4
-      gravity_const = 9.81
-      temp_Alpha = 2e-4
-
-      DO j=0,sNy+1
-       DO i=1,sNx+1
-        gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
-     & - uVel(i,j,kLev,bi,bj) * Nsquare_const * sind(theta_slope) / gravity_const / temp_Alpha
-     & - wVel(i,j,kLev,bi,bj) * Nsquare_const * cosd(theta_slope) / gravity_const / temp_Alpha
-       ENDDO
-      ENDDO
-C==========================
 
 #endif /* USE_OLD_EXTERNAL_FORCING */
       RETURN
