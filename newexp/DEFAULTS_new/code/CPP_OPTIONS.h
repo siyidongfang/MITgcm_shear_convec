@@ -175,7 +175,7 @@ C   is still useful with, e.g., single-domain curvilinear configurations.
 #undef OLD_GRID_IO
 
 C o Use old EXTERNAL_FORCING_U,V,T,S subroutines (for backward compatibility)
-#undef USE_OLD_EXTERNAL_FORCING
+#define USE_OLD_EXTERNAL_FORCING
 
 C-- Other option files:
 

@@ -69,10 +69,14 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       REAL*8 h_shear
 
       REAL*8 Nsquare_const
-      REAL*8 theta_slope
       REAL*8 gravity_const
       REAL*8 temp_Alpha
       REAL*8 Tref_const
+
+      REAL*8 cos_slope
+      REAL*8 sin_slope
+      REAL*8 topog_slope
+      REAL*8 pi_const
 C==========================
 
       IF ( fluidIsAir ) THEN
@@ -167,12 +171,17 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
       u_shear = 5.5e-4
-      h_shear = 300
-      Nsquare_const = 1e-6
-      theta_slope = 4
+      h_shear = 300.d0
+      Nsquare_const = 1.0e-6
+      
+      topog_slope = 4.d0
+      pi_const = 3.141592653589793
+      cos_slope = cos(pi_const*topog_slope/180)
+      sin_slope = sin(pi_const*topog_slope/180)
+
       gravity_const = 9.81
-      temp_Alpha = 2e-4
-      Tref_const = 0
+      temp_Alpha = 2.0e-4
+      Tref_const = 0.d0
 
       amp_tide    = u_shear * h_shear
       amp_force   = amp_tide * (omega_tide*omega_tide-f0*f0)
@@ -193,8 +202,8 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
        DO i=1,sNx+1
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
      &  + amp_force*omega_tide*cos(omega_tide*myTime) * shearProfile
-     &  + f0*vVel(i,j,kLev,bi,bj)*(cosd(theta_slope)-1)
-     &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)*sind(theta_slope)
+     &  + f0*vVel(i,j,kLev,bi,bj)*(cos_slope-1)
+     &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)*sin_slope
  !    &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
  !    &  * tauProfile
        ENDDO
@@ -263,7 +272,10 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       REAL*8 u_shear
       REAL*8 h_shear
 
-      REAL*8 theta_slope
+      REAL*8 cos_slope
+      REAL*8 sin_slope
+      REAL*8 topog_slope
+      REAL*8 pi_const
 C==========================
 
       IF ( fluidIsAir ) THEN
@@ -356,8 +368,12 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
       u_shear = 5.5e-4
-      h_shear = 300
-      theta_slope = 4
+      h_shear = 300.d0
+
+      topog_slope = 4.d0
+      pi_const = 3.141592653589793
+      cos_slope = cos(pi_const*topog_slope/180)
+      sin_slope = sin(pi_const*topog_slope/180)
 
       amp_tide    = u_shear * h_shear * f0/omega_tide
 
@@ -370,8 +386,8 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       DO j=0,sNy+1
        DO i=1,sNx+1
         gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
-      &  + f0*uVel(i,j,kLev,bi,bj)*(1-cosd(theta_slope))
-      &  + f0*wVel(i,j,kLev,bi,bj)*sind(theta_slope)
+      &  + f0*uVel(i,j,kLev,bi,bj)*(1-cos_slope)
+      &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
  !    &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
  !    &  * tauProfile
        ENDDO
@@ -437,9 +453,13 @@ CEOP
 
 C=== Yidongfang Si ========
       REAL*8 Nsquare_const
-      REAL*8 theta_slope
       REAL*8 gravity_const
       REAL*8 temp_Alpha
+
+      REAL*8 cos_slope
+      REAL*8 sin_slope
+      REAL*8 topog_slope
+      REAL*8 pi_const
 C==========================
 
 #ifdef SHORTWAVE_HEATING
@@ -719,16 +739,20 @@ c     ENDIF
 #endif /* ALLOW_MYPACKAGE */
 
 C=== Yidongfang Si =====
-      Nsquare_const = 1e-6
-      theta_slope = 4
+      Nsquare_const = 1.0e-6
       gravity_const = 9.81
-      temp_Alpha = 2e-4
+      temp_Alpha = 2.0e-4
+
+      topog_slope = 4.d0
+      pi_const = 3.141592653589793
+      cos_slope = cos(pi_const*topog_slope/180)
+      sin_slope = sin(pi_const*topog_slope/180)
 
       DO j=0,sNy+1
        DO i=1,sNx+1
         gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
-     & - uVel(i,j,kLev,bi,bj) * Nsquare_const * sind(theta_slope) / gravity_const / temp_Alpha
-     & - wVel(i,j,kLev,bi,bj) * Nsquare_const * cosd(theta_slope) / gravity_const / temp_Alpha
+     & - uVel(i,j,kLev,bi,bj) * Nsquare_const * sin_slope / gravity_const / temp_Alpha
+     & - wVel(i,j,kLev,bi,bj) * Nsquare_const * cos_slope / gravity_const / temp_Alpha
        ENDDO
       ENDDO
 C==========================
