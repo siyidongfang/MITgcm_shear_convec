@@ -751,8 +751,10 @@ C=== Yidongfang Si =====
       DO j=0,sNy+1
        DO i=1,sNx+1
         gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
-     &  - uVel(i,j,kLev,bi,bj)*Nsquare_const*sin_slope/(gravity_const*temp_Alpha)
-     &  - wVel(i,j,kLev,bi,bj)*Nsquare_const*cos_slope/(gravity_const*temp_Alpha)
+     &  - uVel(i,j,kLev,bi,bj)*Nsquare_const*sin_slope/gravity_const
+     &  \temp_Alpha
+     &  - wVel(i,j,kLev,bi,bj)*Nsquare_const*cos_slope/gravity_const
+     &  \temp_Alpha
        ENDDO
       ENDDO
 C==========================
