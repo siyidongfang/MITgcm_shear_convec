@@ -165,7 +165,6 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 #endif /* ALLOW_MYPACKAGE */
 
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
-      ! omega_tide  = 1.4537e-4
       omega_tide = 1.454441043328608e-04
       u_shear = 5.5e-4
       h_shear = 300
@@ -181,8 +180,8 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
 
  !     tauTop = 1./3600.
  !     tauProfile = 0.
- !    if((rC(kLev)-rC(Nr)).gt.2500.) then
- !     tauProfile=tauTop*((rC(kLev)-rC(Nr))-2500.)/((rC(1)-rC(Nr))-2500.)
+ !    if((rC(kLev)-rC(Nr)).gt.1000.) then
+ !     tauProfile=tauTop*((rC(kLev)-rC(Nr))-1000.)/((rC(1)-rC(Nr))-1000.)
  !     end if
 
       shearProfile = 0.
@@ -365,8 +364,8 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
 
  !     tauTop = 1./3600.
  !     tauProfile = 0.
- !     if((rC(kLev)-rC(Nr)).gt.2500.) then
- !     tauProfile=tauTop*((rC(kLev)-rC(Nr))-2500.)/((rC(1)-rC(Nr))-2500.)
+ !     if((rC(kLev)-rC(Nr)).gt.1000.) then
+ !     tauProfile=tauTop*((rC(kLev)-rC(Nr))-2500.)/((rC(1)-rC(Nr))-1000.)
  !     end if
 
       DO j=0,sNy+1
