@@ -159,7 +159,8 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 #endif /* ALLOW_MYPACKAGE */
 
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
-      omega_tide  = 1.4537e-4
+      ! omega_tide  = 1.4537e-4
+      omega_tide = 1.454441043328608e-04
       u_shear = 5.5e-4
       h_shear = 300
       amp_tide    = u_shear * h_shear
@@ -339,7 +340,8 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
 #endif /* ALLOW_MYPACKAGE */
 
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
-      omega_tide  = 1.4537e-4
+      ! omega_tide  = 1.4537e-4
+      omega_tide = 1.454441043328608e-04
       u_shear = 5.5e-4
       h_shear = 300
       amp_tide    = u_shear * h_shear * f0/omega_tide
