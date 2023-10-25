@@ -230,22 +230,22 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
 
  !     tauTop = 1./3600.
  !     tauProfile = 0.
- !    if((rC(kLev)-rC(Nr)).gt.1000.) then
- !     tauProfile=tauTop*((rC(kLev)-rC(Nr))-1000.)/((rC(1)-rC(Nr))-1000.)
+ !    if((rC(k)-rC(Nr)).gt.1000.) then
+ !     tauProfile=tauTop*((rC(k)-rC(Nr))-1000.)/((rC(1)-rC(Nr))-1000.)
  !     end if
 
       shearProfile = 0.
-      if((rC(kLev)-rC(Nr)).lt.h_shear) then
-      shearProfile=(rC(kLev)-rC(Nr))/h_shear
+      if((rC(k)-rC(Nr)).lt.h_shear) then
+      shearProfile=(rC(k)-rC(Nr))/h_shear
       end if
 
       DO j=0,sNy+1
        DO i=1,sNx+1
-        gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
+        gU_arr(i,j,k,bi,bj) = gU_arr(i,j,k,bi,bj)
      &  + amp_force*omega_tide*cos(omega_tide*myTime) * shearProfile
-     &  + f0*vVel(i,j,kLev,bi,bj)*(cosd(theta_slope)-1)
-     &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)*sind(theta_slope)
- !    &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
+     &  + f0*vVel(i,j,k,bi,bj)*(cosd(theta_slope)-1)
+     &  + gravity_const*temp_Alpha*(theta(i,j,k,bi,bj)-Tref_const)*sind(theta_slope)
+ !    &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,k,bi,bj))
  !    &  * tauProfile
        ENDDO
       ENDDO
@@ -464,16 +464,16 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
 
  !     tauTop = 1./3600.
  !     tauProfile = 0.
- !     if((rC(kLev)-rC(Nr)).gt.1000.) then
- !     tauProfile=tauTop*((rC(kLev)-rC(Nr))-2500.)/((rC(1)-rC(Nr))-1000.)
+ !     if((rC(k)-rC(Nr)).gt.1000.) then
+ !     tauProfile=tauTop*((rC(k)-rC(Nr))-2500.)/((rC(1)-rC(Nr))-1000.)
  !     end if
 
       DO j=0,sNy+1
        DO i=1,sNx+1
-        gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
-      &  + f0*uVel(i,j,kLev,bi,bj)*(1-cosd(theta_slope))
-      &  + f0*wVel(i,j,kLev,bi,bj)*sind(theta_slope)
- !    &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
+        gV_arr(i,j,k,bi,bj) = gV_arr(i,j,k,bi,bj)
+      &  + f0*uVel(i,j,k,bi,bj)*(1-cosd(theta_slope))
+      &  + f0*wVel(i,j,k,bi,bj)*sind(theta_slope)
+ !    &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,k,bi,bj))
  !    &  * tauProfile
        ENDDO
       ENDDO
@@ -891,9 +891,9 @@ C=== Yidongfang Si =====
 
       DO j=0,sNy+1
        DO i=1,sNx+1
-        gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
-     & - uVel(i,j,kLev,bi,bj) * Nsquare_const * sind(theta_slope) / gravity_const / temp_Alpha
-     & - wVel(i,j,kLev,bi,bj) * Nsquare_const * cosd(theta_slope) / gravity_const / temp_Alpha
+        gT_arr(i,j,k,bi,bj) = gT_arr(i,j,k,bi,bj)
+     & - uVel(i,j,k,bi,bj) * Nsquare_const * sind(theta_slope) / gravity_const / temp_Alpha
+     & - wVel(i,j,k,bi,bj) * Nsquare_const * cosd(theta_slope) / gravity_const / temp_Alpha
        ENDDO
       ENDDO
 C==========================
