@@ -170,16 +170,14 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 5.5e-4
+      u_shear = 5.5e-04
       h_shear = 300.d0
-      Nsquare_const = 1.0e-6
-      
-      topog_slope = 4.d0
+      Nsquare_const = 1.0e-06
+      topog_slope = 4.
       pi_const = 3.141592653589793
-      cos_slope = cos(pi_const*topog_slope/180)
-      sin_slope = sin(pi_const*topog_slope/180)
-
-      gravity_const = 9.81
+      cos_slope = cos(pi_const*topog_slope/180.)
+      sin_slope = sin(pi_const*topog_slope/180.)
+      gravity_const = 9.81e+00
       temp_Alpha = 2.0e-4
       Tref_const = 0.d0
 
@@ -201,11 +199,13 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       DO j=0,sNy+1
        DO i=1,sNx+1
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
-     &  + amp_force*omega_tide*cos(omega_tide*myTime) * shearProfile
-     &  + f0*vVel(i,j,kLev,bi,bj)*(cos_slope-1)
-     &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)*sin_slope
+     &  + amp_force*omega_tide*cos(omega_tide*myTime)
+     &  *shearProfile
+     &  + f0*vVel(i,j,kLev,bi,bj)*(cos_slope-1.)
+     &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)
+     &  *sin_slope
  !    &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
- !    &  * tauProfile
+ !    &  * tauProfile 
        ENDDO
       ENDDO
 C==========================
@@ -367,13 +367,13 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
 
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 5.5e-4
+      u_shear = 5.5e-04
       h_shear = 300.d0
 
       topog_slope = 4.d0
-      pi_const = 3.141592653589793
-      cos_slope = cos(pi_const*topog_slope/180)
-      sin_slope = sin(pi_const*topog_slope/180)
+      pi_const = 3.141592653589793e+00
+      cos_slope = cos(pi_const*topog_slope/180.)
+      sin_slope = sin(pi_const*topog_slope/180.)
 
       amp_tide    = u_shear * h_shear * f0/omega_tide
 
@@ -386,8 +386,8 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       DO j=0,sNy+1
        DO i=1,sNx+1
         gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
-      &  + f0*uVel(i,j,kLev,bi,bj)*(1-cos_slope)
-      &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
+     &  + f0*uVel(i,j,kLev,bi,bj)*(1.-cos_slope)
+     &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
  !    &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
  !    &  * tauProfile
        ENDDO
@@ -739,20 +739,20 @@ c     ENDIF
 #endif /* ALLOW_MYPACKAGE */
 
 C=== Yidongfang Si =====
-      Nsquare_const = 1.0e-6
-      gravity_const = 9.81
-      temp_Alpha = 2.0e-4
+      Nsquare_const = 1.0e-06
+      gravity_const = 9.81e+00
+      temp_Alpha = 2.0e-04
 
       topog_slope = 4.d0
-      pi_const = 3.141592653589793
-      cos_slope = cos(pi_const*topog_slope/180)
-      sin_slope = sin(pi_const*topog_slope/180)
+      pi_const = 3.141592653589793e+00
+      cos_slope = cos(pi_const*topog_slope/180.)
+      sin_slope = sin(pi_const*topog_slope/180.)
 
       DO j=0,sNy+1
        DO i=1,sNx+1
         gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
-     & - uVel(i,j,kLev,bi,bj) * Nsquare_const * sin_slope / gravity_const / temp_Alpha
-     & - wVel(i,j,kLev,bi,bj) * Nsquare_const * cos_slope / gravity_const / temp_Alpha
+     &  - uVel(i,j,kLev,bi,bj)*Nsquare_const*sin_slope/(gravity_const*temp_Alpha)
+     &  - wVel(i,j,kLev,bi,bj)*Nsquare_const*cos_slope/(gravity_const*temp_Alpha)
        ENDDO
       ENDDO
 C==========================
