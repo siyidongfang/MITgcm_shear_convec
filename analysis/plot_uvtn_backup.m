@@ -16,10 +16,10 @@
 
     yy=xx;
 
-    o2 = 50;
+    o2 = 480;
     o1 = 1;
-    YLIM = [1000 1500]
-    % YLIM = [0 1500]
+    % YLIM = [1000 1500]
+    YLIM = [0 1500]
 
     Hz = sum(delR);
     N2const = (1e-3)^2;
@@ -39,12 +39,13 @@ for o=o1:o2
 
     tt = squeeze(rdmds([exppath,'/results/THETA_inst'],nIter));
     tt(tt==0)=NaN;
-    % tt = tt+tt_background;
+    tt = tt+tt_background;
     
     vv = squeeze(rdmds([exppath,'/results/VVEL_inst'],nIter));
+    vv(vv==0)=NaN;
     uu = squeeze(rdmds([exppath,'/results/UVEL_inst'],nIter));
     uu(uu==0)=NaN;
-    vv(vv==0)=NaN;
+
 
 
     eta = rdmds([exppath,'/results/ETAN_inst'],nIter);
@@ -65,8 +66,9 @@ for o=o1:o2
     shading interp;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-0.1 0.1]/100)
+    % clim([-0.1 0.1])
     % clim([-0.1 0.3])
+    clim([-0.1 0.8])
     ylim(YLIM)
 
     % subplot(3,2,2)
@@ -82,7 +84,7 @@ for o=o1:o2
     shading interp;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['u (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-0.3 0.3])
+    clim([-0.3 0.3]*3)
     % title('u (m/s)','Fontsize',fontsize+3,'interpreter','latex')
     % clim([-0.3 0.3]/10)
     ylim(YLIM)

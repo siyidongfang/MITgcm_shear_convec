@@ -203,9 +203,9 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
      &  + amp_force*omega_tide*cos(omega_tide*myTime)
      &  *shearProfile
- !    &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)
- !    &  *sin_slope
- !    &  + f0*vVel(i,j,kLev,bi,bj)*(cos_slope-1.)
+     &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)
+     &  *sin_slope
+     &  + f0*vVel(i,j,kLev,bi,bj)*(cos_slope-1.)
  !    &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
  !    &  * tauProfile
        ENDDO
@@ -388,8 +388,8 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       DO j=0,sNy+1
        DO i=1,sNx+1
         gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
- !    &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
- !    &  + f0*uVel(i,j,kLev,bi,bj)*(1.-cos_slope)
+     &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
+     &  + f0*uVel(i,j,kLev,bi,bj)*(1.-cos_slope)
  !    &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
  !    &  * tauProfile
        ENDDO
@@ -741,8 +741,8 @@ c     ENDIF
 #endif /* ALLOW_MYPACKAGE */
 
 C=== Yidongfang Si =====
-      ! Nsquare_const = 1.0e-06
-      Nsquare_const = 0.d0
+      Nsquare_const = 1.0e-06
+      !Nsquare_const = 0.d0
       gravity_const = 9.81e+00
       temp_Alpha = 2.0e-04
 

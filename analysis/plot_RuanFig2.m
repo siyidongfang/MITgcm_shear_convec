@@ -9,9 +9,9 @@ load_all
 
 % xx = xx-xx(1);
 
-No = 10; 
+No = 280; 
 uu_timeseries = zeros(No,Nr);
-vv_timeseries = zeros(No,Nr);
+% vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
 time_tidal = zeros(1,No);
 pp_mid = 0.5*(-zz(1:end-1)+(-zz(2:end))); %%% Mid-depth where the buoyancy frequency is defined
@@ -47,7 +47,7 @@ for o=1:No
     % n2 = -gravity/rhoConst*squeeze(rdmds([exppath,'/results/DRHODR'],nIter));
 
     tt(tt==0)=NaN;
-    % tt = tt+tt_background;
+    tt = tt+tt_background;
 
     % ss(ss==0)=NaN;
     uu(uu==0)=NaN;
@@ -57,7 +57,7 @@ for o=1:No
     % LC = 0.75*Ly;
     % LC = 0.85*Lx;
 
-    LC = 1*m1km
+    LC = 2*m1km
     [mC,nC] = min(abs(xx-LC));
     ttC = tt(nC,:);
     % ssC = tt(nC,:);
@@ -78,54 +78,55 @@ botZ =-1500;
 %%
 
 % YLIM = [-30 300];
-% YLIM = [0 500];
+% YLIM = [0 600];
 YLIM = [0 1500];
+XLIM = [0 23];
 
 figure(1)
-set(gcf,'Position', [139 266 833 623])
+set(gcf,'Position',[56 139 898 762])
 clf;set(gcf,'color','w');
-subplot(2,1,1)
+subplot(3,1,1)
 pcolor(time_tidal,zz-botZ,uu_timeseries');
 hold on;
-contour(time_tidal,zz-botZ,uu_timeseries',[-0.15:0.03:0.15],'color','k')
+contour(time_tidal,zz-botZ,uu_timeseries',[0.1:0.1:0.6],'color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
+contour(time_tidal,zz-botZ,uu_timeseries',[-0.6:0.1:-0.1],'--','color',darkgray)
+% contour(time_tidal,zz-botZ,uu_timeseries',[-0.15:0.03:0.15],'color','k')
 shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
+% xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('u (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-0.3 0.3])
+clim([-0.5 0.5])
+ylabel('HAB (m)','interpreter','latex')
 ylim(YLIM)
+xlim(XLIM)
 
-subplot(2,1,2)
-pcolor(time_tidal,zz-botZ,vv_timeseries');
-hold on;
-contour(time_tidal,zz-botZ,vv_timeseries',[-0.15:0.03:0.15],'color','k')
-shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
-title('v (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-0.3 0.3])
-ylim(YLIM)
-
-
-
-
-
-figure(3)
-subplot(2,1,1)
+subplot(3,1,2)
 pcolor(time_tidal,zz-botZ,tt_timeseries')
+hold on;
 shading interp;colorbar;
+contour(time_tidal,zz-botZ,uu_timeseries',[0.1:0.1:0.6],'color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
+contour(time_tidal,zz-botZ,uu_timeseries',[-0.6:0.1:-0.1],'--','color',darkgray)
 set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
-title('$t$','Fontsize',fontsize+4,'interpreter','latex')
+% xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
+title('$\theta \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter','latex')
+ylabel('HAB (m)','interpreter','latex')
+clim([-0.1 0.8]);
 % clim([-0.1 0.3]);
-clim([-0.1 0.1]);
+% clim([-0.1 0.1]);
 colormap(redblue)
 ylim(YLIM)
+xlim(XLIM)
 
-subplot(2,1,2)
+subplot(3,1,3)
 pcolor(time_tidal,zz-botZ,(N2_timeseries)')
-hold on;contour(time_tidal,zz-botZ,(N2_timeseries)',[0 0],'Color',cyan,'LineWidth',2);
+hold on;contour(time_tidal,zz-botZ,(N2_timeseries)',[0 0],'Color',cyan,'LineWidth',3);
 % pcolor(time_tidal,-pp_mid-botZ,N2_timeseries')
 % pcolor(time_tidal,zz-botZ,real(log10(sqrt(N2_timeseries)))')
 % pcolor(time_tidal,pp_mid,N2_timeseries')
+contour(time_tidal,zz-botZ,uu_timeseries',[0.1:0.1:0.6],'color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
+contour(time_tidal,zz-botZ,uu_timeseries',[-0.6:0.1:-0.1],'--','color',darkgray)
 shading interp;colorbar;
 % colormap(cmocean('delta'));
 set(gca,'Fontsize',fontsize);set(gca,'color',gray);
@@ -135,5 +136,19 @@ clim([-3 3]/1e6)
 % clim([0 3]/1e6)
  % clim([0.98 1.02]/1e6)
 ylim(YLIM)
+xlim(XLIM)
+
+
+figure(2)
+pcolor(time_tidal,zz-botZ,vv_timeseries');
+hold on;
+contour(time_tidal,zz-botZ,vv_timeseries',[-1:0.1:1],'color','k')
+shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
+title('v (m/s)','Fontsize',fontsize+4,'interpreter','latex')
+clim([-1 1])
+ylim(YLIM)
+xlim(XLIM)
+
 
  set(gcf, 'InvertHardcopy', 'off')

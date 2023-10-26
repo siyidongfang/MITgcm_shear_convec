@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 2.5*t1day;
+  simTime = 15*t1day;
   nIter0 = 0;
   % if(run_type=='init')
   %     simTime = 1*t1day;
@@ -109,6 +109,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % f0 = 0.53e-4; %%% Coriolis parameter         %-- from Xiaozhou, reference latitude = asind(0.53/10000*86400/4/pi) = 21.37 degree N
   % beta = 1e-11; %%% Beta parameter    
   f0 = 1.18e-4;
+  % f0 = 0;
   beta = 0;                                    %-- from Xiaozhou
   rhoConst = 999.8; %%% Reference density       %-- from Xiaozhou, MITgcm default value 999.8
 
@@ -297,11 +298,11 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
       % seaice work only with this).
   parm03.addParm('nIter0',nIter0,PARM_INT);
   parm03.addParm('abEps',0.1,PARM_REAL);
-  parm03.addParm('chkptFreq',3*t1hour,PARM_REAL); % rolling 
-  parm03.addParm('pChkptFreq',6*t1hour,PARM_REAL); % permanent
+  parm03.addParm('chkptFreq',120*t1hour,PARM_REAL); % rolling 
+  parm03.addParm('pChkptFreq',120*t1hour,PARM_REAL); % permanent
   parm03.addParm('taveFreq',0,PARM_REAL); % it only works properly, if taveFreq is a multiple of the time step deltaT (or deltaTclock).
-  parm03.addParm('dumpFreq',6*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
-  parm03.addParm('monitorFreq',6*t1hour,PARM_REAL); % interval to write monitor output (s)
+  parm03.addParm('dumpFreq',120*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
+  parm03.addParm('monitorFreq',120*t1hour,PARM_REAL); % interval to write monitor output (s)
   parm03.addParm('dumpInitAndLast',true,PARM_BOOL);
   parm03.addParm('pickupStrictlyMatch',false,PARM_BOOL); 
   % %%% Periodic Forcing
@@ -325,16 +326,18 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % %%% Uniform meridional grid   
   % dy = (Ly/Ny)*ones(1,Ny);  
 
-  dxConst = 100;
-  dxSponge = 100;
-  % Thickness of horizontal sponge layers in gridpoints  
+  % dxConst = 100;
+  % dxSponge = 100;
+  % % Thickness of horizontal sponge layers in gridpoints  
+  dxSponge = Lx/Nx;
   spongeThicknessDim = 3*m1km;
   spongeThickness = round(spongeThicknessDim/dxSponge);
+  % 
+  % dx = [dxSponge*ones(1,spongeThickness) ...
+  %     dxConst*ones(1,Nx-2*spongeThickness) ...
+  %     dxSponge*ones(1,spongeThickness)]; 
 
-  dx = [dxSponge*ones(1,spongeThickness) ...
-      dxConst*ones(1,Nx-2*spongeThickness) ...
-      dxSponge*ones(1,spongeThickness)]; 
-
+  dx = Lx/Nx*ones(1,Nx);
   xx = cumsum((dx + [0 dx(1:end-1)])/2);
 
   %%% Plotting mesh
@@ -879,7 +882,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     deltaT = 5
   % end
   
-  deltaT = round(deltaT/2) 
+  % deltaT = round(deltaT/2) 
 
 
 
@@ -911,7 +914,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 0.001;  
+  tNoise = 1e-6;  
   % sNoise = 0.001;
   % tNoise = 0;
   sNoise = 0;
@@ -952,7 +955,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   hold on;
   plot(xx/1000,-h);
   shading flat;colormap(redblue);
-  clim([-0.001 0.001]);
+  clim([-tNoise tNoise]*2);
   % clim([0 1]);
   colorbar;
   xlabel('Distance, y (km)');
@@ -1142,18 +1145,18 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   %%% Initial velocity
-  % vVelInit = 0.*ones(Nx,Ny,Nr);
+  vVelInit = 0.*ones(Nx,Ny,Nr);
   uVelInit = 0.*ones(Nx,Ny,Nr);
 
-  omega = 1.454441043328608e-4;
+  % omega = 1.454441043328608e-4;
   % vVelInit = 0.025*ones(Nx,Ny,Nr);
 
 
-  for i=1:Nx
-      for j=1:Ny
-          vVelInit(i,j,:) = vrelax; 
-      end
-  end
+  % for i=1:Nx
+  %     for j=1:Ny
+  %         vVelInit(i,j,:) = vrelax; 
+  %     end
+  % end
 
   figure(fignum);
   fignum = fignum + 1;
@@ -1411,7 +1414,7 @@ else
         diag_fields_inst = {...
             %%%%%%%% for spin-up
             'VVEL','UVEL','WVEL','THETA','ETAN',...
-            ... % 'UVEL','DRHODR','SALT','PHIHYD','PHI_NH'...
+            ... % 'DRHODR','SALT','PHIHYD','PHI_NH'...
           };
       numdiags_inst = length(diag_fields_inst);  
       diag_freq_inst = 60*t1min;
