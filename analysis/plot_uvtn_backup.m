@@ -4,7 +4,7 @@
  
     clear;
     close all;
-    ne=2;
+    ne=1;
     load_all;
     
     dumpFreq = abs(diag_frequency(1)); 
@@ -16,18 +16,30 @@
 
     yy=xx;
 
-    o2 = 120;
+    o2 = 50;
     o1 = 1;
-    % YLIM = [1200 1500]
-    YLIM = [0 1500]
+    YLIM = [1000 1500]
+    % YLIM = [0 1500]
+
+    Hz = sum(delR);
+    N2const = (1e-3)^2;
+    tNorth = N2const *(zz+Hz) /9.81/2e-4;
+    tt_background = ones(Nx,Nr);
+
+    for k=1:Nr
+        tt_background(:,k) = squeeze(tt_background(:,k))*tNorth(k);
+    end
+
 
 for o=o1:o2
 
     nIter = dumpIters(o)
     time_h = nIter.*deltaT./3600;
+    % nIter = 0
 
     tt = squeeze(rdmds([exppath,'/results/THETA_inst'],nIter));
     tt(tt==0)=NaN;
+    % tt = tt+tt_background;
     
     vv = squeeze(rdmds([exppath,'/results/VVEL_inst'],nIter));
     uu = squeeze(rdmds([exppath,'/results/UVEL_inst'],nIter));
@@ -48,11 +60,13 @@ for o=o1:o2
     clf;set(gcf,'color','w');
     subplot(3,2,1)
     pcolor(yy/1000,-zz,tt')
+    % pcolor(yy/1000,-zz,tt'+tt_background')
     % pcolor(yy/1000,-zz,tt'-t0')
     shading interp;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-0.1 0.1])
+    clim([-0.1 0.1]/100)
+    % clim([-0.1 0.3])
     ylim(YLIM)
 
     % subplot(3,2,2)

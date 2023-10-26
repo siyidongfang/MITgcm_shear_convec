@@ -4,12 +4,12 @@
 %%% Replicate Fig. 2 of Xiaozhou's manuscript
 
 clear;close all;
-ne = 2;
+ne =1;
 load_all
 
 % xx = xx-xx(1);
 
-No = 80; 
+No = 10; 
 uu_timeseries = zeros(No,Nr);
 vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
@@ -24,6 +24,16 @@ dumpIters = dumpIters(dumpIters > nIter0);
 tRef = 0;
 m1km = 1000;
 
+    Hz = sum(delR);
+    N2const = (1e-3)^2;
+    tNorth = N2const *(zz+Hz) /9.81/2e-4;
+    tt_background = ones(Nx,Nr);
+
+    for k=1:Nr
+        tt_background(:,k) = squeeze(tt_background(:,k))*tNorth(k);
+    end
+
+
 for o=1:No
 
     nIter = dumpIters(o);
@@ -37,6 +47,8 @@ for o=1:No
     % n2 = -gravity/rhoConst*squeeze(rdmds([exppath,'/results/DRHODR'],nIter));
 
     tt(tt==0)=NaN;
+    % tt = tt+tt_background;
+
     % ss(ss==0)=NaN;
     uu(uu==0)=NaN;
     vv(vv==0)=NaN;
@@ -60,9 +72,15 @@ end
 
 
 botN = find(isnan(uu_timeseries(1,:)),1)
-botZ = zz(botN)
+% botZ = zz(botN)
+botZ =-1500;
 
 %%
+
+% YLIM = [-30 300];
+% YLIM = [0 500];
+YLIM = [0 1500];
+
 figure(1)
 set(gcf,'Position', [139 266 833 623])
 clf;set(gcf,'color','w');
@@ -74,7 +92,7 @@ shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('u (m/s)','Fontsize',fontsize+4,'interpreter','latex')
 clim([-0.3 0.3])
-ylim([-30 300])
+ylim(YLIM)
 
 subplot(2,1,2)
 pcolor(time_tidal,zz-botZ,vv_timeseries');
@@ -84,7 +102,7 @@ shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('v (m/s)','Fontsize',fontsize+4,'interpreter','latex')
 clim([-0.3 0.3])
-ylim([-30 300])
+ylim(YLIM)
 
 
 
@@ -97,9 +115,10 @@ shading interp;colorbar;
 set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('$t$','Fontsize',fontsize+4,'interpreter','latex')
-clim([0 1]);
+% clim([-0.1 0.3]);
+clim([-0.1 0.1]);
 colormap(redblue)
-ylim([-30 300])
+ylim(YLIM)
 
 subplot(2,1,2)
 pcolor(time_tidal,zz-botZ,(N2_timeseries)')
@@ -115,6 +134,6 @@ title('$N^2\ (s^{-2})$','Fontsize',fontsize+4,'interpreter','latex')
 clim([-3 3]/1e6)
 % clim([0 3]/1e6)
  % clim([0.98 1.02]/1e6)
-ylim([-30 300])
+ylim(YLIM)
 
  set(gcf, 'InvertHardcopy', 'off')

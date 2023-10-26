@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 5*t1day;
+  simTime = 2.5*t1day;
   nIter0 = 0;
   % if(run_type=='init')
   %     simTime = 1*t1day;
@@ -911,9 +911,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  % tNoise = 0.001;  
+  tNoise = 0.001;  
   % sNoise = 0.001;
-  tNoise = 0;
+  % tNoise = 0;
   sNoise = 0;
 
   %%% Align initial temp with background
