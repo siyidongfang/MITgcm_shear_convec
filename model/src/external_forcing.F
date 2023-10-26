@@ -202,7 +202,7 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
        DO i=1,sNx+1
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
      &  + amp_force*omega_tide*cos(omega_tide*myTime)
-     &  *shearProfile
+     &  *shearProfile*cos_slope
      &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)
      &  *sin_slope
      &  + f0*vVel(i,j,kLev,bi,bj)*(cos_slope-1.)
