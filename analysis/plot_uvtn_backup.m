@@ -4,7 +4,7 @@
  
     clear;
     close all;
-    ne=1;
+    ne=2;
     load_all;
     
     dumpFreq = abs(diag_frequency(1)); 
@@ -18,8 +18,8 @@
 
     o2 = 120;
     o1 = 1;
-    YLIM = [1200 1500]
-    % YLIM = [0 1500]
+    % YLIM = [1200 1500]
+    YLIM = [0 1500]
 
 for o=o1:o2
 
@@ -52,7 +52,7 @@ for o=o1:o2
     shading interp;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([0 0.14])
+    clim([-0.1 0.1])
     ylim(YLIM)
 
     % subplot(3,2,2)
@@ -89,10 +89,10 @@ for o=o1:o2
     % ylim([-max(bathy)/1000-0.2 -min(bathy)/1000+0.05]);
     shading interp;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
-    title(['$log(N^2)\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    % title('$N^2\ (s^{-2})$','Fontsize',fontsize+3,'interpreter','latex')
+    % title(['$log(N^2)\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
+    title('$N^2\ (s^{-2})$','Fontsize',fontsize+3,'interpreter','latex')
     % clim([-7 -4])
-    clim([0 2]/1e6)
+    clim([-2 2]/1e6)
     ylim(YLIM)
 
     subplot(3,2,6)

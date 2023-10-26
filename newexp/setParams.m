@@ -275,6 +275,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% useRealFreshWaterFlux: use true E-P-R freshwater flux (changes free
   %%% surface/sea level) on/off flag, default: false
   parm01.addParm('nonHydrostatic',nonHydrostatic,PARM_BOOL);  
+  parm01.addParm('momTidalForcing',false,PARM_BOOL);  
 
   
   %%% PARM02
@@ -910,9 +911,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 0.001;  
+  % tNoise = 0.001;  
   % sNoise = 0.001;
-  % tNoise = 0;
+  tNoise = 0;
   sNoise = 0;
 
   %%% Align initial temp with background

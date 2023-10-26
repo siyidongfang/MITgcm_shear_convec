@@ -4,12 +4,12 @@
 %%% Replicate Fig. 2 of Xiaozhou's manuscript
 
 clear;close all;
-ne = 1;
+ne = 2;
 load_all
 
 % xx = xx-xx(1);
 
-No = 227; 
+No = 80; 
 uu_timeseries = zeros(No,Nr);
 vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
@@ -45,7 +45,7 @@ for o=1:No
     % LC = 0.75*Ly;
     % LC = 0.85*Lx;
 
-    LC = 6*m1km
+    LC = 1*m1km
     [mC,nC] = min(abs(xx-LC));
     ttC = tt(nC,:);
     % ssC = tt(nC,:);

@@ -35,7 +35,7 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 % exp_name = ['n2_uvMom_shear5.5e-4_H300_Nr',num2str(Nr),'Nx',num2str(Nx)]
 % exp_name = ['noise_shear5.5e-4_H300_Nr',num2str(Nr),'Nx',num2str(Nx)]
 
-exp_name = 'test_noise_apply_forcing'
+exp_name = 'test_apply_forcing'
 
 % exp_name = ['rbcs2D_' exp_name]
 % exp_name = ['double_slope' exp_name]
