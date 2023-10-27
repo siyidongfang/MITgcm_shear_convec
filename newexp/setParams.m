@@ -79,7 +79,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 5*m1km;
-  Lx = 5*m1km; 
+  Lx = 3*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -330,7 +330,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % dxSponge = 100;
   % % Thickness of horizontal sponge layers in gridpoints  
   dxSponge = Lx/Nx;
-  spongeThicknessDim = 3*m1km;
+  spongeThicknessDim = 1*m1km;
   spongeThickness = round(spongeThicknessDim/dxSponge);
   % 
   % dx = [dxSponge*ones(1,spongeThickness) ...
@@ -876,7 +876,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Time step size  
   deltaT = min([deltaT_fgw deltaT_gw deltaT_adv deltaT_itl deltaT_Ah deltaT_Ar deltaT_KhT deltaT_KrT deltaT_A4]);
   deltaT = round(deltaT) 
-  deltaT = round(deltaT/3*2) 
+  deltaT = round(deltaT/2) 
 
 
   % deltaT = 1

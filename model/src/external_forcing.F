@@ -210,6 +210,18 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
  !    &  * tauProfile
        ENDDO
       ENDDO
+
+      DO j=1-OLy,sNy+OLy
+       DO i=1-OLx,sNx+OLx
+        gW(i,j,kLev,bi,bj) = gW(i,j,kLev,bi,bj)
+     &  - amp_force*omega_tide*cos(omega_tide*myTime)
+     &  *shearProfile*sin_slope
+     &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)
+     &  *(cos_slope-1.)
+     &  - f0*vVel(i,j,kLev,bi,bj)*sin_slope
+       ENDDO
+      ENDDO
+
 C==========================
 
 #endif /* USE_OLD_EXTERNAL_FORCING */

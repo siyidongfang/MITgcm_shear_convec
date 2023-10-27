@@ -4,7 +4,7 @@
  
     clear;
     close all;
-    ne=2;
+    ne=1;
     load_all;
     
     dumpFreq = abs(diag_frequency(1)); 
@@ -16,10 +16,10 @@
 
     yy=xx;
 
-    o2 = 480;
+    o2 = 100;
     o1 = 1;
-    % YLIM = [1000 1500]
-    YLIM = [0 1500]
+    YLIM = [1000 1500]
+    % YLIM = [0 1500]
 
     Hz = sum(delR);
     N2const = (1e-3)^2;
@@ -67,8 +67,8 @@ for o=o1:o2
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     % clim([-0.1 0.1])
-    % clim([-0.1 0.3])
-    clim([-0.1 0.8])
+    clim([-0.05 0.2])
+    % clim([-0.1 0.8])
     ylim(YLIM)
 
     % subplot(3,2,2)
