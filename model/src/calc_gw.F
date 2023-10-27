@@ -752,7 +752,7 @@ C=== Yidongfang Si =====
      &  *shearProfile*sin_slope
      &  + gravity_const*temp_Alpha*(theta(i,j,k,bi,bj)-Tref_const)
      &  *(cos_slope-1.)
-     &  - f0*vVel(i,j,kLev,bi,bj)*sin_slope
+     &  - f0*vVel(i,j,k,bi,bj)*sin_slope
         ENDDO
        ENDDO
 
