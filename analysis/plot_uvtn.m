@@ -10,8 +10,8 @@
     dumpIters = round((1:nDumps)*dumpFreq/deltaT);
     dumpIters = dumpIters(dumpIters > nIter0);
 
-    o2 = 66;
-    o1 = 50;
+    o2 = 120;
+    o1 = 100;
 
     YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
     [ZZ,XX] = meshgrid(zz,xx);

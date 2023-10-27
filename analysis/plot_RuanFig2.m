@@ -9,7 +9,7 @@ load_all
 
 % xx = xx-xx(1);
 
-No = 66; 
+No = 120; 
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
@@ -79,7 +79,7 @@ botZ =-1500;
 
 % YLIM = [0 400];
 YLIM = [0 1500];
-XLIM = [0 8];
+XLIM = [0 10];
 
 figure(1)
 set(gcf,'Position',[56 139 898 762])

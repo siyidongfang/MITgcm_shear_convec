@@ -23,7 +23,7 @@ Nx = 100;
 Hmax = 1500;
 Hsurface = 1000; 
 Ntop = 100;
-dz_const = 5;
+dz_const = 10;
 Nr = round((Hmax-Hsurface)/dz_const) + Ntop + 1;
 
 run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with very small time step, spin-up run for 10 to 20 days, and product run,
@@ -31,7 +31,8 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-exp_name = 'extgw_nonhydro_vinit_shear200_f0_noise1e-3'
+% exp_name = 'extgw_nonhydro_vinit_shear200_f0_noise1e-3'
+exp_name = 'test_gw2'
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
