@@ -73,6 +73,31 @@ C     myThid  :: Thread number for this instance of the routine.
 #ifdef ALLOW_NONHYDROSTATIC
 #ifdef ALLOW_MOM_COMMON
 
+
+C=== Yidongfang Si =====
+      REAL*8 tauTop
+      REAL*8 tauProfile
+      REAL*8 shearProfile
+
+      REAL*8 amp_tide
+      REAL*8 amp_force
+      REAL*8 omega_tide
+
+      REAL*8 u_shear
+      REAL*8 h_shear
+
+      REAL*8 Nsquare_const
+      REAL*8 gravity_const
+      REAL*8 temp_Alpha
+      REAL*8 Tref_const
+
+      REAL*8 cos_slope
+      REAL*8 sin_slope
+      REAL*8 topog_slope
+      REAL*8 pi_const
+C==========================
+
+
 C     !LOCAL VARIABLES:
 C     == Local variables ==
 C     biharmonicVisc:: use horizontal biharmonic viscosity for vertical momentum
@@ -694,29 +719,6 @@ C-    end of the k loop
       ENDIF
 #endif /* ALLOW_DIAGNOSTICS */
 
-
-C=== Yidongfang Si =====
-      REAL*8 tauTop
-      REAL*8 tauProfile
-      REAL*8 shearProfile
-
-      REAL*8 amp_tide
-      REAL*8 amp_force
-      REAL*8 omega_tide
-
-      REAL*8 u_shear
-      REAL*8 h_shear
-
-      REAL*8 Nsquare_const
-      REAL*8 gravity_const
-      REAL*8 temp_Alpha
-      REAL*8 Tref_const
-
-      REAL*8 cos_slope
-      REAL*8 sin_slope
-      REAL*8 topog_slope
-      REAL*8 pi_const
-C==========================
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04

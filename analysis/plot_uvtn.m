@@ -1,6 +1,6 @@
 
     clear;close all;
-    ne=1;
+    ne=2;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
@@ -11,7 +11,7 @@
     dumpIters = dumpIters(dumpIters > nIter0);
 
     o2 = 69;
-    o1 = 20;
+    o1 = 1;
 
     YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
 
@@ -108,7 +108,7 @@ for o=o1:o2
     shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['w (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-2 2]/100)
+    clim([-2 2]/10000)
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,6)

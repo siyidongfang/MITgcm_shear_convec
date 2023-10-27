@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 15*t1day;
+  simTime = 20*t1day;
   nIter0 = 0;
   % if(run_type=='init')
   %     simTime = 1*t1day;
@@ -79,7 +79,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 5*m1km;
-  Lx = 10*m1km; 
+  Lx = 5*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -113,7 +113,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   beta = 0;                                    %-- from Xiaozhou
   rhoConst = 999.8; %%% Reference density       %-- from Xiaozhou, MITgcm default value 999.8
 
-  nonHydrostatic = false; 
+  nonHydrostatic = true; 
 
   varyingtidalphase = false; % Set true to include zonally (along-slope) varying tidal phase 
   useLAYERS = false;
@@ -345,8 +345,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   %%% Varied dz with depth  %  -- from Xiaozhou
   Hsurface = 1000;
-  Ntop = 50;
-  dz_const = 6;
+  Ntop = 100;
+  dz_const = 5;
   dz = dz_const.*ones(1,Nr);
   dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
   sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
@@ -915,7 +915,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-6;  
+  tNoise = 1e-3;  
   % sNoise = 0.001;
   % tNoise = 0;
   sNoise = 0;
@@ -956,7 +956,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   hold on;
   plot(xx/1000,-h);
   shading flat;colormap(redblue);
-  clim([-tNoise tNoise]*2);
+  if(tNoise ~=0)
+    clim([-tNoise tNoise]*2);
+  end
   % clim([0 1]);
   colorbar;
   xlabel('Distance, y (km)');
