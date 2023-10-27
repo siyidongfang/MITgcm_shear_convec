@@ -3,6 +3,7 @@
     expdir = '/Users/ysi/MITgcm_shear_convec/exps_test/';
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
     EXPNAME = {...
+        'extgw_nonhydro_vinit_shear200_f0_noise1e-3'
         'nonhydro_vinit_shear200_f0_noise1e-3_testgw'
         'nonhydro_vinit_shear200_f0_noise1e-3'
         'nonhydro_vinit_shear200_f0_noise1e-6'
