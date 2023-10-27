@@ -694,8 +694,78 @@ C-    end of the k loop
       ENDIF
 #endif /* ALLOW_DIAGNOSTICS */
 
+
+C=== Yidongfang Si =====
+      REAL*8 tauTop
+      REAL*8 tauProfile
+      REAL*8 shearProfile
+
+      REAL*8 amp_tide
+      REAL*8 amp_force
+      REAL*8 omega_tide
+
+      REAL*8 u_shear
+      REAL*8 h_shear
+
+      REAL*8 Nsquare_const
+      REAL*8 gravity_const
+      REAL*8 temp_Alpha
+      REAL*8 Tref_const
+
+      REAL*8 cos_slope
+      REAL*8 sin_slope
+      REAL*8 topog_slope
+      REAL*8 pi_const
+C==========================
+
+C=== Yidongfang Si =====
+      omega_tide = 1.454441043328608e-04
+      u_shear = 5.5e-04
+      h_shear = 200.d0
+      Nsquare_const = 1.0e-06
+      topog_slope = 4.
+      pi_const = 3.141592653589793
+      cos_slope = cos(pi_const*topog_slope/180.)
+      sin_slope = sin(pi_const*topog_slope/180.)
+      gravity_const = 9.81e+00
+      temp_Alpha = 2.0e-4
+      Tref_const = 0.d0
+
+      amp_tide    = u_shear * h_shear
+      amp_force   = amp_tide * (omega_tide*omega_tide-f0*f0)
+     &                       / (omega_tide*omega_tide)
+      
+      shearProfile = 0.
+
+      DO k=1,Nr
+
+       if((rC(k)-rC(Nr)).lt.h_shear) then
+       shearProfile=(rC(k)-rC(Nr))/h_shear
+       else
+       shearProfile=1.
+       end if
+
+       DO j=1-OLy,sNy+OLy
+        DO i=1-OLx,sNx+OLx
+        gW(i,j,k,bi,bj) = gW(i,j,k,bi,bj)
+     &  - amp_force*omega_tide*cos(omega_tide*myTime)
+     &  *shearProfile*sin_slope
+     &  + gravity_const*temp_Alpha*(theta(i,j,k,bi,bj)-Tref_const)
+     &  *(cos_slope-1.)
+     &  - f0*vVel(i,j,kLev,bi,bj)*sin_slope
+        ENDDO
+       ENDDO
+
+      ENDDO
+C==========================
+
 #endif /* ALLOW_MOM_COMMON */
 #endif /* ALLOW_NONHYDROSTATIC */
+
+
+
+
+
 
       RETURN
       END

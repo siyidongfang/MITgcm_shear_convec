@@ -10,8 +10,8 @@
     dumpIters = round((1:nDumps)*dumpFreq/deltaT);
     dumpIters = dumpIters(dumpIters > nIter0);
 
-    o2 = 100;
-    o1 = 1;
+    o2 = 69;
+    o1 = 20;
 
     YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
 

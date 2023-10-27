@@ -876,13 +876,14 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Time step size  
   deltaT = min([deltaT_fgw deltaT_gw deltaT_adv deltaT_itl deltaT_Ah deltaT_Ar deltaT_KhT deltaT_KrT deltaT_A4]);
   deltaT = round(deltaT) 
+  deltaT = round(deltaT/3*2) 
+
 
   % deltaT = 1
   % if(deltaT<5)
   %     deltaT = 5
   % end
   
-  % deltaT = round(deltaT/2) 
 
 
 
@@ -986,7 +987,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
   Shear = 5.5e-4;
-  Hshear = Hmax-300;
+  Hshear = Hmax-200;
   [a Nshear] = min(abs(abs(zz)-Hshear));
   for k = Nshear+1:Nr
       vrelax(k) = (zz(k)-zz(end))*Shear;
@@ -1145,18 +1146,18 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   %%% Initial velocity
-  vVelInit = 0.*ones(Nx,Ny,Nr);
+  % vVelInit = 0.*ones(Nx,Ny,Nr);
   uVelInit = 0.*ones(Nx,Ny,Nr);
 
   % omega = 1.454441043328608e-4;
   % vVelInit = 0.025*ones(Nx,Ny,Nr);
 
 
-  % for i=1:Nx
-  %     for j=1:Ny
-  %         vVelInit(i,j,:) = vrelax; 
-  %     end
-  % end
+  for i=1:Nx
+      for j=1:Ny
+          vVelInit(i,j,:) = vrelax; 
+      end
+  end
 
   figure(fignum);
   fignum = fignum + 1;
