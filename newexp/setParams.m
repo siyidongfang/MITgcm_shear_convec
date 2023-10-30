@@ -160,9 +160,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   %%% PARM01
   %%% momentum scheme
-  parm01.addParm('vectorInvariantMomentum',true,PARM_BOOL);
-  parm01.addParm('implicSurfPress',0.6,PARM_REAL);
-  parm01.addParm('implicDiv2DFlow',0.6,PARM_REAL); 
+  % parm01.addParm('vectorInvariantMomentum',true,PARM_BOOL); %%% test20231027
+  % parm01.addParm('implicSurfPress',0.6,PARM_REAL); %%% test20231027
+  % parm01.addParm('implicDiv2DFlow',0.6,PARM_REAL); %%% test20231027
 
   %------ ysi's configuration
   viscAh = 1e-4; %%% Horizontal viscosity 
@@ -251,8 +251,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm01.addParm('implicitDiffusion',true,PARM_BOOL);
   parm01.addParm('implicitViscosity',true,PARM_BOOL);
   %%% exact volume conservation
-  parm01.addParm('exactConserv',true,PARM_BOOL);
-  % parm01.addParm('exactConserv',false,PARM_BOOL); %-- from xiaozhou
+  % parm01.addParm('exactConserv',true,PARM_BOOL);
+  parm01.addParm('exactConserv',false,PARM_BOOL); %-- from xiaozhou test20231027
   %%% C-V scheme for Coriolis term
   % parm01.addParm('useCDscheme',false,PARM_BOOL);%-- from xiaozhou
   %%% partial cells for smooth topography
@@ -346,7 +346,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Varied dz with depth  %  -- from Xiaozhou
   Hsurface = 1000;
   Ntop = 100;
-  dz_const = 5;
+  dz_const = 10;
   dz = dz_const.*ones(1,Nr);
   dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
   sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));

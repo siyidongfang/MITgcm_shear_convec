@@ -4,12 +4,12 @@
 %%% Replicate Fig. 2 of Xiaozhou's manuscript
 
 clear;close all;
-ne =1;
+ne =2;
 load_all
 
 % xx = xx-xx(1);
 
-No = 120; 
+No = 239; 
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
@@ -77,9 +77,9 @@ botZ =-1500;
 
 %%
 
-% YLIM = [0 400];
-YLIM = [0 1500];
-XLIM = [0 10];
+YLIM = [0 400];
+% YLIM = [0 1500];
+XLIM = [0 20];
 
 figure(1)
 set(gcf,'Position',[56 139 898 762])
@@ -87,14 +87,14 @@ clf;set(gcf,'color','w');
 subplot(3,1,1)
 pcolor(time_tidal,zz-botZ,uu_timeseries');
 hold on;
-contour(time_tidal,zz-botZ,uu_timeseries',[0.1:0.1:1],'color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.05:1],'color',darkgray)
 contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
-contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.1],'--','color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.05:-0.05],'--','color',darkgray)
 % contour(time_tidal,zz-botZ,uu_timeseries',[-0.15:0.03:0.15],'color','k')
 shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 % xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('u (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-0.7 0.7])
+clim([-0.3 0.3])
 ylabel('HAB (m)','interpreter','latex')
 ylim(YLIM)
 xlim(XLIM)
@@ -103,15 +103,15 @@ subplot(3,1,2)
 pcolor(time_tidal,zz-botZ,tt_timeseries')
 hold on;
 shading interp;colorbar;
-contour(time_tidal,zz-botZ,uu_timeseries',[0.1:0.1:1],'color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.05:1],'color',darkgray)
 contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
-contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.1],'--','color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.05:-0.05],'--','color',darkgray)
 set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 % xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('$\theta \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter','latex')
 ylabel('HAB (m)','interpreter','latex')
-clim([-0.1 0.8]);
-% clim([-0.1 0.3]);
+% clim([-0.1 0.8]);
+clim([-0.04 0.3]);
 % clim([-0.1 0.1]);
 colormap(redblue)
 ylim(YLIM)
@@ -120,13 +120,13 @@ xlim(XLIM)
 subplot(3,1,3)
 pcolor(time_tidal,zz-botZ,(N2_timeseries)')
 hold on;
-% contour(time_tidal,zz-botZ,(N2_timeseries)',[0 0],'Color',cyan,'LineWidth',1);
+contour(time_tidal,zz-botZ,(N2_timeseries)',[0 0],'Color',cyan,'LineWidth',1);
 % pcolor(time_tidal,-pp_mid-botZ,N2_timeseries')
 % pcolor(time_tidal,zz-botZ,real(log10(sqrt(N2_timeseries)))')
 % pcolor(time_tidal,pp_mid,N2_timeseries')
-contour(time_tidal,zz-botZ,uu_timeseries',[0.1:0.1:1],'color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.05:1],'color',darkgray)
 contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
-contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.1],'--','color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.05:-0.05],'--','color',darkgray)
 shading interp;colorbar;
 % colormap(cmocean('delta'));
 set(gca,'Fontsize',fontsize);set(gca,'color',gray);
@@ -142,11 +142,13 @@ xlim(XLIM)
 figure(2)
 pcolor(time_tidal,zz-botZ,vv_timeseries');
 hold on;
-contour(time_tidal,zz-botZ,vv_timeseries',[-1:0.1:1],'color','k')
+contour(time_tidal,zz-botZ,vv_timeseries',[0.05:0.05:1],'color',darkgray)
+contour(time_tidal,zz-botZ,vv_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
+contour(time_tidal,zz-botZ,vv_timeseries',[-1:0.05:-0.05],'--','color',darkgray)
 shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('v (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-0.5 0.5])
+clim([-0.3 0.3])
 ylim(YLIM)
 xlim(XLIM)
 

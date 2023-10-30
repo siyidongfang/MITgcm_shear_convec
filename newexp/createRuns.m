@@ -32,7 +32,7 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
 % exp_name = 'extgw_nonhydro_vinit_shear200_f0_noise1e-3'
-exp_name = 'test_gw2'
+exp_name = 'test_gw5_nogw'
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
