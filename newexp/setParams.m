@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 10*t1day;
+  simTime = 20*t1day;
   nIter0 = 0;
   % if(run_type=='init')
   %     simTime = 1*t1day;
@@ -79,7 +79,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 5*m1km;
-  Lx = 5*m1km; 
+  Lx = 8*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -113,7 +113,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   beta = 0;                                    %-- from Xiaozhou
   rhoConst = 999.8; %%% Reference density       %-- from Xiaozhou, MITgcm default value 999.8
 
-  nonHydrostatic = true; 
+  nonHydrostatic = false; 
 
   varyingtidalphase = false; % Set true to include zonally (along-slope) varying tidal phase 
   useLAYERS = false;
@@ -344,14 +344,15 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   [Y,X] = meshgrid(yy,xx);
 
   %%% Varied dz with depth  %  -- from Xiaozhou
-  Hsurface = 1000;
-  Ntop = 100;
-  dz_const = 10;
-  dz = dz_const.*ones(1,Nr);
-  dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
-  sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
-  dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
-  dz = flipud(dz')';
+  % Hsurface = 1000;
+  % Ntop = 200;
+  dz_const = 4;
+  % dz = dz_const.*ones(1,Nr);
+  % dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
+  % sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
+  % dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
+  % dz = flipud(dz')';
+  dz = dz_const*ones(1,Nr);
  
   zz = -cumsum((dz+[0 dz(1:end-1)])/2);
 
@@ -876,7 +877,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Time step size  
   deltaT = min([deltaT_fgw deltaT_gw deltaT_adv deltaT_itl deltaT_Ah deltaT_Ar deltaT_KhT deltaT_KrT deltaT_A4]);
   deltaT = round(deltaT) 
-  deltaT = round(deltaT/2) 
+  % deltaT = round(deltaT/2) 
 
 
   % deltaT = 1
@@ -884,6 +885,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     deltaT = 5
   % end
   
+  deltaT = 10
 
 
 
@@ -989,7 +991,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
   Shear = 5.5e-4;
-  Hshear = Hmax-200;
+  % Shear = 3.0e-4;
+  Hshear = Hmax-300;
   [a Nshear] = min(abs(abs(zz)-Hshear));
   for k = Nshear+1:Nr
       vrelax(k) = (zz(k)-zz(end))*Shear;

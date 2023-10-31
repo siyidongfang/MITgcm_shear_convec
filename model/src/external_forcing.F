@@ -171,7 +171,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
       u_shear = 5.5e-04
-      h_shear = 200.d0
+      h_shear = 300.d0
       Nsquare_const = 1.0e-06
       topog_slope = 4.
       pi_const = 3.141592653589793
@@ -202,7 +202,7 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
        DO i=1,sNx+1
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
      &  + amp_force*omega_tide*cos(omega_tide*myTime)
-     &  *shearProfile*cos_slope*0.4
+     &  *shearProfile*cos_slope
      &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)
      &  *sin_slope
      &  + f0*vVel(i,j,kLev,bi,bj)*(cos_slope-1.)
@@ -370,7 +370,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
       u_shear = 5.5e-04
-      h_shear = 200.d0
+      h_shear = 300.d0
 
       topog_slope = 4.d0
       pi_const = 3.141592653589793e+00

@@ -1,6 +1,6 @@
 
     clear;close all;
-    ne=1;
+    ne=3;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
@@ -10,10 +10,11 @@
     dumpIters = round((1:nDumps)*dumpFreq/deltaT);
     dumpIters = dumpIters(dumpIters > nIter0);
 
-    o2 = 110;
-    o1 = 110;
+    o2 = 65;
+    o1 = 30;
 
-    YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
+    % YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
+     YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
     [ZZ,XX] = meshgrid(zz,xx);
     
     Hz = sum(delR);
@@ -64,8 +65,8 @@ for o=o1:o2
     shading flat;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-0.1 0.8])
-    % clim([-0.1 0.1])
+    % clim([-0.1 0.8])
+    clim([-0.06 0.2])
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,2)
@@ -87,11 +88,12 @@ for o=o1:o2
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,4)
-    pcolor(xx/1000,-zz,S')
+    pcolor(xx/1000,-zz,abs(S'))
     shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
-    title(['$du/dz\ (s^{-1})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-1 1]/1e3)
+    title(['$\vert du/dz\vert \ (s^{-1})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
+    % clim([-1 1]/1e3)
+    clim([0 4]/1e3)
     ylim(YLIM);xlim(XLIM);
 
     % subplot(3,2,5)
