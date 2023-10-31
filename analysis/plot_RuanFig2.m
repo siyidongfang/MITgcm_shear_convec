@@ -4,13 +4,11 @@
 %%% Replicate Fig. 2 of Xiaozhou's manuscript
 
 clear;close all;
-ne =3;
+ne =9;
 load_all
 
 % xx = xx-xx(1);
-
-% No = 76; 
-No = 65
+No = 479
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
@@ -81,7 +79,7 @@ botZ =-1500;
 YLIM = [0 400];
 % YLIM = [0 1500];
 % XLIM = [20 30];
-XLIM = [0 6]
+XLIM = [0 20];
 
 figure(1)
 set(gcf,'Position',[56 139 898 762])

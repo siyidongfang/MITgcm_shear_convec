@@ -18,10 +18,10 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-Nx = 320;
+Nx = 200;
 
 Hmax = 1500;
-dz_const = 4;
+dz_const = 5;
 % Hsurface = 1000; 
 % Ntop = 200;
 % Nr = round((Hmax-Hsurface)/dz_const) + Ntop + 1;
@@ -32,9 +32,9 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-exp_name = ['ushear5.5e-4Hs300_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type];
-% exp_name = 'extgw_nonhydro_vinit_shear200_f0_noise1e-3'
-% exp_name = 'test_gw5_nogw'
+% exp_name = ['ushear3e-4Hs200_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type];
+
+exp_name = 'noNoise_kpp'
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 

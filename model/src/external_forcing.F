@@ -170,8 +170,8 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 5.5e-04
-      h_shear = 300.d0
+      u_shear = 3.0e-04
+      h_shear = 200.d0
       Nsquare_const = 1.0e-06
       topog_slope = 4.
       pi_const = 3.141592653589793
@@ -369,8 +369,8 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
 
 C=== Maxim Nikurashin, modified by Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 5.5e-04
-      h_shear = 300.d0
+      u_shear = 3.0e-04
+      h_shear = 200.d0
 
       topog_slope = 4.d0
       pi_const = 3.141592653589793e+00
@@ -388,8 +388,8 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       DO j=0,sNy+1
        DO i=1,sNx+1
         gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
-     &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
      &  + f0*uVel(i,j,kLev,bi,bj)*(1.-cos_slope)
+ !    &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
  !    &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
  !    &  * tauProfile
        ENDDO

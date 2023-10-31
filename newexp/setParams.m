@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 20*t1day;
+  simTime = 10*t1day;
   nIter0 = 0;
   % if(run_type=='init')
   %     simTime = 1*t1day;
@@ -79,7 +79,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 5*m1km;
-  Lx = 8*m1km; 
+  Lx = 6*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -247,7 +247,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % parm01.addParm('fPrime',0,PARM_REAL);  %-- from xiaozhou
   % parm01.addParm('rhoConst',rhoConst,PARM_REAL); %-- from xiaozhou
   %%% implicit diffusion and convective adjustment  
-  parm01.addParm('ivdc_kappa',0,PARM_REAL);
+  parm01.addParm('ivdc_kappa',0,PARM_REAL); %%% reference value, 1.0 implicit vertical diffusivity for convection (m2/s)
   parm01.addParm('implicitDiffusion',true,PARM_BOOL);
   parm01.addParm('implicitViscosity',true,PARM_BOOL);
   %%% exact volume conservation
@@ -278,7 +278,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm01.addParm('nonHydrostatic',nonHydrostatic,PARM_BOOL);  
   parm01.addParm('momTidalForcing',false,PARM_BOOL);  
 
-  
+
+
+
   %%% PARM02
   % parm02.addParm('useSRCGSolver',true,PARM_BOOL);  %-- from Xiaozhou
   % parm02.addParm('cg2dMaxIters',1000,PARM_INT);  
@@ -305,6 +307,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm03.addParm('monitorFreq',120*t1hour,PARM_REAL); % interval to write monitor output (s)
   parm03.addParm('dumpInitAndLast',true,PARM_BOOL);
   parm03.addParm('pickupStrictlyMatch',false,PARM_BOOL); 
+  parm03.addParm('cAdjFreq',0,PARM_REAL); %%% set to -1, frequency of convective adj. scheme == deltaT
+
   % %%% Periodic Forcing
   % parm03.addParm('periodicExternalForcing',true,PARM_BOOL); 
 
@@ -345,8 +349,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   %%% Varied dz with depth  %  -- from Xiaozhou
   % Hsurface = 1000;
-  % Ntop = 200;
-  dz_const = 4;
+  % Ntop = 20
+  dz_const = 5;
   % dz = dz_const.*ones(1,Nr);
   % dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
   % sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
@@ -877,7 +881,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Time step size  
   deltaT = min([deltaT_fgw deltaT_gw deltaT_adv deltaT_itl deltaT_Ah deltaT_Ar deltaT_KhT deltaT_KrT deltaT_A4]);
   deltaT = round(deltaT) 
-  % deltaT = round(deltaT/2) 
+  deltaT = round(deltaT/2) 
 
 
   % deltaT = 1
@@ -885,7 +889,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     deltaT = 5
   % end
   
-  deltaT = 10
+  % deltaT = 10
 
 
 
@@ -917,9 +921,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-4;  
+  % tNoise = 1e-3;  
   % sNoise = 0.001;
-  % tNoise = 0;
+  tNoise = 0;
   sNoise = 0;
 
   %%% Align initial temp with background
@@ -990,9 +994,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
-  Shear = 5.5e-4;
-  % Shear = 3.0e-4;
-  Hshear = Hmax-300;
+  % Shear = 5.5e-4;
+  Shear = 3.0e-4;
+  Hshear = Hmax-200;
   [a Nshear] = min(abs(abs(zz)-Hshear));
   for k = Nshear+1:Nr
       vrelax(k) = (zz(k)-zz(end))*Shear;
