@@ -56,7 +56,7 @@ C     kSurface  :: index of surface level
       INTEGER kSurface
 CEOP
 
-C=== Maxim Nikurashin, modified by Yidongfang Si =====
+C=== Yidongfang Si =====
       REAL*8 tauTop
       REAL*8 tauProfile
       REAL*8 shearProfile
@@ -168,7 +168,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
       ENDIF
 #endif /* ALLOW_MYPACKAGE */
 
-C=== Maxim Nikurashin, modified by Yidongfang Si =====
+C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
       u_shear = 3.0e-04
       h_shear = 200.d0
@@ -185,11 +185,11 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       amp_force   = amp_tide * (omega_tide*omega_tide-f0*f0)
      &                       / (omega_tide*omega_tide)
 
- !     tauTop = 1./3600.
- !     tauProfile = 0.
- !     if((rC(kLev)-rC(Nr)).gt.2500) then
- !     tauProfile=tauTop*((rC(kLev)-rC(Nr))-2500.)/((rC(1)-rC(Nr))-2500.)
- !     end if
+      tauTop = 1./3600.
+      tauProfile = 0.
+      if((rC(kLev)-rC(Nr)).gt.900.) then
+      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
+      end if
 
       shearProfile = 0.
       if((rC(kLev)-rC(Nr)).lt.h_shear) then
@@ -201,15 +201,20 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       DO j=0,sNy+1
        DO i=2,sNx+1
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
+C     Add tidal forcing
      &  + amp_force*omega_tide*cos(omega_tide*myTime)
      &  *shearProfile*cos_slope
+C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(i,j,kLev,bi,bj)+theta(i-1,j,kLev,bi,bj))
      &  -Tref_const)*gravity_const*temp_Alpha*sin_slope
+C     Add projection of Coriolis term difference to u-tendency
      &  + (vVel(i,j,kLev,bi,bj)+vVel(i-1,j,kLev,bi,bj))
      &  *f0*0.5*(cos_slope-1.)
- !    &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
- !    &  * tauProfile
+C     Add tidal relaxation in sponge layer
+     &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
+     &  * tauProfile
        ENDDO
+C     For zonal grid at the re-entry boundaries
         gU(1,j,kLev,bi,bj) = gU(1,j,kLev,bi,bj)
      &  + amp_force*omega_tide*cos(omega_tide*myTime)
      &  *shearProfile*cos_slope
@@ -272,7 +277,7 @@ C     kSurface  :: index of surface level
       INTEGER kSurface
 CEOP
 
-C=== Maxim Nikurashin, modified by Yidongfang Si =====
+C=== Yidongfang Si =====
       REAL*8 tauTop
       REAL*8 tauProfile
 
@@ -375,7 +380,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
       ENDIF
 #endif /* ALLOW_MYPACKAGE */
 
-C=== Maxim Nikurashin, modified by Yidongfang Si =====
+C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
       u_shear = 3.0e-04
       h_shear = 200.d0
@@ -387,21 +392,25 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
 
       amp_tide    = u_shear * h_shear * f0/omega_tide
 
- !     tauTop = 1./3600.
- !     tauProfile = 0.
- !     if((rC(kLev)-rC(Nr)).gt.2500.) then
- !     tauProfile=tauTop*((rC(kLev)-rC(Nr))-2500.)/((rC(1)-rC(Nr))-2500.)
- !     end if
+      tauTop = 1./3600.
+      tauProfile = 0.
+      if((rC(kLev)-rC(Nr)).gt.900.) then
+      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
+      end if
 
       DO j=0,sNy+1
        DO i=1,sNx
         gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
+C     Add projection of Coriolis term difference to u-tendency
      &   +f0*0.5*(uVel(i,j,kLev,bi,bj)+uVel(i+1,j,kLev,bi,bj))
      &   *(1.-cos_slope)
+C     Add tidal relaxation in sponge layer
+     &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
+     &  * tauProfile
+C     Add projection of Coriolis term to u-tendency
  !    &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
- !    &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
- !    &  * tauProfile
        ENDDO
+C     For zonal grid at the re-entry boundaries
         gV(sNx+1,j,kLev,bi,bj) = gV(sNx+1,j,kLev,bi,bj)
      &   +f0*0.5*(uVel(sNx+1,j,kLev,bi,bj)+uVel(1,j,kLev,bi,bj))
      &   *(1.-cos_slope)
@@ -754,7 +763,6 @@ c     ENDIF
 
 C=== Yidongfang Si =====
       Nsquare_const = 1.0e-06
-      !Nsquare_const = 0.d0
       gravity_const = 9.81e+00
       temp_Alpha = 2.0e-04
 
@@ -763,17 +771,20 @@ C=== Yidongfang Si =====
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
 
+C     Advection by true vertical velocity (cross-slope component)
       DO j=0,sNy+1
        DO i=1,sNx
         gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj) 
      &  - 0.5*(uVel(i,j,kLev,bi,bj)+uVel(i+1,j,kLev,bi,bj))
      &  *Nsquare_const*sin_slope/gravity_const/temp_Alpha
        ENDDO
-        gT(sNx+1,j,kLev,bi,bj) = gT(sNx+1,j,kLev,bi,bj) 
+C     For zonal grid at the re-entry boundaries
+        gT(sNx+1,j,kLev,bi,bj) = gT(sNx+1,j,kLev,bi,bj)
      &  - 0.5*(uVel(sNx+1,j,kLev,bi,bj)+uVel(1,j,kLev,bi,bj))
      &  *Nsquare_const*sin_slope/gravity_const/temp_Alpha
       ENDDO
 
+C     Advection by true vertical velocity (slope-normal component)
       IF ( kLev.LT.Nr ) THEN
        DO j=0,sNy+1
         DO i=1,sNx+1

@@ -4,7 +4,7 @@
  
     clear;
     close all;
-    ne=2;
+    ne=1;
     load_all;
     
     dumpFreq = abs(diag_frequency(1)); 
@@ -17,9 +17,9 @@
     yy=xx;
 
     o2 = 400;
-    o1 = 300;
-    YLIM = [1200 1500]
-    % YLIM = [0 1500]
+    o1 = 100;
+    % YLIM = [1200 1500]
+    YLIM = [0 1500]
 
     Hz = sum(delR);
     N2const = (1e-3)^2;

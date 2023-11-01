@@ -10,11 +10,11 @@
     dumpIters = round((1:nDumps)*dumpFreq/deltaT);
     dumpIters = dumpIters(dumpIters > nIter0);
 
-    o2 = 65;
-    o1 = 30;
+    o2 = 200;
+    o1 = 100;
 
-    % YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
-     YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
+    YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
+     % YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
     [ZZ,XX] = meshgrid(zz,xx);
     
     Hz = sum(delR);

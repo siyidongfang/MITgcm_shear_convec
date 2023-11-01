@@ -10,7 +10,7 @@
 
 
 clear;close all;
-ne =9;
+ne =1;
 load_all
 
 topo_slope = 4;
@@ -18,9 +18,18 @@ cos_slope = cosd(topo_slope);
 sin_slope = sind(topo_slope);
 N2_const = 1e-6;
 
-CLIM = [-1 1]/2e4;
+CLIM = [-1 1]/5e4;
 YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
 
+
+Hz = sum(delR);
+N2const = (1e-3)^2;
+tNorth = N2const *(zz+Hz) /9.81/2e-4;
+tt_background = ones(Nx,Nr);
+
+for k=1:Nr
+    tt_background(:,k) = squeeze(tt_background(:,k))*tNorth(k);
+end
 
 o1 = 36;
 o2 = 240;
@@ -45,6 +54,8 @@ dtdz = zeros(Nx,Nr);
 dtdz(:,2:Nr) = -diff(tt,1,2)./(-diff(zz)); %%% on w-grid
 wdtdz = ww.*dtdz;
 
+
+tt = tt + tt_background;
 rho = rhoConst.*(1-(tt-tRef)*tAlpha);
 N2 = NaN*zeros(Nx,Nr);
 N2(:,1:Nr-1) = -gravity/rhoConst.*(rho(:,1:end-1)-rho(:,2:end))./(zz(1:end-1)-zz(2:end));

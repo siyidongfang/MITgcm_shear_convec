@@ -35,7 +35,7 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 % exp_name = ['ushear3e-4Hs200_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type];
 
 % exp_name = 'noNoise_kpp'
-exp_name = 'test_staggered'
+exp_name = 'test_surfaceSponge'
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
