@@ -208,20 +208,23 @@ C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(i,j,kLev,bi,bj)+theta(i-1,j,kLev,bi,bj))
      &  -Tref_const)*gravity_const*temp_Alpha*sin_slope
 C     Add projection of Coriolis term difference to u-tendency
-     &  + (vVel(i,j,kLev,bi,bj)+vVel(i-1,j,kLev,bi,bj))
-     &  *f0*0.5*(cos_slope-1.)
+!     &  + (vVel(i,j,kLev,bi,bj)+vVel(i-1,j,kLev,bi,bj))
+!     &  *f0*0.5*(cos_slope-1.)
 C     Add tidal relaxation in sponge layer
-     &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
-     &  * tauProfile
+!     &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
+!     &  * tauProfile
        ENDDO
 C     For zonal grid at the re-entry boundaries
         gU(1,j,kLev,bi,bj) = gU(1,j,kLev,bi,bj)
+C     Add tidal forcing
      &  + amp_force*omega_tide*cos(omega_tide*myTime)
      &  *shearProfile*cos_slope
+C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(1,j,kLev,bi,bj)+theta(sNx+1,j,kLev,bi,bj))
      &  -Tref_const)*gravity_const*temp_Alpha*sin_slope
-     &  + (vVel(1,j,kLev,bi,bj)+vVel(sNx+1,j,kLev,bi,bj))
-     &  *f0*0.5*(cos_slope-1.)
+C     Add projection of Coriolis term difference to u-tendency
+!     &  + (vVel(1,j,kLev,bi,bj)+vVel(sNx+1,j,kLev,bi,bj))
+!     &  *f0*0.5*(cos_slope-1.)
       ENDDO
 C==========================
 
@@ -402,18 +405,19 @@ C=== Yidongfang Si =====
        DO i=1,sNx
         gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
 C     Add projection of Coriolis term difference to u-tendency
-     &   +f0*0.5*(uVel(i,j,kLev,bi,bj)+uVel(i+1,j,kLev,bi,bj))
-     &   *(1.-cos_slope)
+!     &   +f0*0.5*(uVel(i,j,kLev,bi,bj)+uVel(i+1,j,kLev,bi,bj))
+!     &   *(1.-cos_slope)
 C     Add tidal relaxation in sponge layer
-     &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
-     &  * tauProfile
+!     &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
+!     &  * tauProfile
 C     Add projection of Coriolis term to u-tendency
- !    &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
+!     &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
        ENDDO
 C     For zonal grid at the re-entry boundaries
         gV(sNx+1,j,kLev,bi,bj) = gV(sNx+1,j,kLev,bi,bj)
-     &   +f0*0.5*(uVel(sNx+1,j,kLev,bi,bj)+uVel(1,j,kLev,bi,bj))
-     &   *(1.-cos_slope)
+C     Add projection of Coriolis term difference to u-tendency
+!     &   +f0*0.5*(uVel(sNx+1,j,kLev,bi,bj)+uVel(1,j,kLev,bi,bj))
+!     &   *(1.-cos_slope)
       ENDDO
 C==========================
 
