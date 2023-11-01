@@ -92,6 +92,14 @@ C     kkey :: tape key (level and tile dependent)
       INTEGER tkey, kkey
 #endif
 CEOP
+
+C=== Yidongfang Si =====
+      REAL*8 cos_slope
+      REAL*8 sin_slope
+      REAL*8 topog_slope
+      REAL*8 pi_const
+C==========================
+
       useDiagPhiRlow = .TRUE.
       addSurfPhiAnom = select_rStar.EQ.0 .AND. nonlinFreeSurf.GE.4
       useFVgradPhi   = selectSigmaCoord.NE.0
@@ -248,6 +256,12 @@ C  --  Finite Difference Form
 C---------- This discretization is the "energy conserving" form
 C           which has been used since at least Adcroft et al., MWR 1997
 
+C=== Yidongfang Si =====
+      topog_slope = 4.
+      pi_const = 3.141592653589793
+      cos_slope = cos(pi_const*topog_slope/180.)
+      sin_slope = sin(pi_const*topog_slope/180.)
+
         dRlocM = halfRL*drC(k)*gravFacF(k)
         IF (k.EQ.1) dRlocM = (rF(k)-rC(k))*gravFacF(k)
         IF (k.EQ.Nr) THEN
@@ -259,11 +273,28 @@ C           which has been used since at least Adcroft et al., MWR 1997
          DO j=jMin,jMax
           DO i=iMin,iMax
             phiHydC(i,j) = phiHydF(i,j)
-     &             + dRlocM*gravity*alphaRho(i,j)*recip_rhoConst
+     &           + dRlocM*(gravity*alphaRho(i,j)*recip_rhoConst
+C       Added geometric factor due to rotation of buoyancy production
+C       into cross-slope direction
+     &                    *cos_slope
+C       Added Coriolis term to C-grid potential (interpolating in y)
+C     &           + 0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
+C     &           * sin(slopeAngle)*_fCori(i,j,bi,bj)
+     &                   )
+
             phiHydF(i,j) = phiHydC(i,j)
-     &             + dRlocP*gravity*alphaRho(i,j)*recip_rhoConst
+     &           + dRlocP*(gravity*alphaRho(i,j)*recip_rhoConst
+C       Added geometric factor due to rotation of buoyancy production
+C       into cross-slope direction
+     &                    *cos_slope
+C       Added Coriolis term to F-grid potential (interpolating in y, r)
+C     &           + 0.5*(0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
+C     &                 +0.5*(vVel(i,j,kp1,bi,bj)+vVel(i,j+1,kp1,bi,bj)))
+C     &           * sin(slopeAngle)*_fCori(i,j,bi,bj)
+     &                    )
           ENDDO
          ENDDO
+C=== Yidongfang Si =====
         ELSE
          rec_dRm = oneRL/(rF(k)-rC(k))
          rec_dRp = oneRL/(rC(k)-rF(k+1))
