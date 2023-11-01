@@ -11,7 +11,7 @@
     dumpIters = dumpIters(dumpIters > nIter0);
 
     o2 = 200;
-    o1 = 100;
+    o1 = 1;
 
     YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
      % YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];

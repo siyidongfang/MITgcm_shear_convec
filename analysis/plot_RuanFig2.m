@@ -3,12 +3,13 @@
 %%%
 %%% Replicate Fig. 2 of Xiaozhou's manuscript
 
-clear;close all;
-ne =1;
+% clear;close all;
+ne =2;
 load_all
 
 % xx = xx-xx(1);
-No = 239
+% No = 239
+No = 130
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
@@ -81,7 +82,7 @@ YLIM = [0 1500];
 % XLIM = [20 30];
 XLIM = [0 20];
 
-figure(1)
+figure(3)
 set(gcf,'Position',[56 139 898 762])
 clf;set(gcf,'color','w');
 subplot(3,1,1)
@@ -139,7 +140,7 @@ ylim(YLIM)
 xlim(XLIM)
 
 
-figure(2)
+figure(4)
 pcolor(time_tidal,zz-botZ,vv_timeseries');
 hold on;
 contour(time_tidal,zz-botZ,vv_timeseries',[0.05:0.05:1],'color',darkgray)

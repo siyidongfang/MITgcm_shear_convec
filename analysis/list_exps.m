@@ -3,7 +3,8 @@
     expdir = '/Users/ysi/MITgcm_shear_convec/exps_test/';
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
     EXPNAME = {...
-        'test_removeCoriolisDifference'
+        'test_N2sin2_surfacesponge'
+        'test_surfacesponge_v1.3'
         'noNoise_noCadj'
         'noNoise_cadj'
         'noNoise_cadj_diff'

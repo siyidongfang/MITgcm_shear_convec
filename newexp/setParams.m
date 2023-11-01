@@ -994,9 +994,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
-  % Shear = 5.5e-4;
-  Shear = 3.0e-4;
-  Hshear = Hmax-200;
+  Shear = 5.5e-4;
+  % Shear = 3.0e-4;
+  Hshear = Hmax-300;
   [a Nshear] = min(abs(abs(zz)-Hshear));
   for k = Nshear+1:Nr
       vrelax(k) = (zz(k)-zz(end))*Shear;
