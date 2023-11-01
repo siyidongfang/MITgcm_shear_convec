@@ -18,7 +18,7 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-Nx = 200;
+Nx = 100;
 
 Hmax = 1500;
 dz_const = 5;
@@ -34,7 +34,8 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 
 % exp_name = ['ushear3e-4Hs200_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type];
 
-exp_name = 'noNoise_kpp'
+% exp_name = 'noNoise_kpp'
+exp_name = 'test_staggered'
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 

@@ -921,9 +921,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  % tNoise = 1e-3;  
+  tNoise = 1e-3;  
   % sNoise = 0.001;
-  tNoise = 0;
+  % tNoise = 0;
   sNoise = 0;
 
   %%% Align initial temp with background
