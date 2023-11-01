@@ -4,6 +4,7 @@
 
 %%%% TO DO: use UVELTH, WVELTH??
 %%%% TO DO: use phase-average??
+%%%% TO DO: plot average over a tidal cycle??
 %%%% TO DO: use hourly-mean??
 %%%% TO DO: plot temperature tendency, diffusion, and the total??
 
@@ -21,8 +22,8 @@ CLIM = [-1 1]/2e4;
 YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
 
 
-o1 = 100;
-o2 = o1+24;
+o1 = 36;
+o2 = 240;
 
 for o=o1:o2
 nIter = dumpIters(o);

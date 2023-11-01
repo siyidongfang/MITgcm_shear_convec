@@ -199,16 +199,24 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
       end if
 
       DO j=0,sNy+1
-       DO i=1,sNx+1
+
+       DO i=2,sNx+1
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
      &  + amp_force*omega_tide*cos(omega_tide*myTime)
      &  *shearProfile*cos_slope
-     &  + gravity_const*temp_Alpha*(theta(i,j,kLev,bi,bj)-Tref_const)
+     &  + gravity_const*temp_Alpha*(0.5*(theta(i,j,kLev,bi,bj)+theta(i-1,j,kLev,bi,bj))-Tref_const)
      &  *sin_slope
-     &  + f0*vVel(i,j,kLev,bi,bj)*(cos_slope-1.)
+     &  + f0*0.5*(vVel(i,j,kLev,bi,bj)+vVel(i-1,j,kLev,bi,bj))*(cos_slope-1.)
  !    &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
  !    &  * tauProfile
        ENDDO
+        gU(1,j,kLev,bi,bj) = gU(1,j,kLev,bi,bj)
+     &  + amp_force*omega_tide*cos(omega_tide*myTime)
+     &  *shearProfile*cos_slope
+     &  + gravity_const*temp_Alpha*(0.5*(theta(1,j,kLev,bi,bj)+theta(sNx+1,j,kLev,bi,bj))-Tref_const)
+     &  *sin_slope
+     &  + f0*0.5*(vVel(1,j,kLev,bi,bj)+vVel(sNx+1,j,kLev,bi,bj))*(cos_slope-1.)
+
       ENDDO
 C==========================
 
@@ -386,13 +394,15 @@ C=== Maxim Nikurashin, modified by Yidongfang Si =====
  !     end if
 
       DO j=0,sNy+1
-       DO i=1,sNx+1
+       DO i=1,sNx
         gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
-     &  + f0*uVel(i,j,kLev,bi,bj)*(1.-cos_slope)
+     &  + f0*0.5*(uVel(i,j,kLev,bi,bj)+uVel(i+1,j,kLev,bi,bj))*(1.-cos_slope)
  !    &  + f0*wVel(i,j,kLev,bi,bj)*sin_slope
  !    &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
  !    &  * tauProfile
        ENDDO
+        gV(sNx+1,j,kLev,bi,bj) = gV(sNx+1,j,kLev,bi,bj)
+     &  + f0*0.5*(uVel(sNx+1,j,kLev,bi,bj)+uVel(1,j,kLev,bi,bj))*(1.-cos_slope)
       ENDDO
 C==========================
 
@@ -752,14 +762,26 @@ C=== Yidongfang Si =====
       sin_slope = sin(pi_const*topog_slope/180.)
 
       DO j=0,sNy+1
+       DO i=1,sNx
+        gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
+     &  - 0.5*(uVel(i,j,kLev,bi,bj)+uVel(i+1,j,kLev,bi,bj))*Nsquare_const*sin_slope/gravity_const
+     &  /temp_Alpha
+       ENDDO
+        gT(sNx+1,j,kLev,bi,bj) = gT(sNx+1,j,kLev,bi,bj)
+     &  - 0.5*(uVel(sNx+1,j,kLev,bi,bj)+uVel(1,j,kLev,bi,bj))*Nsquare_const*sin_slope/gravity_const
+     &  /temp_Alpha
+      ENDDO
+
+    IF (kLev.LT.Nr) THEN
+      DO j=0,sNy+1
        DO i=1,sNx+1
         gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
-     &  - uVel(i,j,kLev,bi,bj)*Nsquare_const*sin_slope/gravity_const
-     &  /temp_Alpha
-     &  - wVel(i,j,kLev,bi,bj)*Nsquare_const*cos_slope/gravity_const
+     &  - 0.5*(wVel(i,j,kLev,bi,bj)+wVel(i,j,kLev+1,bi,bj))*Nsquare_const*cos_slope/gravity_const
      &  /temp_Alpha
        ENDDO
       ENDDO
+    ENDIF
+
 C==========================
 
 #endif /* USE_OLD_EXTERNAL_FORCING */

@@ -4,11 +4,11 @@
 %%% Replicate Fig. 2 of Xiaozhou's manuscript
 
 clear;close all;
-ne =9;
+ne =8;
 load_all
 
 % xx = xx-xx(1);
-No = 479
+No = 240-1
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
