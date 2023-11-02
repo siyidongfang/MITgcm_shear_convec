@@ -5,11 +5,11 @@
 
 clear;
 % close all;
-ne =2;
+ne =1;
 load_all
 
 % xx = xx-xx(1);
-No = 120
+No = 239
 % No = 27120/120
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);

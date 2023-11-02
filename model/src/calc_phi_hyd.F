@@ -72,7 +72,7 @@ C     phiHydU    :: hydrostatic potential anomaly at interface k+1 (Upper k)
 C     pKappaF    :: (p/Po)^kappa at interface k
 C     pKappaU    :: (p/Po)^kappa at interface k+1 (Upper k)
 C     pKappaC    :: (p/Po)^kappa at cell center k
-      INTEGER i,j
+      INTEGER i,j,kp1
       _RL alphaRho(1-OLx:sNx+OLx,1-OLy:sNy+OLy)
 #ifndef DISABLE_SIGMA_CODE
       _RL phiHydU (1-OLx:sNx+OLx,1-OLy:sNy+OLy)
@@ -270,6 +270,8 @@ C=== Yidongfang Si =====
           dRlocP = halfRL*drC(k+1)*gravFacF(k+1)
         ENDIF
         IF ( uniformFreeSurfLev ) THEN
+C       Added index kp1
+         kp1=max(k+1,Nr)
          DO j=jMin,jMax
           DO i=iMin,iMax
             phiHydC(i,j) = phiHydF(i,j)
@@ -278,8 +280,8 @@ C       Added geometric factor due to rotation of buoyancy production
 C       into cross-slope direction
      &                    *cos_slope
 C       Added Coriolis term to C-grid potential (interpolating in y)
-C     &           + 0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
-C     &           * sin(slopeAngle)*_fCori(i,j,bi,bj)
+     &           + 0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
+     &           * sin_slope*f0
      &                   )
 
             phiHydF(i,j) = phiHydC(i,j)
@@ -288,13 +290,14 @@ C       Added geometric factor due to rotation of buoyancy production
 C       into cross-slope direction
      &                    *cos_slope
 C       Added Coriolis term to F-grid potential (interpolating in y, r)
-C     &           + 0.5*(0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
-C     &                 +0.5*(vVel(i,j,kp1,bi,bj)+vVel(i,j+1,kp1,bi,bj)))
-C     &           * sin(slopeAngle)*_fCori(i,j,bi,bj)
+     &           + 0.5*(0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
+     &                 +0.5*(vVel(i,j,kp1,bi,bj)+vVel(i,j+1,kp1,bi,bj)))
+     &           * sin_slope*f0
      &                    )
           ENDDO
          ENDDO
 C=== Yidongfang Si =====
+
         ELSE
          rec_dRm = oneRL/(rF(k)-rC(k))
          rec_dRp = oneRL/(rC(k)-rF(k+1))
