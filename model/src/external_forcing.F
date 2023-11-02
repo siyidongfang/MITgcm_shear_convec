@@ -187,7 +187,7 @@ C=== Yidongfang Si =====
      &      -Nsquare_const*sin_slope*sin_slope)
      &                       / (omega_tide*omega_tide)
 
-      tauTop = 1./3600./10.
+      tauTop = 1./3600./10000000000.
       tauProfile = 0.
       if((rC(kLev)-rC(Nr)).gt.900.) then
       tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
@@ -400,7 +400,7 @@ C=== Yidongfang Si =====
 
       amp_tide    = u_shear * h_shear * f0/omega_tide
 
-      tauTop = 1./3600./10.
+      tauTop = 1./3600./10000000000.
       tauProfile = 0.
       if((rC(kLev)-rC(Nr)).gt.900.) then
       tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
