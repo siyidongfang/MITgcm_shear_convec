@@ -94,6 +94,19 @@ C     kkey :: tape key (level and tile dependent)
 CEOP
 
 C=== Yidongfang Si =====
+      REAL*8 tauTop
+      REAL*8 tauProfile
+      REAL*8 shearProfile
+
+      REAL*8 amp_tide
+      REAL*8 amp_force
+      REAL*8 omega_tide
+
+      REAL*8 u_shear
+      REAL*8 h_shear
+
+      REAL*8 Nsquare_const
+
       REAL*8 cos_slope
       REAL*8 sin_slope
       REAL*8 topog_slope
@@ -257,10 +270,33 @@ C---------- This discretization is the "energy conserving" form
 C           which has been used since at least Adcroft et al., MWR 1997
 
 C=== Yidongfang Si =====
+      omega_tide = 1.454441043328608e-04
+      u_shear = 5.5e-04
+      h_shear = 300.d0
+      Nsquare_const = 1.0e-06
       topog_slope = 4.
       pi_const = 3.141592653589793
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
+
+      amp_tide    = u_shear * h_shear
+      amp_force   = amp_tide *
+     &     (omega_tide*omega_tide-f0*f0
+     &      -Nsquare_const*sin_slope*sin_slope)
+     &                       / (omega_tide*omega_tide)
+
+      shearProfile = 0.
+      if((rC(k)-rC(Nr)).lt.h_shear) then
+      shearProfile=(rC(k)-rC(Nr))/h_shear
+      else
+      shearProfile=1.
+      end if
+
+C       ===============================================================
+C       Edited by Henri F. Drake, 01/31/2019
+C       Add projection of Coriolis acceleration onto slope-normal
+C       "hydrostatic" relation. Note that it is integrating downwards
+C       with dRlocM > 0 so we need to flip the sign of our source term.
 
         dRlocM = halfRL*drC(k)*gravFacF(k)
         IF (k.EQ.1) dRlocM = (rF(k)-rC(k))*gravFacF(k)
@@ -282,7 +318,11 @@ C       into cross-slope direction
 C       Added Coriolis term to C-grid potential (interpolating in y)
      &           + 0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
      &           * sin_slope*f0
+C       Added Tidal shear to C-grid potential (interpolating in y)
+     &           + amp_force*omega_tide*cos(omega_tide*myTime)
+     &           * shearProfile*sin_slope
      &                   )
+
 
             phiHydF(i,j) = phiHydC(i,j)
      &           + dRlocP*(gravity*alphaRho(i,j)*recip_rhoConst
@@ -293,6 +333,9 @@ C       Added Coriolis term to F-grid potential (interpolating in y, r)
      &           + 0.5*(0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
      &                 +0.5*(vVel(i,j,kp1,bi,bj)+vVel(i,j+1,kp1,bi,bj)))
      &           * sin_slope*f0
+C       Added Tidal shear to C-grid potential (interpolating in y)
+     &           + amp_force*omega_tide*cos(omega_tide*myTime)
+     &           * shearProfile*sin_slope
      &                    )
           ENDDO
          ENDDO

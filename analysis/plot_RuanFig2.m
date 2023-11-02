@@ -10,7 +10,6 @@ load_all
 
 % xx = xx-xx(1);
 No = 239
-% No = 27120/120
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
