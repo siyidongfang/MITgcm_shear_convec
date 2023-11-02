@@ -4,12 +4,12 @@
 %%% Replicate Fig. 2 of Xiaozhou's manuscript
 
 clear;
-% close all;
-ne =1;
+close all;
+ne =4;
 load_all
 
 % xx = xx-xx(1);
-No = 239
+No = 479
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
@@ -77,10 +77,10 @@ botZ =-1500;
 
 %%
 
-% YLIM = [0 400];
-YLIM = [0 1500];
+YLIM = [0 400];
+% YLIM = [0 1500];
 % XLIM = [20 30];
-XLIM = [0 20];
+XLIM = [20 40];
 
 figure(3)
 set(gcf,'Position',[56 139 898 762])
@@ -95,7 +95,8 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.05:-0.05],'--','color',darkgray)
 shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 % xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('u (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-0.3 0.3])
+% clim([-0.3 0.3])
+clim([-0.4 0.4])
 ylabel('HAB (m)','interpreter','latex')
 ylim(YLIM)
 xlim(XLIM)
@@ -141,6 +142,7 @@ xlim(XLIM)
 
 
 figure(4)
+clf;set(gcf,'color','w');
 pcolor(time_tidal,zz-botZ,vv_timeseries');
 hold on;
 contour(time_tidal,zz-botZ,vv_timeseries',[0.05:0.05:1],'color',darkgray)

@@ -10,7 +10,7 @@
 
 
 clear;close all;
-ne =1;
+ne =3;
 load_all
 
 topo_slope = 4;
@@ -19,6 +19,7 @@ sin_slope = sind(topo_slope);
 N2_const = 1e-6;
 
 CLIM = [-1 1]/5e4;
+% YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
 YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
 
 

@@ -22,20 +22,19 @@ Nx = 100;
 
 Hmax = 1500;
 dz_const = 5;
-% Hsurface = 1000; 
-% Ntop = 200;
-% Nr = round((Hmax-Hsurface)/dz_const) + Ntop + 1;
-Nr = round(Hmax/dz_const)+1;
+Hsurface = 900; 
+Ntop = 120;
+Nr = round((Hmax-Hsurface)/dz_const) + Ntop + 1;
+% Nr = round(Hmax/dz_const)+1;
 
 run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with very small time step, spin-up run for 10 to 20 days, and product run,
 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-% exp_name = ['ushear3e-4Hs200_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type];
+exp_name = ['N2_4e-6_shear7e-4Hs300_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type];
 
-% exp_name = 'noNoise_kpp'
-exp_name = 'test_addTide2presure_noSurfaceRelax'
+% exp_name = 'test_halfw_bottom'
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 

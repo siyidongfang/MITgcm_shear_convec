@@ -170,8 +170,8 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 5.5e-04
-      h_shear = 300.d0
+      u_shear = 9.0e-04
+      h_shear = 250.d0
       Nsquare_const = 1.0e-06
       topog_slope = 4.
       pi_const = 3.141592653589793
@@ -187,7 +187,7 @@ C=== Yidongfang Si =====
      &      -Nsquare_const*sin_slope*sin_slope)
      &                       / (omega_tide*omega_tide)
 
-      tauTop = 1./3600./10000000000.
+      tauTop = 1./3600.
       tauProfile = 0.
       if((rC(kLev)-rC(Nr)).gt.900.) then
       tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
@@ -390,8 +390,8 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 5.5e-04
-      h_shear = 300.d0
+      u_shear = 9.0e-04
+      h_shear = 250.d0
 
       topog_slope = 4.d0
       pi_const = 3.141592653589793e+00
@@ -400,7 +400,7 @@ C=== Yidongfang Si =====
 
       amp_tide    = u_shear * h_shear * f0/omega_tide
 
-      tauTop = 1./3600./10000000000.
+      tauTop = 1./3600.
       tauProfile = 0.
       if((rC(kLev)-rC(Nr)).gt.900.) then
       tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)

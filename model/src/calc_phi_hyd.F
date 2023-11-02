@@ -271,8 +271,8 @@ C           which has been used since at least Adcroft et al., MWR 1997
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 5.5e-04
-      h_shear = 300.d0
+      u_shear = 9.0e-04
+      h_shear = 250.d0
       Nsquare_const = 1.0e-06
       topog_slope = 4.
       pi_const = 3.141592653589793

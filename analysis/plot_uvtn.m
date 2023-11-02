@@ -1,6 +1,6 @@
 
     clear;close all;
-    ne=1;
+    ne=2;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
@@ -10,8 +10,8 @@
     dumpIters = round((1:nDumps)*dumpFreq/deltaT);
     dumpIters = dumpIters(dumpIters > nIter0);
 
-    o2 = 200;
-    o1 = 1;
+    o2 = 120;
+    o1 = 100;
 
     YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
      % YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];

@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 10*t1day;
+  simTime = 20*t1day;
   nIter0 = 0;
   % if(run_type=='init')
   %     simTime = 1*t1day;
@@ -79,7 +79,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 5*m1km;
-  Lx = 6*m1km; 
+  Lx = 5*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -348,15 +348,15 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   [Y,X] = meshgrid(yy,xx);
 
   %%% Varied dz with depth  %  -- from Xiaozhou
-  % Hsurface = 1000;
-  % Ntop = 20
+  Hsurface = 900;
+  Ntop = 120
   dz_const = 5;
-  % dz = dz_const.*ones(1,Nr);
-  % dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.05.^(1:Ntop);
-  % sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
-  % dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
-  % dz = flipud(dz')';
-  dz = dz_const*ones(1,Nr);
+  dz = dz_const.*ones(1,Nr);
+  dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.006.^(1:Ntop);
+  sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
+  dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
+  dz = flipud(dz')';
+  % dz = dz_const*ones(1,Nr);
  
   zz = -cumsum((dz+[0 dz(1:end-1)])/2);
 
@@ -589,8 +589,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   Hz = sum (dz);
   % tNorth = (0.62*2.4)^2*(1e-3)^2 *(zz+Hz) /9.81/2e-4;
-  % N2const = (1e-3)^2;
-  % N2const = (1e-3)^2;
+  % N2const = (1e-3)^2*1e-4;
+  % N2const = 1e-10;
   % tNorth = N2const *(zz+Hz) /9.81/2e-4;
   tNorth = 0.*ones(1,Nr);
   sNorth = 0.*ones(1,Nr);
@@ -882,6 +882,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   deltaT = min([deltaT_fgw deltaT_gw deltaT_adv deltaT_itl deltaT_Ah deltaT_Ar deltaT_KhT deltaT_KrT deltaT_A4]);
   deltaT = round(deltaT) 
   % deltaT = round(deltaT/2) 
+  % deltaT = 12
 
 
   % deltaT = 1
@@ -994,7 +995,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
-  Shear = 5.5e-4;
+  % Shear = 5.5e-4;
+  Shear = 7e-4
+  % Shear = 1e-3;
   % Shear = 3.0e-4;
   Hshear = Hmax-300;
   [a Nshear] = min(abs(abs(zz)-Hshear));
