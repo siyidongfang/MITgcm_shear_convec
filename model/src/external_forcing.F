@@ -437,6 +437,14 @@ C     2D, we do not need to convert v grid to mass grid
         ENDDO
        ENDDO
       ENDIF
+C     Bottom grid cell
+      DO j=0,sNy+1
+       DO i=1,sNx+1
+        gV(i,j,Nr,bi,bj) = gV(i,j,Nr,bi,bj)
+     &  + f0*wVel(i,j,Nr,bi,bj)
+     &  *sin_slope
+       ENDDO
+      ENDDO
 
 C==========================
 
@@ -817,7 +825,14 @@ C     Advection by true vertical velocity (slope-normal component)
         ENDDO
        ENDDO
       ENDIF
-
+C     Bottom grid cell
+      DO j=0,sNy+1
+       DO i=1,sNx+1
+         gT(i,j,Nr,bi,bj) = gT(i,j,Nr,bi,bj)
+     &  - wVel(i,j,Nr,bi,bj)
+     &  *Nsquare_const*cos_slope/gravity_const/temp_Alpha
+       ENDDO
+      ENDDO
 C==========================
 
 #endif /* USE_OLD_EXTERNAL_FORCING */
