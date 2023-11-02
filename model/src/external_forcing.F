@@ -171,9 +171,11 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
       u_shear = 9.0e-04
-      h_shear = 250.d0
+      h_shear = 300.d0
       Nsquare_const = 1.0e-06
-      topog_slope = 4.
+
+C      topog_slope = 4.912113091736391
+      topog_slope = 4.d0
       pi_const = 3.141592653589793
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
@@ -391,8 +393,9 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
       u_shear = 9.0e-04
-      h_shear = 250.d0
+      h_shear = 300.d0
 
+C      topog_slope = 4.912113091736391
       topog_slope = 4.d0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)
@@ -797,6 +800,7 @@ C=== Yidongfang Si =====
       gravity_const = 9.81e+00
       temp_Alpha = 2.0e-04
 
+C      topog_slope = 4.912113091736391
       topog_slope = 4.d0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)

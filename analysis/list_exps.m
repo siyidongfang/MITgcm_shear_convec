@@ -3,6 +3,13 @@
     expdir = '/Users/ysi/MITgcm_shear_convec/exps_test/';
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
     EXPNAME = {...
+        'N2_2e-6_shear7e-4Hs300_Nr241Nx100_spin'
+        'shear8e-4Hs300_Nr241Nx100_spin_criticalSlope_noise'
+        'shear9e-4Hs200_Nr241Nx100_spin'
+        'shear9e-4Hs250_Nr241Nx100_spin'
+        'shear7e-4Hs300_Nr241Nx100_spin_criticalSlope'
+        'shear7e-4Hs300_Nr241Nx100_spin_criticalSlope_ini0'
+        'N2_4e-6_shear7e-4Hs300_Nr241Nx100_spin'
         'shear6e-4Hs300_Nr241Nx100_spin'
         'shear7e-4Hs300_Nr241Nx100_spin'
         'shear8e-4Hs300_Nr241Nx100_spin'

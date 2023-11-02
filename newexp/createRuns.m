@@ -32,13 +32,21 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-exp_name = ['N2_4e-6_shear7e-4Hs300_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type];
+exp_name = ['N2_0.5e-6_shear7e-4Hs300_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type];
 
 % exp_name = 'test_halfw_bottom'
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
 
+
+% % % %%% Critical-slope
+% % % om = 2*pi/43200;
+% % % f0 = 1.18e-4;
+% % % N2 = 1e-6;
+% % % r_c = sqrt((om^2-f0^2)/(N2-om^2))
+% % % slope_c = atand(r_c)
+% % % critical_slope = 4.912113091736391
 
 
 

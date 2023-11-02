@@ -25,7 +25,7 @@ tRef = 0;
 m1km = 1000;
 
     Hz = sum(delR);
-    N2const = (1e-3)^2;
+    N2const = 1e-6;
     tNorth = N2const *(zz+Hz) /9.81/2e-4;
     tt_background = ones(Nx,Nr);
 
@@ -80,7 +80,7 @@ botZ =-1500;
 YLIM = [0 400];
 % YLIM = [0 1500];
 % XLIM = [20 30];
-XLIM = [20 40];
+XLIM = [0 40];
 
 figure(3)
 set(gcf,'Position',[56 139 898 762])
@@ -113,7 +113,7 @@ set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 title('$\theta \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter','latex')
 ylabel('HAB (m)','interpreter','latex')
 % clim([-0.1 0.8]);
-clim([-0.04 0.3]);
+clim([-0.04 0.25]);
 % clim([-0.1 0.1]);
 colormap(redblue)
 ylim(YLIM)

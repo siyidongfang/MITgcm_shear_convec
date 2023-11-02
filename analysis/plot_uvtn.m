@@ -1,6 +1,6 @@
 
     clear;close all;
-    ne=2;
+    ne=5;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
@@ -11,7 +11,7 @@
     dumpIters = dumpIters(dumpIters > nIter0);
 
     o2 = 120;
-    o1 = 100;
+    o1 = 1;
 
     YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
      % YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];

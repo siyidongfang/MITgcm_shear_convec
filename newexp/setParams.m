@@ -882,7 +882,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   deltaT = min([deltaT_fgw deltaT_gw deltaT_adv deltaT_itl deltaT_Ah deltaT_Ar deltaT_KhT deltaT_KrT deltaT_A4]);
   deltaT = round(deltaT) 
   % deltaT = round(deltaT/2) 
-  % deltaT = 12
+
+  % deltaT = 18
 
 
   % deltaT = 1
