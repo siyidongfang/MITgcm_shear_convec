@@ -2,7 +2,20 @@
 
     expdir = '/Users/ysi/MITgcm_shear_convec/exps_test/';
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
-    EXPNAME = {...
+    EXPNAME = {...   
+        'nh_shear9Hs250_Nr318Nx400_spin_restore'
+        'nh_shear9Hs250_Nr318Nx400_spin_exactConserv'
+        'nh_shear10Hs250_Nr318Nx400_spin'
+        'nh_shear9Hs250_Nr318Nx400_spin'
+        'nh_shear8Hs250_Nr318Nx400_spin'
+        'nh_shear7Hs250_Nr318Nx400_spin'
+        'nh_shear6Hs250_Nr318Nx400_spin'
+        ...
+        'nh_shear9e-4Hs300_Nr318Nx120_spin'
+        'nh_ini0_shear9e-4Hs300_Nr318Nx120_spin'
+        'shear9e-4Hs300_Nr241Nx100_spin'
+        'shear1e-3Hs300_Nr241Nx100_spin-lores'
+        'N2_0.5e-6_shear7e-4Hs300_Nr241Nx100_spin'
         'N2_2e-6_shear7e-4Hs300_Nr241Nx100_spin'
         'shear8e-4Hs300_Nr241Nx100_spin_criticalSlope_noise'
         'shear9e-4Hs200_Nr241Nx100_spin'
@@ -13,9 +26,7 @@
         'shear6e-4Hs300_Nr241Nx100_spin'
         'shear7e-4Hs300_Nr241Nx100_spin'
         'shear8e-4Hs300_Nr241Nx100_spin'
-        'shear9e-4Hs300_Nr241Nx100_spin'
         'shear7e-4Hs300_Nr241Nx100_spin_noise0.01'
-        'shear1e-3Hs300_Nr241Nx100_spin-lores'
         'test_bottomGrid'
         'test_halfw_bottom'
         'shear1e-3Hs300_Nr241Nx100_spin_iniN2_1e-10'

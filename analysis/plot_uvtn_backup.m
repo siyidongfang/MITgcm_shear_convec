@@ -4,7 +4,7 @@
  
     clear;
     close all;
-    ne=3;
+    ne=1;
     load_all;
     
     dumpFreq = abs(diag_frequency(1)); 
@@ -17,7 +17,7 @@
     yy=xx;
 
     o2 = 120;
-    o1 = 24;
+    o1 = 1;
     % YLIM = [1200 1500]
     YLIM = [0 1500]
 

@@ -63,11 +63,11 @@ function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,N
   % use_mpi = true; %%% set true for parallel processing
   % use_pbs = true; %%% set true for execution via PBS
   % cluster = 'derecho';    
-  % nPx = 1; %%% no. of processors in x-direction
-  % nPy = 250; %%% no. of processors in y-direction
-  % sNx = 1; %%% no. of x-gridpoints per tile
-  % sNy = Ny/nPy; %%% no. of y-gridpoints per tile
- 
+  % nPx = 100; %%% no. of processors in x-direction
+  % nPy = 1; %%% no. of processors in y-direction
+  % sNx = Nx/nPx; %%% no. of x-gridpoints per tile
+  % sNy = 1; %%% no. of x-gridpoints per tile
+
   % %%% Set-up for Cheyenne, 36 CPUs per nodes
   % opt_file = 'linux_amd64_ifort+impi'; %%% options file name
   % use_mpi = true; %%% set true for parallel processing
@@ -83,7 +83,7 @@ function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,N
   use_mpi = true; %%% set true for parallel processing
   use_pbs = true; %%% set true for execution via PBS
   cluster = 'engaging';    
-  nPx = 25; %%% no. of processors in x-direction
+  nPx = 30; %%% no. of processors in x-direction
   nPy = 1; %%% no. of processors in y-direction
   sNx = Nx/nPx; %%% no. of x-gridpoints per tile
   sNy = 1; %%% no. of x-gridpoints per tile

@@ -171,7 +171,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
       u_shear = 9.0e-04
-      h_shear = 300.d0
+      h_shear = 250.d0
       Nsquare_const = 1.0e-06
 
 C      topog_slope = 4.912113091736391
@@ -189,7 +189,7 @@ C      topog_slope = 4.912113091736391
      &      -Nsquare_const*sin_slope*sin_slope)
      &                       / (omega_tide*omega_tide)
 
-      tauTop = 1./3600.
+      tauTop = 1./3600./100.
       tauProfile = 0.
       if((rC(kLev)-rC(Nr)).gt.900.) then
       tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
@@ -207,7 +207,7 @@ C      topog_slope = 4.912113091736391
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
 C     Add tidal forcing
      &  + amp_force*omega_tide*cos(omega_tide*myTime)
-     &  *shearProfile*cos_slope
+     &  *shearProfile ! *cos_slope
 C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(i,j,kLev,bi,bj)+theta(i-1,j,kLev,bi,bj))
      &  -Tref_const)*gravity_const*temp_Alpha*sin_slope
@@ -222,7 +222,7 @@ C     For zonal grid at the re-entry boundaries
         gU(1,j,kLev,bi,bj) = gU(1,j,kLev,bi,bj)
 C     Add tidal forcing
      &  + amp_force*omega_tide*cos(omega_tide*myTime)
-     &  *shearProfile*cos_slope
+     &  *shearProfile ! *cos_slope
 C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(1,j,kLev,bi,bj)+theta(sNx+1,j,kLev,bi,bj))
      &  -Tref_const)*gravity_const*temp_Alpha*sin_slope
@@ -393,7 +393,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
       u_shear = 9.0e-04
-      h_shear = 300.d0
+      h_shear = 250.d0
 
 C      topog_slope = 4.912113091736391
       topog_slope = 4.d0
@@ -403,7 +403,7 @@ C      topog_slope = 4.912113091736391
 
       amp_tide    = u_shear * h_shear * f0/omega_tide
 
-      tauTop = 1./3600.
+      tauTop = 1./3600./100.
       tauProfile = 0.
       if((rC(kLev)-rC(Nr)).gt.900.) then
       tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)

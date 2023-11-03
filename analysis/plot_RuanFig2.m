@@ -5,11 +5,11 @@
 
 clear;
 close all;
-ne =4;
+ne =5;
 load_all
 
 % xx = xx-xx(1);
-No = 479
+No = 239;
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
@@ -80,7 +80,7 @@ botZ =-1500;
 YLIM = [0 400];
 % YLIM = [0 1500];
 % XLIM = [20 30];
-XLIM = [0 40];
+XLIM = [0 20];
 
 figure(3)
 set(gcf,'Position',[56 139 898 762])
@@ -91,7 +91,6 @@ hold on;
 contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.05:1],'color',darkgray)
 contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
 contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.05:-0.05],'--','color',darkgray)
-% contour(time_tidal,zz-botZ,uu_timeseries',[-0.15:0.03:0.15],'color','k')
 shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 % xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('u (m/s)','Fontsize',fontsize+4,'interpreter','latex')
@@ -113,7 +112,7 @@ set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 title('$\theta \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter','latex')
 ylabel('HAB (m)','interpreter','latex')
 % clim([-0.1 0.8]);
-clim([-0.04 0.25]);
+clim([-0.04 0.25]/2);
 % clim([-0.1 0.1]);
 colormap(redblue)
 ylim(YLIM)
@@ -123,9 +122,6 @@ subplot(3,1,3)
 pcolor(time_tidal,zz-botZ,(N2_timeseries)')
 hold on;
 contour(time_tidal,zz-botZ,(N2_timeseries)',[0 0],'Color','m','LineWidth',2);
-% pcolor(time_tidal,-pp_mid-botZ,N2_timeseries')
-% pcolor(time_tidal,zz-botZ,real(log10(sqrt(N2_timeseries)))')
-% pcolor(time_tidal,pp_mid,N2_timeseries')
 contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.05:1],'color',darkgray)
 contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
 contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.05:-0.05],'--','color',darkgray)
@@ -134,7 +130,7 @@ shading interp;colorbar;
 set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('$N^2\ (s^{-2})$','Fontsize',fontsize+4,'interpreter','latex')
-clim([-3 3]/1e6)
+clim([-3 3]/1e6/2)
 % clim([0 3]/1e6)
  % clim([0.98 1.02]/1e6)
 ylim(YLIM)

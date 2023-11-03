@@ -18,12 +18,12 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-Nx = 100;
+Nx = 120;
 
 Hmax = 1500;
-dz_const = 5;
-Hsurface = 900; 
-Ntop = 120;
+dz_const = 3;
+Hsurface = 1000; 
+Ntop = 150;
 Nr = round((Hmax-Hsurface)/dz_const) + Ntop + 1;
 % Nr = round(Hmax/dz_const)+1;
 
@@ -32,9 +32,12 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-exp_name = ['N2_0.5e-6_shear7e-4Hs300_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type];
 
-% exp_name = 'test_halfw_bottom'
+% exp_name = ['nh_shear9Hs250_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type '_restore'];
+
+exp_name = ['nh_shear9Hs250_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type '_noTideInW'];
+
+% exp_name = 'nonhydro_test'
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 

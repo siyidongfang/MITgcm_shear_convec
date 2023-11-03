@@ -10,7 +10,7 @@
 
 
 clear;close all;
-ne =3;
+ne =1;
 load_all
 
 topo_slope = 4;
@@ -19,8 +19,8 @@ sin_slope = sind(topo_slope);
 N2_const = 1e-6;
 
 CLIM = [-1 1]/5e4;
-% YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
-YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
+YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
+% YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
 
 
 Hz = sum(delR);
@@ -32,8 +32,8 @@ for k=1:Nr
     tt_background(:,k) = squeeze(tt_background(:,k))*tNorth(k);
 end
 
-o1 = 36;
-o2 = 240;
+o1 = 1;
+o2 = 400;
 
 for o=o1:o2
 nIter = dumpIters(o);
