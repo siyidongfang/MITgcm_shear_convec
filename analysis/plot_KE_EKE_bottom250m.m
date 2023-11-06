@@ -39,6 +39,14 @@ for n= nseries
   vvelsq = rdmdsWrapper(fullfile(exppath,'/results/VVELSQ'),dumpIters(n));      
   wvelsq = rdmdsWrapper(fullfile(exppath,'/results/WVELSQ'),dumpIters(n));      
   
+  Nbot = round(250/delR(end));
+  uvel = uvel(:,:,Nr-Nbot:Nr);
+  vvel = vvel(:,:,Nr-Nbot:Nr);
+  wvel = wvel(:,:,Nr-Nbot:Nr);
+  uvelsq = uvelsq(:,:,Nr-Nbot:Nr);
+  vvelsq = vvelsq(:,:,Nr-Nbot:Nr);
+  wvelsq = wvelsq(:,:,Nr-Nbot:Nr);
+
   if (isempty(uvelsq) || isempty(vvelsq) || isempty(wvelsq))
     break;
   end
@@ -51,7 +59,7 @@ for n= nseries
 
   for i=1:Nx
     for j=1:Ny
-      for k=1:Nr
+      for k=1:Nbot+1
         KEtot(n) = KEtot(n) + KE(i,j,k)*delX(i)*delY(j)*delR(k);
         EKEtot(n) = EKEtot(n) + EKE(i,j,k)*delX(i)*delY(j)*delR(k);
       end
@@ -72,14 +80,15 @@ Tseries = zeros(1,nDumps);
 for n=nseries
   theta = rdmdsWrapper(fullfile(exppath,'/results/THETA'),dumpIters(n));  
   % salt  = rdmdsWrapper(fullfile(exppath,'/results/SALT') ,dumpIters(n));  
-  
-  Vol = sum(hFacC.*DX_xyz.*DY_xyz.*DZ_xyz,'all');
-  Tseries(n) = sum(theta.*hFacC.*DX_xyz.*DY_xyz.*DZ_xyz,'all')/Vol;
+  Vol = sum(hFacC(:,:,Nr-Nbot:Nr).*DX_xyz(:,:,Nr-Nbot:Nr).*DY_xyz(:,:,Nr-Nbot:Nr).*DZ_xyz(:,:,Nr-Nbot:Nr),'all');
+
+  Tseries(n) = sum(theta(:,:,Nr-Nbot:Nr).*hFacC(:,:,Nr-Nbot:Nr).*DX_xyz(:,:,Nr-Nbot:Nr).*DY_xyz(:,:,Nr-Nbot:Nr).*DZ_xyz(:,:,Nr-Nbot:Nr),'all')/Vol;
   % Sseries(n) = sum(salt.*hFacC.*DX_xyz.*DY_xyz.*DZ_xyz,'all')/Vol;  
 end
 
 
 
+%%
 %%% Make plots!
 fontsize = 16;
 
@@ -87,25 +96,25 @@ figure(1);
 clf;
 set(gcf,'color','w')
 set(gcf,'Position',[61 136 1337 814])
-subplot(2,2,1)
+subplot(3,1,1)
 plot(ntime(nseries)*2,KEtot(nseries),'LineWidth',2);
 axis tight;
 xlabel('Tidal cycles','interpreter','latex');
-ylabel('Mean KE (m^2s^-^2)');
+ylabel('Total KE (m^2s^-^2)');
 set(gca,'FontSize',fontsize);
 grid on;grid minor;
-subplot(2,2,2)
+subplot(3,1,2)
 plot(ntime(nseries)*2,EKEtot(nseries),'LineWidth',2);
 axis tight;
 xlabel('Tidal cycles','interpreter','latex');
-ylabel('EKE (m^2s^-^2)');
+ylabel('TKE (m^2s^-^2)');
 set(gca,'FontSize',fontsize);
 grid on;grid minor;
-subplot(2,2,3)
+subplot(3,1,3)
 plot(ntime(nseries)*2,Tseries(nseries),'LineWidth',2);
 axis tight;
 xlabel('Tidal cycles','interpreter','latex');
-ylabel('T (degC)');
+ylabel('\theta (degC)');
 set(gca,'FontSize',fontsize);
 grid on;grid minor;
 % subplot(2,2,4)
@@ -115,4 +124,4 @@ grid on;grid minor;
 % ylabel('S (psu)');
 % grid on;grid minor;
 % set(gca,'FontSize',fontsize);
-print('-dpng','-r150',[figdir 'series_KE_EKE_T_S.png']);
+% print('-dpng','-r150',[figdir 'series_KE_EKE_T_S.png']);

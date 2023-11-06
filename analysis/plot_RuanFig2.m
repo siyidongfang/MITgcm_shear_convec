@@ -5,11 +5,11 @@
 
 clear;
 close all;
-ne =1;
+ne =4;
 load_all
 
 % xx = xx-xx(1);
-No = length(dumpIters)-1;
+No = nDumps-1;
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
@@ -20,14 +20,14 @@ pp_mid = 0.5*(-zz(1:end-1)+(-zz(2:end))); %%% Mid-depth where the buoyancy frequ
 tRef = 0;
 m1km = 1000;
 
-    Hz = sum(delR);
-    N2const = 1e-6;
-    tNorth = N2const *(zz+Hz) /9.81/2e-4;
-    tt_background = ones(Nx,Nr);
+Hz = sum(delR);
+N2const = 1e-6;
+tNorth = N2const *(zz+Hz) /9.81/2e-4;
+tt_background = ones(Nx,Nr);
 
-    for k=1:Nr
-        tt_background(:,k) = squeeze(tt_background(:,k))*tNorth(k);
-    end
+for k=1:Nr
+    tt_background(:,k) = squeeze(tt_background(:,k))*tNorth(k);
+end
 
 
 for o=1:No
@@ -76,7 +76,7 @@ botZ =-1500;
 YLIM = [0 400];
 % YLIM = [0 1500];
 % XLIM = [20 30];
-XLIM = [20 30];
+XLIM = [0 20];
 
 figure(3)
 set(gcf,'Position',[56 139 898 762])
@@ -90,8 +90,8 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.05:-0.05],'--','color',darkgray)
 shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 % xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('u (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-% clim([-0.3 0.3])
-clim([-0.4 0.4])
+clim([-0.3 0.3])
+% clim([-0.4 0.4])
 ylabel('HAB (m)','interpreter','latex')
 ylim(YLIM)
 xlim(XLIM)

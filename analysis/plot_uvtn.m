@@ -1,16 +1,12 @@
 
     clear;close all;
-    ne=1;
+    ne=2;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
 
-    dumpFreq = abs(diag_frequency(1)); 
-    nDumps = floor(nTimeSteps*deltaT/dumpFreq);
-    dumpIters = round((1:nDumps)*dumpFreq/deltaT);
-    dumpIters = dumpIters(dumpIters > nIter0);
 
-    o2 = 399;
+    o2 = nDumps;
     o1 = 1;
 
     % YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];

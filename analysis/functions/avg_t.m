@@ -11,7 +11,7 @@ clear diag_fileNames;
 clear diag_frequency;
 loadexp;
 
-Nlayers = length(layers_bounds);
+% Nlayers = length(layers_bounds);
 
 savename = [prodir expname '_tavg_5days.mat'];
 

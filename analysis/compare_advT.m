@@ -33,7 +33,7 @@ for k=1:Nr
 end
 
 o1 = 1;
-o2 = 400;
+o2 = 120;
 
 for o=o1:o2
 nIter = dumpIters(o);

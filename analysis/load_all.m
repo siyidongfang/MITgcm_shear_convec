@@ -23,10 +23,12 @@
     figdir = [exppath '/img/']; 
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
     
+    %%% Frequency of diagnostic output
     dumpFreq = abs(diag_frequency(1)); 
     nDumps = floor(nTimeSteps*deltaT/dumpFreq);
     dumpIters = round((1:nDumps)*dumpFreq/deltaT);
     dumpIters = dumpIters(dumpIters > nIter0);
+    nDumps = length(dumpIters);
 
 
     % plot_uvtn;
