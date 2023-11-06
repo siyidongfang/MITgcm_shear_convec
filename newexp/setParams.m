@@ -113,7 +113,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   beta = 0;                                    %-- from Xiaozhou
   rhoConst = 999.8; %%% Reference density       %-- from Xiaozhou, MITgcm default value 999.8
 
-  nonHydrostatic = true; 
+  nonHydrostatic = false; 
 
   varyingtidalphase = false; % Set true to include zonally (along-slope) varying tidal phase 
   useLAYERS = false;
@@ -1169,6 +1169,12 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
           vVelInit(i,j,:) = vrelax; 
       end
   end
+
+  % for i=1:Nx
+  %     for j=1:Ny
+  %         uVelInit(i,j,:) = vrelax; 
+  %     end
+  % end
 
   figure(fignum);
   fignum = fignum + 1;

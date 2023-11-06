@@ -5,21 +5,17 @@
 
 clear;
 close all;
-ne =5;
+ne =1;
 load_all
 
 % xx = xx-xx(1);
-No = 239;
+No = length(dumpIters)-1;
 uu_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
 time_tidal = zeros(1,No);
 pp_mid = 0.5*(-zz(1:end-1)+(-zz(2:end))); %%% Mid-depth where the buoyancy frequency is defined
 
-dumpFreq = abs(diag_frequency(1)); 
-nDumps = floor(nTimeSteps*deltaT/dumpFreq);
-dumpIters = round((1:nDumps)*dumpFreq/deltaT);
-dumpIters = dumpIters(dumpIters > nIter0);
 
 tRef = 0;
 m1km = 1000;
@@ -80,7 +76,7 @@ botZ =-1500;
 YLIM = [0 400];
 % YLIM = [0 1500];
 % XLIM = [20 30];
-XLIM = [0 20];
+XLIM = [20 30];
 
 figure(3)
 set(gcf,'Position',[56 139 898 762])

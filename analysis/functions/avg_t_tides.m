@@ -12,7 +12,7 @@ clear diag_fileNames;
 clear diag_frequency;
 loadexp;
 
-Nlayers = length(layers_bounds);
+% Nlayers = length(layers_bounds);
 
 %%% Frequency of diagnostic output - should match that specified in
 %%% data.diagnostics      
