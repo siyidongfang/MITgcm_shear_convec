@@ -881,7 +881,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Time step size  
   deltaT = min([deltaT_fgw deltaT_gw deltaT_adv deltaT_itl deltaT_Ah deltaT_Ar deltaT_KhT deltaT_KrT deltaT_A4]);
   deltaT = round(deltaT) 
-  % deltaT = round(deltaT/2) 
+  % deltaT = round(deltaT*2/3) 
 
 
   % deltaT = 1
@@ -889,7 +889,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     deltaT = 5
   % end
   
-  % deltaT = 10
+  deltaT = 18
 
 
 
@@ -993,22 +993,19 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
-  vrelax = zeros(1,Nr);
-  % Shear = 5.5e-4;
-  Shear = 9e-4
-  % Shear = 1e-3;
-  % Shear = 3.0e-4;
-  Hshear = Hmax-250;
-  [a Nshear] = min(abs(abs(zz)-Hshear));
-  for k = Nshear+1:Nr
-      vrelax(k) = (zz(k)-zz(end))*Shear;
-  end
-  for k = 1:Nshear
-      vrelax(k) = vrelax(Nshear+1);
-  end
+  % % % vrelax = zeros(1,Nr);
+  % % % Shear = 12e-4
+  % % % Hshear = Hmax-250;
+  % % % [a Nshear] = min(abs(abs(zz)-Hshear));
+  % % % for k = Nshear+1:Nr
+  % % %     vrelax(k) = (zz(k)-zz(end))*Shear;
+  % % % end
+  % % % for k = 1:Nshear
+  % % %     vrelax(k) = vrelax(Nshear+1);
+  % % % end
+  % % % vrelax = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(vrelax))))))))))))))))))))';
 
-  vrelax = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(vrelax))))))))))))))))))))';
-
+  vrelax = 0.25*ones(1,Nr);
 
   %%% Plot velocity shear
   figure(fignum);
@@ -1157,42 +1154,42 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   %%% Initial velocity
-  % vVelInit = 0.*ones(Nx,Ny,Nr);
-  uVelInit = 0.*ones(Nx,Ny,Nr);
+  vVelInit = 0.*ones(Nx,Ny,Nr);
+  % uVelInit = 0.*ones(Nx,Ny,Nr);
 
   % omega = 1.454441043328608e-4;
   % vVelInit = 0.025*ones(Nx,Ny,Nr);
 
 
-  for i=1:Nx
-      for j=1:Ny
-          vVelInit(i,j,:) = vrelax; 
-      end
-  end
-
   % for i=1:Nx
   %     for j=1:Ny
-  %         uVelInit(i,j,:) = vrelax; 
+  %         vVelInit(i,j,:) = vrelax; 
   %     end
   % end
+
+  for i=1:Nx
+      for j=1:Ny
+          uVelInit(i,j,:) = vrelax; 
+      end
+  end
 
   figure(fignum);
   fignum = fignum + 1;
   clf;set(gcf,'Color','w')
-  pcolor(xx/1000,-zz,squeeze(vVelInit)');axis ij;
+  pcolor(xx/1000,-zz,squeeze(uVelInit)');axis ij;
   hold on;
   plot(xx/1000,-h);
   shading flat;colormap(redblue);clim([-0.5 0.5]);colorbar;
   xlabel('Distance, y (km)');
   ylabel('Depth (m)');
-  title('Initial velocity (m/s)');
+  title('Initial velocity u (m/s)');
   set(gca,'fontsize',fontsize);
   PLOT = gcf;
   PLOT.Position = [80 220 463 342];
   grid on;grid minor;
   %%% Save the figure
-  savefig([imgpath '/vVelInit.fig']);
-  saveas(gcf,[imgpath '/vVelInit.png']);
+  savefig([imgpath '/uVelInit.fig']);
+  saveas(gcf,[imgpath '/uVelInit.png']);
 
   writeDataset(uVelInit,fullfile(inputpath,'uVelInitFile.bin'),ieee,prec); 
   parm05.addParm('uVelInitFile','uVelInitFile.bin',PARM_STR);

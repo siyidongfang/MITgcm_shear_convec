@@ -5,13 +5,14 @@
 
 clear;
 close all;
-ne =4;
+ne =2;
 load_all
 
 % xx = xx-xx(1);
 No = nDumps-1;
 uu_timeseries = zeros(No,Nr);
-% vv_timeseries = zeros(No,Nr);
+vv_timeseries = zeros(No,Nr);
+tt_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
 time_tidal = zeros(1,No);
 pp_mid = 0.5*(-zz(1:end-1)+(-zz(2:end))); %%% Mid-depth where the buoyancy frequency is defined
@@ -43,7 +44,7 @@ for o=1:No
     % n2 = -gravity/rhoConst*squeeze(rdmds([exppath,'/results/DRHODR'],nIter));
 
     tt(tt==0)=NaN;
-    tt = tt+tt_background;
+    % tt = tt+tt_background;
 
     % ss(ss==0)=NaN;
     uu(uu==0)=NaN;
@@ -55,7 +56,7 @@ for o=1:No
 
     LC = 2*m1km;
     [mC,nC] = min(abs(xx-LC));
-    ttC = tt(nC,:);
+    ttC = tt(nC,:)+tt_background(nC,:);
     % ssC = tt(nC,:);
     uu_timeseries(o,:) = uu(nC,:);
     vv_timeseries(o,:) = vv(nC,:);
@@ -108,8 +109,8 @@ set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 title('$\theta \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter','latex')
 ylabel('HAB (m)','interpreter','latex')
 % clim([-0.1 0.8]);
-clim([-0.04 0.25]/2);
-% clim([-0.1 0.1]);
+% clim([-0.04 0.25]/2);
+clim([-0.1 0.1]);
 colormap(redblue)
 ylim(YLIM)
 xlim(XLIM)
@@ -148,4 +149,4 @@ ylim(YLIM)
 xlim(XLIM)
 
 
- set(gcf, 'InvertHardcopy', 'off')
+ % set(gcf, 'InvertHardcopy', 'off')

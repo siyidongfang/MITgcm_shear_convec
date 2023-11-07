@@ -16,6 +16,8 @@ batch_name = 'exps_test';
 Atide = 0;
 
 randtopog_height = 0; %%% 10
+
+
 randtopog_length = 0; %%% 1000
 
 Nx = 60;
@@ -32,10 +34,9 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-exp_name = 'test_Uinit'
+exp_name = 'test_Tinit_noshear0.25'
 
 % exp_name = ['nh_shear9Hs250_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type '_restore'];
-
 % exp_name = ['nh_shear9Hs250_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type '_noTideInW'];
 
 % exp_name = 'nonhydro_test'

@@ -170,7 +170,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 9.0e-04
+      u_shear = 1.2e-03
       h_shear = 250.d0
       Nsquare_const = 1.0e-06
 
@@ -206,7 +206,7 @@ C      topog_slope = 4.912113091736391
        DO i=2,sNx+1
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
 C     Add tidal forcing
-     &  + amp_force*omega_tide*cos(omega_tide*myTime)
+     &  - amp_force*omega_tide*sin(omega_tide*myTime)
      &  *shearProfile ! *cos_slope
 C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(i,j,kLev,bi,bj)+theta(i-1,j,kLev,bi,bj))
@@ -215,13 +215,13 @@ C     Add projection of Coriolis term difference to u-tendency
      &  + (vVel(i,j,kLev,bi,bj)+vVel(i-1,j,kLev,bi,bj))
      &  *f0*0.5*(cos_slope-1.)
 C     Add tidal relaxation in sponge layer
-C     &  + (amp_tide*sin(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
+C     &  + (amp_tide*cos(omega_tide*myTime)-uVel(i,j,kLev,bi,bj))
 C     &  * tauProfile
        ENDDO
 C     For zonal grid at the re-entry boundaries
         gU(1,j,kLev,bi,bj) = gU(1,j,kLev,bi,bj)
 C     Add tidal forcing
-     &  + amp_force*omega_tide*cos(omega_tide*myTime)
+     &  - amp_force*omega_tide*sin(omega_tide*myTime)
      &  *shearProfile ! *cos_slope
 C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(1,j,kLev,bi,bj)+theta(sNx+1,j,kLev,bi,bj))
@@ -230,7 +230,7 @@ C     Add projection of Coriolis term difference to u-tendency
      &  + (vVel(1,j,kLev,bi,bj)+vVel(sNx+1,j,kLev,bi,bj))
      &  *f0*0.5*(cos_slope-1.)
 C     Add tidal relaxation in sponge layer
-C     &  + (amp_tide*sin(omega_tide*myTime)-uVel(1,j,kLev,bi,bj))
+C     &  + (amp_tide*cos(omega_tide*myTime)-uVel(1,j,kLev,bi,bj))
 C     &  * tauProfile
       ENDDO
 C==========================
@@ -392,7 +392,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNx
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 9.0e-04
+      u_shear = 1.2e-03
       h_shear = 250.d0
 
 C      topog_slope = 4.912113091736391
@@ -416,7 +416,7 @@ C     Add projection of Coriolis term difference to v-tendency (along-slope comp
      &   +f0*0.5*(uVel(i,j,kLev,bi,bj)+uVel(i+1,j,kLev,bi,bj))
      &   *(1.-cos_slope)
 C     Add tidal relaxation in sponge layer
-C     &  + (amp_tide*cos(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
+C     &  + (-amp_tide*sin(omega_tide*myTime)-vVel(i,j,kLev,bi,bj))
 C     &  * tauProfile
        ENDDO
 C     For zonal grid at the re-entry boundaries
@@ -425,7 +425,7 @@ C     Add projection of Coriolis term difference to v-tendency (along-slope comp
      &   +f0*0.5*(uVel(sNx+1,j,kLev,bi,bj)+uVel(1,j,kLev,bi,bj))
      &   *(1.-cos_slope)
 C     Add tidal relaxation in sponge layer
-C     &  + (amp_tide*cos(omega_tide*myTime)-vVel(sNx+1,j,kLev,bi,bj))
+C     &  + (-amp_tide*sin(omega_tide*myTime)-vVel(sNx+1,j,kLev,bi,bj))
 C     &  * tauProfile
       ENDDO
 

@@ -271,7 +271,7 @@ C           which has been used since at least Adcroft et al., MWR 1997
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 9.0e-04
+      u_shear = 1.2e-03
       h_shear = 250.d0
       Nsquare_const = 1.0e-06
 C      topog_slope = 4.912113091736391
@@ -320,7 +320,7 @@ C       Added Coriolis term to C-grid potential (interpolating in y)
      &           + 0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
      &           * sin_slope*f0
 C       Added Tidal shear to C-grid potential (interpolating in y)
-C     &           + amp_force*omega_tide*cos(omega_tide*myTime)
+C     &           - amp_force*omega_tide*sin(omega_tide*myTime)
 C     &           * shearProfile*sin_slope
      &                   )
 

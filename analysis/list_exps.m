@@ -2,13 +2,17 @@
 
     expdir = '/Users/ysi/MITgcm_shear_convec/exps_test/';
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
-    EXPNAME = {... 
+    EXPNAME = {...
         'nh_shear9Hs250_Nr318Nx400_prod'
-        'nh_shear9Hs250_Nr318Nx400_spin_exactConserv'
+                'nh_shear9Hs250_Nr318Nx400_spin_exactConserv'
+        'test_Tinit_noshear0.25'
+        'test_Tinit_shear12'
+        'test_Tinit_shear18'
+        'test_Tinit'
+        'test_Uinit'
         'nh_shear9Hs250_Nr318Nx400_spin'
         'nh_shear9Hs250_Nr318Nx400_spin_restore'
         'test_zeroVinit'
-        'test_Uinit'
         'noise1e-3_noCadj'
         'noise1e-3_cadj'
         'noise1e-3_cadj_diff'
