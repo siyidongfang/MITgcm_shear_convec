@@ -10,7 +10,7 @@
     
 clear; close all;
 
-ne=2;
+ne=4;
 load_all;
 
 %%% Add path
@@ -27,7 +27,7 @@ KEtot = zeros(1,nDumps);
 KElen = 0;
 
 nseries = 1:nDumps;
-% nseries = 1:83;
+% nseries = 1:56520/360;
 
 for n= nseries
  
@@ -80,6 +80,7 @@ for n=nseries
 end
 
 
+%%
 
 %%% Make plots!
 fontsize = 16;

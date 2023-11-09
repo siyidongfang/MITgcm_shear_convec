@@ -16,10 +16,10 @@
 
     yy=xx;
 
-    o2 = 120;
-    o1 = 1;
-    % YLIM = [1200 1500]
-    YLIM = [0 1500]
+    o2 = 240;
+    o1 = 120;
+    YLIM = [1200 1500]
+    % YLIM = [0 1500]
 
     Hz = sum(delR);
     N2const = (1e-3)^2;
@@ -39,7 +39,6 @@ for o=o1:o2
 
     tt = squeeze(rdmds([exppath,'/results/THETA_inst'],nIter));
     tt(tt==0)=NaN;
-    tt = tt+tt_background;
     
     vv = squeeze(rdmds([exppath,'/results/VVEL_inst'],nIter));
     vv(vv==0)=NaN;
@@ -52,7 +51,8 @@ for o=o1:o2
     % eta(eta==0)=NaN;
 
 
-    rho = rhoConst.*(1-(tt-tRef)*tAlpha);
+    tt_all = tt+tt_background;
+    rho = rhoConst.*(1-(tt_all-tRef)*tAlpha);
     N2 = -gravity/rhoConst.*(rho(:,1:end-1)-rho(:,2:end))./(zz(1:end-1)-zz(2:end));
     pp_mid = 0.5*(-zz(1:end-1)+(-zz(2:end))); %%% Mid-depth where the buoyancy frequency is defined
 
@@ -66,9 +66,9 @@ for o=o1:o2
     shading interp;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    % clim([-0.1 0.1])
+    clim([-0.1 0.1])
     % clim([-0.05 0.2])
-    clim([-0.1 0.8])
+    % clim([-0.1 0.8])
     ylim(YLIM)
 
     % subplot(3,2,2)

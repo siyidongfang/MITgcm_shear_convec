@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 10*t1day;
+  simTime = 15*t1day;
   nIter0 = 0;
   % if(run_type=='init')
   %     simTime = 1*t1day;
@@ -113,7 +113,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   beta = 0;                                    %-- from Xiaozhou
   rhoConst = 999.8; %%% Reference density       %-- from Xiaozhou, MITgcm default value 999.8
 
-  nonHydrostatic = false; 
+  nonHydrostatic = true; 
 
   varyingtidalphase = false; % Set true to include zonally (along-slope) varying tidal phase 
   useLAYERS = false;
@@ -889,7 +889,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     deltaT = 5
   % end
   
-  deltaT = 18
+  % deltaT = 18
 
 
 
@@ -921,7 +921,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-4;  
+  tNoise = 1e-3;  
   % sNoise = 0.001;
   % tNoise = 0;
   sNoise = 0;
@@ -993,19 +993,18 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
-  % % % vrelax = zeros(1,Nr);
-  % % % Shear = 12e-4
-  % % % Hshear = Hmax-250;
-  % % % [a Nshear] = min(abs(abs(zz)-Hshear));
-  % % % for k = Nshear+1:Nr
-  % % %     vrelax(k) = (zz(k)-zz(end))*Shear;
-  % % % end
-  % % % for k = 1:Nshear
-  % % %     vrelax(k) = vrelax(Nshear+1);
-  % % % end
-  % % % vrelax = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(vrelax))))))))))))))))))))';
+  vrelax = zeros(1,Nr);
+  Shear = 1.1e-3
+  Hshear = Hmax-250;
+  [a Nshear] = min(abs(abs(zz)-Hshear));
+  for k = Nshear+1:Nr
+      vrelax(k) = (zz(k)-zz(end))*Shear;
+  end
+  for k = 1:Nshear
+      vrelax(k) = vrelax(Nshear+1);
+  end
+  vrelax = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(vrelax))))))))))))))))))))';
 
-  vrelax = 0.25*ones(1,Nr);
 
   %%% Plot velocity shear
   figure(fignum);
@@ -1154,22 +1153,22 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   %%% Initial velocity
-  vVelInit = 0.*ones(Nx,Ny,Nr);
+  % vVelInit = 0.*ones(Nx,Ny,Nr);
   % uVelInit = 0.*ones(Nx,Ny,Nr);
 
   % omega = 1.454441043328608e-4;
   % vVelInit = 0.025*ones(Nx,Ny,Nr);
 
 
-  % for i=1:Nx
-  %     for j=1:Ny
-  %         vVelInit(i,j,:) = vrelax; 
-  %     end
-  % end
+  for i=1:Nx
+      for j=1:Ny
+          vVelInit(i,j,:) = vrelax*cos(0.5*pi); 
+      end
+  end
 
   for i=1:Nx
       for j=1:Ny
-          uVelInit(i,j,:) = vrelax; 
+          uVelInit(i,j,:) = vrelax*sin(0.5*pi); 
       end
   end
 

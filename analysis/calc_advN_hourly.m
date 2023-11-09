@@ -10,7 +10,7 @@
 
 
 clear;close all;
-ne =1;
+ne =4;
 load_all
 
 cons_t2b = gravity*tAlpha; %%% The constant ratio between buoyancy and temperature
@@ -18,7 +18,7 @@ cons_t2b = gravity*tAlpha; %%% The constant ratio between buoyancy and temperatu
 o1 = 1;
 o2 = 120;
 % No = o2-o1+1;
-No = 12
+No = 24
 
 %%% Grid spacing matrices
 DX = repmat(delX',[1 Ny Nr]);
