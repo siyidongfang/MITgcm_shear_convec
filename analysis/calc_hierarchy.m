@@ -72,7 +72,7 @@ c = -N2_const*cosd(topo_slope);
 SS1_m2 = (-b+sqrt(b.^2-4*a*c))/2./a;
 SS2_m2 = (-b-sqrt(b.^2-4*a*c))/2./a;
 
-topo_slope = 6;
+topo_slope = 10;
 Ttide = 12.4206012*3600;
 omega = 2*pi_const/Ttide;
 a = Ric*(cos(omega*tt)).^2;
