@@ -12,80 +12,91 @@ N2_const = 1e-6;
 f0 = 1.18e-4;
 pi = 3.141592653589793;
 Ric = 0.25; %%% Critical Richardson number
-tt = 1:60*30:86400*180;
+tt = 1:60*30:86400*90;
 
 v_frac = 0; %%% cross-canyon velocity is 1/5 of the along-canyon velocity
 
-topo = 4;
 T2 = 23.93447213*3600;
 T1 = 12.4206012*3600;
-
 om1 = 2*pi/T1;
 om2 = 2*pi/T2;
 phi2 = [0:1/1000:1]*2*pi;
 r = [0:1/100:1];
 min_S1c = NaN*zeros(length(r),length(phi2));
-for k = 1:length(r)
-    k
-    for o = 1:length(phi2)
-        clear S1c_tt
-        S1c_tt = 1/tand(topo)./(1/om1*sin(om1*tt)+r(k)/om2*sin(om2*tt+phi2(o)));
-        min_S1c(k,o) = min(abs(S1c_tt));
+
+topog = [4 6 8 10 12 14]
+
+for i=1:length(topog)
+    topo = topog(i);
+    
+    for k = 1:length(r)
+        k
+        for o = 1:length(phi2)
+            clear S1c_tt
+            S1c_tt = 1/tand(topo)./(1/om1*sin(om1*tt)+r(k)/om2*sin(om2*tt+phi2(o)));
+            min_S1c(k,o) = min(abs(S1c_tt));
+        end
     end
+
+    S1c = mean(min_S1c,2);
+
+    figure(1)
+    set(gcf,'color','w');
+    plot(r,S1c,'LineWidth',2);
+    hold on;
+    grid on;grid minor;
+    title('Critical shear for N^2<0')
+    ylabel('Critical Shear (1/s)')
+    xlabel('Ratio between K1 and M2 tidal current amplitudes, r')
+    set(gca,'Fontsize',fontsize);
 end
 
-% rr = 0.5
-rr = 0.5
-% pphi = 0.1*pi
-pphi = 0
-r0_S1c = 1/tand(topo)./(1/om1*sin(om1*tt)+rr/om2*sin(om2*tt+pphi));
-figure(4)
-clf;set(gcf,'color','w');
-plot(tt(1:500)/86400,abs(r0_S1c(1:500)),'LineWidth',2);grid on;grid minor;
-xlabel('Time, t (days)')
-ylim([0 5]/1e3)
-xlim([0 max(tt(1:500)/86400)])
-ylabel('Critical Shear (1/s)')
-set(gca,'Fontsize',fontsize);
-title('Minimum shear required for $N^2<0$ (r=0.5, $\varphi=0$)','Interpreter','latex')
-% title('Minimum shear required for $N^2<0$ (r=0)','Interpreter','latex')
+legend(['$\theta_\mathrm{topo} = 4^\circ$ = ' num2str(round(4*pi/180,2))],...
+    ['$\theta_\mathrm{topo} = 6^\circ$ = ' num2str(round(6*pi/180,2))],...
+    ['$\theta_\mathrm{topo} = 8^\circ$ = ' num2str(round(8*pi/180,2))],...
+    ['$\theta_\mathrm{topo} = 10^\circ$ = ' num2str(round(10*pi/180,2))],...
+    ['$\theta_\mathrm{topo} = 12^\circ$ = ' num2str(round(12*pi/180,2))],...
+    ['$\theta_\mathrm{topo} = 14^\circ$ = ' num2str(round(14*pi/180,2))],...
+    'Interpreter','latex','Fontsize',fontsize+2);
+
+% % rr = 0.5
+% rr = 1/9
+% % pphi = 0.1*pi
+% pphi = 0
+% r0_S1c = 1/tand(topo)./(1/om1*sin(om1*tt)+rr/om2*sin(om2*tt+pphi));
+% figure(4)
+% clf;set(gcf,'color','w');
+% plot(tt(1:500)/86400,abs(r0_S1c(1:500)),'LineWidth',2);grid on;grid minor;
+% xlabel('Time, t (days)')
+% ylim([0 5]/1e3)
+% xlim([0 max(tt(1:500)/86400)])
+% ylabel('Critical Shear (1/s)')
+% set(gca,'Fontsize',fontsize);
+% title('Minimum shear required for $N^2<0$ (r=1/9, $\varphi=0$)','Interpreter','latex')
+% % title('Minimum shear required for $N^2<0$ (r=0)','Interpreter','latex')
 
 
+% for k = 1:length(r)
+%     E(k) = rmse(min_S1c(k,:),S1c(k)*ones(1,length(phi2)));
+% end
+
+% figure(2)
+% clf;set(gcf,'color','w');
+% plot(r,E);
+% grid on;grid minor;
+% title('Root-mean-square error of the Critical Shear')
+% ylabel('RMSE')
+% xlabel('Ratio between K1 and M2 tidal current amplitudes, r')
+% set(gca,'Fontsize',fontsize);
 
 
-S1c = mean(min_S1c,2);
-
-for k = 1:length(r)
-    E(k) = rmse(min_S1c(k,:),S1c(k)*ones(1,length(phi2)));
-end
-
-figure(1)
-clf;set(gcf,'color','w');
-plot(r,S1c,'LineWidth',2);
-grid on;grid minor;
-title('Critical shear for N^2<0')
-ylabel('Critical Shear (1/s)')
-xlabel('Ratio between K1 and M2 tidal current amplitudes, r')
-set(gca,'Fontsize',fontsize);
-
-
-figure(2)
-clf;set(gcf,'color','w');
-plot(r,E);
-grid on;grid minor;
-title('Root-mean-square error of the Critical Shear')
-ylabel('RMSE')
-xlabel('Ratio between K1 and M2 tidal current amplitudes, r')
-set(gca,'Fontsize',fontsize);
-
-
-figure(3)
-clf;set(gcf,'color','w');
-pcolor(r,phi2/pi,min_S1c');shading flat;colorbar;
-title('Critical shear for N^2<0')
-ylabel('$\varphi\ (\pi)$','Interpreter','latex')
-xlabel('Ratio between K1 and M2 tidal current amplitudes, r')
-set(gca,'Fontsize',fontsize);
+% figure(3)
+% clf;set(gcf,'color','w');
+% pcolor(r,phi2/pi,min_S1c');shading flat;colorbar;
+% title('Critical shear for N^2<0')
+% ylabel('$\varphi\ (\pi)$','Interpreter','latex')
+% xlabel('Ratio between K1 and M2 tidal current amplitudes, r')
+% set(gca,'Fontsize',fontsize);
 
 
 
