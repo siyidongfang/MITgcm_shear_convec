@@ -150,5 +150,6 @@ clim([-0.3 0.3])
 ylim(YLIM)
 xlim(XLIM)
 
+%%% Calculate the mean flow
 
  % set(gcf, 'InvertHardcopy', 'off')
