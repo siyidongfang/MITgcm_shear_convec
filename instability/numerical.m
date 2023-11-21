@@ -3,10 +3,12 @@ clear;close all;
 
 addpath ../analysis/colormaps/
 
+useRK4 = false;
+
 %%%% Define constants
 Hdepth = 1500;
 Hshear = 300;
-Shear = 1*0.8e-3; 
+Shear = 0.4*0.8e-3; 
 N = 1e-3;
 topo = 4;
 omega = 2*pi/43200;
@@ -18,7 +20,7 @@ C = N*sind(topo)/omega;
 
 %%% Model dimension
 Lz = Hdepth/delta;     % dimensionless domain height
-dz = 5;               % dimensionless vertical grid spacing
+dz = 100;               % dimensionless vertical grid spacing
 Nr = round(Lz/dz)+1;
 zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
 
@@ -27,10 +29,9 @@ Nshear = round(Lshear/dz);
 Hshear = zz(Nshear)*delta;
 U0 = Hshear * Shear;
 Re = U0*delta/nu;
-D = Re*delta/2/Hshear;
 
-Lt = 0.5*86400*omega; % dimensionless simulation time
-dt = 0.001;
+Lt = 2*43200*omega; % dimensionless simulation time
+dt = 0.0005;
 Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
 
@@ -46,6 +47,8 @@ dbdz = zeros(1,Nr);
 d2bdz2 = zeros(1,Nr);
 dpsidz = zeros(1,Nr);
 d2psidz2 = zeros(1,Nr);
+dUdz = zeros(1,Nr);
+U = zeros(1,Nr);
 
 kx = 0.01; %%% wave number
 
@@ -86,51 +89,153 @@ figure(4);clf;
 pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
 
 
-%%
+
 %%%% Integrate non-dimensionalized b and zeta with time
 %%%% 1st-order and 2nd-order centered difference
 %%%% Euler forward scheme for time advancement
-% %%%%  TO DO: Fourth-order Runge-Kutta scheme for time advancement
+%%%% Fourth-order Runge-Kutta scheme for time advancement
 
 %%%% Ignore diffusion
 
 for o=1:Nt-1
 
-    psi(o,:) = cumsum(cumsum(zeta(o,:)*dz)*dz)-Utide(o,1)*Lz;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%% Fourth-order Runge-Kutta %%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    t0 = tt(o);
+    U = cos(t0)*Atide/U0;
+    psi(o,:) = cumsum(cumsum(zeta(o,:)*dz)*dz)-U(1)*Lz;
+    psi(o,end)=0;     % Boundary conditions
+    psi(o,1)=0;
+    buoy(o,1) = buoy(o,2);
+    buoy(o,Nr) = buoy(o,Nr-1);
+
+    p0 = psi(o,:);
+    b0 = buoy(o,:);
+    z0 = zeta(o,:);
 
     for m = 2:Nr-1
-        dpsidz(m)   = (psi(o,m+1)-psi(o,m-1))/2/dz;
-        d2psidz2(m) = (psi(o,m-1)-2*psi(o,m)+psi(o,m+1))/dz^2;
-        dbdz(m)   = (buoy(o,m+1)-buoy(o,m-1))/2/dz;
-        d2bdz2(m) = (buoy(o,m-1)-2*buoy(o,m)+buoy(o,m+1))/dz^2;
+        dUdz(m) = (U(m+1)-U(m-1))/2/dz;
+        dpsidz(m)   = (p0(m+1)-p0(m-1))/2/dz;
+        d2psidz2(m) = (p0(m-1)-2*p0(m)+p0(m+1))/dz^2;
+        dbdz(m)   = (b0(m+1)-b0(m-1))/2/dz;
+        d2bdz2(m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
     end
+    dbdt = dpsidz -1i*kx*cotd(topo)*p0...
+         +1i*kx*Re/2*dUdz.*tan(t0).*p0 ...
+         -1i*kx*Re/2*U.*b0 ...
+         +(d2bdz2 - kx^2.*b0)/2/Pr; %%% dissipation
+    dzetadt = 1i*kx*Re/2*dUdz.*dpsidz ...
+         -1i*kx*Re/2*U.*(d2psidz2-kx^2*p0) ...
+         +C^2*(1i*kx*cotd(topo)*b0-dbdz);
+    k_1b = dbdt;
+    k_1z = dzetadt;
 
-    dzetadt = 1i*kx*Re/2*dUtidedz(o,:).*dpsidz ...
-         -1i*kx*Re/2*Utide(o,:).*(d2psidz2-kx^2*psi(o,:)) ...
-         +C^2*(1i*kx*cotd(topo)-dbdz);
+    if(useRK4)
+    %%% Euler forward predictor advancing dt/2:
+    b_2 = buoy(o,:)+0.5*dt*k_1b;
+    z_2 = zeta(o,:)+0.5*dt*k_1z;
 
-    dbdt = dpsidz -1i*kx*cotd(topo)*psi(o,:)...
-         +1i*kx*Re/2*dUtidedz(o,:).*tan(o*dt).*psi(o,:) ...
-         -1i*kx*Re/2*Utide(o,:).*buoy(o,:);
+    t0 = tt(o)+dt/2;
+    b0 = b_2;
+    z0 = z_2;
 
-    % dzetadt(zidx) = 1i*kx*D*(dpsidz(zidx)-zz(zidx).*(d2psidz2(zidx)-kx^2*psi(o,zidx)))*cos(o*dt) ...
-    %      +C^2*(1i*kx*cotd(topo)-dbdz(zidx));
-    % 
-    % dbdt(zidx) = dpsidz(zidx) + (-1i*kx*cotd(topo)+1i*kx*D*sin(o*dt))*psi(o,zidx) ...
-    %      -1i*kx*D*zz(zidx)*cos(o*dt).*buoy(o,zidx);
+    U = cos(t0)*Atide/U0;
+    p0 = cumsum(cumsum(z0*dz)*dz)-U(1)*Lz;
+    p0(1)=0;
+    p0(Nr)=0;     
+    b0(1) = b0(2); 
+    b0(Nr) = b0(Nr-1); 
+    for m = 2:Nr-1
+        dUdz(m) = (U(m+1)-U(m-1))/2/dz;
+        dpsidz(m)   = (p0(m+1)-p0(m-1))/2/dz;
+        d2psidz2(m) = (p0(m-1)-2*p0(m)+p0(m+1))/dz^2;
+        dbdz(m)   = (b0(m+1)-b0(m-1))/2/dz;
+        d2bdz2(m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
+    end
+    dbdt = dpsidz -1i*kx*cotd(topo)*p0...
+         +1i*kx*Re/2*dUdz.*tan(t0).*p0 ...
+         -1i*kx*Re/2*U.*b0 ...
+         +(d2bdz2 - kx^2.*b0)/2/Pr; %%% dissipation
+    dzetadt = 1i*kx*Re/2*dUdz.*dpsidz ...
+         -1i*kx*Re/2*U.*(d2psidz2-kx^2*p0) ...
+         +C^2*(1i*kx*cotd(topo)*b0-dbdz);
 
-    %%% Consider dissipation
-    dbdt = dbdt + (d2bdz2 - kx^2.*buoy(o,:))/2/Pr;
+    k_2b = dbdt;
+    k_2z = dzetadt;
 
-    %%% Boundary condition
-    psi(o,end)=0;
+    %%% Euler backward corrector advancing dt/2:
+    b_3 = buoy(o,:)+0.5*dt*k_2b;
+    z_3 = zeta(o,:)+0.5*dt*k_2z;
 
-    %%% Euler forward
-    buoy(o+1,:) = dbdt*dt;
-    zeta(o+1,:) = dzetadt*dt;
+    t0 = tt(o)+dt/2;
+    b0 = b_3;
+    z0 = z_3;
+    U = cos(t0)*Atide/U0;
+    p0 = cumsum(cumsum(z0*dz)*dz)-U(1)*Lz;
+    p0(1)=0;
+    p0(Nr)=0;     
+    b0(1) = b0(2); 
+    b0(Nr) = b0(Nr-1); 
+    for m = 2:Nr-1
+        dUdz(m) = (U(m+1)-U(m-1))/2/dz;
+        dpsidz(m)   = (p0(m+1)-p0(m-1))/2/dz;
+        d2psidz2(m) = (p0(m-1)-2*p0(m)+p0(m+1))/dz^2;
+        dbdz(m)   = (b0(m+1)-b0(m-1))/2/dz;
+        d2bdz2(m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
+    end
+    dbdt = dpsidz -1i*kx*cotd(topo)*p0...
+         +1i*kx*Re/2*dUdz.*tan(t0).*p0 ...
+         -1i*kx*Re/2*U.*b0 ...
+         +(d2bdz2 - kx^2.*b0)/2/Pr; %%% dissipation
+    dzetadt = 1i*kx*Re/2*dUdz.*dpsidz ...
+         -1i*kx*Re/2*U.*(d2psidz2-kx^2*p0) ...
+         +C^2*(1i*kx*cotd(topo)*b0-dbdz);
 
-    %%% Fourth-order Runge-Kutta
+    k_3b = dbdt;
+    k_3z = dzetadt;
 
+
+    %%% Mid-point predictor advancing dt:
+    b_4 = buoy(o,:)+dt*k_3b;
+    z_4 = zeta(o,:)+dt*k_3z;
+
+    t0 = tt(o)+dt;
+    b0 = b_4;
+    z0 = z_4;
+    U = cos(t0)*Atide/U0;
+    p0 = cumsum(cumsum(z0*dz)*dz)-U(1)*Lz;
+    p0(1)=0;
+    p0(Nr)=0;     
+    b0(1) = b0(2); 
+    b0(Nr) = b0(Nr-1); 
+    for m = 2:Nr-1
+        dUdz(m) = (U(m+1)-U(m-1))/2/dz;
+        dpsidz(m)   = (p0(m+1)-p0(m-1))/2/dz;
+        d2psidz2(m) = (p0(m-1)-2*p0(m)+p0(m+1))/dz^2;
+        dbdz(m)   = (b0(m+1)-b0(m-1))/2/dz;
+        d2bdz2(m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
+    end
+    dbdt = dpsidz -1i*kx*cotd(topo)*p0...
+         +1i*kx*Re/2*dUdz.*tan(t0).*p0 ...
+         -1i*kx*Re/2*U.*b0 ...
+         +(d2bdz2 - kx^2.*b0)/2/Pr; %%% dissipation
+    dzetadt = 1i*kx*Re/2*dUdz.*dpsidz ...
+         -1i*kx*Re/2*U.*(d2psidz2-kx^2*p0) ...
+         +C^2*(1i*kx*cotd(topo)*b0-dbdz);
+
+    k_4b = dbdt;
+    k_4z = dzetadt;
+
+    %%% Simpson rule corrector advancing dt:
+    buoy(o+1,:) = buoy(o,:) + (1/6)*(k_1b+2*k_2b+2*k_3b+k_4b)*dt;
+    zeta(o+1,:) = zeta(o,:) + (1/6)*(k_1z+2*k_2z+2*k_3z+k_4z)*dt;
+    
+    else
+        %%% Euler forward
+        buoy(o+1,:) = dbdt*dt;
+        zeta(o+1,:) = dzetadt*dt;
+    end
 
 end
 
@@ -168,6 +273,8 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Streamfunction \psi','Fontsize',fontsize+3);
 clim([-100 100]*U0/delta)
+% aaa = max(max(abs(re_psid)));
+% clim([-1 1]*aaa/1e60)
 
 subplot(3,1,2)
 pcolor(ttd/3600,zzd,re_zetad');shading flat;colorbar;
@@ -175,15 +282,17 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
 clim([-4 4]/1e4*U0*delta)
-
+% aaa = max(max(abs(re_zetad)));
+% clim([-1 1]*aaa/1e60)
 
 subplot(3,1,3)
 pcolor(ttd/3600,zzd,re_buoyd');shading flat;colorbar;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Buoyancy perturbation b','Fontsize',fontsize+3);
-clim([-1000 1000]*N^2*sind(topo)/omega)
-
+clim([-0.1 0.1]*N^2*sind(topo)/omega)
+% aaa = max(max(abs(re_buoyd)));
+% clim([-1 1]*aaa/1e60)
 
 
 
