@@ -3,13 +3,12 @@ clear;close all;
 
 addpath ../analysis/colormaps/
 
-useRK4 = false;
-useAB3 = false;
+useRK4 = true;
 
 %%%% Define constants
 Hdepth = 1500;
 Hshear = 300;
-Shear = 0.4*0.8e-3; 
+Shear = 0.8e-3; 
 N = 1e-3;
 topo = 4;
 omega = 2*pi/43200;
@@ -31,8 +30,8 @@ Hshear = zz(Nshear)*delta;
 U0 = Hshear * Shear;
 Re = U0*delta/nu;
 
-Lt = 2*43200*omega; % dimensionless simulation time
-dt = 0.0005;
+Lt = 0.5*43200*omega; % dimensionless simulation time
+dt = 0.0001;
 Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
 
@@ -48,6 +47,7 @@ dbdz = zeros(1,Nr);
 d2bdz2 = zeros(1,Nr);
 dpsidz = zeros(1,Nr);
 d2psidz2 = zeros(1,Nr);
+d2zetadz2 = zeros(1,Nr);
 dUdz = zeros(1,Nr);
 U = zeros(1,Nr);
 
@@ -67,8 +67,10 @@ end
 for m=Nshear+1:Nr
     Atide(m) = U0;
 end
-idx_smooth = Nshear-round(Nshear/4):Nshear+4*round(Nshear/4);
-Atide(idx_smooth) = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(Atide(idx_smooth)))))))))))))))))))))';
+% idx_smooth = Nshear-round(Nshear/4):Nshear+4*round(Nshear/4);
+idx_smooth = 1:Nr;
+% Atide(idx_smooth) = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(Atide(idx_smooth)))))))))))))))))))))';
+Atide(idx_smooth) = smooth(smooth(smooth(Atide(idx_smooth))))';
 
 Utide =cos(tt)'.*Atide/U0;
 
@@ -77,11 +79,14 @@ for m = 2:Nr-1
     dUtidedz(:,m)   = (Utide(:,m+1)-Utide(:,m-1))/2/dz;
 end
 
+
+
 figure(1);clf;
 plot(Atide,zz*delta)
 
 figure(2);clf;
 plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
+grid on;grid minor;
 
 figure(3);clf;
 pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
@@ -89,7 +94,7 @@ pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar
 figure(4);clf;
 pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
 
-
+%%
 
 %%%% Integrate non-dimensionalized b and zeta with time
 %%%% 1st-order and 2nd-order centered difference
@@ -99,43 +104,57 @@ pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue;
 %%%% Ignore diffusion
 
 for o=1:Nt-1
-
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%% Fourth-order Runge-Kutta %%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     t0 = tt(o);
+    b0 = buoy(o,:);
+    z0 = zeta(o,:);
+
     U = cos(t0)*Atide/U0;
-    psi(o,:) = cumsum(cumsum(zeta(o,:)*dz)*dz)-U(1)*Lz;
+    psi(o,:) = cumsum(cumsum(z0*dz)*dz)-U(1)*Lz;
     psi(o,end)=0;     % Boundary conditions
     psi(o,1)=0;
     buoy(o,1) = buoy(o,2);
     buoy(o,Nr) = buoy(o,Nr-1);
 
     p0 = psi(o,:);
-    b0 = buoy(o,:);
-    z0 = zeta(o,:);
+    tendency;
 
-    for m = 2:Nr-1
-        dUdz(m) = (U(m+1)-U(m-1))/2/dz;
-        dpsidz(m)   = (p0(m+1)-p0(m-1))/2/dz;
-        d2psidz2(m) = (p0(m-1)-2*p0(m)+p0(m+1))/dz^2;
-        dbdz(m)   = (b0(m+1)-b0(m-1))/2/dz;
-        d2bdz2(m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
-    end
-    dbdt = dpsidz -1i*kx*cotd(topo)*p0...
-         +1i*kx*Re/2*dUdz.*tan(t0).*p0 ...
-         -1i*kx*Re/2*U.*b0 ...
-         +(d2bdz2 - kx^2.*b0)/2/Pr; %%% dissipation
-    dzetadt = 1i*kx*Re/2*dUdz.*dpsidz ...
-         -1i*kx*Re/2*U.*(d2psidz2-kx^2*p0) ...
-         +C^2*(1i*kx*cotd(topo)*b0-dbdz);
     k_1b = dbdt;
     k_1z = dzetadt;
 
-    if(useAB3)
-        AB3;
-    elseif(useRK4)
-        RK4;
+    if(useRK4)
+        %%% Euler forward predictor advancing dt/2:
+        b_2 = buoy(o,:)+0.5*dt*k_1b;
+        z_2 = zeta(o,:)+0.5*dt*k_1z;
+        t0 = tt(o)+dt/2;
+        b0 = b_2;
+        z0 = z_2;
+        tendency;
+        k_2b = dbdt;
+        k_2z = dzetadt;
+        %%% Euler backward corrector advancing dt/2:
+        b_3 = buoy(o,:)+0.5*dt*k_2b;
+        z_3 = zeta(o,:)+0.5*dt*k_2z;
+        t0 = tt(o)+dt/2;
+        b0 = b_3;
+        z0 = z_3;
+        tendency;
+        k_3b = dbdt;
+        k_3z = dzetadt;
+        %%% Mid-point predictor advancing dt:
+        b_4 = buoy(o,:)+dt*k_3b;
+        z_4 = zeta(o,:)+dt*k_3z;
+        t0 = tt(o)+dt;
+        b0 = b_4;
+        z0 = z_4;
+        tendency;
+        k_4b = dbdt;
+        k_4z = dzetadt;
+        %%% Simpson rule corrector advancing dt:
+        buoy(o+1,:) = buoy(o,:) + (1/6)*(k_1b+2*k_2b+2*k_3b+k_4b)*dt;
+        zeta(o+1,:) = zeta(o,:) + (1/6)*(k_1z+2*k_2z+2*k_3z+k_4z)*dt;
     else
         %%% Euler forward
         buoy(o+1,:) = dbdt*dt;
@@ -166,6 +185,11 @@ re_psid = re_psi*U0/delta;
 re_zetad = re_zeta*U0*delta;
 re_buoyd = re_buoy*N^2*sind(topo)/omega;
 
+dbuoydz = zeros(Nt,Nr);
+for m = 2:Nr-1
+    dbuoydz(:,m) = (re_buoyd(:,m+1)-re_buoyd(:,m-1))/2/dz/delta;
+end
+
 %%
 
 figure(5)
@@ -176,7 +200,8 @@ pcolor(ttd/3600,zzd,re_psid');shading flat;colorbar;colormap(redblue);
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Streamfunction \psi','Fontsize',fontsize+3);
-clim([-100 100]*U0/delta)
+clim([-1 1]*1e5)
+% clim([-100 100]*U0/delta/delta)
 % aaa = max(max(abs(re_psid)));
 % clim([-1 1]*aaa/1e60)
 
@@ -185,16 +210,18 @@ pcolor(ttd/3600,zzd,re_zetad');shading flat;colorbar;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
-clim([-4 4]/1e4*U0*delta)
+clim([-1 1]/1e3)
+% clim([-1 1]*U0*delta)
 % aaa = max(max(abs(re_zetad)));
 % clim([-1 1]*aaa/1e60)
 
 subplot(3,1,3)
-pcolor(ttd/3600,zzd,re_buoyd');shading flat;colorbar;
+pcolor(ttd/3600,zzd,dbuoydz');shading flat;colorbar;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
-title('Buoyancy perturbation b','Fontsize',fontsize+3);
-clim([-0.1 0.1]*N^2*sind(topo)/omega)
+title('Stratification perturbation','Fontsize',fontsize+3);
+clim([-1 1]/1e6)
+% clim([-1 1]*N^2*sind(topo)/omega)
 % aaa = max(max(abs(re_buoyd)));
 % clim([-1 1]*aaa/1e60)
 
