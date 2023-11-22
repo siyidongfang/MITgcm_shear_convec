@@ -1,28 +1,34 @@
 
-clear;close all;
+clear;
+% close all;
 
 addpath ../analysis/colormaps/
 
-useRK4 = false;
+useRK4 = true;
 
 %%%% Define constants
 Hdepth = 1500;
 Hshear = 300;
-Shear = 1*0.8e-3; 
+Shear = 0.8e-3; 
 N = 1e-3;
 topo = 4;
 omega = 2*pi/43200;
 nu = 2e-6;
 kappa = 2e-6;
 Pr = nu/kappa;
+m1km = 1000;
+t1hour = 3600;
+
+% delta = Hdepth;
 delta = sqrt(2*nu/omega);
 C = N*sind(topo)/omega;
 
 %%% Model dimension
 Lz = Hdepth/delta;     % dimensionless domain height
-dz = 100;               % dimensionless vertical grid spacing
-Nr = round(Lz/dz)+1;
-zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
+dz = 10;               % dimensionless vertical grid spacing
+Nr = round(Lz/dz)+2;
+% zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
+zz = 0:dz:((Nr-1)*dz);
 
 Lshear = Hshear/delta; % dimensionless vertical scale for velocity shear
 Nshear = round(Lshear/dz);
@@ -30,10 +36,13 @@ Hshear = zz(Nshear)*delta;
 U0 = Hshear * Shear;
 Re = U0*delta/nu;
 
-Lt = 2*43200*omega; % dimensionless simulation time
-dt = 0.01;
+NTtide = 10;
+Lt = NTtide*43200*omega; % dimensionless simulation time
+dt = 0.1;
 Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
+
+
 
 %%%% Define variables
 psi = zeros(Nt,Nr);
@@ -51,13 +60,23 @@ d2zetadz2 = zeros(1,Nr);
 dUdz = zeros(1,Nr);
 U = zeros(1,Nr);
 
-kx = 0.01; %%% wave number
+lambda = 1*m1km;
+kx = 2*pi/(lambda/delta)
+% kx = 0.0001; %%% Dimensionless wave number kx = 0.0000001, no unstable layer
 
 %%% Initial condition
+% buoy(1,:) = 0;
+% buoy(1,:) = (rand(1,Nr)-1/2)/1.79e300;
+% buoy(1,:) = (rand(1,Nr)-1/2)/1e20;
+buoy(1,:) = 1/1e20;
 psi(1,:) = 0;
 zeta(1,:) = 0;
-buoy(1,:) = 0;
-
+% psi(1,:) = (rand(1,Nr)-1/2)/1.79e300;
+% for m = 2:Nr-1
+%     dpsidz(m)   = (psi(1,m+1)-psi(1,m-1))/2/dz;
+%     d2psidz2(m) = (psi(1,m-1)-2*psi(1,m)+psi(1,m+1))/dz^2;
+% end
+% zeta(1,:) = d2psidz2-kx^2*psi(1,:);
 
 %%% Background tidal velocity (dimensionless)
 Atide = zeros(1,Nr);
@@ -81,18 +100,18 @@ end
 
 
 
-figure(1);clf;
-plot(Atide,zz*delta)
-
-figure(2);clf;
-plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
-grid on;grid minor;
-
-figure(3);clf;
-pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
-
-figure(4);clf;
-pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
+% figure(1);clf;
+% plot(Atide,zz*delta)
+% 
+% figure(2);clf;
+% plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
+% grid on;grid minor;
+% 
+% figure(3);clf;
+% pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
+% 
+% figure(4);clf;
+% pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
 
 %%
 
@@ -108,6 +127,7 @@ for o=1:Nt-1
     t0 = tt(o);
     b0 = buoy(o,:);
     z0 = zeta(o,:);
+    p0 = psi(o,:);
 
     tendency;
     psi(o,:) = p0;
@@ -117,8 +137,8 @@ for o=1:Nt-1
 
     if(useRK4)
     %%% Fourth-order Runge-Kutta %%%
-        k_1b = dbdt;
-        k_1z = dzetadt;
+        k_1b = dbdt(o,:);
+        k_1z = dzetadt(o,:);
         % Euler forward predictor advancing dt/2:
         b_2 = buoy(o,:)+0.5*dt*k_1b;
         z_2 = zeta(o,:)+0.5*dt*k_1z;
@@ -126,8 +146,8 @@ for o=1:Nt-1
         b0 = b_2;
         z0 = z_2;
         tendency;
-        k_2b = dbdt;
-        k_2z = dzetadt;
+        k_2b = dbdt(o,:);
+        k_2z = dzetadt(o,:);
         % Euler backward corrector advancing dt/2:
         b_3 = buoy(o,:)+0.5*dt*k_2b;
         z_3 = zeta(o,:)+0.5*dt*k_2z;
@@ -135,8 +155,8 @@ for o=1:Nt-1
         b0 = b_3;
         z0 = z_3;
         tendency;
-        k_3b = dbdt;
-        k_3z = dzetadt;
+        k_3b = dbdt(o,:);
+        k_3z = dzetadt(o,:);
         % Mid-point predictor advancing dt:
         b_4 = buoy(o,:)+dt*k_3b;
         z_4 = zeta(o,:)+dt*k_3z;
@@ -144,15 +164,15 @@ for o=1:Nt-1
         b0 = b_4;
         z0 = z_4;
         tendency;
-        k_4b = dbdt;
-        k_4z = dzetadt;
+        k_4b = dbdt(o,:);
+        k_4z = dzetadt(o,:);
         % Simpson rule corrector advancing dt:
         buoy(o+1,:) = buoy(o,:) + (1/6)*(k_1b+2*k_2b+2*k_3b+k_4b)*dt;
         zeta(o+1,:) = zeta(o,:) + (1/6)*(k_1z+2*k_2z+2*k_3z+k_4z)*dt;
     else
     %%% Euler forward %%%
-        buoy(o+1,:) = dbdt*dt;
-        zeta(o+1,:) = dzetadt*dt;
+        buoy(o+1,:) = dbdt(o,:)*dt;
+        zeta(o+1,:) = dzetadt(o,:)*dt;
     end
 end
 
@@ -161,12 +181,12 @@ re_zeta = real(zeta); re_zeta(re_zeta==0)=NaN;
 re_buoy = real(buoy); re_buoy(re_buoy==0)=NaN;
 
 
-% %%%%% Floquet stability
+%%%%% Floquet stability
 % oT = round(43200*omega/dt);% The time step after one tidal cycle
 % 
-% muk_psi = re_psi(oT*2-100,:)./re_psi(oT-100,:);
-% muk_zeta = re_zeta(oT*2-100,:)./re_zeta(oT-100,:);
-% muk_buoy = re_buoy(oT*2-100,:)./re_buoy(oT-100,:);
+% muk_psi = re_psi(oT*2-1,:)./re_psi(oT-1,:);
+% muk_zeta = re_zeta(oT*2-1,:)./re_zeta(oT-1,:);
+% muk_buoy = re_buoy(oT*2-1,:)./re_buoy(oT-1,:);
 % 
 % sum(muk_psi>1)
 % sum(muk_zeta>1)
@@ -185,39 +205,45 @@ for m = 2:Nr-1
 end
 
 %%
+plot_tidx = 1:1:Nt;
+load_colors;
+
 
 figure(5)
 fontsize = 16;
 clf;set(gcf,'color','w');
 subplot(3,1,1)
-pcolor(ttd/3600,zzd,re_psid');shading flat;colorbar;colormap(redblue);
+pcolor(ttd(plot_tidx)/t1hour,zzd,re_psid(plot_tidx,:)');shading flat;colorbar;colormap(WhiteBlueGreenYellowRed(0));
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Streamfunction \psi','Fontsize',fontsize+3);
-% clim([-1 1]*1e5)
+set(gca,'color',gray);
+clim([-1 1]*1e5)
 % clim([-100 100]*U0/delta/delta)
-aaa = max(max(abs(re_psid)));
-clim([-1 1]*aaa)
+% aaa = max(max(abs(re_psid)));
+% clim([-1 1]*aaa/100)
 
 subplot(3,1,2)
-pcolor(ttd/3600,zzd,re_zetad');shading flat;colorbar;
+pcolor(ttd(plot_tidx)/t1hour,zzd,re_zetad(plot_tidx,:)');shading flat;colorbar;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
-% clim([-1 1]/1e10)
+set(gca,'color',gray);
+clim([-1 1]/1e10)
 % clim([-1 1]*U0*delta)
-aaa = max(max(abs(re_zetad)));
-clim([-1 1]*aaa)
+% aaa = max(max(abs(re_zetad)));
+% clim([-1 1]*aaa/100)
 
 subplot(3,1,3)
-pcolor(ttd/3600,zzd,dbuoydz');shading flat;colorbar;
+pcolor(ttd(plot_tidx)/t1hour,zzd,dbuoydz(plot_tidx,:)');shading flat;colorbar;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Stratification perturbation','Fontsize',fontsize+3);
-% clim([-1 1]/1e12)
+set(gca,'color',gray);
+clim([-1 1]/1e12)
 % clim([-1 1]*N^2*sind(topo)/omega)
-aaa = max(max(abs(re_buoyd)));
-clim([-1 1]*aaa)
+% aaa = max(max(abs(re_buoyd)));
+% clim([-1 1]*aaa/100)
 
 
 
