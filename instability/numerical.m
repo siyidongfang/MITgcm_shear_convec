@@ -9,7 +9,7 @@ useRK4 = true;
 %%%% Define constants
 Hdepth = 1500;
 Hshear = 300;
-Shear = 0.8e-3; 
+Shear = 1e-4*0.8e-3; 
 N = 1e-3;
 topo = 4;
 omega = 2*pi/43200;
@@ -26,6 +26,7 @@ C = N*sind(topo)/omega;
 %%% Model dimension
 Lz = Hdepth/delta;     % dimensionless domain height
 dz = 10;               % dimensionless vertical grid spacing
+% dz = 0.01
 Nr = round(Lz/dz)+2;
 % zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
 zz = 0:dz:((Nr-1)*dz);
@@ -36,7 +37,7 @@ Hshear = zz(Nshear)*delta;
 U0 = Hshear * Shear;
 Re = U0*delta/nu;
 
-NTtide = 10;
+NTtide = 3;
 Lt = NTtide*43200*omega; % dimensionless simulation time
 dt = 0.1;
 Nt = round(Lt/dt);
@@ -67,8 +68,8 @@ kx = 2*pi/(lambda/delta)
 %%% Initial condition
 % buoy(1,:) = 0;
 % buoy(1,:) = (rand(1,Nr)-1/2)/1.79e300;
-% buoy(1,:) = (rand(1,Nr)-1/2)/1e20;
-buoy(1,:) = 1/1e20;
+buoy(1,:) = (rand(1,Nr)-1/2)/1e20;
+% buoy(1,:) = 1/1e14;
 psi(1,:) = 0;
 zeta(1,:) = 0;
 % psi(1,:) = (rand(1,Nr)-1/2)/1.79e300;
@@ -211,15 +212,17 @@ load_colors;
 
 figure(5)
 fontsize = 16;
-clf;set(gcf,'color','w');
+clf;set(gcf,'color','w','Position',[44 241 654 728]);
 subplot(3,1,1)
-pcolor(ttd(plot_tidx)/t1hour,zzd,re_psid(plot_tidx,:)');shading flat;colorbar;colormap(WhiteBlueGreenYellowRed(0));
+pcolor(ttd(plot_tidx)/t1hour,zzd,re_psid(plot_tidx,:)');shading flat;colorbar;
+colormap(redblue)
+% colormap(WhiteBlueGreenYellowRed(0));
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Streamfunction \psi','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]*1e5)
-% clim([-100 100]*U0/delta/delta)
+% clim([-1 1]*1e5)
+clim([-100 100]*U0/delta/delta)
 % aaa = max(max(abs(re_psid)));
 % clim([-1 1]*aaa/100)
 
@@ -229,8 +232,8 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]/1e10)
-% clim([-1 1]*U0*delta)
+% clim([-1 1]/1e10)
+clim([-1 1]*U0*delta)
 % aaa = max(max(abs(re_zetad)));
 % clim([-1 1]*aaa/100)
 
@@ -240,8 +243,8 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Stratification perturbation','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]/1e12)
-% clim([-1 1]*N^2*sind(topo)/omega)
+% clim([-1 1]/1e12)
+clim([-0.1 0.1]*N^2*sind(topo)/omega)
 % aaa = max(max(abs(re_buoyd)));
 % clim([-1 1]*aaa/100)
 
