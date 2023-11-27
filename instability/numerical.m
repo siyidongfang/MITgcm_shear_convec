@@ -9,24 +9,24 @@ useRK4 = true;
 %%%% Define constants
 Hdepth = 1500;
 Hshear = 300;
-Shear = 1e-4*0.8e-3; 
+Shear = 1*0.8e-3; 
 N = 1e-3;
 topo = 4;
 omega = 2*pi/43200;
-nu = 2e-6;
-kappa = 2e-6;
+nu = 2e-4;
+kappa = 2e-4;
 Pr = nu/kappa;
 m1km = 1000;
 t1hour = 3600;
 
-% delta = Hdepth;
-delta = sqrt(2*nu/omega);
-C = N*sind(topo)/omega;
+delta = Hdepth;
+% delta = sqrt(2*nu/omega);
+% delta = U0/omega;
 
 %%% Model dimension
 Lz = Hdepth/delta;     % dimensionless domain height
-dz = 10;               % dimensionless vertical grid spacing
-% dz = 0.01
+% dz = 10;               % dimensionless vertical grid spacing
+dz = 0.01;
 Nr = round(Lz/dz)+2;
 % zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
 zz = 0:dz:((Nr-1)*dz);
@@ -39,10 +39,14 @@ Re = U0*delta/nu;
 
 NTtide = 3;
 Lt = NTtide*43200*omega; % dimensionless simulation time
-dt = 0.1;
+dt = 0.01;
 Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
 
+C1 = U0/delta/omega;
+C2 = N*sind(topo)/omega;
+C3 = nu/delta^2/omega;
+C4 = kappa/delta^2/omega;
 
 
 %%%% Define variables
@@ -62,17 +66,16 @@ dUdz = zeros(1,Nr);
 U = zeros(1,Nr);
 
 lambda = 1*m1km;
-kx = 2*pi/(lambda/delta)
-% kx = 0.0001; %%% Dimensionless wave number kx = 0.0000001, no unstable layer
+kx = 2*pi/(lambda/delta) %%% Dimensionless wave number kx = 0.0000001, no unstable layer
 
 %%% Initial condition
 % buoy(1,:) = 0;
 % buoy(1,:) = (rand(1,Nr)-1/2)/1.79e300;
 buoy(1,:) = (rand(1,Nr)-1/2)/1e20;
-% buoy(1,:) = 1/1e14;
+% buoy(1,:) = 1/1e20;
 psi(1,:) = 0;
 zeta(1,:) = 0;
-% psi(1,:) = (rand(1,Nr)-1/2)/1.79e300;
+% psi(1,:) = (rand(1,Nr)-1/2)/1.79e30;
 % for m = 2:Nr-1
 %     dpsidz(m)   = (psi(1,m+1)-psi(1,m-1))/2/dz;
 %     d2psidz2(m) = (psi(1,m-1)-2*psi(1,m)+psi(1,m+1))/dz^2;
@@ -123,18 +126,16 @@ end
 % buoy(1,:) = rand(1,Nr)/1e20;
 % buoy(1,:) = -[1:Nr]/1e20;
 
+p0 = psi(1,:);
+
 for o=1:Nt-1
 
     t0 = tt(o);
     b0 = buoy(o,:);
     z0 = zeta(o,:);
-    p0 = psi(o,:);
-
+    
     tendency;
     psi(o,:) = p0;
-    buoy(o,:) = b0;
-
-    p0 = psi(o,:);
 
     if(useRK4)
     %%% Fourth-order Runge-Kutta %%%
@@ -183,15 +184,15 @@ re_buoy = real(buoy); re_buoy(re_buoy==0)=NaN;
 
 
 %%%%% Floquet stability
-% oT = round(43200*omega/dt);% The time step after one tidal cycle
-% 
-% muk_psi = re_psi(oT*2-1,:)./re_psi(oT-1,:);
-% muk_zeta = re_zeta(oT*2-1,:)./re_zeta(oT-1,:);
-% muk_buoy = re_buoy(oT*2-1,:)./re_buoy(oT-1,:);
-% 
-% sum(muk_psi>1)
-% sum(muk_zeta>1)
-% sum(muk_buoy>1)
+oT = round(43200*omega/dt);% The time step after one tidal cycle
+
+muk_psi = re_psi(oT*2-1,:)./re_psi(oT-1,:);
+muk_zeta = re_zeta(oT*2-1,:)./re_zeta(oT-1,:);
+muk_buoy = re_buoy(oT*2-1,:)./re_buoy(oT-1,:);
+
+sum(muk_psi>1)
+sum(muk_zeta>1)
+sum(muk_buoy>1)
 
 %%% Dimensional veriables
 zzd = zz*delta;    
@@ -221,8 +222,8 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Streamfunction \psi','Fontsize',fontsize+3);
 set(gca,'color',gray);
-% clim([-1 1]*1e5)
-clim([-100 100]*U0/delta/delta)
+% clim([-1 1]/1e10)
+clim([-1 1]*U0*delta*delta)
 % aaa = max(max(abs(re_psid)));
 % clim([-1 1]*aaa/100)
 
@@ -232,7 +233,7 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
 set(gca,'color',gray);
-% clim([-1 1]/1e10)
+% clim([-1 1]/1e6)
 clim([-1 1]*U0*delta)
 % aaa = max(max(abs(re_zetad)));
 % clim([-1 1]*aaa/100)
@@ -243,13 +244,16 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Stratification perturbation','Fontsize',fontsize+3);
 set(gca,'color',gray);
-% clim([-1 1]/1e12)
-clim([-0.1 0.1]*N^2*sind(topo)/omega)
+% clim([-1 1]/1e10)
+clim([-1 1]*N^2*sind(topo)/omega)
 % aaa = max(max(abs(re_buoyd)));
 % clim([-1 1]*aaa/100)
 
-
-
+fname = ['exps_instability/Shear' num2str(Shear) '_lambda' num2str(lambda) '.mat'];
+save(fname,'buoy','zeta','psi', ...
+    'dbdt','dzetadt', ...
+    'bq1','bq2','bq3','bq4','bq5','bq6',...
+    'zq1','zq2','zq3','zq4','zq5')
 
 
 
