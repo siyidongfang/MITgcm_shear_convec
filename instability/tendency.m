@@ -24,19 +24,16 @@
     bq2(o,:) = -1i*kx*cotd(topo)*p0;
     bq3(o,:) = dpsidz;
     bq4(o,:) = +1i*kx*C1*dUdz.*tan(t0).*p0;
-    bq5(o,:) = +C4*d2bdz2;
-    bq6(o,:) = -C4*kx^2.*b0;
+    bq5(o,:) = +C4*d2bdz2-C4*kx^2.*b0;
 
     dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
-              + bq4(o,:) + bq5(o,:) + bq6(o,:);
+              + bq4(o,:) + bq5(o,:);
 
     zq1(o,:) = -1i*kx*C1*U.*z0;
     zq2(o,:) = +C2^2*(1i*kx*cotd(topo)*b0);
     zq3(o,:) = +C2^2*(-dbdz);
-    zq4(o,:) = +C3*d2zetadz2;
-    zq5(o,:) = -C3*kx^2.*z0;
+    zq4(o,:) = +C3*d2zetadz2-C3*kx^2.*z0;
 
-    dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) ...
-              + zq4(o,:) + zq5(o,:);
+    dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) + zq4(o,:);
 
 

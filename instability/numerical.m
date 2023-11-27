@@ -9,7 +9,7 @@ useRK4 = true;
 %%%% Define constants
 Hdepth = 1500;
 Hshear = 300;
-Shear = 1*0.8e-3; 
+Shear = 1.25*0.8e-3; 
 N = 1e-3;
 topo = 4;
 omega = 2*pi/43200;
@@ -37,7 +37,7 @@ Hshear = zz(Nshear)*delta;
 U0 = Hshear * Shear;
 Re = U0*delta/nu;
 
-NTtide = 3;
+NTtide = 5;
 Lt = NTtide*43200*omega; % dimensionless simulation time
 dt = 0.01;
 Nt = round(Lt/dt);
@@ -249,11 +249,12 @@ clim([-1 1]*N^2*sind(topo)/omega)
 % aaa = max(max(abs(re_buoyd)));
 % clim([-1 1]*aaa/100)
 
-fname = ['exps_instability/Shear' num2str(Shear) '_lambda' num2str(lambda) '.mat'];
-save(fname,'buoy','zeta','psi', ...
-    'dbdt','dzetadt', ...
-    'bq1','bq2','bq3','bq4','bq5','bq6',...
-    'zq1','zq2','zq3','zq4','zq5')
+
+% fname = ['exps_instability/Shear' num2str(Shear) '_lambda' num2str(lambda) '.mat'];
+% save(fname,'buoy','zeta','psi', ...
+%     'dbdt','dzetadt', ...
+%     'bq1','bq2','bq3','bq4','bq5',...
+%     'zq1','zq2','zq3','zq4')
 
 
 
