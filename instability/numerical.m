@@ -9,11 +9,12 @@ useRK4 = true;
 %%%% Define constants
 Hdepth = 1500;
 Hshear = 300;
-Shear = 1.25*0.8e-3; 
+Shear = 1*0.8e-3; 
 N = 1e-3;
 topo = 4;
 omega = 2*pi/43200;
-nu = 2e-4;
+% omega = 2*pi/86400;
+nu = 2e-4; %%% Kaiser and Pratt 2022: nu=kappa=2e-6
 kappa = 2e-4;
 Pr = nu/kappa;
 m1km = 1000;
@@ -25,8 +26,7 @@ delta = Hdepth;
 
 %%% Model dimension
 Lz = Hdepth/delta;     % dimensionless domain height
-% dz = 10;               % dimensionless vertical grid spacing
-dz = 0.01;
+dz = 0.01;             % dimensionless vertical grid spacing
 Nr = round(Lz/dz)+2;
 % zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
 zz = 0:dz:((Nr-1)*dz);
@@ -71,7 +71,7 @@ kx = 2*pi/(lambda/delta) %%% Dimensionless wave number kx = 0.0000001, no unstab
 %%% Initial condition
 % buoy(1,:) = 0;
 % buoy(1,:) = (rand(1,Nr)-1/2)/1.79e300;
-buoy(1,:) = (rand(1,Nr)-1/2)/1e20;
+buoy(1,:) = (rand(1,Nr)-1/2)/1e30;
 % buoy(1,:) = 1/1e20;
 psi(1,:) = 0;
 zeta(1,:) = 0;

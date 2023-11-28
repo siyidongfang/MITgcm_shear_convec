@@ -1,9 +1,37 @@
     
 
-    U = cos(t0)*Atide/U0;
     % p0 = cumsum(cumsum(z0*dz)*dz);
     p0 = cumsum(cumsum((kx^2*p0+z0)*dz)*dz);
     
+
+%%%%%%%% Solve Poisson's equation using solvepde
+model = createpde();
+geometryFromEdges(model,@lshapeg);
+
+pdegplot(model,"EdgeLabels","on")
+ylim([-1.1,1.1])
+axis equal
+
+applyBoundaryCondition(model,"dirichlet", ...
+                             "Edge",1:model.Geometry.NumEdges, ...
+                             "u",0);
+
+specifyCoefficients(model,"m",0,...
+                          "d",0,...
+                          "c",1,...
+                          "a",0,...
+                          "f",1);
+
+generateMesh(model,"Hmax",0.25);
+results = solvepde(model);
+
+pdeplot(model,"XYData",results.NodalSolution)
+%%%%%%%%
+
+
+
+    U = cos(t0)*Atide/U0;
+
     %%% Boundary condition:
     p0(1)=0;
     p0(Nr)=0;     
