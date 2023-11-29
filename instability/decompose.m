@@ -13,6 +13,9 @@ pposition =  [153 197 1153 319];
 blegend = [0.3120 0.1819 0.1425 0.3858];
 zlegend =[0.7692 0.1934 0.1168 0.3031];
 
+blegend1 = [0.1351 0.1662 0.1425 0.3858];
+zlegend1 = [0.5741 0.1558 0.1168 0.3031];
+
 legend_b = {'$-Ub^\prime_x$',...
     '$-w^\prime \tilde N^2 \cos\theta$',...
     '$-u^\prime \tilde N^2 \sin\theta$',...
@@ -49,8 +52,9 @@ zq_all = 1;
 lw = 2;
 
 
-figure(6)
-clf;set(gcf,'color','w','Position',pposition);
+h=figure(6);
+clf;
+set(h,'color','w','Position',pposition,'Visible', FigureIsVisible);
 subplot(1,2,1)
 % plot(ttd(1:Nt-1)/t1hour,bq_all,'LineWidth',lw);
 plot(ttd(1:Nt-1)/t1hour,bq1_int,'LineWidth',lw);
@@ -61,7 +65,7 @@ plot(ttd(1:Nt-1)/t1hour,bq4_int,'LineWidth',lw);
 plot(ttd(1:Nt-1)/t1hour,bq5_int,'LineWidth',lw,'Color',gray);
 set(gca,'Fontsize',fontsize);
 xlabel('Time (hours)')
-legend(legend_b,'Interpreter','Latex','Fontsize',fontsize+3,'Position',blegend);
+legend(legend_b,'Interpreter','Latex','Fontsize',fontsize+3,'Position',blegend1);
 grid on;grid minor;
 title('Buoyancy budget')
 
@@ -73,14 +77,16 @@ plot(ttd(1:Nt-1)/t1hour,(zq2_int),'LineWidth',lw);
 plot(ttd(1:Nt-1)/t1hour,(zq3_int),'LineWidth',lw);
 plot(ttd(1:Nt-1)/t1hour,(zq4_int),'LineWidth',lw,'Color',gray);
 set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
-legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegend);
+legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegend1);
 grid on;grid minor;
 title('Horizontal vorticity budget')
 
+saveas(h,[expdir 'fig6.png'])
 
 
-figure(7)
-clf;set(gcf,'color','w','Position',pposition);
+h=figure(7);
+clf;
+set(h,'color','w','Position',pposition,'Visible', FigureIsVisible);
 subplot(1,2,1)
 semilogy(ttd(1:Nt-1)/t1hour,abs(bq1_int),'LineWidth',lw);
 hold on;
@@ -105,11 +111,14 @@ legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegen
 grid on;grid minor;
 title('Horizontal vorticity budget (absolute value, log axis)')
 
+saveas(h,[expdir 'fig7.png'])
 
 
 wins = round(Nt/NTtide); % window size for move mean
-figure(10)
-clf;set(gcf,'color','w','Position',pposition);
+
+h=figure(8);
+clf;
+set(h,'color','w','Position',pposition,'Visible', FigureIsVisible);
 subplot(1,2,1)
 % semilogy(ttd(1:Nt-1)/t1hour,bq_all,'LineWidth',lw);
 semilogy(ttd(1:Nt-1)/t1hour,movmean(abs(bq1_int),wins),'LineWidth',lw);
@@ -135,7 +144,7 @@ legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegen
 grid on;grid minor;
 title('Horizontal vorticity (absolute value, move mean)')
 
-
+saveas(h,[expdir 'fig8.png'])
 
 
 

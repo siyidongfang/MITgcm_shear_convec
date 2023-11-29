@@ -1,35 +1,28 @@
 
-clear;
-% close all;
 
-addpath ../analysis/colormaps/
+
+outputname = [expdir 'output.mat'];
 
 useRK4 = true;
+fontsize = 16;
 
 %%%% Define constants
-Hdepth = 1500;
-Hshear = 300;
-Shear = 0.4*0.8e-3; 
-N = 1e-3;
-topo = 4;
-omega = 2*pi/43200;
-% omega = 2*pi/86400;
+Hdepth = 1000;
 nu = 2e-4; %%% Kaiser and Pratt 2022: nu=kappa=2e-6
 kappa = 2e-4;
 Pr = nu/kappa;
-m1km = 1000;
 t1hour = 3600;
-
+omega = 2*pi/Ptide;
 delta = Hdepth;
 % delta = sqrt(2*nu/omega);
 % delta = U0/omega;
 
 %%% Model dimension
 Lz = Hdepth/delta;     % dimensionless domain height
-dz = 0.01;             % dimensionless vertical grid spacing
 Nr = round(Lz/dz)+1;
 % zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
 zz = 0:dz:((Nr-1)*dz);
+dz_real  = dz*delta;
 
 Lshear = Hshear/delta; % dimensionless vertical scale for velocity shear
 Nshear = round(Lshear/dz);
@@ -37,10 +30,9 @@ Hshear = zz(Nshear)*delta;
 U0 = Hshear * Shear;
 Re = U0*delta/nu;
 
-NTtide = 0.1;
 Lt = NTtide*43200*omega; % dimensionless simulation time
-dt = 0.005;
 Nt = round(Lt/dt);
+dt_real = NTtide*43200/Nt;
 tt = dt:dt:Nt*dt;
 
 C1 = U0/delta/omega;
@@ -64,17 +56,23 @@ d2zetadz2 = zeros(1,Nr);
 dUdz = zeros(1,Nr);
 U = zeros(1,Nr);
 
-lambda = 0.01*m1km;
-kx = 2*pi/(lambda/delta) %%% Dimensionless wave number kx = 0.0000001, no unstable layer
+kx = 2*pi/(lambda/delta); %%% Dimensionless wave number kx = 0.0000001, no unstable layer
 C = kx^2*dz^2-2;
+
+
+%%% check CLF condition:
+CFLz = U0*dt_real/dz_real
+CFLx = U0*dt_real/lambda 
 
 %%% Initial condition
 % buoy(1,:) = 0;
 % buoy(1,:) = (rand(1,Nr)-1/2)/1.79e300;
 % buoy(1,:) = (rand(1,Nr)-1/2)/1e30;
-buoy(1,:) = 1/1e200;
+% buoy(1,:) = [1:Nr]/Nr/1e20;
+buoy(1,:) = 1/1e20;
 psi(1,:) = 0;
 zeta(1,:) = 0;
+% zeta(1,:) = (rand(1,Nr)-1/2)/1e30;
 % psi(1,:) = (rand(1,Nr)-1/2)/1.79e30;
 % for m = 2:Nr-1
 %     dpsidz(m)   = (psi(1,m+1)-psi(1,m-1))/2/dz;
@@ -104,18 +102,27 @@ end
 
 
 
-% figure(1);clf;
-% plot(Atide,zz*delta)
-% 
-% figure(2);clf;
-% plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
-% grid on;grid minor;
-% 
-% figure(3);clf;
-% pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
-% 
-% figure(4);clf;
-% pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
+h=figure(1);
+set(h,'Visible', FigureIsVisible);clf;
+plot(Atide,zz*delta);
+grid on;grid minor;
+saveas(h,[expdir 'fig1.png'])
+
+h=figure(2);
+set(h,'Visible', FigureIsVisible);clf;
+plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
+grid on;grid minor;
+saveas(h,[expdir 'fig2.png'])
+
+h=figure(3);
+set(h,'Visible', FigureIsVisible);clf;
+pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
+saveas(h,[expdir 'fig3.png'])
+
+h=figure(4);
+set(h,'Visible', FigureIsVisible);clf;
+pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
+saveas(h,[expdir 'fig4.png'])
 
 %%
 
@@ -126,11 +133,10 @@ end
 % buoy(1,:) = rand(1,Nr)/1e20;
 % buoy(1,:) = -[1:Nr]/1e20;
 
-p0 = psi(1,:);
 
 for o=1:Nt-1
-    
-    if(rem(o,100)==0)
+   
+    if(rem(o,round(Nt/20))==0)
         o/Nt
     end
 
@@ -210,14 +216,17 @@ for m = 2:Nr-1
     dbuoydz(:,m) = (re_buoyd(:,m+1)-re_buoyd(:,m-1))/2/dz/delta;
 end
 
-%%
+%
 plot_tidx = 1:1:Nt;
 load_colors;
 
 
-figure(5)
-fontsize = 16;
-clf;set(gcf,'color','w','Position',[44 241 654 728]);
+
+%%
+h=figure(5);
+set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
+clf;
+set(gcf,'color','w','Position',[44 241 654 728]);
 subplot(3,1,1)
 pcolor(ttd(plot_tidx)/t1hour,zzd,re_psid(plot_tidx,:)');shading flat;colorbar;
 colormap(redblue)
@@ -248,17 +257,50 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Stratification perturbation','Fontsize',fontsize+3);
 set(gca,'color',gray);
-% clim([-1 1]/1e10)
-clim([-1 1]*N^2*sind(topo)/omega)
+clim([-1 1]/1e10)
+% clim([-1 1]*N^2*sind(topo)/omega)
 % aaa = max(max(abs(re_buoyd)));
 % clim([-1 1]*aaa/100)
+saveas(h,[expdir 'fig5.png'])
 
 
-% fname = ['exps_instability/Shear' num2str(Shear) '_lambda' num2str(lambda) '.mat'];
+
+uuu = zeros(Nt,Nr);
+uuu(:,1:Nr-1) = real(diff(psi,1,2)/dz)*U0;
+www = real(1i*kx*psi)*U0;
+
+h=figure(20);
+set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
+clf;
+set(gcf,'color','w','Position',[44 241 654 728]);
+subplot(3,1,1)
+pcolor(ttd(plot_tidx)/t1hour,zzd,uuu(plot_tidx,:)');shading flat;colorbar;
+colormap(redblue)
+% colormap(WhiteBlueGreenYellowRed(0));
+set(gca,'Fontsize',fontsize);
+ylabel('HAB (m)');xlabel('Time (hours)')
+title('Horizontal velocity perturbation u^\prime','Fontsize',fontsize+3);
+set(gca,'color',gray);
+clim([-1 1]*U0)
+
+subplot(3,1,2)
+pcolor(ttd(plot_tidx)/t1hour,zzd,www(plot_tidx,:)');shading flat;colorbar;
+set(gca,'Fontsize',fontsize);
+ylabel('HAB (m)');xlabel('Time (hours)')
+title('Vertical velocity w','Fontsize',fontsize+3);
+set(gca,'color',gray);
+clim([-1 1]*U0/10)
+
+
+saveas(h,[expdir 'fig9.png'])
+
+
+
 % save(fname,'buoy','zeta','psi', ...
 %     'dbdt','dzetadt', ...
 %     'bq1','bq2','bq3','bq4','bq5',...
 %     'zq1','zq2','zq3','zq4')
+save(outputname)
 
 
 
