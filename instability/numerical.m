@@ -9,7 +9,7 @@ useRK4 = true;
 %%%% Define constants
 Hdepth = 1500;
 Hshear = 300;
-Shear = 1*0.8e-3; 
+Shear = 0.4*0.8e-3; 
 N = 1e-3;
 topo = 4;
 omega = 2*pi/43200;
@@ -27,7 +27,7 @@ delta = Hdepth;
 %%% Model dimension
 Lz = Hdepth/delta;     % dimensionless domain height
 dz = 0.01;             % dimensionless vertical grid spacing
-Nr = round(Lz/dz)+2;
+Nr = round(Lz/dz)+1;
 % zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
 zz = 0:dz:((Nr-1)*dz);
 
@@ -37,9 +37,9 @@ Hshear = zz(Nshear)*delta;
 U0 = Hshear * Shear;
 Re = U0*delta/nu;
 
-NTtide = 5;
+NTtide = 0.1;
 Lt = NTtide*43200*omega; % dimensionless simulation time
-dt = 0.01;
+dt = 0.005;
 Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
 
@@ -47,7 +47,6 @@ C1 = U0/delta/omega;
 C2 = N*sind(topo)/omega;
 C3 = nu/delta^2/omega;
 C4 = kappa/delta^2/omega;
-
 
 %%%% Define variables
 psi = zeros(Nt,Nr);
@@ -65,14 +64,15 @@ d2zetadz2 = zeros(1,Nr);
 dUdz = zeros(1,Nr);
 U = zeros(1,Nr);
 
-lambda = 1*m1km;
+lambda = 0.01*m1km;
 kx = 2*pi/(lambda/delta) %%% Dimensionless wave number kx = 0.0000001, no unstable layer
+C = kx^2*dz^2-2;
 
 %%% Initial condition
 % buoy(1,:) = 0;
 % buoy(1,:) = (rand(1,Nr)-1/2)/1.79e300;
-buoy(1,:) = (rand(1,Nr)-1/2)/1e30;
-% buoy(1,:) = 1/1e20;
+% buoy(1,:) = (rand(1,Nr)-1/2)/1e30;
+buoy(1,:) = 1/1e200;
 psi(1,:) = 0;
 zeta(1,:) = 0;
 % psi(1,:) = (rand(1,Nr)-1/2)/1.79e30;
@@ -129,6 +129,10 @@ end
 p0 = psi(1,:);
 
 for o=1:Nt-1
+    
+    if(rem(o,100)==0)
+        o/Nt
+    end
 
     t0 = tt(o);
     b0 = buoy(o,:);
@@ -184,15 +188,15 @@ re_buoy = real(buoy); re_buoy(re_buoy==0)=NaN;
 
 
 %%%%% Floquet stability
-oT = round(43200*omega/dt);% The time step after one tidal cycle
+% oT = round(43200*omega/dt);% The time step after one tidal cycle
 
-muk_psi = re_psi(oT*2-1,:)./re_psi(oT-1,:);
-muk_zeta = re_zeta(oT*2-1,:)./re_zeta(oT-1,:);
-muk_buoy = re_buoy(oT*2-1,:)./re_buoy(oT-1,:);
+% muk_psi = re_psi(oT*2-1,:)./re_psi(oT-1,:);
+% muk_zeta = re_zeta(oT*2-1,:)./re_zeta(oT-1,:);
+% muk_buoy = re_buoy(oT*2-1,:)./re_buoy(oT-1,:);
 
-sum(muk_psi>1)
-sum(muk_zeta>1)
-sum(muk_buoy>1)
+% sum(muk_psi>1)
+% sum(muk_zeta>1)
+% sum(muk_buoy>1)
 
 %%% Dimensional veriables
 zzd = zz*delta;    
@@ -222,8 +226,8 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Streamfunction \psi','Fontsize',fontsize+3);
 set(gca,'color',gray);
-% clim([-1 1]/1e10)
-clim([-1 1]*U0*delta*delta)
+clim([-1 1]/1e10)
+% clim([-1 1]*U0*delta*delta)
 % aaa = max(max(abs(re_psid)));
 % clim([-1 1]*aaa/100)
 

@@ -1,43 +1,35 @@
     
 
+
     % p0 = cumsum(cumsum(z0*dz)*dz);
-    p0 = cumsum(cumsum((kx^2*p0+z0)*dz)*dz);
-    
+    % p0 = cumsum(cumsum((kx^2*p0+z0)*dz)*dz);
 
-%%%%%%%% Solve Poisson's equation using solvepde
-model = createpde();
-geometryFromEdges(model,@lshapeg);
-
-pdegplot(model,"EdgeLabels","on")
-ylim([-1.1,1.1])
-axis equal
-
-applyBoundaryCondition(model,"dirichlet", ...
-                             "Edge",1:model.Geometry.NumEdges, ...
-                             "u",0);
-
-specifyCoefficients(model,"m",0,...
-                          "d",0,...
-                          "c",1,...
-                          "a",0,...
-                          "f",1);
-
-generateMesh(model,"Hmax",0.25);
-results = solvepde(model);
-
-pdeplot(model,"XYData",results.NodalSolution)
-%%%%%%%%
-
-
+    p0 = zeros(1,Nr);
+    An = zeros(Nr-2,Nr-2); %%% Matrix
+    Dn = z0(2:Nr-1)'*dz^2;
+    An(1,1)=C;An(1,2)=1;
+    An(Nr-2,Nr-3)=1;An(Nr-2,Nr-2)=C;
+    for n=2:Nr-3
+        An(n,n-1)=1;
+        An(n,n)=C;
+        An(n,n+1)=1;
+    end
+    det_An = det(An);
+    for n=1:Nr-2
+        Bn = An;
+        Bn(:,n) = Dn;
+        det_Bn = det(Bn);
+        p0(n+1) = det_Bn/det_An;
+    end
 
     U = cos(t0)*Atide/U0;
 
     %%% Boundary condition:
-    p0(1)=0;
-    p0(Nr)=0;     
+    % p0(1)=0;
+    % p0(Nr)=0;     
     b0(1) = b0(2); 
     b0(Nr) = b0(Nr-1); 
-    z0(1) = 3/dz^2*p0(1)-1/2*z0(2); % Woods (1954) boundary condition
+    % z0(1) = 3/dz^2*p0(1)-1/2*z0(2); % Woods (1954) boundary condition
 
     for m = 2:Nr-1
         dUdz(m) = (U(m+1)-U(m-1))/2/dz;
