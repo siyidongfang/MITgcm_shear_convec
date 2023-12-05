@@ -214,77 +214,77 @@ load_colors;
 
 
 
-% % %%
-% % % h=figure(5);
-% % % set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
-% % % clf;
-% % % set(gcf,'color','w','Position',[44 241 654 728]);
-% % % subplot(3,1,1)
-% % % pcolor(ttd(plot_tidx)/t1hour,zzd,re_psid(plot_tidx,:)');shading flat;colorbar;
-% % % colormap(redblue)
-% % % % colormap(WhiteBlueGreenYellowRed(0));
-% % % set(gca,'Fontsize',fontsize);
-% % % ylabel('HAB (m)');xlabel('Time (hours)')
-% % % title('Streamfunction \psi','Fontsize',fontsize+3);
-% % % set(gca,'color',gray);
-% % % clim([-1 1]/1e10)
-% % % % clim([-1 1]*U0*delta*delta)
-% % % % aaa = max(max(abs(re_psid)));
-% % % % clim([-1 1]*aaa/100)
-% % % 
-% % % subplot(3,1,2)
-% % % pcolor(ttd(plot_tidx)/t1hour,zzd,re_zetad(plot_tidx,:)');shading flat;colorbar;
-% % % set(gca,'Fontsize',fontsize);
-% % % ylabel('HAB (m)');xlabel('Time (hours)')
-% % % title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
-% % % set(gca,'color',gray);
-% % % clim([-1 1]/1e6)
-% % % % clim([-1 1]*U0*delta)
-% % % % aaa = max(max(abs(re_zetad)));
-% % % % clim([-1 1]*aaa/100)
-% % % 
-% % % subplot(3,1,3)
-% % % pcolor(ttd(plot_tidx)/t1hour,zzd,dbuoydz(plot_tidx,:)');shading flat;colorbar;
-% % % set(gca,'Fontsize',fontsize);
-% % % ylabel('HAB (m)');xlabel('Time (hours)')
-% % % title('Stratification perturbation','Fontsize',fontsize+3);
-% % % set(gca,'color',gray);
-% % % clim([-1 1]/1e10)
-% % % % clim([-1 1]*N^2*sind(topo)/omega)
-% % % % aaa = max(max(abs(re_buoyd)));
-% % % % clim([-1 1]*aaa/100)
-% % % saveas(h,[expdir 'fig5.png'])
-% % % 
-% % % 
-% % % 
-% % % uuu = zeros(Nt,Nr);
-% % % uuu(:,1:Nr-1) = real(diff(psi,1,2)/dz)*U0;
-% % % www = real(1i*kx*psi)*U0;
-% % % 
-% % % h=figure(20);
-% % % set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
-% % % clf;
-% % % set(gcf,'color','w','Position',[44 241 654 728]);
-% % % subplot(3,1,1)
-% % % pcolor(ttd(plot_tidx)/t1hour,zzd,uuu(plot_tidx,:)');shading flat;colorbar;
-% % % colormap(redblue)
-% % % % colormap(WhiteBlueGreenYellowRed(0));
-% % % set(gca,'Fontsize',fontsize);
-% % % ylabel('HAB (m)');xlabel('Time (hours)')
-% % % title('Horizontal velocity perturbation u^\prime','Fontsize',fontsize+3);
-% % % set(gca,'color',gray);
-% % % clim([-1 1]*0.03)
-% % % 
-% % % subplot(3,1,2)
-% % % pcolor(ttd(plot_tidx)/t1hour,zzd,www(plot_tidx,:)');shading flat;colorbar;
-% % % set(gca,'Fontsize',fontsize);
-% % % ylabel('HAB (m)');xlabel('Time (hours)')
-% % % title('Vertical velocity w','Fontsize',fontsize+3);
-% % % set(gca,'color',gray);
-% % % clim([-1 1]*0.3/100)
-% % % 
-% % % 
-% % % saveas(h,[expdir 'fig9.png'])
+%
+h=figure(5);
+set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
+clf;
+set(gcf,'color','w','Position',[44 241 654 728]);
+subplot(3,1,1)
+pcolor(ttd(plot_tidx)/t1hour,zzd,re_psid(plot_tidx,:)');shading flat;colorbar;
+colormap(redblue)
+% colormap(WhiteBlueGreenYellowRed(0));
+set(gca,'Fontsize',fontsize);
+ylabel('HAB (m)');xlabel('Time (hours)')
+title('Streamfunction \psi','Fontsize',fontsize+3);
+set(gca,'color',gray);
+clim([-1 1]/1e10)
+% clim([-1 1]*U0*delta*delta)
+% aaa = max(max(abs(re_psid)));
+% clim([-1 1]*aaa/100)
+
+subplot(3,1,2)
+pcolor(ttd(plot_tidx)/t1hour,zzd,re_zetad(plot_tidx,:)');shading flat;colorbar;
+set(gca,'Fontsize',fontsize);
+ylabel('HAB (m)');xlabel('Time (hours)')
+title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
+set(gca,'color',gray);
+clim([-1 1]/1e6)
+% clim([-1 1]*U0*delta)
+% aaa = max(max(abs(re_zetad)));
+% clim([-1 1]*aaa/100)
+
+subplot(3,1,3)
+pcolor(ttd(plot_tidx)/t1hour,zzd,dbuoydz(plot_tidx,:)');shading flat;colorbar;
+set(gca,'Fontsize',fontsize);
+ylabel('HAB (m)');xlabel('Time (hours)')
+title('Stratification perturbation','Fontsize',fontsize+3);
+set(gca,'color',gray);
+clim([-1 1]/1e10)
+% clim([-1 1]*N^2*sind(topo)/omega)
+% aaa = max(max(abs(re_buoyd)));
+% clim([-1 1]*aaa/100)
+saveas(h,[expdir 'fig5.png'])
+
+
+
+uuu = zeros(Nt,Nr);
+uuu(:,1:Nr-1) = real(diff(psi,1,2)/dz)*U0;
+www = real(1i*kx*psi)*U0;
+
+h=figure(20);
+set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
+clf;
+set(gcf,'color','w','Position',[44 241 654 728]);
+subplot(3,1,1)
+pcolor(ttd(plot_tidx)/t1hour,zzd,uuu(plot_tidx,:)');shading flat;colorbar;
+colormap(redblue)
+% colormap(WhiteBlueGreenYellowRed(0));
+set(gca,'Fontsize',fontsize);
+ylabel('HAB (m)');xlabel('Time (hours)')
+title('Horizontal velocity perturbation u^\prime','Fontsize',fontsize+3);
+set(gca,'color',gray);
+clim([-1 1]*0.3/1e20)
+
+subplot(3,1,2)
+pcolor(ttd(plot_tidx)/t1hour,zzd,www(plot_tidx,:)');shading flat;colorbar;
+set(gca,'Fontsize',fontsize);
+ylabel('HAB (m)');xlabel('Time (hours)')
+title('Vertical velocity w','Fontsize',fontsize+3);
+set(gca,'color',gray);
+clim([-1 1]*0.3/1e20)
+
+
+saveas(h,[expdir 'fig9.png'])
 
 
 

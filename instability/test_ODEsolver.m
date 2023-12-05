@@ -1,17 +1,17 @@
 
-clear;
+% clear;
 % close all;
 
 Lz = 1;
 dz = 0.01;
 Nr = round(Lz/dz)+1;
-z0 = (rand(1,Nr)-0.5);
-% z0 = ones(1,Nr);
+% z0 = (rand(1,Nr)-0.5);
+z0 = ones(1,Nr);
 % z0 = [1:Nr];
 zz = 0:dz:((Nr-1)*dz);
 
 m1km = 1000;
-lambda = 0.03*m1km;
+lambda = 0.1*m1km;
 H = 500;
 delta = H;
 kx = 2*pi/(lambda/delta)
