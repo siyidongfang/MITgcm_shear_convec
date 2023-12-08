@@ -7,13 +7,13 @@ useRK4 = true;
 fontsize = 16;
 
 %%%% Define constants
-Hdepth = 500;
+% Hdepth = 500;
 nu = 2e-4; %%% Kaiser and Pratt 2022: nu=kappa=2e-6
 kappa = 2e-4;
 Pr = nu/kappa;
 t1hour = 3600;
 omega = 2*pi/Ptide;
-delta = Hdepth;
+% delta = Hdepth;
 % delta = sqrt(2*nu/omega);
 % delta = U0/omega;
 
@@ -47,8 +47,25 @@ psi = zeros(Nt,Nr);
 zeta = zeros(Nt,Nr);
 buoy = zeros(Nt,Nr);
 
-dbdt = zeros(1,Nr);
-dzetadt = zeros(1,Nr);
+p0 = zeros(Nt,Nr);
+z0 = zeros(Nt,Nr);
+b0 = zeros(Nt,Nr);
+An = zeros(Nr-2,Nr-2); %%% Matrix
+Dn = zeros(1,Nr-2);
+
+bq1 = zeros(Nt,Nr);
+bq2 = zeros(Nt,Nr);
+bq3 = zeros(Nt,Nr);
+bq4 = zeros(Nt,Nr);
+bq5 = zeros(Nt,Nr);
+dbdt = zeros(Nt,Nr);
+
+zq1 = zeros(Nt,Nr);
+zq2 = zeros(Nt,Nr);
+zq3 = zeros(Nt,Nr);
+zq4 = zeros(Nt,Nr);
+
+dzetadt = zeros(Nt,Nr);
 
 dbdz = zeros(1,Nr);
 d2bdz2 = zeros(1,Nr);
@@ -58,7 +75,7 @@ d2zetadz2 = zeros(1,Nr);
 dUdz = zeros(1,Nr);
 U = zeros(1,Nr);
 
-kx = 2*pi/(lambda/delta); 
+% kx = 2*pi/(lambda/delta); 
 C = -kx^2*dz^2-2;
 
 %%% check CLF condition:
@@ -68,9 +85,9 @@ CFLx = U0*dt_real/lambda
 %%% Initial condition
 % buoy(1,:) = 0;
 % buoy(1,:) = (rand(1,Nr)-1/2)/1.79e300;
-% buoy(1,:) = (rand(1,Nr)-1/2)/1e30;
-% buoy(1,:) = [1:Nr]/Nr/1e20;
-buoy(1,:) = 1/1e20;
+% buoy(1,:) = (rand(1,Nr)-1/2)/1e20;
+buoy(1,:) = [1:Nr]/Nr/1e20;
+% buoy(1,:) = 1/1e20;
 psi(1,:) = 0;
 zeta(1,:) = 0;
 % zeta(1,:) = (rand(1,Nr)-1/2)/1e30;
@@ -184,7 +201,7 @@ for o=1:Nt-1
         buoy(o+1,:) = buoy(o,:) + (1/6)*(k_1b+2*k_2b+2*k_3b+k_4b)*dt;
         zeta(o+1,:) = zeta(o,:) + (1/6)*(k_1z+2*k_2z+2*k_3z+k_4z)*dt;
     else
-    %%% Euler forward %%%
+    % %%% Euler forward %%%
         buoy(o+1,:) = dbdt(o,:)*dt;
         zeta(o+1,:) = dzetadt(o,:)*dt;
     end
@@ -212,9 +229,10 @@ end
 plot_tidx = 1:1:Nt;
 load_colors;
 
+%%
 
 
-%
+
 h=figure(5);
 set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
 clf;
@@ -227,10 +245,10 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Streamfunction \psi','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]/1e10)
+% clim([-1 1]/1e10)
 % clim([-1 1]*U0*delta*delta)
-% aaa = max(max(abs(re_psid)));
-% clim([-1 1]*aaa/100)
+aaa = max(max(abs(re_psid)));
+clim([-1 1]*aaa)
 
 subplot(3,1,2)
 pcolor(ttd(plot_tidx)/t1hour,zzd,re_zetad(plot_tidx,:)');shading flat;colorbar;
@@ -238,10 +256,10 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]/1e6)
+% clim([-1 1]/1e6)
 % clim([-1 1]*U0*delta)
-% aaa = max(max(abs(re_zetad)));
-% clim([-1 1]*aaa/100)
+aaa = max(max(abs(re_zetad)));
+clim([-1 1]*aaa)
 
 subplot(3,1,3)
 pcolor(ttd(plot_tidx)/t1hour,zzd,dbuoydz(plot_tidx,:)');shading flat;colorbar;
@@ -249,10 +267,10 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Stratification perturbation','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]/1e10)
+% clim([-1 1]/1e10)
 % clim([-1 1]*N^2*sind(topo)/omega)
-% aaa = max(max(abs(re_buoyd)));
-% clim([-1 1]*aaa/100)
+aaa = max(max(abs(re_buoyd)));
+clim([-1 1]*aaa)
 saveas(h,[expdir 'fig5.png'])
 
 
@@ -273,7 +291,7 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal velocity perturbation u^\prime','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]*0.3/1e20)
+clim([-1 1]*max(max((abs(uuu)))))
 
 subplot(3,1,2)
 pcolor(ttd(plot_tidx)/t1hour,zzd,www(plot_tidx,:)');shading flat;colorbar;
@@ -281,17 +299,11 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Vertical velocity w','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]*0.3/1e20)
+clim([-1 1]*max(max((abs(www)))))
 
 
 saveas(h,[expdir 'fig9.png'])
 
-
-
-% save(fname,'buoy','zeta','psi', ...
-%     'dbdt','dzetadt', ...
-%     'bq1','bq2','bq3','bq4','bq5',...
-%     'zq1','zq2','zq3','zq4')
 save(outputname)
 
 

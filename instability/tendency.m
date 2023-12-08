@@ -5,7 +5,6 @@
     % p0 = cumsum(cumsum((kx^2*p0+z0)*dz)*dz);
 
     p0 = zeros(1,Nr);
-    An = zeros(Nr-2,Nr-2); %%% Matrix
     Dn = z0(2:Nr-1)'*dz^2;
     An(1,1)=C;An(1,2)=1;
     An(Nr-2,Nr-3)=1;An(Nr-2,Nr-2)=C;

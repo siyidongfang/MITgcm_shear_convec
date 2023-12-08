@@ -56,13 +56,13 @@ h=figure(6);
 clf;
 set(h,'color','w','Position',pposition,'Visible', FigureIsVisible);
 subplot(1,2,1)
-% plot(ttd(1:Nt-1)/t1hour,bq_all,'LineWidth',lw);
-plot(ttd(1:Nt-1)/t1hour,bq1_int,'LineWidth',lw);
+% plot(ttd/t1hour,bq_all,'LineWidth',lw);
+plot(ttd/t1hour,bq1_int,'LineWidth',lw);
 hold on;
-plot(ttd(1:Nt-1)/t1hour,bq2_int,'LineWidth',lw);
-plot(ttd(1:Nt-1)/t1hour,bq3_int,'LineWidth',lw);
-plot(ttd(1:Nt-1)/t1hour,bq4_int,'LineWidth',lw);
-plot(ttd(1:Nt-1)/t1hour,bq5_int,'LineWidth',lw,'Color',gray);
+plot(ttd/t1hour,bq2_int,'LineWidth',lw);
+plot(ttd/t1hour,bq3_int,'LineWidth',lw);
+plot(ttd/t1hour,bq4_int,'LineWidth',lw);
+plot(ttd/t1hour,bq5_int,'LineWidth',lw,'Color',gray);
 set(gca,'Fontsize',fontsize);
 xlabel('Time (hours)')
 legend(legend_b,'Interpreter','Latex','Fontsize',fontsize+3,'Position',blegend1);
@@ -70,12 +70,12 @@ grid on;grid minor;
 title('Buoyancy budget')
 
 subplot(1,2,2)
-% semilogy(ttd(1:Nt-1)/t1hour,zq_all,'LineWidth',lw);
-plot(ttd(1:Nt-1)/t1hour,(zq1_int),'LineWidth',lw);
+% semilogy(ttd/t1hour,zq_all,'LineWidth',lw);
+plot(ttd/t1hour,(zq1_int),'LineWidth',lw);
 hold on;
-plot(ttd(1:Nt-1)/t1hour,(zq2_int),'LineWidth',lw);
-plot(ttd(1:Nt-1)/t1hour,(zq3_int),'LineWidth',lw);
-plot(ttd(1:Nt-1)/t1hour,(zq4_int),'LineWidth',lw,'Color',gray);
+plot(ttd/t1hour,(zq2_int),'LineWidth',lw);
+plot(ttd/t1hour,(zq3_int),'LineWidth',lw);
+plot(ttd/t1hour,(zq4_int),'LineWidth',lw,'Color',gray);
 set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
 legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegend1);
 grid on;grid minor;
@@ -88,12 +88,12 @@ h=figure(7);
 clf;
 set(h,'color','w','Position',pposition,'Visible', FigureIsVisible);
 subplot(1,2,1)
-semilogy(ttd(1:Nt-1)/t1hour,abs(bq1_int),'LineWidth',lw);
+semilogy(ttd/t1hour,abs(bq1_int),'LineWidth',lw);
 hold on;
-semilogy(ttd(1:Nt-1)/t1hour,abs(bq2_int),'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,abs(bq3_int),'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,abs(bq4_int),'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,abs(bq5_int),'LineWidth',lw,'Color',gray);
+semilogy(ttd/t1hour,abs(bq2_int),'LineWidth',lw);
+semilogy(ttd/t1hour,abs(bq3_int),'LineWidth',lw);
+semilogy(ttd/t1hour,abs(bq4_int),'LineWidth',lw);
+semilogy(ttd/t1hour,abs(bq5_int),'LineWidth',lw,'Color',gray);
 set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
 legend(legend_b,'Interpreter','Latex','Fontsize',fontsize+3,'Position',blegend);
 grid on;grid minor;
@@ -101,11 +101,11 @@ title('Buoyancy budget (absolute value, log axis)')
 
 
 subplot(1,2,2)
-semilogy(ttd(1:Nt-1)/t1hour,abs(zq1_int),'LineWidth',lw);
+semilogy(ttd/t1hour,abs(zq1_int),'LineWidth',lw);
 hold on;
-semilogy(ttd(1:Nt-1)/t1hour,abs(zq2_int),'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,abs(zq3_int),'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,abs(zq4_int),'LineWidth',lw,'Color',gray);
+semilogy(ttd/t1hour,abs(zq2_int),'LineWidth',lw);
+semilogy(ttd/t1hour,abs(zq3_int),'LineWidth',lw);
+semilogy(ttd/t1hour,abs(zq4_int),'LineWidth',lw,'Color',gray);
 set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
 legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegend);
 grid on;grid minor;
@@ -120,25 +120,25 @@ h=figure(8);
 clf;
 set(h,'color','w','Position',pposition,'Visible', FigureIsVisible);
 subplot(1,2,1)
-% semilogy(ttd(1:Nt-1)/t1hour,bq_all,'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,movmean(abs(bq1_int),wins),'LineWidth',lw);
+% semilogy(ttd/t1hour,bq_all,'LineWidth',lw);
+semilogy(ttd/t1hour,movmean(abs(bq1_int),wins),'LineWidth',lw);
 hold on;
-semilogy(ttd(1:Nt-1)/t1hour,movmean(abs(bq2_int),wins),'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,movmean(abs(bq3_int),wins),'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,movmean(abs(bq4_int),wins),'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,movmean(abs(bq5_int),wins),'LineWidth',lw,'Color',gray);
+semilogy(ttd/t1hour,movmean(abs(bq2_int),wins),'LineWidth',lw);
+semilogy(ttd/t1hour,movmean(abs(bq3_int),wins),'LineWidth',lw);
+semilogy(ttd/t1hour,movmean(abs(bq4_int),wins),'LineWidth',lw);
+semilogy(ttd/t1hour,movmean(abs(bq5_int),wins),'LineWidth',lw,'Color',gray);
 set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
 legend(legend_b,'Interpreter','Latex','Fontsize',fontsize+3,'Position',blegend);
 grid on;grid minor;
 title('Buoyancy (absolute value, move mean)')
 
 subplot(1,2,2)
-% semilogy(ttd(1:Nt-1)/t1hour,zq_all,'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,movmean(abs(zq1_int),wins),'LineWidth',lw);
+% semilogy(ttd/t1hour,zq_all,'LineWidth',lw);
+semilogy(ttd/t1hour,movmean(abs(zq1_int),wins),'LineWidth',lw);
 hold on;
-semilogy(ttd(1:Nt-1)/t1hour,movmean(abs(zq2_int),wins),'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,movmean(abs(zq3_int),wins),'LineWidth',lw);
-semilogy(ttd(1:Nt-1)/t1hour,movmean(abs(zq4_int),wins),'LineWidth',lw,'Color',gray);
+semilogy(ttd/t1hour,movmean(abs(zq2_int),wins),'LineWidth',lw);
+semilogy(ttd/t1hour,movmean(abs(zq3_int),wins),'LineWidth',lw);
+semilogy(ttd/t1hour,movmean(abs(zq4_int),wins),'LineWidth',lw,'Color',gray);
 set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
 legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegend);
 grid on;grid minor;
@@ -165,24 +165,24 @@ saveas(h,[expdir 'fig8.png'])
 % figure(9)
 % clf;set(gcf,'color','w','Position',pposition);
 % subplot(1,2,1)
-% % semilogy(ttd(1:Nt-1)/t1hour,bq_all,'LineWidth',lw);
-% semilogy(ttd(1:Nt-1)/t1hour,abs(bq1_int),'LineWidth',lw);
+% % semilogy(ttd/t1hour,bq_all,'LineWidth',lw);
+% semilogy(ttd/t1hour,abs(bq1_int),'LineWidth',lw);
 % hold on;
-% semilogy(ttd(1:Nt-1)/t1hour,abs(bq2_int),'LineWidth',lw);
-% semilogy(ttd(1:Nt-1)/t1hour,abs(bq3_int),'LineWidth',lw);
-% semilogy(ttd(1:Nt-1)/t1hour,abs(bq4_int),'LineWidth',lw);
-% semilogy(ttd(1:Nt-1)/t1hour,abs(bq5_int),'LineWidth',lw,'Color',gray);
+% semilogy(ttd/t1hour,abs(bq2_int),'LineWidth',lw);
+% semilogy(ttd/t1hour,abs(bq3_int),'LineWidth',lw);
+% semilogy(ttd/t1hour,abs(bq4_int),'LineWidth',lw);
+% semilogy(ttd/t1hour,abs(bq5_int),'LineWidth',lw,'Color',gray);
 % set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
 % legend(legend_b,'Interpreter','Latex','Fontsize',fontsize+3,'Position',blegend);
 % grid on;grid minor;
 % 
 % subplot(1,2,2)
-% % semilogy(ttd(1:Nt-1)/t1hour,zq_all,'LineWidth',lw);
-% semilogy(ttd(1:Nt-1)/t1hour,abs(zq1_int),'LineWidth',lw);
+% % semilogy(ttd/t1hour,zq_all,'LineWidth',lw);
+% semilogy(ttd/t1hour,abs(zq1_int),'LineWidth',lw);
 % hold on;
-% semilogy(ttd(1:Nt-1)/t1hour,abs(zq2_int),'LineWidth',lw);
-% semilogy(ttd(1:Nt-1)/t1hour,abs(zq3_int),'LineWidth',lw);
-% semilogy(ttd(1:Nt-1)/t1hour,abs(zq4_int),'LineWidth',lw,'Color',gray);
+% semilogy(ttd/t1hour,abs(zq2_int),'LineWidth',lw);
+% semilogy(ttd/t1hour,abs(zq3_int),'LineWidth',lw);
+% semilogy(ttd/t1hour,abs(zq4_int),'LineWidth',lw,'Color',gray);
 % set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
 % legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegend);
 % grid on;grid minor;
