@@ -83,11 +83,29 @@ title('Horizontal vorticity budget')
 
 saveas(h,[expdir 'fig6.png'])
 
+%%
+% h=figure(10);
+% clf;
+% set(h,'color','w','Position',pposition,'Visible', FigureIsVisible);
+% subplot(1,2,1);
+% bq1_int(bq1_int==0)=NaN;
+% Y = sign(bq1_int).*log10(abs(bq1_int));
+% plot(ttd/t1hour,Y,'LineWidth',lw);
+% 
+% yl = get(gca,'ytick');
+% % set(gca,'yticklabel',sign(yl).*10.^abs(yl))
+% set(gca,'yticklabel',sign(yl).*10.^(yl))
+% 
+% set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
+% grid on;grid minor;
+% title('Buoyancy budget (absolute value, log axis)')
+
+%%
 
 h=figure(7);
 clf;
 set(h,'color','w','Position',pposition,'Visible', FigureIsVisible);
-subplot(1,2,1)
+subplot(1,2,1);
 semilogy(ttd/t1hour,abs(bq1_int),'LineWidth',lw);
 hold on;
 semilogy(ttd/t1hour,abs(bq2_int),'LineWidth',lw);
@@ -98,7 +116,6 @@ set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
 legend(legend_b,'Interpreter','Latex','Fontsize',fontsize+3,'Position',blegend);
 grid on;grid minor;
 title('Buoyancy budget (absolute value, log axis)')
-
 
 subplot(1,2,2)
 semilogy(ttd/t1hour,abs(zq1_int),'LineWidth',lw);
@@ -111,6 +128,8 @@ legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegen
 grid on;grid minor;
 title('Horizontal vorticity budget (absolute value, log axis)')
 
+
+%%
 saveas(h,[expdir 'fig7.png'])
 
 

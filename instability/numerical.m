@@ -7,7 +7,6 @@ useRK4 = true;
 fontsize = 16;
 
 %%%% Define constants
-% Hdepth = 500;
 nu = 2e-4; %%% Kaiser and Pratt 2022: nu=kappa=2e-6
 kappa = 2e-4;
 Pr = nu/kappa;
@@ -83,9 +82,8 @@ CFLz = U0*dt_real/dz_real
 CFLx = U0*dt_real/lambda 
 
 %%% Initial condition
-% buoy(1,:) = 0;
-% buoy(1,:) = (rand(1,Nr)-1/2)/1.79e300;
 % buoy(1,:) = (rand(1,Nr)-1/2)/1e20;
+% buoy(1,:) = rand(1,Nr)/1e20;
 buoy(1,:) = [1:Nr]/Nr/1e20;
 % buoy(1,:) = 1/1e20;
 psi(1,:) = 0;
@@ -125,7 +123,7 @@ end
 % % % % plot(Atide,zz*delta);
 % % % % grid on;grid minor;
 % % % % saveas(h,[expdir 'fig1.png'])
-% % % % 
+
 % % % % h=figure(2);
 % % % % set(h,'Visible', FigureIsVisible);clf;
 % % % % plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
@@ -247,7 +245,7 @@ title('Streamfunction \psi','Fontsize',fontsize+3);
 set(gca,'color',gray);
 % clim([-1 1]/1e10)
 % clim([-1 1]*U0*delta*delta)
-aaa = max(max(abs(re_psid)));
+aaa = max(max(abs(re_psid))/1e5);
 clim([-1 1]*aaa)
 
 subplot(3,1,2)
@@ -258,7 +256,7 @@ title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
 set(gca,'color',gray);
 % clim([-1 1]/1e6)
 % clim([-1 1]*U0*delta)
-aaa = max(max(abs(re_zetad)));
+aaa = max(max(abs(re_zetad))/1e5);
 clim([-1 1]*aaa)
 
 subplot(3,1,3)
@@ -269,7 +267,7 @@ title('Stratification perturbation','Fontsize',fontsize+3);
 set(gca,'color',gray);
 % clim([-1 1]/1e10)
 % clim([-1 1]*N^2*sind(topo)/omega)
-aaa = max(max(abs(re_buoyd)));
+aaa = max(max(abs(re_buoyd))/1e5);
 clim([-1 1]*aaa)
 saveas(h,[expdir 'fig5.png'])
 
@@ -291,7 +289,7 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal velocity perturbation u^\prime','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]*max(max((abs(uuu)))))
+clim([-1 1]*max(max((abs(uuu))))/1e5)
 
 subplot(3,1,2)
 pcolor(ttd(plot_tidx)/t1hour,zzd,www(plot_tidx,:)');shading flat;colorbar;
@@ -299,10 +297,12 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Vertical velocity w','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]*max(max((abs(www)))))
+clim([-1 1]*max(max((abs(www))))/1e5)
 
 
 saveas(h,[expdir 'fig9.png'])
+
+% close all
 
 save(outputname)
 

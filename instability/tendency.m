@@ -14,7 +14,7 @@
         An(n,n+1)=1;
     end
     det_An = det(An);
-    for n=1:Nr-2
+    parfor n=1:Nr-2
         Bn = An;
         Bn(:,n) = Dn;
         det_Bn = det(Bn);
@@ -24,8 +24,8 @@
     U = cos(t0)*Atide/U0;
 
     %%% Boundary condition:
-    % p0(1)=0;
-    % p0(Nr)=0;     
+    p0(1)=0;
+    p0(Nr)=0;     
     b0(1) = b0(2); 
     b0(Nr) = b0(Nr-1); 
     % z0(1) = 3/dz^2*p0(1)-1/2*z0(2); % Woods (1954) boundary condition
