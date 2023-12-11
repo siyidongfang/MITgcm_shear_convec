@@ -23,7 +23,7 @@ Nr = round(Lz/dz)+1;
 zz = 0:dz:((Nr-1)*dz);
 dz_real  = dz*delta;
 
-Hshear = 250;
+Hshear = 300;
 Lshear = Hshear/delta; % dimensionless vertical scale for velocity shear
 Nshear = round(Lshear/dz);
 Hshear = zz(Nshear)*delta;
@@ -46,9 +46,9 @@ psi = zeros(Nt,Nr);
 zeta = zeros(Nt,Nr);
 buoy = zeros(Nt,Nr);
 
-p0 = zeros(Nt,Nr);
-z0 = zeros(Nt,Nr);
-b0 = zeros(Nt,Nr);
+p0 = zeros(1,Nr);
+z0 = zeros(1,Nr);
+b0 = zeros(1,Nr);
 An = zeros(Nr-2,Nr-2); %%% Matrix
 Dn = zeros(1,Nr-2);
 
@@ -82,10 +82,10 @@ CFLz = U0*dt_real/dz_real
 CFLx = U0*dt_real/lambda 
 
 %%% Initial condition
-% buoy(1,:) = (rand(1,Nr)-1/2)/1e20;
-% buoy(1,:) = rand(1,Nr)/1e20;
-buoy(1,:) = [1:Nr]/Nr/1e20;
-% buoy(1,:) = 1/1e20;
+% buoy(1,:) = (rand(1,Nr)-1/2)/1e20; %%% Random
+% buoy(1,:) = rand(1,Nr)/1e20;       %%% Random 
+buoy(1,:) = [1:Nr]/Nr/1e20; %%% Linear 
+% buoy(1,:) = 1/1e20;       %%% Constant 
 psi(1,:) = 0;
 zeta(1,:) = 0;
 % zeta(1,:) = (rand(1,Nr)-1/2)/1e30;
@@ -118,27 +118,29 @@ end
 
 
 
-% % % % h=figure(1);
-% % % % set(h,'Visible', FigureIsVisible);clf;
-% % % % plot(Atide,zz*delta);
-% % % % grid on;grid minor;
-% % % % saveas(h,[expdir 'fig1.png'])
+h=figure(1);
+set(h,'Visible', FigureIsVisible);clf;
+plot(Atide,zz*delta);
+grid on;grid minor;
+saveas(h,[expdir 'fig1.png'])
 
-% % % % h=figure(2);
-% % % % set(h,'Visible', FigureIsVisible);clf;
-% % % % plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
-% % % % grid on;grid minor;
-% % % % saveas(h,[expdir 'fig2.png'])
-% % % % 
-% % % % h=figure(3);
-% % % % set(h,'Visible', FigureIsVisible);clf;
-% % % % pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
-% % % % saveas(h,[expdir 'fig3.png'])
-% % % % 
-% % % % h=figure(4);
-% % % % set(h,'Visible', FigureIsVisible);clf;
-% % % % pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
-% % % % saveas(h,[expdir 'fig4.png'])
+h=figure(2);
+set(h,'Visible', FigureIsVisible);clf;
+plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
+grid on;grid minor;
+saveas(h,[expdir 'fig2.png'])
+
+h=figure(3);
+set(h,'Visible', FigureIsVisible);clf;
+pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
+saveas(h,[expdir 'fig3.png'])
+
+h=figure(4);
+set(h,'Visible', FigureIsVisible);clf;
+pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
+saveas(h,[expdir 'fig4.png'])
+
+close all;
 
 %%
 
@@ -227,9 +229,37 @@ end
 plot_tidx = 1:1:Nt;
 load_colors;
 
+
+%%
+    re_buoy = real(buoy);
+    re_zeta = real(zeta);
+    re_psi = real(psi);
+    
+    %%%%% Floquet stability
+    oT = round(Ptide*omega/dt);% The time step after one tidal cycle
+    tidx = 200:300;
+    % zidx=2:Nshear;
+    zidx = 2:Nr-1;
+    muk_psi = mean(re_psi(oT+tidx,zidx))./mean(re_psi(tidx,zidx));
+    muk_zeta = mean(re_zeta(oT+tidx,zidx))./mean(re_zeta(tidx,zidx));
+    muk_buoy = mean(re_buoy(oT+tidx,zidx))./mean(re_buoy(tidx,zidx));
+    
+    muk_max_buoy = max(abs(muk_buoy));
+    muk_mean_buoy = mean(abs(muk_buoy));
+    muk_rms_buoy = rms(abs(muk_buoy));
+
+    muk_max_zeta = max(abs(muk_zeta));
+    muk_mean_zeta = mean(abs(muk_zeta));
+    muk_rms_zeta = rms(abs(muk_zeta));
+
+    muk_max_psi = max(abs(muk_psi));
+    muk_mean_psi = mean(abs(muk_psi));
+    muk_rms_psi = rms(abs(muk_psi));
+
+
 %%
 
-
+DIV = 1;
 
 h=figure(5);
 set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
@@ -245,7 +275,7 @@ title('Streamfunction \psi','Fontsize',fontsize+3);
 set(gca,'color',gray);
 % clim([-1 1]/1e10)
 % clim([-1 1]*U0*delta*delta)
-aaa = max(max(abs(re_psid))/1e5);
+aaa = max(max(abs(re_psid))/DIV);
 clim([-1 1]*aaa)
 
 subplot(3,1,2)
@@ -256,7 +286,7 @@ title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
 set(gca,'color',gray);
 % clim([-1 1]/1e6)
 % clim([-1 1]*U0*delta)
-aaa = max(max(abs(re_zetad))/1e5);
+aaa = max(max(abs(re_zetad))/DIV);
 clim([-1 1]*aaa)
 
 subplot(3,1,3)
@@ -267,7 +297,7 @@ title('Stratification perturbation','Fontsize',fontsize+3);
 set(gca,'color',gray);
 % clim([-1 1]/1e10)
 % clim([-1 1]*N^2*sind(topo)/omega)
-aaa = max(max(abs(re_buoyd))/1e5);
+aaa = max(max(abs(re_buoyd))/DIV);
 clim([-1 1]*aaa)
 saveas(h,[expdir 'fig5.png'])
 
@@ -276,6 +306,7 @@ saveas(h,[expdir 'fig5.png'])
 uuu = zeros(Nt,Nr);
 uuu(:,1:Nr-1) = real(diff(psi,1,2)/dz)*U0;
 www = real(1i*kx*psi)*U0;
+
 
 h=figure(20);
 set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
@@ -289,7 +320,7 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal velocity perturbation u^\prime','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]*max(max((abs(uuu))))/1e5)
+clim([-1 1]*max(max((abs(uuu))))/DIV)
 
 subplot(3,1,2)
 pcolor(ttd(plot_tidx)/t1hour,zzd,www(plot_tidx,:)');shading flat;colorbar;
@@ -297,12 +328,15 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Vertical velocity w','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]*max(max((abs(www))))/1e5)
+if(kx~=0)
+    clim([-1 1]*max(max((abs(www))))/DIV)
+end
+
 
 
 saveas(h,[expdir 'fig9.png'])
 
-% close all
+close all
 
 save(outputname)
 

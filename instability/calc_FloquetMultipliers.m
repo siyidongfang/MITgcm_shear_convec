@@ -3,21 +3,24 @@
 %%%
 
 clear;
-expdir = 'exps/';
+expdir = 'backup/exps_dz0.06/';
 
 m1km =1000;
 % lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
 % lambda_parm = [0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000 1e17 1.0e37 1e57 1e77]*m1km;
-lambda_parm = [0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000 1e10 1e50 1e100]*m1km;
+lambda_parm = [0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
+% lambda_parm = [0.05 0.075 0.1 0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 0]*m1km;
+% lambda_parm = [0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25]*m1km;
+% lambda_parm = [0.25 0.5 0.75 1 2.5 5]*m1km;
+
 kx_parm = 2*pi./lambda_parm;
 
 NEXP = length(lambda_parm);
 
-dz_group = 0.01*ones(1,NEXP);
+dz_group = 0.006*ones(1,NEXP);
 dt_group = 0.01*ones(1,NEXP);
 
-dt_group(1) = 0.005;
-dz_group(1) = 0.007;
+% dt_group(8) = 0.005;
 % n=1;
 % dt_group(6-n) = 0.003;
 % dt_group(5-n) = 0.002;
@@ -28,11 +31,8 @@ dz_group(1) = 0.007;
 
 for ne = 1:NEXP
     lambda = lambda_parm(ne)
-    if(ne==25)
-        lambda = 1e40;
-    end
     expname = ['H1500_topo4_Pt43200_N0.001_S0.001_lambda' num2str(lambda) '_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne))];
-    
+    % expname = ['topo4_Pt43200_N0.001_S0.001_L' num2str(lambda) '_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne))];
     load([expdir expname '/output.mat'],'buoy','zeta','psi','omega','dt','Ptide','Nt','Nr','zz','Nshear')
     re_buoy = real(buoy);
     re_zeta = real(zeta);
@@ -40,12 +40,12 @@ for ne = 1:NEXP
     
     %%%%% Floquet stability
     oT = round(Ptide*omega/dt);% The time step after one tidal cycle
-    ntimestep = 100;
+    tidx = 100:100;
     zidx=2:Nshear;
     % zidx = 2:Nr-1;
-    muk_psi = re_psi(oT+ntimestep,zidx)./re_psi(ntimestep,zidx);
-    muk_zeta = re_zeta(oT+ntimestep,zidx)./re_zeta(ntimestep,zidx);
-    muk_buoy = re_buoy(oT+ntimestep,zidx)./re_buoy(ntimestep,zidx);
+    muk_psi = mean(re_psi(oT+tidx,zidx))./mean(re_psi(tidx,zidx));
+    muk_zeta = mean(re_zeta(oT+tidx,zidx))./mean(re_zeta(tidx,zidx));
+    muk_buoy = mean(re_buoy(oT+tidx,zidx))./mean(re_buoy(tidx,zidx));
     
     % sum(muk_psi>1)
     % sum(muk_zeta>1)
@@ -58,9 +58,21 @@ for ne = 1:NEXP
     % plot(muk_buoy,zz(zidx))
     % legend('psi','zeta','buoy')
     
-    muk_max(ne) = max(abs([muk_buoy muk_zeta muk_psi]));
-    muk_mean(ne) = mean(abs([muk_buoy muk_zeta muk_psi]));
-    muk_rms(ne) = mean(abs([muk_buoy muk_zeta muk_psi]));
+    % muk_max(ne) = max(abs([muk_buoy muk_zeta muk_psi]));
+    % muk_mean(ne) = mean(abs([muk_buoy muk_zeta muk_psi]));
+    % muk_rms(ne) = rms(abs([muk_buoy muk_zeta muk_psi]));
+
+    muk_max_buoy(ne) = max(abs(muk_buoy));
+    muk_mean_buoy(ne) = mean(abs(muk_buoy));
+    muk_rms_buoy(ne) = rms(abs(muk_buoy));
+
+    muk_max_zeta(ne) = max(abs(muk_zeta));
+    muk_mean_zeta(ne) = mean(abs(muk_zeta));
+    muk_rms_zeta(ne) = rms(abs(muk_zeta));
+
+    muk_max_psi(ne) = max(abs(muk_psi));
+    muk_mean_psi(ne) = mean(abs(muk_psi));
+    muk_rms_psi(ne) = rms(abs(muk_psi));
 
 end
 
@@ -71,13 +83,17 @@ end
 fontsize = 18;
 
 
-ploty = log10(muk_mean);
+log10_muk_buoy = log10(muk_max_buoy);
+log10_muk_zeta = log10(muk_max_zeta);
+log10_muk_psi = log10(muk_max_psi);
 
 figure(2)
-% clf;
+clf;
 set(gcf,'Color','w')
-semilogx(lambda_parm,ploty,'LineWidth',2)
+semilogx(lambda_parm,log10_muk_buoy,'LineWidth',2)
 hold on;
+semilogx(lambda_parm,log10_muk_zeta,'LineWidth',2)
+semilogx(lambda_parm,log10_muk_psi,'LineWidth',2)
 semilogx(lambda_parm,zeros(1,NEXP),'k--','LineWidth',1)
 set(gca,'Fontsize',fontsize)
 % ylim([-5 6])
@@ -85,21 +101,24 @@ grid on;grid minor;
 title('Mean Floquet exponents log(\mu_k)','Fontsize',fontsize+5)
 ylabel('log(\mu_k)','Fontsize',fontsize+5)
 xlabel('Wavelength \lambda (m)','Fontsize',fontsize+5)
-
+legend('\mu_k^b','\mu_k^\zeta','\mu_k^\psi')
 
 figure(3)
-% clf;
+clf;
 set(gcf,'Color','w')
-semilogx(kx_parm,ploty,'LineWidth',2)
+semilogx(kx_parm,log10_muk_buoy,'LineWidth',2)
 hold on;
+semilogx(kx_parm,log10_muk_zeta,'LineWidth',2)
+semilogx(kx_parm,log10_muk_psi,'LineWidth',2)
 semilogx(kx_parm,zeros(1,NEXP),'k--','LineWidth',1)
 set(gca,'Fontsize',fontsize)
 % ylim([-5 6])
-xlim([1e-80 1])
+% xlim([1e-80 1])
 grid on;grid minor;
 title('Mean Floquet exponents log(\mu_k)','Fontsize',fontsize+5)
 ylabel('log(\mu_k)','Fontsize',fontsize+5)
 xlabel('Cross-isobath wavenumber k (m^{-1})','Fontsize',fontsize+5)
+legend('\mu_k^b','\mu_k^\zeta','\mu_k^\psi')
 
 
 

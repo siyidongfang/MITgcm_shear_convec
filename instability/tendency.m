@@ -14,14 +14,25 @@
         An(n,n+1)=1;
     end
     det_An = det(An);
-    parfor n=1:Nr-2
-        Bn = An;
-        Bn(:,n) = Dn;
-        det_Bn = det(Bn);
-        p0(n+1) = det_Bn/det_An;
+
+    if(useParallel)
+        parfor n=1:Nr-2
+            Bn = An;
+            Bn(:,n) = Dn;
+            det_Bn = det(Bn);
+            p0(n+1) = det_Bn/det_An;
+        end
+    else
+        for n=1:Nr-2
+            Bn = An;
+            Bn(:,n) = Dn;
+            det_Bn = det(Bn);
+            p0(n+1) = det_Bn/det_An;
+        end
     end
 
     U = cos(t0)*Atide/U0;
+    % U = zeros(1,Nr); 
 
     %%% Boundary condition:
     p0(1)=0;
@@ -44,7 +55,9 @@
     bq3(o,:) = dpsidz;
     bq4(o,:) = +1i*kx*C1*dUdz.*tan(t0).*p0;
     bq5(o,:) = +C4*d2bdz2-C4*kx^2.*b0;
-    % bq5(o,:) = zeros(1,Nr); %%% ignore diffusion
+    if(NOdiffusion)
+        bq5(o,:) = zeros(1,Nr); %%% ignore diffusion
+    end
 
     dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
               + bq4(o,:) + bq5(o,:);
@@ -53,7 +66,9 @@
     zq2(o,:) = +C2^2*(1i*kx*cotd(topo)*b0);
     zq3(o,:) = +C2^2*(-dbdz);
     zq4(o,:) = +C3*d2zetadz2-C3*kx^2.*z0;
-    % zq4(o,:) = zeros(1,Nr); %%% ignore dissipation
+    if(NOdiffusion)
+        zq4(o,:) = zeros(1,Nr); %%% ignore dissipation
+    end
 
     dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) + zq4(o,:);
 

@@ -1,6 +1,6 @@
 
     clear;close all;
-    ne=4;
+    ne=5;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
@@ -23,7 +23,9 @@
     end
 
 
-for o=o1:o2
+    for o=110
+% for o=o1:o2
+% for o=300:nDumps
 
     nIter = dumpIters(o);
     time_h = nIter.*deltaT./3600;
