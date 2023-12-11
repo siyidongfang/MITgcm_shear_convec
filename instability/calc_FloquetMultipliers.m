@@ -3,7 +3,7 @@
 %%%
 
 clear;
-expdir = 'exps/';
+expdir = 'h500_dpsidz0/';
 
 m1km =1000;
 % lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
@@ -11,8 +11,9 @@ m1km =1000;
 % lambda_parm = [0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
 % lambda_parm = [0.05 0.075 0.1 0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 0]*m1km;
 % lambda_parm = [0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25]*m1km;
-% lambda_parm = [0.25 0.5 0.75 1 2.5 5]*m1km;
-lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 2000 5000 10000]*m1km;
+lambda_parm = [250 500 750 1000 2000 2500 5000]
+% lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 2000 5000 10000]*m1km;
+% lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
 
 kx_parm = 2*pi./lambda_parm;
 
@@ -21,16 +22,19 @@ NEXP = length(lambda_parm);
 dz_group = 0.01*ones(1,NEXP);
 dt_group = 0.01*ones(1,NEXP);
 
-dt_group(4:6) = 0.001;
-% dt_group(4) = 0.005;
-% dt_group(6) = 0.005;
+% dt_group(1) = 0.0002;
+% dt_group(2) = 0.0003;
+% dt_group(3) = 0.001;
+% 
+% dt_group(4:6) = 0.001;
+% dt_group(7) = 0.005;
 
 
 
 
 for ne = 1:NEXP
     lambda = lambda_parm(ne)
-    expname = ['H1500_topo4_Pt43200_N0.001_S0.001_lambda' num2str(lambda) '_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne))];
+    expname = ['H500_topo4_Pt43200_N0.001_S0.001_lambda' num2str(lambda) '_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne))];
     % expname = ['topo4_Pt43200_N0.001_S0.001_L' num2str(lambda) '_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne))];
     load([expdir expname '/output.mat'],'buoy','zeta','psi','omega','dt','Ptide','Nt','Nr','zz','Nshear')
     re_buoy = real(buoy);
