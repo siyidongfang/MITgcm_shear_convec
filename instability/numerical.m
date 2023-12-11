@@ -106,8 +106,8 @@ for m=Nshear+1:Nr
 end
 % idx_smooth = Nshear-round(Nshear/4):Nshear+4*round(Nshear/4);
 idx_smooth = 1:Nr;
-Atide(idx_smooth) = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(Atide(idx_smooth)))))))))))))))))))))';
-% Atide(idx_smooth) = smooth(smooth(smooth(Atide(idx_smooth))))';
+% Atide(idx_smooth) = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(Atide(idx_smooth)))))))))))))))))))))';
+Atide(idx_smooth) = smooth(smooth(smooth(Atide(idx_smooth))))';
 
 Utide =cos(tt)'.*Atide/U0;
 
@@ -258,8 +258,15 @@ load_colors;
 
 
 %%
-
-DIV = 1;
+% 
+% if(ne>=23)
+%     DIV = 1;
+% elseif(ne>=10)
+%     DIV = 1e3;
+% else
+%     DIV = 1e5;
+% end
+DIV = 1e3;
 
 h=figure(5);
 set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
