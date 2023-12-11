@@ -3,31 +3,30 @@
 %%%
 
 clear;
-expdir = 'backup/exps_dz0.06/';
+expdir = 'exps/';
 
 m1km =1000;
 % lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
 % lambda_parm = [0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000 1e17 1.0e37 1e57 1e77]*m1km;
-lambda_parm = [0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
+% lambda_parm = [0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
 % lambda_parm = [0.05 0.075 0.1 0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 0]*m1km;
 % lambda_parm = [0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25]*m1km;
 % lambda_parm = [0.25 0.5 0.75 1 2.5 5]*m1km;
+lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 2000 5000 10000]*m1km;
 
 kx_parm = 2*pi./lambda_parm;
 
 NEXP = length(lambda_parm);
 
-dz_group = 0.006*ones(1,NEXP);
+dz_group = 0.01*ones(1,NEXP);
 dt_group = 0.01*ones(1,NEXP);
 
-% dt_group(8) = 0.005;
-% n=1;
-% dt_group(6-n) = 0.003;
-% dt_group(5-n) = 0.002;
-% dt_group(4-n) = 0.002;
-% dt_group(3-n) = 0.001;
-% dt_group(2-n) = 0.0003;
-% % dt_group(1) = 0.0002;
+dt_group(4:6) = 0.001;
+% dt_group(4) = 0.005;
+% dt_group(6) = 0.005;
+
+
+
 
 for ne = 1:NEXP
     lambda = lambda_parm(ne)
@@ -87,9 +86,9 @@ log10_muk_buoy = log10(muk_max_buoy);
 log10_muk_zeta = log10(muk_max_zeta);
 log10_muk_psi = log10(muk_max_psi);
 
-figure(2)
+figure()
 clf;
-set(gcf,'Color','w')
+set(gcf,'Color','w','Position',[279 593 1072 397])
 semilogx(lambda_parm,log10_muk_buoy,'LineWidth',2)
 hold on;
 semilogx(lambda_parm,log10_muk_zeta,'LineWidth',2)
@@ -103,9 +102,9 @@ ylabel('log(\mu_k)','Fontsize',fontsize+5)
 xlabel('Wavelength \lambda (m)','Fontsize',fontsize+5)
 legend('\mu_k^b','\mu_k^\zeta','\mu_k^\psi')
 
-figure(3)
+figure()
 clf;
-set(gcf,'Color','w')
+set(gcf,'Color','w','Position',[279 593 1072 397])
 semilogx(kx_parm,log10_muk_buoy,'LineWidth',2)
 hold on;
 semilogx(kx_parm,log10_muk_zeta,'LineWidth',2)
