@@ -17,9 +17,9 @@ omega = 2*pi/Ptide;
 
 %%% Model dimension
 Lz = Hdepth/delta;     % dimensionless domain height
-Nr = round(Lz/dz)+1;
-% zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
-zz = 0:dz:((Nr-1)*dz);
+Nr = round(Lz/dz);
+zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
+zz_wgrid = 0:dz:((Nr)*dz);
 dz_real  = dz*delta;
 
 Hshear = 300;
@@ -41,15 +41,13 @@ C3 = nu/delta^2/omega;
 C4 = kappa/delta^2/omega;
 
 %%%% Define variables
-psi = zeros(Nt,Nr);
-zeta = zeros(Nt,Nr);
+psi = zeros(Nt,Nr+1);
+zeta = zeros(Nt,Nr+1);
 buoy = zeros(Nt,Nr);
 
-p0 = zeros(1,Nr);
-z0 = zeros(1,Nr);
+p0 = zeros(1,Nr+1);
+z0 = zeros(1,Nr+1);
 b0 = zeros(1,Nr);
-An = zeros(Nr-2,Nr-2); %%% Matrix
-Dn = zeros(1,Nr-2);
 
 bq1 = zeros(Nt,Nr);
 bq2 = zeros(Nt,Nr);
@@ -58,18 +56,21 @@ bq4 = zeros(Nt,Nr);
 bq5 = zeros(Nt,Nr);
 dbdt = zeros(Nt,Nr);
 
-zq1 = zeros(Nt,Nr);
-zq2 = zeros(Nt,Nr);
-zq3 = zeros(Nt,Nr);
-zq4 = zeros(Nt,Nr);
+zq1 = zeros(Nt,Nr+1);
+zq2 = zeros(Nt,Nr+1);
+zq3 = zeros(Nt,Nr+1);
+zq4 = zeros(Nt,Nr+1);
+dzetadt = zeros(Nt,Nr+1);
 
-dzetadt = zeros(Nt,Nr);
+An = zeros(Nr-2,Nr-2); %%% Matrix
+Dn = zeros(1,Nr-2);
 
 dbdz = zeros(1,Nr);
 d2bdz2 = zeros(1,Nr);
-dpsidz = zeros(1,Nr);
-d2psidz2 = zeros(1,Nr);
-d2zetadz2 = zeros(1,Nr);
+
+dpsidz = zeros(1,Nr+1);
+d2psidz2 = zeros(1,Nr+1);
+d2zetadz2 = zeros(1,Nr+1);
 dUdz = zeros(1,Nr);
 U = zeros(1,Nr);
 
@@ -97,11 +98,18 @@ zeta(1,:) = 0;
 
 %%% Background tidal velocity (dimensionless)
 Atide = zeros(1,Nr);
+Atide_wgrid = zeros(1,Nr+1);
 for m=1:Nshear
     Atide(m) = Uconst + Shear*zz(m)*delta;
 end
+for m=1:Nshear+1
+    Atide_wgrid(m) = Uconst + Shear*zz_wgrid(m)*delta;
+end
 for m=Nshear+1:Nr
     Atide(m) = U0;
+end
+for m=Nshear+2:Nr+1
+    Atide_wgrid(m) = U0;
 end
 % idx_smooth = Nshear-round(Nshear/4):Nshear+4*round(Nshear/4);
 idx_smooth = 1:Nr;
@@ -114,8 +122,6 @@ dUtidedz = zeros(Nt,Nr);
 for m = 2:Nr-1
     dUtidedz(:,m)   = (Utide(:,m+1)-Utide(:,m-1))/2/dz;
 end
-
-
 
 h=figure(1);
 set(h,'Visible', FigureIsVisible);clf;
@@ -164,7 +170,6 @@ for o=1:Nt-1
     
     tendency;
     psi(o,:) = p0;
-
 
     if(useRK4)
     %%% Fourth-order Runge-Kutta method %%%
@@ -224,7 +229,8 @@ re_buoy = real(buoy); re_buoy(re_buoy==0)=NaN;
 
 
 %%% Dimensional veriables
-zzd = zz*delta;    
+zzd = zz*delta;   
+zzd_wgrid = zz_wgrid*delta;    
 ttd = tt/omega;
 U1 = U0;
 if(U0==0)
@@ -290,7 +296,7 @@ h=figure(5);
 set(h,'color','w','Visible', FigureIsVisible,'Position',[67 346 1015 619]);
 clf;
 subplot(3,2,1)
-pcolor(ttd(plot_tidx)/t1hour,zzd,re_psid(plot_tidx,:)');shading flat;colorbar;
+pcolor(ttd(plot_tidx)/t1hour,zzd_wgrid,re_psid(plot_tidx,:)');shading flat;colorbar;
 colormap(redblue)
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');
@@ -302,7 +308,7 @@ clim([-1 1]*aaa)
 end
 
 subplot(3,2,2)
-pcolor(ttd(plot_tidx)/t1hour,zzd,log10(abs(re_psid(plot_tidx,:)))');shading flat;colorbar;
+pcolor(ttd(plot_tidx)/t1hour,zzd_wgrid,log10(abs(re_psid(plot_tidx,:)))');shading flat;colorbar;
 colormap(redblue)
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');
@@ -311,7 +317,7 @@ set(gca,'color',gray);
 
 
 subplot(3,2,3)
-pcolor(ttd(plot_tidx)/t1hour,zzd,re_zetad(plot_tidx,:)');shading flat;colorbar;
+pcolor(ttd(plot_tidx)/t1hour,zzd_wgrid,re_zetad(plot_tidx,:)');shading flat;colorbar;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');
 title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
@@ -322,7 +328,7 @@ clim([-1 1]*aaa)
 end
 
 subplot(3,2,4)
-pcolor(ttd(plot_tidx)/t1hour,zzd,log10(abs(re_zetad(plot_tidx,:)))');shading flat;colorbar;
+pcolor(ttd(plot_tidx)/t1hour,zzd_wgrid,log10(abs(re_zetad(plot_tidx,:)))');shading flat;colorbar;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');
 title('Horizontal vorticity perturbation log10(abs(\zeta))','Fontsize',fontsize+3);
@@ -353,12 +359,12 @@ saveas(h,[expdir 'fig5.png'])
 
 %%
 
-uuu = zeros(Nt,Nr);
-for m=2:Nr-1
-     dpsidz = (psi(:,m+1)-psi(:,m-1))/2/dz;
-     uuu(:,m) = real(dpsidz)*U1;
-end
-uuu(Nr) = uuu(Nr-1);
+uuu = U1*real((psi(:,2:Nr+1)-psi(:,1:Nr))/dz);
+% for m=2:Nr-1
+%      dpsidz = (psi(:,m+1)-psi(:,m-1))/2/dz;
+%      uuu(:,m) = real(dpsidz)*U1;
+% end
+% uuu(Nr) = uuu(Nr-1);
 www = real(1i*kx*psi)*U1;
 
 
@@ -386,7 +392,7 @@ title('Horizontal velocity perturbation log10(abs(u^\prime))','Fontsize',fontsiz
 set(gca,'color',gray);
 
 subplot(2,2,3)
-pcolor(ttd(plot_tidx)/t1hour,zzd,www(plot_tidx,:)');shading flat;colorbar;
+pcolor(ttd(plot_tidx)/t1hour,zzd_wgrid,www(plot_tidx,:)');shading flat;colorbar;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Vertical velocity w','Fontsize',fontsize+3);
@@ -396,7 +402,7 @@ if(kx~=0)
 end
 
 subplot(2,2,4)
-pcolor(ttd(plot_tidx)/t1hour,zzd,log10(abs(www(plot_tidx,:)))');shading flat;colorbar;
+pcolor(ttd(plot_tidx)/t1hour,zzd_wgrid,log10(abs(www(plot_tidx,:)))');shading flat;colorbar;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Vertical velocity log10(abs(w))','Fontsize',fontsize+3);
