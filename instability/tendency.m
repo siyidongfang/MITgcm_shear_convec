@@ -36,6 +36,9 @@
     end
 
     U = cos(t0)*Atide/U0;
+    if(U0==0)
+        U=zeros(1,Nr);
+    end
 
     %%% Boundary condition:
     p0(1)=0;

@@ -131,41 +131,43 @@ grid on;grid minor;
 title('Horizontal vorticity budget (absolute value, log axis)')
 
 
-%%
+
 saveas(h,[expdir 'fig7.png'])
 
+% 
+% wins = round(Nt/NTtide); % window size for move mean
+% 
+% h=figure(8);
+% clf;
+% set(h,'color','w','Position',pposition,'Visible', FigureIsVisible);
+% subplot(1,2,1)
+% % semilogy(ttd/t1hour,bq_all,'LineWidth',lw);
+% semilogy(ttd/t1hour,movmean(abs(bq1_int),wins),'LineWidth',lw);
+% hold on;
+% semilogy(ttd/t1hour,movmean(abs(bq2_int),wins),'LineWidth',lw);
+% semilogy(ttd/t1hour,movmean(abs(bq3_int),wins),'LineWidth',lw);
+% semilogy(ttd/t1hour,movmean(abs(bq4_int),wins),'LineWidth',lw);
+% semilogy(ttd/t1hour,movmean(abs(bq5_int),wins),'LineWidth',lw,'Color',gray);
+% set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
+% legend(legend_b,'Interpreter','Latex','Fontsize',fontsize+3,'Position',blegend);
+% grid on;grid minor;
+% title('Buoyancy (absolute value, move mean)')
+% 
+% subplot(1,2,2)
+% % semilogy(ttd/t1hour,zq_all,'LineWidth',lw);
+% semilogy(ttd/t1hour,movmean(abs(zq1_int),wins),'LineWidth',lw);
+% hold on;
+% semilogy(ttd/t1hour,movmean(abs(zq2_int),wins),'LineWidth',lw);
+% semilogy(ttd/t1hour,movmean(abs(zq3_int),wins),'LineWidth',lw);
+% semilogy(ttd/t1hour,movmean(abs(zq4_int),wins),'LineWidth',lw,'Color',gray);
+% set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
+% legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegend);
+% grid on;grid minor;
+% title('Horizontal vorticity (absolute value, move mean)')
+% 
+% saveas(h,[expdir 'fig8.png'])
 
-wins = round(Nt/NTtide); % window size for move mean
 
-h=figure(8);
-clf;
-set(h,'color','w','Position',pposition,'Visible', FigureIsVisible);
-subplot(1,2,1)
-% semilogy(ttd/t1hour,bq_all,'LineWidth',lw);
-semilogy(ttd/t1hour,movmean(abs(bq1_int),wins),'LineWidth',lw);
-hold on;
-semilogy(ttd/t1hour,movmean(abs(bq2_int),wins),'LineWidth',lw);
-semilogy(ttd/t1hour,movmean(abs(bq3_int),wins),'LineWidth',lw);
-semilogy(ttd/t1hour,movmean(abs(bq4_int),wins),'LineWidth',lw);
-semilogy(ttd/t1hour,movmean(abs(bq5_int),wins),'LineWidth',lw,'Color',gray);
-set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
-legend(legend_b,'Interpreter','Latex','Fontsize',fontsize+3,'Position',blegend);
-grid on;grid minor;
-title('Buoyancy (absolute value, move mean)')
-
-subplot(1,2,2)
-% semilogy(ttd/t1hour,zq_all,'LineWidth',lw);
-semilogy(ttd/t1hour,movmean(abs(zq1_int),wins),'LineWidth',lw);
-hold on;
-semilogy(ttd/t1hour,movmean(abs(zq2_int),wins),'LineWidth',lw);
-semilogy(ttd/t1hour,movmean(abs(zq3_int),wins),'LineWidth',lw);
-semilogy(ttd/t1hour,movmean(abs(zq4_int),wins),'LineWidth',lw,'Color',gray);
-set(gca,'Fontsize',fontsize);xlabel('Time (hours)')
-legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegend);
-grid on;grid minor;
-title('Horizontal vorticity (absolute value, move mean)')
-
-saveas(h,[expdir 'fig8.png'])
 
 
 

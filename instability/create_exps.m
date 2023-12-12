@@ -9,9 +9,10 @@ Shear = 1e-3;
 N = 1e-3;
 topo = 4;
 Ptide = 43200;
-dz = 0.008;             % dimensionless vertical grid spacing
-dt = 0.005;
+dz = 0.01;             % dimensionless vertical grid spacing
+dt = 0.01;
 m1km = 1000;
+Uconst = 0;
 
 Hdepth = 1500;
 delta = Hdepth;
@@ -29,7 +30,7 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
     lambda = 1000;
     % lambda = lambda_parm(ne)
     kx = 2*pi/(lambda/delta);
-    Shear = 1e-40;
+    Shear = 0;
     % topo = 1e-100;
     % kx = 0
     % N = N_parm(ne)
@@ -43,12 +44,11 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
 
     mkdir(expdir);
 
-    NOdiffusion = false;  %%% Exclude diffusion/dissipation
+    NOdiffusion = true;  %%% Exclude diffusion/dissipation
     useParallel = false;  %%% Parallel computing
     useRK4 = false;       %%% Use Tourth-order Runge-Kutta method
     useAB3 = true;        %%% Use Third-order Adams-Bashforth method
 
-    % numerical_0shear;
     numerical;
     decompose;
 % end
