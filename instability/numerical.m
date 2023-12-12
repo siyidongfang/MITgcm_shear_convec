@@ -3,7 +3,6 @@
 
 outputname = [expdir 'output.mat'];
 
-useRK4 = true;
 fontsize = 16;
 
 %%%% Define constants
@@ -30,7 +29,7 @@ Hshear = zz(Nshear)*delta;
 U0 = Hshear * Shear;
 Re = U0*delta/nu;
 
-NTtide = 2;
+NTtide = 1.1;
 Lt = NTtide*43200*omega; % dimensionless simulation time
 Nt = round(Lt/dt)
 dt_real = NTtide*43200/Nt;
@@ -237,7 +236,7 @@ load_colors;
     
     %%%%% Floquet stability
     oT = round(Ptide*omega/dt);% The time step after one tidal cycle
-    tidx = 200:300;
+    tidx = 10:20;
     % zidx=2:Nshear;
     zidx = 2:Nr-1;
     muk_psi = mean(re_psi(oT+tidx,zidx))./mean(re_psi(tidx,zidx));
@@ -283,7 +282,9 @@ set(gca,'color',gray);
 % clim([-1 1]/1e10)
 % clim([-1 1]*U0*delta*delta)
 aaa = max(max(abs(re_psid))/DIV);
+if(~isnan(aaa))
 clim([-1 1]*aaa)
+end
 
 subplot(3,1,2)
 pcolor(ttd(plot_tidx)/t1hour,zzd,re_zetad(plot_tidx,:)');shading flat;colorbar;
@@ -294,7 +295,9 @@ set(gca,'color',gray);
 % clim([-1 1]/1e6)
 % clim([-1 1]*U0*delta)
 aaa = max(max(abs(re_zetad))/DIV);
+if(~isnan(aaa))
 clim([-1 1]*aaa)
+end
 
 subplot(3,1,3)
 pcolor(ttd(plot_tidx)/t1hour,zzd,dbuoydz(plot_tidx,:)');shading flat;colorbar;
@@ -305,13 +308,19 @@ set(gca,'color',gray);
 % clim([-1 1]/1e10)
 % clim([-1 1]*N^2*sind(topo)/omega)
 aaa = max(max(abs(re_buoyd))/DIV);
+if(~isnan(aaa))
 clim([-1 1]*aaa)
+end
 saveas(h,[expdir 'fig5.png'])
 
 
 
 uuu = zeros(Nt,Nr);
-uuu(:,1:Nr-1) = real(diff(psi,1,2)/dz)*U0;
+for m=2:Nr-1
+     dpsidz = (psi(:,m+1)-psi(:,m-1))/2/dz;
+     uuu(:,m) = real(dpsidz)*U0;
+end
+uuu(Nr) = uuu(Nr-1);
 www = real(1i*kx*psi)*U0;
 
 
@@ -327,7 +336,10 @@ set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal velocity perturbation u^\prime','Fontsize',fontsize+3);
 set(gca,'color',gray);
-clim([-1 1]*max(max((abs(uuu))))/DIV)
+aaa = max(max((abs(uuu))))/DIV;
+if(~isnan(aaa)&& aaa~=0)
+clim([-1 1]*aaa)
+end
 
 subplot(3,1,2)
 pcolor(ttd(plot_tidx)/t1hour,zzd,www(plot_tidx,:)');shading flat;colorbar;

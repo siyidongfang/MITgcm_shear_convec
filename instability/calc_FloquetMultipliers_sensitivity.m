@@ -3,7 +3,7 @@
 %%%
 
 clear;
-expdir = 'lambda200_shear/';
+expdir = 'EulerForward/';
 
 m1km =1000;
 
@@ -23,7 +23,7 @@ for ne = 1:NEXP
     % expname = ['H1500_topo' num2str(topo) '_Pt43200_N0.001_S0.001_lambda1000_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne))];
     
     shear = Shear_parm(ne); 
-    expname = ['H1500_topo4_Pt43200_N0.001_S' num2str(shear) '_lambda200_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne))];
+    expname = ['H1500_topo4_Pt43200_N0.001_S' num2str(shear) '_lambda1000_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne)) '_U==0'];
 
     % N = N_parm(ne); 
     % expname = ['H1500_topo4_Pt43200_N' num2str(N) '_S0.001_lambda1000_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne))];

@@ -9,7 +9,7 @@ Shear = 1e-3;
 N = 1e-3;
 topo = 4;
 Ptide = 43200;
-dz = 0.01;             % dimensionless vertical grid spacing
+dz = 0.003;             % dimensionless vertical grid spacing
 dt = 0.01;
 m1km = 1000;
 
@@ -24,8 +24,8 @@ lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75
 % lambda_parm = [250 500 750 1000 2000 2500 5000]
 Ptide_parm = [0.5:0.5:5 10000]*43200;
 
-% for ne =1:length(lambda_parm)
-% for ne =5:length(Shear_parm)
+% for ne =2:length(lambda_parm)
+% for ne =1:length(Shear_parm)
     lambda = 1000;
     % lambda = lambda_parm(ne)
     kx = 2*pi/(lambda/delta);
@@ -36,16 +36,18 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
     % topo = topo_parm(ne)
     % Shear = Shear_parm(ne)
     % Ptide = Ptide_parm(ne)
-    Shear = 0
 
-    expdir = ['exps/H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
+    expdir = ['EulerForward/H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
         '_N' num2str(N) '_S' num2str(Shear) ...
-        '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_U==0/']
+        '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_RK4/']
 
     mkdir(expdir);
 
-    NOdiffusion = true;
-    useParallel = false;  %%% Parallel computing
-    numerical_0shear;
+    NOdiffusion = false;  %%% Exclude diffusion/dissipation
+    useParallel = true;  %%% Parallel computing
+    useRK4 = true;       %%% Use RK4 instead of Euler forward
+
+    % numerical_0shear;
+    numerical;
     decompose;
 % end

@@ -3,7 +3,6 @@
 
 outputname = [expdir 'output.mat'];
 
-useRK4 = true;
 fontsize = 16;
 
 %%%% Define constants
@@ -23,14 +22,7 @@ Nr = round(Lz/dz)+1;
 zz = 0:dz:((Nr-1)*dz);
 dz_real  = dz*delta;
 
-Hshear = 300;
-Lshear = Hshear/delta; % dimensionless vertical scale for velocity shear
-Nshear = round(Lshear/dz);
-Hshear = zz(Nshear)*delta;
-% U0 = Hshear * Shear;
-% U0 = 1e-50;
 U0 = 0;
-Re = U0*delta/nu;
 
 NTtide = 2;
 Lt = NTtide*43200*omega; % dimensionless simulation time
@@ -98,6 +90,7 @@ zeta(1,:) = 0;
 % end
 % zeta(1,:) = d2psidz2-kx^2*psi(1,:);
 
+Nshear = 30;
 %%% Background tidal velocity (dimensionless)
 % Atide = zeros(1,Nr);
 % for m=1:Nshear
@@ -211,6 +204,8 @@ for o=1:Nt-1
     end
 end
 
+
+%%
 re_psi = real(psi); re_psi(re_psi==0)=NaN;
 re_zeta = real(zeta); re_zeta(re_zeta==0)=NaN;
 re_buoy = real(buoy); re_buoy(re_buoy==0)=NaN;
@@ -226,7 +221,7 @@ re_buoyd = re_buoy*N^2*sind(topo)/omega;
 
 dbuoydz = zeros(Nt,Nr);
 for m = 2:Nr-1
-    dbuoydz(:,m) = (re_buoyd(:,m+1)-re_buoyd(:,m-1))/2/dz/delta;
+    dbuoydz(:,m) = (re_buoy(:,m+1)-re_buoy(:,m-1))/dz;
 end
 
 %
@@ -241,13 +236,17 @@ load_colors;
     
     %%%%% Floquet stability
     oT = round(Ptide*omega/dt);% The time step after one tidal cycle
-    tidx = 200:300;
-    zidx=2:Nshear;
-    % zidx = 2:Nr-1;
-    muk_psi = mean(re_psi(oT+tidx,zidx))./mean(re_psi(tidx,zidx));
-    muk_zeta = mean(re_zeta(oT+tidx,zidx))./mean(re_zeta(tidx,zidx));
-    muk_buoy = mean(re_buoy(oT+tidx,zidx))./mean(re_buoy(tidx,zidx));
+    tidx = 5:10;
+    % zidx=2:Nshear;
+    zidx = 2:Nr-1;
+    % muk_psi = mean(re_psi(oT+tidx,zidx))./mean(re_psi(tidx,zidx));
+    % muk_zeta = mean(re_zeta(oT+tidx,zidx))./mean(re_zeta(tidx,zidx));
+    % muk_buoy = mean(re_buoy(oT+tidx,zidx))./mean(re_buoy(tidx,zidx));
     
+    muk_psi = (re_psi(oT+tidx,zidx))./(re_psi(tidx,zidx));
+    muk_zeta = (re_zeta(oT+tidx,zidx))./(re_zeta(tidx,zidx));
+    muk_buoy = (re_buoy(oT+tidx,zidx))./(re_buoy(tidx,zidx));
+
     muk_max_buoy = max(abs(muk_buoy));
     muk_mean_buoy = mean(abs(muk_buoy));
     muk_rms_buoy = rms(abs(muk_buoy));
@@ -270,14 +269,14 @@ load_colors;
 % else
 %     DIV = 1e5;
 % end
-DIV = 1e3;
+DIV = 1;
 
 h=figure(5);
 set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
 clf;
 set(gcf,'color','w','Position',[44 241 654 728]);
 subplot(3,1,1)
-pcolor(ttd(plot_tidx)/t1hour,zzd,re_psid(plot_tidx,:)');shading flat;colorbar;
+pcolor(ttd(plot_tidx)/t1hour,zzd,re_psi(plot_tidx,:)');shading flat;colorbar;
 colormap(redblue)
 % colormap(WhiteBlueGreenYellowRed(0));
 set(gca,'Fontsize',fontsize);
@@ -286,18 +285,18 @@ title('Streamfunction \psi','Fontsize',fontsize+3);
 set(gca,'color',gray);
 % clim([-1 1]/1e10)
 % clim([-1 1]*U0*delta*delta)
-aaa = max(max(abs(re_psid))/DIV);
+aaa = max(max(abs(re_psi))/DIV);
 clim([-1 1]*aaa)
 
 subplot(3,1,2)
-pcolor(ttd(plot_tidx)/t1hour,zzd,re_zetad(plot_tidx,:)');shading flat;colorbar;
+pcolor(ttd(plot_tidx)/t1hour,zzd,re_zeta(plot_tidx,:)');shading flat;colorbar;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)');xlabel('Time (hours)')
 title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
 set(gca,'color',gray);
 % clim([-1 1]/1e6)
 % clim([-1 1]*U0*delta)
-aaa = max(max(abs(re_zetad))/DIV);
+aaa = max(max(abs(re_zeta))/DIV);
 clim([-1 1]*aaa)
 
 subplot(3,1,3)
@@ -308,44 +307,44 @@ title('Stratification perturbation','Fontsize',fontsize+3);
 set(gca,'color',gray);
 % clim([-1 1]/1e10)
 % clim([-1 1]*N^2*sind(topo)/omega)
-aaa = max(max(abs(re_buoyd))/DIV);
+aaa = max(max(abs(re_buoy))/DIV);
 clim([-1 1]*aaa)
 saveas(h,[expdir 'fig5.png'])
 
 
-
-uuu = zeros(Nt,Nr);
-uuu(:,1:Nr-1) = real(diff(psi,1,2)/dz)*U0;
-www = real(1i*kx*psi)*U0;
-
-
-h=figure(20);
-set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
-clf;
-set(gcf,'color','w','Position',[44 241 654 728]);
-subplot(3,1,1)
-pcolor(ttd(plot_tidx)/t1hour,zzd,uuu(plot_tidx,:)');shading flat;colorbar;
-colormap(redblue)
-% colormap(WhiteBlueGreenYellowRed(0));
-set(gca,'Fontsize',fontsize);
-ylabel('HAB (m)');xlabel('Time (hours)')
-title('Horizontal velocity perturbation u^\prime','Fontsize',fontsize+3);
-set(gca,'color',gray);
-clim([-1 1]*max(max((abs(uuu))))/DIV)
-
-subplot(3,1,2)
-pcolor(ttd(plot_tidx)/t1hour,zzd,www(plot_tidx,:)');shading flat;colorbar;
-set(gca,'Fontsize',fontsize);
-ylabel('HAB (m)');xlabel('Time (hours)')
-title('Vertical velocity w','Fontsize',fontsize+3);
-set(gca,'color',gray);
-if(kx~=0)
-    clim([-1 1]*max(max((abs(www))))/DIV)
-end
-
-
-
-saveas(h,[expdir 'fig9.png'])
+% 
+% uuu = zeros(Nt,Nr);
+% uuu(:,1:Nr-1) = real(diff(psi,1,2)/dz)*U0;
+% www = real(1i*kx*psi)*U0;
+% 
+% 
+% h=figure(20);
+% set(h,'Visible', FigureIsVisible,'Position',[137 179 853 673]);
+% clf;
+% set(gcf,'color','w','Position',[44 241 654 728]);
+% subplot(3,1,1)
+% pcolor(ttd(plot_tidx)/t1hour,zzd,uuu(plot_tidx,:)');shading flat;colorbar;
+% colormap(redblue)
+% % colormap(WhiteBlueGreenYellowRed(0));
+% set(gca,'Fontsize',fontsize);
+% ylabel('HAB (m)');xlabel('Time (hours)')
+% title('Horizontal velocity perturbation u^\prime','Fontsize',fontsize+3);
+% set(gca,'color',gray);
+% clim([-1 1]*max(max((abs(uuu))))/DIV)
+% 
+% subplot(3,1,2)
+% pcolor(ttd(plot_tidx)/t1hour,zzd,www(plot_tidx,:)');shading flat;colorbar;
+% set(gca,'Fontsize',fontsize);
+% ylabel('HAB (m)');xlabel('Time (hours)')
+% title('Vertical velocity w','Fontsize',fontsize+3);
+% set(gca,'color',gray);
+% if(kx~=0)
+%     clim([-1 1]*max(max((abs(www))))/DIV)
+% end
+% 
+% 
+% 
+% saveas(h,[expdir 'fig9.png'])
 
 close all
 
