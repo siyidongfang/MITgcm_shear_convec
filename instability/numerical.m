@@ -165,8 +165,9 @@ for o=1:Nt-1
     tendency;
     psi(o,:) = p0;
 
+
     if(useRK4)
-    %%% Fourth-order Runge-Kutta %%%
+    %%% Fourth-order Runge-Kutta method %%%
         k_1b = dbdt(o,:);
         k_1z = dzetadt(o,:);
         % Euler forward predictor advancing dt/2:
@@ -199,11 +200,21 @@ for o=1:Nt-1
         % Simpson rule corrector advancing dt:
         buoy(o+1,:) = buoy(o,:) + (1/6)*(k_1b+2*k_2b+2*k_3b+k_4b)*dt;
         zeta(o+1,:) = zeta(o,:) + (1/6)*(k_1z+2*k_2z+2*k_3z+k_4z)*dt;
+    elseif(useAB3)
+        %%% Third-order Adams-Bashforth method
+        if (o <= 2)
+            buoy(o+1,:) = buoy(o,:) + dbdt(o,:)*dt;
+            zeta(o+1,:) = zeta(o,:) + dzetadt(o,:)*dt;
+        else
+            buoy(o+1,:) = buoy(o,:) + dt*( (23/12)*dbdt(o,:) - (16/12)*dbdt(o-1,:) + (5/12)*dbdt(o-2,:) );
+            zeta(o+1,:) = zeta(o,:) + dt*( (23/12)*dzetadt(o,:) - (16/12)*dzetadt(o-1,:) + (5/12)*dzetadt(o-2,:) );
+        end
     else
     % %%% Euler forward %%%
         buoy(o+1,:) = dbdt(o,:)*dt;
         zeta(o+1,:) = dzetadt(o,:)*dt;
     end
+
 end
 
 re_psi = real(psi); re_psi(re_psi==0)=NaN;

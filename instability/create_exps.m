@@ -9,8 +9,8 @@ Shear = 1e-3;
 N = 1e-3;
 topo = 4;
 Ptide = 43200;
-dz = 0.003;             % dimensionless vertical grid spacing
-dt = 0.01;
+dz = 0.008;             % dimensionless vertical grid spacing
+dt = 0.005;
 m1km = 1000;
 
 Hdepth = 1500;
@@ -29,7 +29,7 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
     lambda = 1000;
     % lambda = lambda_parm(ne)
     kx = 2*pi/(lambda/delta);
-    % Shear = 0;
+    Shear = 1e-40;
     % topo = 1e-100;
     % kx = 0
     % N = N_parm(ne)
@@ -39,13 +39,14 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
 
     expdir = ['EulerForward/H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
         '_N' num2str(N) '_S' num2str(Shear) ...
-        '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_RK4/']
+        '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_AB3/']
 
     mkdir(expdir);
 
     NOdiffusion = false;  %%% Exclude diffusion/dissipation
-    useParallel = true;  %%% Parallel computing
-    useRK4 = true;       %%% Use RK4 instead of Euler forward
+    useParallel = false;  %%% Parallel computing
+    useRK4 = false;       %%% Use Tourth-order Runge-Kutta method
+    useAB3 = true;        %%% Use Third-order Adams-Bashforth method
 
     % numerical_0shear;
     numerical;
