@@ -1,19 +1,19 @@
 
 clear;close all;
 
-kx = 2;
+kx = 1e4;
 
-Nr = 1000;
+Nr = 100;
 
 zspan = [0 1];
-% av = [1:100];
-av = -rand(1,100)+1i*rand(1,100);  
-% av = [1 2 3 4 10 20 40 60 100 200 300 500 2 6000 100000 40 20 10 3 2 1 0]
+% av = [1:Nr];
+av = -rand(1,Nr)+1i*rand(1,Nr);  
+% av = [1 2 3 4 10 20 40 60 100 200 300 500 2 6000 100000 40 20 10 3 2 1 0];
 zeta = @(z) interp1(linspace(min(zspan),max(zspan),numel(av)), av, z);    
 
 %%% Form Initial Guess
-xmesh = linspace(0,1,Nr/10);
-solinit = bvpinit(xmesh, [0.1 0]);
+xmesh = linspace(0,1,Nr);
+solinit = bvpinit(xmesh, [0 0.1+0.1*1i]);
 %%% Solve the BVP using the bvp4c solver.
 sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta), @bcfun, solinit);
 

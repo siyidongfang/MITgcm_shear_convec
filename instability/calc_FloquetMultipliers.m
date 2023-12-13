@@ -3,19 +3,11 @@
 %%%
 
 clear;
-expdir = 'NOdiffusion/';
-% expdir = 'exps/';
+expdir = 'exps_lambda/';
 
 m1km =1000;
-% lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
-% lambda_parm = [0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000 1e17 1.0e37 1e57 1e77]*m1km;
-% lambda_parm = [0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
-% lambda_parm = [0.05 0.075 0.1 0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 0]*m1km;
-% lambda_parm = [0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25]*m1km;
-% lambda_parm = [250 500 750 1000 2000 2500 5000]
-lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 2000 5000 10000]*m1km;
-% lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 2.5 5 7.5 10 25 50 75 100 250 500 1000]*m1km;
 
+lambda_parm = [0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 2000 5000 10000]*m1km;
 kx_parm = 2*pi./lambda_parm;
 
 NEXP = length(lambda_parm);
@@ -23,20 +15,9 @@ NEXP = length(lambda_parm);
 dz_group = 0.01*ones(1,NEXP);
 dt_group = 0.01*ones(1,NEXP);
 
-dt_group(1) = 0.0002;
-dt_group(2) = 0.0003;
-dt_group(3) = 0.001;
-
-dt_group(4:6) = 0.001;
-dt_group(7) = 0.005;
-
-
-
-
 for ne = 8:NEXP
     lambda = lambda_parm(ne)
     expname = ['H1500_topo4_Pt43200_N0.001_S0.001_lambda' num2str(lambda) '_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne))];
-    % expname = ['topo4_Pt43200_N0.001_S0.001_L' num2str(lambda) '_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne))];
     load([expdir expname '/output.mat'],'buoy','zeta','psi','omega','dt','Ptide','Nt','Nr','zz','Nshear')
     re_buoy = real(buoy);
     re_zeta = real(zeta);
@@ -44,27 +25,14 @@ for ne = 8:NEXP
     
     %%%%% Floquet stability
     oT = round(Ptide*omega/dt);% The time step after one tidal cycle
-    tidx = 110;
+    tidx1 = 2*oT+1:3*oT;
+    tidx2 = 3*oT+1:4*oT;
     zidx=2:Nshear;
     % zidx = 2:Nr-1;
-    muk_psi = re_psi(oT+tidx,zidx)./re_psi(tidx,zidx);
-    muk_zeta = re_zeta(oT+tidx,zidx)./re_zeta(tidx,zidx);
-    muk_buoy = re_buoy(oT+tidx,zidx)./re_buoy(tidx,zidx);
-    
-    % sum(muk_psi>1)
-    % sum(muk_zeta>1)
-    % sum(muk_buoy>1)
-    % figure(1);
-    % clf;
-    % plot(muk_psi,zz(zidx))
-    % hold on;
-    % plot(muk_zeta,zz(zidx))
-    % plot(muk_buoy,zz(zidx))
-    % legend('psi','zeta','buoy')
-    
-    % muk_max(ne) = max(abs([muk_buoy muk_zeta muk_psi]));
-    % muk_mean(ne) = mean(abs([muk_buoy muk_zeta muk_psi]));
-    % muk_rms(ne) = rms(abs([muk_buoy muk_zeta muk_psi]));
+
+    muk_psi = mean(abs(re_psi(tidx2,zidx)))./mean(abs(re_psi(tidx1,zidx)));
+    muk_zeta = mean(abs(re_zeta(tidx2,zidx)))./mean(abs(re_zeta(tidx1,zidx)));
+    muk_buoy = mean(abs(re_buoy(tidx2,zidx)))./mean(abs(re_buoy(tidx1,zidx)));
 
     muk_max_buoy(ne) = max(abs(muk_buoy));
     muk_mean_buoy(ne) = mean(abs(muk_buoy));
@@ -87,9 +55,9 @@ end
 fontsize = 18;
 
 
-log10_muk_buoy = log10(muk_max_buoy);
-log10_muk_zeta = log10(muk_max_zeta);
-log10_muk_psi = log10(muk_max_psi);
+log10_muk_buoy = log10(muk_mean_buoy);
+log10_muk_zeta = log10(muk_mean_zeta);
+log10_muk_psi = log10(muk_mean_psi);
 
 figure()
 clf;
