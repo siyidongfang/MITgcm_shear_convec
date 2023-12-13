@@ -22,7 +22,7 @@ NEXP = length(lambda_parm);
 
 dz_group = 0.01*ones(1,NEXP);
 dt_group = 0.01*ones(1,NEXP);
-% 
+
 dt_group(1) = 0.0002;
 dt_group(2) = 0.0003;
 dt_group(3) = 0.001;

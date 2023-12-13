@@ -2,6 +2,9 @@
 % clear;
 % close all;
 
+MatlabSolver = true;
+ysiSolver = false;
+
 Lz = 1;
 dz = 0.01;
 Nr = round(Lz/dz)+1;
@@ -18,31 +21,45 @@ delta = H;
 kx = 2*pi/(lambda/delta)
 C = -kx^2*dz^2-2;
 
-p0 = zeros(1,Nr);
 
-An = zeros(Nr-2,Nr-2); %%% Matrix
-Dn = z0(2:Nr-1)'*dz^2;
-An(1,1)=C;An(1,2)=1;
-An(Nr-2,Nr-3)=1;An(Nr-2,Nr-2)=C;
-for n=2:Nr-3
-    An(n,n-1)=1;
-    An(n,n)=C;
-    An(n,n+1)=1;
-end
-det_An = det(An);
-for n=1:Nr-2
-    Bn = An;
-    Bn(:,n) = Dn;
-    det_Bn = det(Bn);
-    p0(n+1) = det_Bn/det_An;
+if(MatlabSolver)
+
+
+
 end
 
-%%% Boundary condition:
+
+
+
+
+
+if(ysiSolver)
+    p0 = zeros(1,Nr);
+    An = zeros(Nr-2,Nr-2); %%% Matrix
+    Dn = z0(2:Nr-1)'*dz^2;
+    An(1,1)=C;An(1,2)=1;
+    An(Nr-2,Nr-3)=1;An(Nr-2,Nr-2)=C;
+    for n=2:Nr-3
+        An(n,n-1)=1;
+        An(n,n)=C;
+        An(n,n+1)=1;
+    end
+    det_An = det(An);
+    for n=1:Nr-2
+        Bn = An;
+        Bn(:,n) = Dn;
+        det_Bn = det(Bn);
+        p0(n+1) = det_Bn/det_An;
+    end
+    
+    %%% Boundary condition:
     p0(1)=0;
-    p0(Nr)=0;   
+    p0(Nr)=0;  
+end
 
-    dpsidz = zeros(1,Nr);
-    d2psidz2 = zeros(1,Nr);
+
+dpsidz = zeros(1,Nr);
+d2psidz2 = zeros(1,Nr);
 
 for m = 2:Nr-1
     dpsidz(m)   = (p0(m+1)-p0(m-1))/2/dz;
