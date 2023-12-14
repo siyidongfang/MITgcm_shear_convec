@@ -9,13 +9,13 @@ Shear = 1e-3;
 N = 1e-3;
 topo = 4;
 Ptide = 43200;
-dz = 0.01;         % dimensionless vertical grid spacing
-dt = 0.01;
+dz = 0.005;         % dimensionless vertical grid spacing
+dt = 0.005;
 m1km = 1000;
 Uconst = 0;
 Hdepth = 1500;
 delta = Hdepth;
-NTtide = 20;
+NTtide = 5;
 
 topo_parm = [1e-20 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20];
 N_parm = [1e-20 0.01 0.05 0.1 0.25 0.5 0.75 1 2 3 4 5 6 7 8 9 10]*1e-3;
@@ -25,12 +25,12 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
 
 % for ne =15:length(lambda_parm)
 % for ne =10:length(Shear_parm)
-    lambda = 1000;
+    lambda = 400;
     % lambda = lambda_parm(ne)
     kx = 2*pi/(lambda/delta);
     % Shear = 0;
     % topo = 1e-100;
-    kx = 0
+    % kx = 0
     % N = N_parm(ne)
     % topo = topo_parm(ne)
     % Shear = Shear_parm(ne)
@@ -38,14 +38,14 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
 
     expdir = ['exps_lambda/H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
         '_N' num2str(N) '_S' num2str(Shear) ...
-        '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_kx0_NOdiff/']
+        '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_EulerForward/']
 
     mkdir(expdir);
 
-    NOdiffusion = true;  %%% Exclude diffusion/dissipation
+    NOdiffusion = false;  %%% Exclude diffusion/dissipation
     useParallel = false;  %%% Parallel computing
     useRK4 = false;       %%% Use Tourth-order Runge-Kutta method
-    useAB3 = true;        %%% Use Third-order Adams-Bashforth method
+    useAB3 = false;       %%% Use Third-order Adams-Bashforth method
 
     numerical;
     decompose;
