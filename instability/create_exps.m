@@ -9,8 +9,8 @@ Shear = 1e-3;
 N = 1e-3;
 topo = 4;
 Ptide = 43200;
-dz = 0.005;         % dimensionless vertical grid spacing
-dt = 0.005;
+dz = 0.003;         % dimensionless vertical grid spacing
+dt = 0.003;
 m1km = 1000;
 Uconst = 0;
 Hdepth = 1500;
@@ -38,14 +38,14 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
 
     expdir = ['exps_lambda/H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
         '_N' num2str(N) '_S' num2str(Shear) ...
-        '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_EulerForward/']
+        '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_RK4+AB3/']
 
     mkdir(expdir);
 
     NOdiffusion = false;  %%% Exclude diffusion/dissipation
     useParallel = false;  %%% Parallel computing
     useRK4 = false;       %%% Use Tourth-order Runge-Kutta method
-    useAB3 = false;       %%% Use Third-order Adams-Bashforth method
+    useAB3 = true;       %%% Use Third-order Adams-Bashforth method
 
     numerical;
     decompose;
