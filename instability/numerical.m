@@ -122,27 +122,27 @@ for m = 2:Nr-1
     dUtidedz(:,m)   = (Utide(:,m+1)-Utide(:,m-1))/2/dz;
 end
 
-h=figure(1);
-set(h,'Visible', FigureIsVisible);clf;
-plot(Atide,zz*delta);
-grid on;grid minor;
-saveas(h,[expdir 'fig1.png'])
-
-h=figure(2);
-set(h,'Visible', FigureIsVisible);clf;
-plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
-grid on;grid minor;
-saveas(h,[expdir 'fig2.png'])
-
-h=figure(3);
-set(h,'Visible', FigureIsVisible);clf;
-pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
-saveas(h,[expdir 'fig3.png'])
-
-h=figure(4);
-set(h,'Visible', FigureIsVisible);clf;
-pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
-saveas(h,[expdir 'fig4.png'])
+% h=figure(1);
+% set(h,'Visible', FigureIsVisible);clf;
+% plot(Atide,zz*delta);
+% grid on;grid minor;
+% saveas(h,[expdir 'fig1.png'])
+% 
+% h=figure(2);
+% set(h,'Visible', FigureIsVisible);clf;
+% plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
+% grid on;grid minor;
+% saveas(h,[expdir 'fig2.png'])
+% 
+% h=figure(3);
+% set(h,'Visible', FigureIsVisible);clf;
+% pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
+% saveas(h,[expdir 'fig3.png'])
+% 
+% h=figure(4);
+% set(h,'Visible', FigureIsVisible);clf;
+% pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
+% saveas(h,[expdir 'fig4.png'])
 
 % close all;
 
@@ -212,7 +212,7 @@ for m = 2:Nr-1
 end
 
 
-plot_tidx = 1:1:Nt;
+plot_tidx = 1:10:Nt;
 load_colors;
 
 %%
