@@ -25,14 +25,14 @@ lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75
 % lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 2000 5000 10000]*m1km;
 Ptide_parm = [0.5:0.5:5 10000]*43200;
 
-% for ne =1:length(lambda_parm)
+for ne =7:length(lambda_parm)
 % for ne =7:9
 % for ne =1:length(Shear_parm)
 % for ne =15:21
 % for ne = 1:length(dz_parm)
     % dz = dz_parm(ne)
     % dt = dz
-    lambda = 400;
+    % lambda = 400;
     % lambda = lambda_parm(ne)
     kx = 2*pi/(lambda/delta);
     Shear = 0.0012;
@@ -43,7 +43,7 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
     % Shear = Shear_parm(ne)
     % Ptide = Ptide_parm(ne)
 
-    expdir = ['exps_shear_L400_0.002/H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
+    expdir = ['exps_lambda_S0.0012_0.002/H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
         '_N' num2str(N) '_S' num2str(Shear) ...
         '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_RK4+AB3/']
 
@@ -56,4 +56,4 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
 
     numerical;
     decompose;
-% end
+end
