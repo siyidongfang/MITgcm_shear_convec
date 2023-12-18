@@ -76,7 +76,6 @@
     dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) + zq4(o,:);
 
 
-
     %%% Code Equation
     function dydz = bvpfun(z,y,kx,zeta)
         dydz = [y(2); kx^2*y(1)+zeta(z)];

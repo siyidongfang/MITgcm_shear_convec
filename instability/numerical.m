@@ -1,6 +1,5 @@
 
 
-
 outputname = [expdir 'output.mat'];
 
 fontsize = 16;
@@ -15,7 +14,7 @@ omega = 2*pi/Ptide;
 %%% Model dimension
 Lz = Hdepth/delta;     % dimensionless domain height
 Nr = round(Lz/dz);
-zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
+zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   
 zz_wgrid = 0:dz:((Nr)*dz);
 dz_real  = dz*delta;
 
