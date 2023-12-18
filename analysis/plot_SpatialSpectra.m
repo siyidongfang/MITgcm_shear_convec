@@ -1,6 +1,6 @@
 
 clear;close all;
-ne =5;
+ne =3;
 load_all
 
 % Lx

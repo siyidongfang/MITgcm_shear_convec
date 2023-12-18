@@ -5,7 +5,7 @@
 
 clear;
 close all;
-ne =4;
+ne =3;
 load_all
 
 % xx = xx-xx(1);
@@ -39,9 +39,12 @@ for o=1:No
     time_tidal(o) = time_h/12;
 
     tt = squeeze(rdmds([exppath,'/results/THETA_inst'],nIter));
-    % ss = squeeze(rdmds([exppath,'/results/SALT'],nIter));
     uu = squeeze(rdmds([exppath,'/results/UVEL_inst'],nIter));
     vv = squeeze(rdmds([exppath,'/results/VVEL_inst'],nIter));
+    % tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
+    % uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
+    % vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
+    % ss = squeeze(rdmds([exppath,'/results/SALT'],nIter));
     % n2 = -gravity/rhoConst*squeeze(rdmds([exppath,'/results/DRHODR'],nIter));
 
     tt(tt==0)=NaN;
