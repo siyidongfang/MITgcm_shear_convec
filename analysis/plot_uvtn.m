@@ -1,6 +1,6 @@
 
     clear;close all;
-    ne=5;
+    ne=8;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
@@ -23,7 +23,7 @@
     end
 
 
-    for o=110
+    for o=112
 % for o=o1:o2
 % for o=300:nDumps
 

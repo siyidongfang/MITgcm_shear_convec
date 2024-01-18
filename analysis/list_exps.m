@@ -3,6 +3,10 @@
     expdir = '/Users/ysi/MITgcm_shear_convec/exps_test/';
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
     EXPNAME = {...
+        'nh_shear6Hs250_Nr318Nx400_spin'
+        'nh_shear7Hs250_Nr318Nx400_spin'
+        'nh_shear8Hs250_Nr318Nx400_spin'
+        'nh_shear9Hs250_Nr318Nx400_spin_exactConserv'
         'nh_shear1e-3_phase0.5pi'
         'nh_shear1.1e-3_phase0.5pi'
         'nh_shear1.2e-3_phase0.5pi'
