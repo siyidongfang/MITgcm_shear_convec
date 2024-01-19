@@ -4,7 +4,7 @@
 %%% Calculate the instability growth rate of the MITgcm simulations
 
 clear;close all;
-for  ne = 1:8;
+for  ne = 1:13
 load_all
 
 Ntide = 5;
@@ -27,14 +27,14 @@ for o = tidx
     time_h(o) = nIter.*deltaT./3600;
     time_tidal(o) = time_h(o)/12;
     
-    % tt = squeeze(rdmds([exppath,'/results/THETA_inst'],nIter));
-    % uu = squeeze(rdmds([exppath,'/results/UVEL_inst'],nIter));
-    % vv = squeeze(rdmds([exppath,'/results/VVEL_inst'],nIter));
-    % ww = squeeze(rdmds([exppath,'/results/WVEL_inst'],nIter));
-    tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
-    uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
-    vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
-    ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
+    tt = squeeze(rdmds([exppath,'/results/THETA_inst'],nIter));
+    uu = squeeze(rdmds([exppath,'/results/UVEL_inst'],nIter));
+    vv = squeeze(rdmds([exppath,'/results/VVEL_inst'],nIter));
+    ww = squeeze(rdmds([exppath,'/results/WVEL_inst'],nIter));
+    % tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
+    % uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
+    % vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
+    % ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
     tt_shear = tt(:,zidx);
     uu_shear = uu(:,zidx);
     vv_shear = vv(:,zidx);
@@ -124,7 +124,7 @@ grid on;grid minor;
 print('-dpng','-r150',[expname '_rmse2.png']);
 
 
-filename = [expdir expname '/RMSE2.mat'];
+filename = [expdir expname '/RMSE.mat'];
 
 save(filename,'time_h','hab_shear','div_tt_zavg','div_uu_zavg','div_vv_zavg','div_ww_zavg',...
     'div_tt_norm','div_vv_norm','div_ww_norm','div_uu_norm',...
