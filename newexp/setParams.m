@@ -58,7 +58,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 15*t1day;
+  % simTime = 1*t1day;
+   simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
   %     simTime = 1*t1day;
@@ -587,7 +588,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
 
-  Hz = sum (dz);
+  % Hz = sum (dz);
   % tNorth = (0.62*2.4)^2*(1e-3)^2 *(zz+Hz) /9.81/2e-4;
   % N2const = (1e-3)^2*1e-4;
   % N2const = 1e-10;
@@ -922,7 +923,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     
   %%% Random noise amplitude
   tNoise = 1e-3;  
-  % sNoise = 0.001;
   % tNoise = 0;
   sNoise = 0;
 
@@ -935,8 +935,14 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     hydroSa(:,:,k) = squeeze(hydroSa(:,:,k))*sNorth(k);
   end
 
+  %%%% Initial condition: random noise in buoyancy field
     hydroTh = hydroTh + tNoise*(2*rand(Nx,Ny,Nr)-1);
     hydroSa = hydroSa + sNoise*(2*rand(Nx,Ny,Nr)-1);
+
+  %%%% Initial condition: smoothed buoyancy field 
+  %%%% Infinitesimal stratification
+
+
 
   % %%% Titled isotherms
   % theta_slope = 4; %%% 4 degree slope
@@ -994,7 +1000,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
-  Shear = 1.8e-3
+  Shear = 1.4e-3
   Hshear = Hmax-250;
   [a Nshear] = min(abs(abs(zz)-Hshear));
   for k = Nshear+1:Nr
@@ -1338,7 +1344,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   if(run_type~='prod')
         diag_fields_avg = {...   
             %%%%%%%% for spin-up
-           'UVEL','VVEL', 'WVEL','THETA','UVELSQ','VVELSQ','WVELSQ' ...
+           % 'UVEL','WVEL','THETA'...
+           % 'UVELSQ','VVELSQ','WVELSQ','VVEL'...
             ... % 'ETAN',...
             ... % 'PHIHYD','PHI_NH',...
             ... % 'DRHODR','SALT',...
@@ -1415,11 +1422,12 @@ if(run_type=='prod')
 else
         diag_fields_inst = {...
             %%%%%%%% for spin-up
-            'VVEL','UVEL','WVEL','THETA','ETAN',...
-            ... % 'DRHODR','SALT','PHIHYD','PHI_NH'...
+            'UVEL','WVEL',...
+            ... % 'THETA','DRHODR','SALT','PHIHYD','PHI_NH','VVEL','ETAN'...
           };
       numdiags_inst = length(diag_fields_inst);  
-      diag_freq_inst = 60*t1min;
+      % diag_freq_inst = 60*t1min;
+      diag_freq_inst = 10;
       diag_phase_inst = 0;
     
       for n=1:numdiags_inst    

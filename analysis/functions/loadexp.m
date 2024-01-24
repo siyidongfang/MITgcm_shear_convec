@@ -87,6 +87,8 @@ fclose(fid);
 % fclose(fid);
 
 DRF = rdmds(fullfile(resultspath,'DRF'));
+DRC = rdmds(fullfile(resultspath,'DRC'));
+
 hFacS = rdmds(fullfile(resultspath,'hFacS'));
 hFacW = rdmds(fullfile(resultspath,'hFacW'));
 hFacC = rdmds(fullfile(resultspath,'hFacC'));

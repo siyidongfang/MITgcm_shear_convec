@@ -5,7 +5,7 @@
 
 clear;
 close all;
-ne =13;
+ne =1;
 load_all
 
 % xx = xx-xx(1);

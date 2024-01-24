@@ -4,7 +4,7 @@
 %%% Calculate the instability growth rate of the MITgcm simulations
 
 clear;close all;
-for  ne = 1:13
+for  ne = 1
 load_all
 
 Ntide = 5;
