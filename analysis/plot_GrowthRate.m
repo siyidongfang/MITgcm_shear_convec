@@ -91,20 +91,23 @@ NEXP = length(plot_parm);
  figure(1)
  clf;set(gcf,'Color','w','Position',[117 426 872 496])
 
-for ne = 1:12
+for ne = 1:13
     load_all
-    filename = [expdir expname '/RMSE2.mat'];
+    filename = [expdir expname '/RMSE_inst.mat'];
     load(filename);
 
     %%% Calculate the growth rate (the second tidal cycle divided by the first)
+    tidx2 = 12+1:24;
+    tidx1 = 0+1:12;
+
     % tidx2 = 36+1:48;
     % tidx1 = 24+1:36;
 
     % tidx2 = 24+1:36;
     % tidx1 = 12+1:24;
 
-    tidx2 = 12+1:24+6;
-    tidx1 = 0+1:12+6;
+    % tidx2 = 12+1:24+6;
+    % tidx1 = 0+1:12+6;
 
     % tidx2 = 48+1:60;
     % tidx1 = 36+1:48;
@@ -120,16 +123,13 @@ for ne = 1:12
 
     gr_tt(ne) = mean(div_tt_zavg(tidx2)./div_tt_zavg(tidx1));
     gr_uu(ne) = mean(div_uu_zavg(tidx2)./div_uu_zavg(tidx1));
-    gr_vv(ne) = mean(div_vv_zavg(tidx2)./div_vv_zavg(tidx1));
+    % gr_vv(ne) = mean(div_vv_zavg(tidx2)./div_vv_zavg(tidx1));
     gr_ww(ne) = mean(div_ww_zavg(tidx2)./div_ww_zavg(tidx1));
    
     % figure(1)
     % hold on;
     % plot(time_h,div_tt_zavg,'LineWidth',2);
 end
-
-
-
 
 
 
@@ -156,8 +156,8 @@ end
     %     'Fontsize',fontsize,'Position', [0.1711 0.6063 0.2024 0.2288])
 
 
-plot_mitgcm_parm = [0.6:0.1:1.5 1.7 1.8]*1e-3;
-%%
+    %%
+plot_mitgcm_parm = [0.6:0.1:1.8]*1e-3;
 
 gr_plot = gr_tt;
 gr_plot = gr_plot.^(1/ncycle);
@@ -165,10 +165,10 @@ gr_plot = gr_plot.^(1/ncycle);
 figure(2)
 clf;
 set(gcf,'Color','w')
-p1 = plot(plot_parm,muk_mean_buoy,'LineWidth',2);
+% p1 = plot(plot_parm,muk_mean_buoy,'LineWidth',2);
 hold on;
-p1 = plot(plot_parm,muk_mean_zeta,'LineWidth',2);
-% p1 = plot(plot_parm,muk_mean_psi,'LineWidth',2);
+% p1 = plot(plot_parm,muk_mean_zeta,'LineWidth',2);
+p1 = plot(plot_parm,muk_mean_psi,'LineWidth',2);
 plot(plot_parm,ones(1,NEXP),'k--','LineWidth',1)
 s1 = scatter(plot_mitgcm_parm(1:4),gr_plot(1:4),100,'Filled');
 s2 = scatter(plot_mitgcm_parm(5:8),gr_plot(5:8),100,'Filled');
