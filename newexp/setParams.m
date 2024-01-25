@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 2*t1day;
+  simTime = 4*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -922,9 +922,23 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-11;  
+  tNoise = 1e-6;  
   % tNoise = 0;
   sNoise = 0;
+
+  %---- Add random noise with a certain wavelength to the initial temperature field
+  noise_length = 100;
+  noise_amp = 1;
+  Nx_noise = Lx;
+  Nr_noise = Hmax;
+
+  Fnoise = genRandField_xz(noise_length,[],noise_amp,Nx_noise,Nr_noise,Lx,Hmax);
+  Fnoise = tNoise*Fnoise/max(max(abs(Fnoise)));
+  [zzz1,xxx1] = meshgrid(-1*(1:Hmax),1:Lx);
+  [zzz2,xxx2] = meshgrid(zz,xx);
+
+  Fnoise = interp2(zzz1,xxx1,Fnoise,zzz2,xxx2);
+  %----------------
 
   %%% Align initial temp with background
   hydroTh = ones(Nx,Ny,Nr);
@@ -935,22 +949,17 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     hydroSa(:,:,k) = squeeze(hydroSa(:,:,k))*sNorth(k);
   end
 
-  %%%% Initial condition: random noise in buoyancy field
-    hydroTh = hydroTh + tNoise*(2*rand(Nx,Ny,Nr)-1);
-    hydroSa = hydroSa + sNoise*(2*rand(Nx,Ny,Nr)-1);
+  % %%%% Initial condition: random noise in buoyancy field
+  %   hydroTh = hydroTh + tNoise*(2*rand(Nx,Ny,Nr)-1);
+  %   hydroSa = hydroSa + sNoise*(2*rand(Nx,Ny,Nr)-1);
 
-  %%%% TO DO: Initial condition: smoothed buoyancy field 
-  %%%% TO DO: Infinitesimal stratification
-
-   % %---- Add random noise with a certain wavelength to the initial temperature field
-   %    t_rand = genRandField_y(randtopog_length,[],randtopog_height,Ny,Ly);
-   %    t_rand = t_rand - min(min(t_rand));
-   %    aaa = (t_rand(end)+t_rand(1))/2;
-   %    t_rand(1) = aaa;
-   %    t_rand(end) = aaa;
-   %    hydroTh = hydroTh + t_rand;
-   % %----------------
-
+  for i=1:Nx
+      for j=1:Ny
+          for k=1:Nr
+              hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k);
+          end
+      end
+  end
 
 
   % %%% Titled isotherms

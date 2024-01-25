@@ -10,14 +10,14 @@
 %%% default value of 1/8 * the wavenumber corresponding to lambda will be
 %%% used.
 %%% 
-function F = genRandField (lambda,W,Frms,Nx,Nr,Lx,H) 
+function F = genRandField_xz (lambda,W,Frms,Nx,Nr,Lx,H) 
  
   %%% Spectral grids  
   k = [0:1:Nx/2-1,-Nx/2:1:-1]; %%% Zonal wavenumber
   K_xk = 2*pi.*(k)./Lx;
-  l = [0:1:Nr/2-1,-Nr/2:1:-1]; %%% Meridional wavenumber
-  K_zl = 2*pi.*(l)./H;
-  [K_zkl,K_xkl] = meshgrid(K_zl, K_xk);   
+  m = [0:1:Nr/2-1,-Nr/2:1:-1]; %%% Vertical wavenumber
+  K_zm = 2*pi.*(m)./H;
+  [K_zkm,K_xkm] = meshgrid(K_zm, K_xk);   
   
   %%% Most energetic wavenumber
   K_0 = 2*pi/lambda; 
@@ -29,7 +29,7 @@ function F = genRandField (lambda,W,Frms,Nx,Nr,Lx,H)
 
   %%% Amplitude is exponential about K0, and phases are random. N.B. here
   %%% we only define the amplitude up to a constant - below we constrain it.  
-  K = sqrt(K_xkl.^2 + K_zkl.^2);
+  K = sqrt(K_xkm.^2 + K_zkm.^2);
   theta = 2 .* pi .* rand(Nx,Nr);
   psi_fft = K.^(-1).*exp(-((K-K_0)/W).^2) .* exp(1i*theta);
 
