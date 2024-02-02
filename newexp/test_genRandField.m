@@ -6,7 +6,7 @@ Nr = 318;
 Lx = 3000;
 H = 1500;
 tNoise = 1e-6;
-noise_length = 200;
+noise_length = 10;
 noise_amp = 1;
 W = [];
 % W = 0.01;
@@ -42,25 +42,33 @@ Fnoise_interp = interp2(zzz1,xxx1,Fnoise,zzz2,xxx2);
 % Fnoise2 = [Fnoise(midpointX+1:Nx,:);Fnoise(1:midpointX,:)];
 
 figure(1)
-pcolor(Fnoise');shading interp;colorbar;colormap(redblue);
+pcolor(Fnoise');shading flat;colorbar;colormap(redblue);
 clim([-1 1]*tNoise)
 
 
 
 figure(2)
-pcolor(xx,zz,Fnoise_interp');shading interp;colorbar;colormap(redblue);
-clim([-1 1]*tNoise)
+clf;set(gcf,'Color','w')
+pcolor(xx,-zz,Fnoise_interp');shading flat;colorbar;colormap(redblue);
+clim([-1 1]*tNoise);axis ij;
+fontsize = 17;
+xlabel('Distance, y (km)');
+ylabel('Depth (m)');
+title({'Initial temperature (^oC)',['Characteristic spectral wavelength \lambda = ' num2str(noise_length) 'm']});
+set(gca,'fontsize',fontsize);
+PLOT = gcf;
+PLOT.Position =[80 341 606 343];
+grid on;grid minor;
 
-
-%%
-hydroTh = ones(Nx,Ny,Nr);
-for i=1:Nx
-    for j=1:Ny
-        for k=1:Nr
-            hydroTh(i,j,k)=Fnoise(i,k);
-        end
-    end
-end
+% %%
+% hydroTh = ones(Nx,Ny,Nr);
+% for i=1:Nx
+%     for j=1:Ny
+%         for k=1:Nr
+%             hydroTh(i,j,k)=Fnoise(i,k);
+%         end
+%     end
+% end
 
         
 

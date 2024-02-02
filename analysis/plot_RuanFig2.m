@@ -5,7 +5,7 @@
 
 clear;
 close all;
-ne =10;
+ne =7;
 load_all
 
 % xx = xx-xx(1);
@@ -40,12 +40,13 @@ for o=1:No
     time_h = nIter.*deltaT./3600;
     time_tidal(o) = time_h/12;
 
-    tt = squeeze(rdmds([exppath,'/results/THETA_inst'],nIter));
-    uu = squeeze(rdmds([exppath,'/results/UVEL_inst'],nIter));
-    ww = squeeze(rdmds([exppath,'/results/WVEL_inst'],nIter));
+    % tt = squeeze(rdmds([exppath,'/results/THETA_inst'],nIter));
+    % uu = squeeze(rdmds([exppath,'/results/UVEL_inst'],nIter));
+    % ww = squeeze(rdmds([exppath,'/results/WVEL_inst'],nIter));
     % vv = squeeze(rdmds([exppath,'/results/VVEL_inst'],nIter));
-    % tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
-    % uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
+    tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
+    uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
+    ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
     % vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
     % ss = squeeze(rdmds([exppath,'/results/SALT'],nIter));
     % n2 = -gravity/rhoConst*squeeze(rdmds([exppath,'/results/DRHODR'],nIter));
@@ -86,7 +87,7 @@ botZ =-1500;
 
 YLIM = [0 300];
 % YLIM = [0 1500];
-XLIM = [0 5];
+XLIM = [0 8];
 % XLIM = [15 40];
 
 figure(3)

@@ -17,7 +17,6 @@
     p0 = psi0;
 
 
-
     %%% Boundary condition:  
     % b0(1) = b0(2); 
     % b0(Nr) = b0(Nr-1);
@@ -63,7 +62,9 @@
     for m = 2:Nr
         d2zetadz2(m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
     end
-    d2zetadz2(1) = d2zetadz2(2); d2zetadz2(Nr+1) = d2zetadz2(Nr); %????? Is this correct?
+    zeta(1) = 0; zeta(Nr+1) = 0; %%% Free-slip
+
+    % !!! d2zetadz2(1) = d2zetadz2(2); d2zetadz2(Nr+1) = d2zetadz2(Nr); %????? Is this correct?
 
     zq1(o,:) = -1i*kx*C1*U_wgrid.*z0;
     zq2(o,:) = +C2^2*(1i*kx*cotd(topo)*b0_wgrid);

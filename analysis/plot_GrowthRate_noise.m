@@ -5,9 +5,9 @@ clear;close all;
  figure(1)
  clf;set(gcf,'Color','w','Position',[117 426 872 496])
 
-for ne = 1:9
+for ne = 1:7
     load_all
-    filename = [expdir expname '/RMSE_inst.mat'];
+    filename = [expdir expname '/RMSE_mean.mat'];
     load(filename);
 
     %%% Calculate the growth rate (the second tidal cycle divided by the first)
@@ -29,18 +29,22 @@ end
 gr_plot = gr_tt;
 gr_plot = gr_plot.^(1/ncycle);
 
-plot_mitgcm_parm = [1e-2 1e-3 1e-4 1e-5 1e-6 1e-7 1e-8 1e-9 1e-10]
+% plot_mitgcm_parm = [1e-2 1e-3 1e-4 1e-5 1e-6 1e-7 1e-8 1e-9 1e-10]
+plot_mitgcm_parm = [10 50 100 200 400 600 800];
 
 %%
 figure(2)
 clf;
 set(gcf,'Color','w')
-s1 = semilogx(plot_mitgcm_parm,gr_plot,'LineWidth',2);
+% s1 = semilogx(plot_mitgcm_parm,gr_plot,'LineWidth',2);
+s1 = plot(plot_mitgcm_parm,gr_plot,'LineWidth',2);
 set(gca,'Fontsize',fontsize+2)
 grid on;grid minor;
 % title('Mean Floquet exponents \mu (\lambda = 400 m)','Fontsize',fontsize+5)
-xlabel('White noise level (^oC)','Fontsize',fontsize+5)
+% xlabel('White noise level (^oC)','Fontsize',fontsize+5)
+xlabel('Characteristic spectral wavelength \lambda (m)','Fontsize',fontsize+5)
 ylabel('Instability Growth Rate')
+ylim([0 10])
 % legend([p1,s1],'Floquet \mu_k^b', '\mu_k^b of MITgcm','Fontsize',fontsize+5,'Position',[0.2000 0.6655 0.1676 0.1747])
 % legend([p1,s1],'Floquet \mu_k^\psi', '\mu_k^w of MITgcm','Fontsize',fontsize+5,'Position',[0.2000 0.6655 0.1676 0.1747])
 

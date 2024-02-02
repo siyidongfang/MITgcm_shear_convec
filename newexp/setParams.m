@@ -927,7 +927,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   sNoise = 0;
 
   %---- Add random noise with a certain wavelength to the initial temperature field
-  noise_length = 100;
+  noise_length = 200;
   noise_amp = 1;
   Nx_noise = Lx;
   Nr_noise = Hmax;
@@ -1018,7 +1018,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
-  Shear = 1.6e-3
+  Shear = 1.9e-3
   Hshear = Hmax-250;
   [a Nshear] = min(abs(abs(zz)-Hshear));
   for k = Nshear+1:Nr
