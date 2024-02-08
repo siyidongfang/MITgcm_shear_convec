@@ -1,5 +1,7 @@
     
 
+    % %%% Free-slip boundary condition
+    % z0(1) = 0; z0(Nr+1) = 0; 
 
     zeta0 = @(z) interp1(linspace(min(zspan),max(zspan),numel(z0)), z0, z);    
     %%% Form Initial Guess
@@ -16,10 +18,9 @@
     % p0 = interp1(zz0,psi0,zz_wgrid);
     p0 = psi0;
 
+    % %%% Impermeable boundary condition (w=0 at ocean bottom, w-grid):
+    % p0(1) = 0;
 
-    %%% Boundary condition:  
-    % b0(1) = b0(2); 
-    % b0(Nr) = b0(Nr-1);
 
     U = cos(t0)*Atide/U0;
     U_wgrid = cos(t0)*Atide_wgrid/U0;
@@ -50,10 +51,10 @@
     dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
               + bq4(o,:) + bq5(o,:);
 
-
     dbdz = zeros(1,Nr+1);
     dbdz(2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz;
-    dbdz(1) = 0; dbdz(Nr+1) = 0;
+    % %%% boundary condition
+    % dbdz(1) = 0; dbdz(Nr+1) = 0;
 
     b0_wgrid = zeros(1,Nr+1);
     b0_wgrid(2:Nr) = 0.5*(b0(2:Nr)+b0(1:Nr-1));
@@ -62,9 +63,8 @@
     for m = 2:Nr
         d2zetadz2(m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
     end
-    zeta(1) = 0; zeta(Nr+1) = 0; %%% Free-slip
 
-    % !!! d2zetadz2(1) = d2zetadz2(2); d2zetadz2(Nr+1) = d2zetadz2(Nr); %????? Is this correct?
+    % !!! d2zetadz2(1) = d2zetadz2(2); d2zetadz2(Nr+1) = d2zetadz2(Nr); %This is incorrect
 
     zq1(o,:) = -1i*kx*C1*U_wgrid.*z0;
     zq2(o,:) = +C2^2*(1i*kx*cotd(topo)*b0_wgrid);
@@ -87,5 +87,6 @@
         res = [ya(1)
                yb(1)];
     end
+
 
 

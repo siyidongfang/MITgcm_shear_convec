@@ -118,7 +118,7 @@ Utide =cos(tt)'.*Atide/U0;
 
 dUtidedz = zeros(Nt,Nr);
 for m = 2:Nr-1
-    dUtidedz(:,m)   = (Utide(:,m+1)-Utide(:,m-1))/2/dz;
+    dUtidedz(:,m) = (Utide(:,m+1)-Utide(:,m-1))/2/dz;
 end
 
 % h=figure(1);
@@ -154,6 +154,9 @@ end
 
 zspan = [0 1];
 
+% %%% Free-slip boundary condition
+% zeta(1,1) = 0; zeta(1,Nr+1) = 0; 
+
 for o=1:Nt-1
 
     if(rem(o,round(Nt/50))==0)
@@ -172,7 +175,9 @@ for o=1:Nt-1
     elseif(useAB3)
         %%% Third-order Adams-Bashforth method %%%
         if (o <= 2)
-            RK4; %%% Use RK4 for the first 2 time steps
+            %%% Use RK4 for the first 2 time steps
+            RK4; 
+            %%% Use Euler-forward for the first 2 time steps
             % buoy(o+1,:) = buoy(o,:) + dbdt(o,:)*dt;
             % zeta(o+1,:) = zeta(o,:) + dzetadt(o,:)*dt;
         else
@@ -185,12 +190,14 @@ for o=1:Nt-1
         zeta(o+1,:) = dzetadt(o,:)*dt;
     end
 
+    % %%% Free-slip boundary condition
+    % zeta(o+1,1) = 0; zeta(o+1,Nr+1) = 0; 
+
 end
 
 re_psi = real(psi); re_psi(re_psi==0)=NaN;
 re_zeta = real(zeta); re_zeta(re_zeta==0)=NaN;
 re_buoy = real(buoy); re_buoy(re_buoy==0)=NaN;
-
 
 
 %%% Dimensional veriables
