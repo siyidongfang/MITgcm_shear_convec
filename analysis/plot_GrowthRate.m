@@ -1,6 +1,6 @@
 
 clear;close all;
-load('muk_noslope.mat')
+load('muk_newbc_noslope.mat')
 % load('muk.mat')
 plot_parm = Shear_parm;
 NEXP = length(plot_parm);

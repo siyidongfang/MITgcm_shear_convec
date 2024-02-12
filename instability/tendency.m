@@ -6,11 +6,12 @@
     zeta0 = @(z) interp1(linspace(min(zspan),max(zspan),numel(z0)), z0, z);    
     %%% Form Initial Guess
     xmesh = linspace(0,1,Nr+1);
-    if(sum(z0~=0)>0)
-    solinit = bvpinit(xmesh, [0.1 0]);
-    else
     solinit = bvpinit(xmesh, [0 0]);
-    end
+    % if(sum(z0~=0)~=0)
+    % solinit = bvpinit(xmesh, [0.1 0]);
+    % else
+    % solinit = bvpinit(xmesh, [0 0]);
+    % end
     %%% Solve the boundary value problem using the bvp4c solver.
     sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit);
     psi0 = sol1.y(1,:);
@@ -18,8 +19,10 @@
     % p0 = interp1(zz0,psi0,zz_wgrid);
     p0 = psi0;
 
-    % %%% Impermeable boundary condition (w=0 at ocean bottom, w-grid):
-    % p0(1) = 0;
+    %%% Impermeable (w=0) At the ocean bottom
+    p0(1) = 0;
+    %%% Impermeable (w=0) At the upper boundary 
+    p0(Nr+1) = 0;
 
 
     U = cos(t0)*Atide/U0;
@@ -53,12 +56,23 @@
 
     dbdz = zeros(1,Nr+1);
     dbdz(2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz;
+
     % %%% boundary condition
     % dbdz(1) = 0; dbdz(Nr+1) = 0;
+    %%% No buoyancy flux, Ocean bottom
+    dbdz(1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)); 
+    %%% No buoyancy flux, Upper boundary
+    dbdz(Nr+1) = 1/cosd(topo) * (...
+        - (omega/Shear) * (delta/Hshear) / sind(topo) ...
+        - 1i * kx * b0(Nr) * sind(topo) ... %%!!! Note that here we use an approximation: b0(Nr) instead of b0_wgrid(Nr+1)
+        );
 
     b0_wgrid = zeros(1,Nr+1);
     b0_wgrid(2:Nr) = 0.5*(b0(2:Nr)+b0(1:Nr-1));
-    b0_wgrid(1) = b0_wgrid(2); b0_wgrid(Nr+1) = b0_wgrid(Nr);
+
+    b0_wgrid(1) = b0_wgrid(2)- dz*(dbdz(1)+dbdz(2))/2; 
+    b0_wgrid(Nr+1) = b0_wgrid(Nr) + dz*(dbdz(Nr)+dbdz(Nr+1))/2;
+
 
     for m = 2:Nr
         d2zetadz2(m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
@@ -77,12 +91,13 @@
     dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) + zq4(o,:);
 
 
-    %%% Code Equation
+    %%% Code Equation: see https://www.mathworks.com/help/matlab/math/solve-bvp-with-two-solutions.html
     function dydz = bvpfun(z,y,kx,zeta)
-        dydz = [y(2); kx^2*y(1)+zeta(z)];
+        dydz = [y(2)
+            kx^2*y(1)+zeta(z)];
     end
     
-    %%% Code Boundary Conditions
+    %%% Code Boundary Conditions for streamfunction: phi = 0 at z=0 and z=1
     function res = bcfun(ya,yb)
         res = [ya(1)
                yb(1)];

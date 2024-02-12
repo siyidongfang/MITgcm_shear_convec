@@ -193,6 +193,13 @@ for o=1:Nt-1
     % %%% Free-slip boundary condition
     % zeta(o+1,1) = 0; zeta(o+1,Nr+1) = 0; 
 
+    %%% No-stress (free-slip) b.c. (du/dz = 0) At the ocean bottom
+    zeta(o,1) = delta/Hshear*cos(t0);
+
+    %%% No-stress (free-slip) b.c. (du/dz = 0) At the upper boundary
+    zeta(o,Nr+1) = 0;
+    
+
 end
 
 re_psi = real(psi); re_psi(re_psi==0)=NaN;
