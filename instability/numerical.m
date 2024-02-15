@@ -5,8 +5,13 @@ outputname = [expdir 'output.mat'];
 fontsize = 16;
 
 %%%% Define constants
-nu = 2e-4; %%% Kaiser and Pratt 2022: nu=kappa=2e-6
-kappa = 2e-4;
+if(NOdiffusion)
+    nu = 0;
+    kappa = 0;
+else
+    nu = 2e-4; %%% Kaiser and Pratt 2022: nu=kappa=2e-6
+    kappa = 2e-4;
+end
 Pr = nu/kappa;
 t1hour = 3600;
 omega = 2*pi/Ptide;
@@ -50,6 +55,7 @@ bq3 = zeros(Nt,Nr);
 bq4 = zeros(Nt,Nr);
 bq5 = zeros(Nt,Nr);
 dbdt = zeros(Nt,Nr);
+dbdz = zeros(Nt,Nr);
 
 zq1 = zeros(Nt,Nr+1);
 zq2 = zeros(Nt,Nr+1);
@@ -57,7 +63,6 @@ zq3 = zeros(Nt,Nr+1);
 zq4 = zeros(Nt,Nr+1);
 dzetadt = zeros(Nt,Nr+1);
 
-dbdz = zeros(1,Nr);
 d2bdz2 = zeros(1,Nr);
 
 dpsidz = zeros(1,Nr+1);
@@ -191,14 +196,13 @@ for o=1:Nt-1
     end
 
     % %%% Free-slip boundary condition
-    % zeta(o+1,1) = 0; zeta(o+1,Nr+1) = 0; 
+    zeta(o+1,1) = 0; zeta(o+1,Nr+1) = 0; 
 
     %%% No-stress (free-slip) b.c. (du/dz = 0) At the ocean bottom
     % zeta(o,1) = delta/Hshear*cos(t0);
-    zeta(o,1) = 0;
 
     %%% No-stress (free-slip) b.c. (du/dz = 0) At the upper boundary
-    zeta(o,Nr+1) = 0;
+    % zeta(o,Nr+1) = 0;
     
 
 end
@@ -206,6 +210,19 @@ end
 re_psi = real(psi); re_psi(re_psi==0)=NaN;
 re_zeta = real(zeta); re_zeta(re_zeta==0)=NaN;
 re_buoy = real(buoy); re_buoy(re_buoy==0)=NaN;
+re_dbdz = real(dbdz);
+
+re_bq1 = real(bq1);
+re_bq2 = real(bq2);
+re_bq3 = real(bq3);
+re_bq4 = real(bq4);
+re_bq5 = real(bq5);
+
+re_zq1 = real(zq1);
+re_zq2 = real(zq2);
+re_zq3 = real(zq3);
+re_zq4 = real(zq4);
+
 
 
 %%% Dimensional veriables
@@ -331,9 +348,18 @@ if(kx~=0)
 end
 
 saveas(h,[expdir 'fig5.png'])
+
+
+decompose;
 close all
 
+clear b0 b_wgrid b_2 b_3 b_4 buoy p0 p0_ugrid psi psi0 sol1 solinit ...
+    z0 z_2 z_3 z_4 zeta ...
+    d2bdz2 d2psidz2 d2zetadz2 dbdt dbdz dpsidz dUtidedz dzetadt ...
+    k_1b k_1z k_2b k_2z k_3b k_3z k_4b k_4z h ...
+    bq1 bq2 bq3 bq4 bq5 zq1 zq2 zq3 zq4
 save(outputname)
+
 
 
 

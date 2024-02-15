@@ -46,23 +46,22 @@
     bq3(o,:) = dpsidz;
     bq4(o,:) = +1i*kx*C1*dUdz.*tan(t0).*p0_ugrid;
     bq5(o,:) = +C4*d2bdz2-C4*kx^2.*b0;
-    if(NOdiffusion)
-        bq5(o,:) = zeros(1,Nr); %%% ignore diffusion
-    end
-
+    
     dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
               + bq4(o,:) + bq5(o,:);
 
-    dbdz = zeros(1,Nr+1);
-    dbdz(2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz;
+    dbdz(o,2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz; %%% on w-grid
 
-    % %%% boundary condition
-    % dbdz(1) = 0; dbdz(Nr+1) = 0;
-    %%% No buoyancy flux, Ocean bottom
-    dbdz(1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)); 
-    %%% No buoyancy flux, Upper boundary
-    dbdz(Nr+1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)); 
-
+    if(NOdiffusivity)
+        %%% No-flux boundary condition with zero diffusivity/viscosity
+        dbdz(o,1) = 0; dbdz(o,Nr+1) = 0;
+    else
+        %%% No buoyancy flux, Ocean bottom, when diffusivity is not zero
+        %%% dbdz+dB/dz+dB0/dz = 0 ==>  dbdz = -(dB/dz+dB0/dz) = -dB0/dz
+        dbdz(o,1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)); 
+        %%% No buoyancy flux, Upper boundary, when diffusivity is not zero
+        dbdz(o,Nr+1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)); 
+    end
     % dbdz(Nr+1) = 1/cosd(topo) * (...
     %     - (omega/Shear) * (delta/Hshear) / sind(topo) ...
     %     - 1i * kx * b0(Nr) * sind(topo) ... %%!!! Note that here we use an approximation: b0(Nr) instead of b0_wgrid(Nr+1)
@@ -71,34 +70,27 @@
     b0_wgrid = zeros(1,Nr+1);
     b0_wgrid(2:Nr) = 0.5*(b0(2:Nr)+b0(1:Nr-1));
 
-    b0_wgrid(1) = b0_wgrid(2)- dz*(dbdz(1)+dbdz(2))/2; 
-    b0_wgrid(Nr+1) = b0_wgrid(Nr) + dz*(dbdz(Nr)+dbdz(Nr+1))/2;
-
+    b0_wgrid(1) = 2*b0(1)-b0_wgrid(2);
+    b0_wgrid(Nr+1) = 2*b0(Nr)-b0_wgrid(Nr);
 
     for m = 2:Nr
         d2zetadz2(m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
     end
 
-    % !!! d2zetadz2(1) = d2zetadz2(2); d2zetadz2(Nr+1) = d2zetadz2(Nr); %This is incorrect
-
     zq1(o,:) = -1i*kx*C1*U_wgrid.*z0;
     zq2(o,:) = +C2^2*(1i*kx*cotd(topo)*b0_wgrid);
-    zq3(o,:) = +C2^2*(-dbdz);
+    zq3(o,:) = +C2^2*(-dbdz(o,:));
     zq4(o,:) = +C3*d2zetadz2-C3*kx^2.*z0;
-    if(NOdiffusion)
-        zq4(o,:) = zeros(1,Nr+1); %%% ignore dissipation
-    end
 
     dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) + zq4(o,:);
 
-
-    %%% Code Equation: see https://www.mathworks.com/help/matlab/math/solve-bvp-with-two-solutions.html
+    %%% Code equations: see https://www.mathworks.com/help/matlab/math/solve-bvp-with-two-solutions.html
     function dydz = bvpfun(z,y,kx,zeta)
         dydz = [y(2)
             kx^2*y(1)+zeta(z)];
     end
     
-    %%% Code Boundary Conditions for streamfunction: phi = 0 at z=0 and z=1
+    %%% Code boundary conditions for the streamfunction: phi = 0 at z=0 and z=1
     function res = bcfun(ya,yb)
         res = [ya(1)
                yb(1)];
