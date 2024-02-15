@@ -1,6 +1,6 @@
 
 clear;close all;
-load('muk_newbc_noslope.mat')
+load('muk_newbc_800m.mat')
 % load('muk.mat')
 plot_parm = Shear_parm;
 NEXP = length(plot_parm);
@@ -40,6 +40,8 @@ S_max_gcm = [0.8:0.1:1.9]*1e-3;
 gr_plot = gr_tt;
 gr_plot = gr_plot.^(1/ncycle);
 
+
+%%
 figure(1)
 clf;
 set(gcf,'Color','w')

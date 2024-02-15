@@ -24,7 +24,6 @@
     %%% Impermeable (w=0) At the upper boundary 
     p0(Nr+1) = 0;
 
-
     U = cos(t0)*Atide/U0;
     U_wgrid = cos(t0)*Atide_wgrid/U0;
     if(U0==0)
@@ -62,10 +61,12 @@
     %%% No buoyancy flux, Ocean bottom
     dbdz(1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)); 
     %%% No buoyancy flux, Upper boundary
-    dbdz(Nr+1) = 1/cosd(topo) * (...
-        - (omega/Shear) * (delta/Hshear) / sind(topo) ...
-        - 1i * kx * b0(Nr) * sind(topo) ... %%!!! Note that here we use an approximation: b0(Nr) instead of b0_wgrid(Nr+1)
-        );
+    dbdz(Nr+1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)); 
+
+    % dbdz(Nr+1) = 1/cosd(topo) * (...
+    %     - (omega/Shear) * (delta/Hshear) / sind(topo) ...
+    %     - 1i * kx * b0(Nr) * sind(topo) ... %%!!! Note that here we use an approximation: b0(Nr) instead of b0_wgrid(Nr+1)
+    %     );
 
     b0_wgrid = zeros(1,Nr+1);
     b0_wgrid(2:Nr) = 0.5*(b0(2:Nr)+b0(1:Nr-1));

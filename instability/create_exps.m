@@ -7,8 +7,8 @@ FigureIsVisible = 'off';
 
 Shear = 1e-3; 
 N = 1e-3;
-% topo = 4;
-topo = 1e-100;
+topo = 4;
+% topo = 1e-100;
 Ptide = 43200;
 dz = 0.002;         % dimensionless vertical grid spacing
 dt = 0.002;
@@ -27,8 +27,8 @@ lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75
 % lambda_parm = [0.001 0.0025 0.005 0.0075 0.01 0.025 0.05 0.075 0.1 0.25 0.5 0.75 1 1.2 1.5 1.7 2 2.5 3 3.5 4 5 7.5 10 25 50 75 100 250 500 1000 2000 5000 10000]*m1km;
 Ptide_parm = [0.5:0.5:5 10000]*43200;
 
-for ne =13:length(Shear_parm)
-% for ne =7:12
+% for ne =13:length(Shear_parm)
+for ne =15:17
     % dz = dz_parm(ne)
     % dt = dz
     lambda = 400;
@@ -43,7 +43,7 @@ for ne =13:length(Shear_parm)
 
     Shear = Shear_parm(ne)
 
-    expdir = ['exps_noslope/H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
+    expdir = ['exps_newbc/H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
         '_N' num2str(N) '_S' num2str(Shear) ...
         '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_RK4+AB3/']
 

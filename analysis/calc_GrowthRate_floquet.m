@@ -13,7 +13,8 @@ Ri_min = N2const./(S_max.^2);
 
 
 % expdir = '../instability/exps_shear_L400_0.002/';
-expdir = '../instability/exps_noslope/';
+expdir = '../instability/exps_test/';
+% expdir = '../instability/exps_newbc/';
 
 m1km =1000;
 % Shear_parm = [0 1e-23 5e-5 0.0002:0.0001:0.0012 0.0014 0.0016 0.0018]; 
@@ -24,10 +25,11 @@ dz_group = 0.002*ones(1,NEXP);
 dt_group = 0.002*ones(1,NEXP);
 
 for ne = 1:NEXP
+% for ne = [1 3]
     ne
 
     shear = Shear_parm(ne); 
-    expname = ['H1500_topo4_Pt43200_N0.001_S' num2str(shear) '_lambda400_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne)) '_RK4+AB3'];
+    expname = ['H1500_topo4_Pt43200_N0.001_S' num2str(shear) '_lambda800_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne)) '_RK4+AB3'];
     % expname = ['H1500_topo1e-100_Pt43200_N0.001_S' num2str(shear) '_lambda400_dz' num2str(dz_group(ne)) '_dt' num2str(dt_group(ne)) '_RK4+AB3'];
 
     load([expdir expname '/output.mat'],'buoy','zeta','psi','omega','dt','Ptide','Nt','Nr','zz','Nshear')
@@ -95,7 +97,7 @@ end
 % log10_muk_psi = log10(muk_mean_psi);
 
 
-save('muk_newbc_noslope.mat','muk_mean_buoy','muk_mean_zeta','muk_mean_psi',...
+save('muk_newbc_800m.mat','muk_mean_buoy','muk_mean_zeta','muk_mean_psi',...
                'muk_max_buoy','muk_max_zeta','muk_max_psi',...
                'muk_rms_buoy','muk_rms_zeta','muk_rms_psi',...
                'Shear_parm')

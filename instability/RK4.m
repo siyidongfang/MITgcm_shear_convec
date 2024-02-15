@@ -6,7 +6,9 @@
         % Euler forward predictor advancing dt/2:
         b_2 = buoy(o,:)+0.5*dt*k_1b;
         z_2 = zeta(o,:)+0.5*dt*k_1z;
-        z_2(1) = delta/Hshear*cos(t0);z_2(Nr+1) = 0;
+        % z_2(1) = delta/Hshear*cos(t0);
+        z_2(1) = 0;
+        z_2(Nr+1) = 0;
         t0 = tt(o)+dt/2;
         b0 = b_2;
         z0 = z_2;
@@ -16,7 +18,9 @@
         % Euler backward corrector advancing dt/2:
         b_3 = buoy(o,:)+0.5*dt*k_2b;
         z_3 = zeta(o,:)+0.5*dt*k_2z;
-        z_3(1) = delta/Hshear*cos(t0);z_3(Nr+1) = 0;
+        % z_3(1) = delta/Hshear*cos(t0);
+        z_3(1) = 0;
+        z_3(Nr+1) = 0;
         t0 = tt(o)+dt/2;
         b0 = b_3;
         z0 = z_3;
@@ -26,7 +30,9 @@
         % Mid-point predictor advancing dt:
         b_4 = buoy(o,:)+dt*k_3b;
         z_4 = zeta(o,:)+dt*k_3z;
-        z_4(1) = delta/Hshear*cos(t0);z_4(Nr+1) = 0;
+        % z_4(1) = delta/Hshear*cos(t0);
+        z_4(1) = 0;
+        z_4(Nr+1) = 0;
         t0 = tt(o)+dt;
         b0 = b_4;
         z0 = z_4;
