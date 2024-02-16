@@ -1,7 +1,7 @@
     
 
-    % %%% Free-slip boundary condition
-    % z0(1) = 0; z0(Nr+1) = 0; 
+    %%% Free-slip boundary condition
+    z0(1) = 0; z0(Nr+1) = 0; 
 
     zeta0 = @(z) interp1(linspace(min(zspan),max(zspan),numel(z0)), z0, z);    
     %%% Form Initial Guess
@@ -52,7 +52,7 @@
 
     dbdz(o,2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz; %%% on w-grid
 
-    if(NOdiffusivity)
+    if(NOdiffusion)
         %%% No-flux boundary condition with zero diffusivity/viscosity
         dbdz(o,1) = 0; dbdz(o,Nr+1) = 0;
     else

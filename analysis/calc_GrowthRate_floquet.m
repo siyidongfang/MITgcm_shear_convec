@@ -19,7 +19,8 @@ expdir = '../instability/exps_test/';
 m1km =1000;
 % Shear_parm = [0 1e-23 5e-5 0.0002:0.0001:0.0012 0.0014 0.0016 0.0018]; 
 % Shear_parm = [0.6:0.2:2.2]*1e-3;
-Shear_parm = [0.2 0.4 0.6 0.8 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.8 2.0 2.2 2.4 2.6]*1e-3; 
+% % Shear_parm = [0.2 0.4 0.6 0.8 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.8 2.0 2.2 2.4 2.6]*1e-3; 
+Shear_parm = [0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4]*1e-3; 
 NEXP = length(Shear_parm);
 dz_group = 0.002*ones(1,NEXP);
 dt_group = 0.002*ones(1,NEXP);
@@ -39,17 +40,9 @@ for ne = 1:NEXP
     
     %%%%% Floquet stability
     oT = round(Ptide*omega/dt);% The time step after one tidal cycle
-    % tidx1 = 12*oT+1:16*oT;
-    % tidx2 = 16*oT+1:20*oT;
 
-    tidx1 = 3*oT+1:4*oT-2;
-    tidx2 = 4*oT+1:5*oT-2;
-    % tidx1 = 2*oT+1:3*oT;
-    % tidx2 = 3*oT+1:4*oT;
-    % tidx1 = 1*oT+1:2*oT;
-    % tidx2 = 2*oT+1:3*oT;
-    % tidx1 = 0*oT+1:1*oT;
-    % tidx2 = 1*oT+1:2*oT;
+    tidx1 = 4*oT+1:5*oT-2;
+    tidx2 = 5*oT+1:6*oT-2;
     
     zidx=2:Nshear;
     % zidx = 2:Nr-1;
@@ -97,7 +90,7 @@ end
 % log10_muk_psi = log10(muk_mean_psi);
 
 
-save('muk_newbc_800m.mat','muk_mean_buoy','muk_mean_zeta','muk_mean_psi',...
+save('muk_inviscid.mat','muk_mean_buoy','muk_mean_zeta','muk_mean_psi',...
                'muk_max_buoy','muk_max_zeta','muk_max_psi',...
                'muk_rms_buoy','muk_rms_zeta','muk_rms_psi',...
                'Shear_parm')
