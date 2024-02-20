@@ -1,6 +1,6 @@
 
 clear;close all;
-load('muk_inviscid.mat')
+load('muk_inviscid_noBC.mat')
 % load('muk.mat')
 plot_parm = Shear_parm;
 NEXP = length(plot_parm);
@@ -80,17 +80,17 @@ lam_norm_radko = cc1./sqrt(Ri_radko)+cc2./Ri_radko;
 
 figure(2)
 clf;set(gcf,'Color','w')
-% Lflo = plot(Ri_mean_flo(6:17),lam_flo_mean(6:17),'LineWidth',2);
-% Lflo = plot(Ri_mean_flo(6:17),lam_flo_max(6:17),'LineWidth',2);
-Lflo = plot(Ri_mean_flo,lam_flo_max,'LineWidth',2);
+Lflo_max = plot(Ri_mean_flo,lam_flo_max,'LineWidth',2,'Color',blue);
 hold on;
+Lflo_mean = plot(Ri_mean_flo,lam_flo_mean,':','LineWidth',2,'Color',blue);
 Lradko = plot(Ri_radko,lam_norm_radko,'--','LineWidth',2);
 Sgcm = scatter(Ri_mean_gcm,lam_gcm,100,'Filled');
 
 set(gca,'Fontsize',fontsize)
 grid on;grid minor;
 xlabel('$\overline{R_i}$','Interpreter','latex','Fontsize',fontsize+5)
-lg1 = legend([Lflo,Sgcm,Lradko],'Floquet','MITgcm', 'Radko (2019)',...
+lg1 = legend([Lflo_max,Lflo_mean,Sgcm,Lradko],...
+    'Floquet (max)','Floquet (mean)','MITgcm', 'Radko (2019)',...
     'Fontsize',fontsize+3,'Position', [0.3789 0.6219 0.3170 0.2048]);
 title('Growth Rate \lambda')
 

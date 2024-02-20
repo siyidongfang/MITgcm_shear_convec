@@ -431,20 +431,20 @@ C     &  * tauProfile
 
 C     Add projection of Coriolis term to v-tendency (slope-normal component)
 C     2D, we do not need to convert v grid to mass grid
-      IF ( kLev.LT.Nr ) THEN
+      IF ( kLev.GT.1 ) THEN
        DO j=0,sNy+1
         DO i=1,sNx+1
          gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
-     &  + f0*0.5*(wVel(i,j,kLev,bi,bj)+wVel(i,j,kLev+1,bi,bj))
+     &  + f0*0.5*(wVel(i,j,kLev,bi,bj)+wVel(i,j,kLev-1,bi,bj))
      &  *sin_slope
         ENDDO
        ENDDO
       ENDIF
-C     Bottom grid cell
+C     Upper boundary grid cell
       DO j=0,sNy+1
        DO i=1,sNx+1
-        gV(i,j,Nr,bi,bj) = gV(i,j,Nr,bi,bj)
-     &  + f0*wVel(i,j,Nr,bi,bj)
+        gV(i,j,1,bi,bj) = gV(i,j,1,bi,bj)
+     &  + f0*0.5*(0.+wVel(i,j,1,bi,bj))
      &  *sin_slope
        ENDDO
       ENDDO
@@ -820,20 +820,20 @@ C     For zonal grid at the re-entry boundaries
       ENDDO
 
 C     Advection by true vertical velocity (slope-normal component)
-      IF ( kLev.LT.Nr ) THEN
+      IF ( kLev.GT.1 ) THEN
        DO j=0,sNy+1
         DO i=1,sNx+1
          gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj) 
-     &  - 0.5*(wVel(i,j,kLev,bi,bj)+wVel(i,j,kLev+1,bi,bj))
+     &  - 0.5*(wVel(i,j,kLev,bi,bj)+wVel(i,j,kLev-1,bi,bj))
      &  *Nsquare_const*cos_slope/gravity_const/temp_Alpha
         ENDDO
        ENDDO
       ENDIF
-C     Bottom grid cell
+C     Upper boundary grid cell
       DO j=0,sNy+1
        DO i=1,sNx+1
-         gT(i,j,Nr,bi,bj) = gT(i,j,Nr,bi,bj)
-     &  - wVel(i,j,Nr,bi,bj)
+         gT(i,j,1,bi,bj) = gT(i,j,1,bi,bj)
+     &  - 0.5*(0.+wVel(i,j,1,bi,bj))
      &  *Nsquare_const*cos_slope/gravity_const/temp_Alpha
        ENDDO
       ENDDO
