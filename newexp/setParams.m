@@ -349,15 +349,15 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   [Y,X] = meshgrid(yy,xx);
 
   %%% Varied dz with depth  %  -- from Xiaozhou
-  Hsurface = 1000;
-  Ntop = 150;
+  % Hsurface = 1000;
+  % Ntop = 150;
   dz_const = 3;
-  dz = dz_const.*ones(1,Nr);
-  dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.009.^(1:Ntop);
-  sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
-  dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
-  dz = flipud(dz')';
-  % dz = dz_const*ones(1,Nr);
+  % dz = dz_const.*ones(1,Nr);
+  % dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.009.^(1:Ntop);
+  % sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
+  % dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
+  % dz = flipud(dz')';
+  dz = dz_const*ones(1,Nr);
  
   zz = -cumsum((dz+[0 dz(1:end-1)])/2);
 
@@ -502,12 +502,12 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
       %----------------
   end
 
-  %%% Adjust zz according to the deepest topography
-  if (abs(zz(end))< abs(min(h)))   % if (abs(zz(end))< abs(min(h)-dz_const/2))
-     frac_h2zz = (min(h)-dz_const)./zz(end)
-     dz = frac_h2zz.*dz;
-     zz = -cumsum((dz+[0 dz(1:end-1)])/2);
-  end
+  % %%% Adjust zz according to the deepest topography
+  % if (abs(zz(end))< abs(min(h)))   % if (abs(zz(end))< abs(min(h)-dz_const/2))
+  %    frac_h2zz = (min(h)-dz_const)./zz(end)
+  %    dz = frac_h2zz.*dz;
+  %    zz = -cumsum((dz+[0 dz(1:end-1)])/2);
+  % end
 
 
 
@@ -1022,7 +1022,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   Hshear = Hmax-250;
   [a Nshear] = min(abs(abs(zz)-Hshear));
   for k = Nshear+1:Nr
-      vrelax(k) = (zz(k)-zz(end))*Shear;
+      vrelax(k) = (zz(k)-zz(end)+dz_const/2)*Shear;
   end
   for k = 1:Nshear
       vrelax(k) = vrelax(Nshear+1);
@@ -1364,6 +1364,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
             %%%%%%%% for spin-up
            'UVEL','WVEL','VVEL','THETA',...
            'UVELSQ','VVELSQ','WVELSQ'...
+           'Um_Diss','Vm_Diss','Wm_Diss',...
             ... % 'ETAN',...
             ... % 'PHIHYD','PHI_NH',...
             ... % 'DRHODR','SALT',...

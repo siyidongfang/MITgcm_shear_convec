@@ -60,6 +60,7 @@ C=== Yidongfang Si =====
       REAL*8 tauTop
       REAL*8 tauProfile
       REAL*8 shearProfile
+      REAL*8 dz_const
 
       REAL*8 amp_tide
       REAL*8 amp_force
@@ -196,9 +197,9 @@ C      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
 C      end if
 
       shearProfile = 0.
-      deltaZ_bot = 3.
-      if((rC(kLev)-rC(Nr)+deltaZ_bot/2.).lt.h_shear) then
-      shearProfile=(rC(kLev)-rC(Nr)+deltaZ_bot/2.)/h_shear
+      dz_const = 3.
+      if((rC(kLev)-rC(Nr)+dz_const/2.).lt.h_shear) then
+      shearProfile=(rC(kLev)-rC(Nr)+dz_const/2.)/h_shear
       else
       shearProfile=1.
       end if
@@ -807,6 +808,8 @@ C      topog_slope = 4.912113091736391
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
 
+
+
 C     Advection by true vertical velocity (cross-slope component)
       DO j=0,sNy+1
        DO i=1,sNx
@@ -838,6 +841,7 @@ C     Upper boundary grid cell
      &  *Nsquare_const*cos_slope/gravity_const/temp_Alpha
        ENDDO
       ENDDO
+
 C==========================
 
 #endif /* USE_OLD_EXTERNAL_FORCING */

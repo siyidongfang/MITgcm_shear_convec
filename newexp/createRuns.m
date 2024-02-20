@@ -22,10 +22,11 @@ Nx = 150;
 
 Hmax = 1500;
 dz_const = 3;
-Hsurface = 1000; 
-Ntop = 150;
-Nr = round((Hmax-Hsurface)/dz_const) + Ntop + 1;
+% Hsurface = 1000; 
+% Ntop = 150;
+% Nr = round((Hmax-Hsurface)/dz_const) + Ntop + 1;
 % Nr = round(Hmax/dz_const)+1;
+Nr = round(Hmax/dz_const);
 
 run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with very small time step, spin-up run for 10 to 20 days, and product run,
 
