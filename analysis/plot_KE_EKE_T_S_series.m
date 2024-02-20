@@ -10,7 +10,7 @@
     
 clear; close all;
 
-ne=4;
+ne=1;
 load_all;
 
 %%% Add path

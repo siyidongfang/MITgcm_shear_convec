@@ -196,8 +196,9 @@ C      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
 C      end if
 
       shearProfile = 0.
-      if((rC(kLev)-rC(Nr)).lt.h_shear) then
-      shearProfile=(rC(kLev)-rC(Nr))/h_shear
+      deltaZ_bot = 3.
+      if((rC(kLev)-rC(Nr)+deltaZ_bot/2.).lt.h_shear) then
+      shearProfile=(rC(kLev)-rC(Nr)+deltaZ_bot/2.)/h_shear
       else
       shearProfile=1.
       end if

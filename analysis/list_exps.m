@@ -1,20 +1,22 @@
 
 
     expdir = '/Users/ysi/MITgcm_shear_convec/exps_test/';
+    % expdir = '/Users/ysi/MITgcm_shear_convec/exps_backup_wrongBBC/';
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
     EXPNAME = {...
-        's0.8e-3_noise1e-6nL200'
-        's0.9e-3_noise1e-6nL200'
-        's1.0e-3_noise1e-6nL200'
-        's1.1e-3_noise1e-6nL200'
-        's1.2e-3_noise1e-6nL200'
-        's1.3e-3_noise1e-6nL200'
-        's1.4e-3_noise1e-6nL200'
-        's1.5e-3_noise1e-6nL200'
-        's1.6e-3_noise1e-6nL200'
-        's1.7e-3_noise1e-6nL200'
-        's1.8e-3_noise1e-6nL200'
-        's1.9e-3_noise1e-6nL200'
+        's1.2e-3_noise1e-6nL400'
+        % 's0.8e-3_noise1e-6nL200'
+        % 's0.9e-3_noise1e-6nL200'
+        % 's1.0e-3_noise1e-6nL200'
+        % 's1.1e-3_noise1e-6nL200'
+        % 's1.2e-3_noise1e-6nL200'
+        % 's1.3e-3_noise1e-6nL200'
+        % 's1.4e-3_noise1e-6nL200'
+        % 's1.5e-3_noise1e-6nL200'
+        % 's1.6e-3_noise1e-6nL200'
+        % 's1.7e-3_noise1e-6nL200'
+        % 's1.8e-3_noise1e-6nL200'
+        % 's1.9e-3_noise1e-6nL200'
         % ...
         % 's1.6e-3_noise1e-6nL10'
         % 's1.6e-3_noise1e-6nL50'

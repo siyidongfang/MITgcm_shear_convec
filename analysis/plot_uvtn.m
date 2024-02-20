@@ -1,6 +1,6 @@
 
     clear;close all;
-    ne=8;
+    ne=2;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));

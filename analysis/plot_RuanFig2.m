@@ -5,7 +5,7 @@
 
 clear;
 close all;
-ne =7;
+ne =1;
 load_all
 
 % xx = xx-xx(1);
@@ -87,7 +87,7 @@ botZ =-1500;
 
 YLIM = [0 300];
 % YLIM = [0 1500];
-XLIM = [0 8];
+XLIM = [0 40];
 % XLIM = [15 40];
 
 figure(3)
