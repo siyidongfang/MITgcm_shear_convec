@@ -10,7 +10,7 @@
     
 clear; close all;
 
-ne=1;
+ne=5;
 load_all;
 
 %%% Add path
@@ -20,6 +20,7 @@ addpath colormaps/cmocean/;
 
 figdir = [exppath '/img/'];
 
+nDumps = 120
 
 ntime = zeros(1,nDumps);
 EKEtot = zeros(1,nDumps);

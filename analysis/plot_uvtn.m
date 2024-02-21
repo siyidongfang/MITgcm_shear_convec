@@ -1,6 +1,6 @@
 
     clear;close all;
-    ne=2;
+    ne=5;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
@@ -23,24 +23,24 @@
     end
 
 
-    for o=112
+    for o=60:120
 % for o=o1:o2
 % for o=300:nDumps
 
     nIter = dumpIters(o);
     time_h = nIter.*deltaT./3600;
 
-    tt = squeeze(rdmds([exppath,'/results/THETA_inst'],nIter));
+    tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
     tt(tt==0)=NaN;
     tt = tt + tt_background;
 
-    uu = squeeze(rdmds([exppath,'/results/UVEL_inst'],nIter));
+    uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
     uu(uu==0)=NaN;
-    ww = squeeze(rdmds([exppath,'/results/WVEL_inst'],nIter));
+    ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
     ww(ww==0)=NaN;
 
-    eta = rdmds([exppath,'/results/ETAN_inst'],nIter);
-    eta(eta==0)=NaN;
+    % eta = rdmds([exppath,'/results/ETAN_inst'],nIter);
+    % eta(eta==0)=NaN;
 
     rho = rhoConst.*(1-(tt-tRef)*tAlpha);
     N2 = NaN*zeros(Nx,Nr);

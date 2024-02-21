@@ -1,13 +1,13 @@
 
 clear;close all;
-load('muk_inviscid_noBC.mat')
+load('../products/muk_inviscid_noBC.mat')
 % load('muk.mat')
 plot_parm = Shear_parm;
 NEXP = length(plot_parm);
 
 Pr = 1;
 
-for ne = 1:12
+for ne = 1:7
     load_all
     filename = [expdir expname '/RMSE_mean.mat'];
     load(filename);
@@ -15,6 +15,10 @@ for ne = 1:12
     %%% Calculate the growth rate (the second tidal cycle divided by the first)
     tidx2 = 12+1:24;
     tidx1 = 0+1:12;
+    % tidx2 =25:36;
+    % tidx1 =12+1:24;
+    % tidx2 =37:48;
+    % tidx1 =25:36;
 
     ncycle = (tidx2(1)-tidx1(1))/12;
     
@@ -35,7 +39,9 @@ for ne = 1:12
 
 end
 
-S_max_gcm = [0.8:0.1:1.9]*1e-3;
+% S_max_gcm = [0.8:0.1:1.9]*1e-3;
+
+S_max_gcm = [0.4:0.2:1.6]*1e-3;
 
 gr_plot = gr_tt;
 gr_plot = gr_plot.^(1/ncycle);

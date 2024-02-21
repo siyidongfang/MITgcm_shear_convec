@@ -7,7 +7,7 @@
 
 
 clear;close all;
-for  ne = [2:2:12]
+for  ne = 1:7
 load_all
 
 Ntide = 4;
