@@ -1,6 +1,6 @@
     
 
-    %%% Free-slip boundary condition
+    %%% Boundary condition
     z0(1) = 0; z0(Nr+1) = 0; 
 
     zeta0 = @(z) interp1(linspace(min(zspan),max(zspan),numel(z0)), z0, z);    
@@ -19,6 +19,7 @@
     % p0 = interp1(zz0,psi0,zz_wgrid);
     p0 = psi0;
 
+    %%% Boundary condition
     %%% Impermeable (w=0) At the ocean bottom
     p0(1) = 0;
     %%% Impermeable (w=0) At the upper boundary 
@@ -36,19 +37,10 @@
     end
 
     dUdz = (U_wgrid(2:Nr+1)-U_wgrid(1:Nr))/dz;
-    d2bdz2(1) = 0; d2bdz2(Nr) = 0;
-
-    p0_ugrid = 0.5*(p0(1:Nr)+p0(2:Nr+1));
-    dpsidz = (p0(2:Nr+1)-p0(1:Nr))/dz;
-
-    bq1(o,:) = -1i*kx*C1*U.*b0;
-    bq2(o,:) = -1i*kx*cotd(topo).*p0_ugrid;
-    bq3(o,:) = dpsidz;
-    bq4(o,:) = +1i*kx*C1*dUdz.*tan(t0).*p0_ugrid;
-    bq5(o,:) = +C4*d2bdz2-C4*kx^2.*b0;
     
-    dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
-              + bq4(o,:) + bq5(o,:);
+    %%% Boundary condition
+
+    d2bdz2(1) = 0; d2bdz2(Nr) = 0;
 
     dbdz(o,2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz; %%% on w-grid
 
@@ -66,6 +58,20 @@
     %     - (omega/Shear) * (delta/Hshear) / sind(topo) ...
     %     - 1i * kx * b0(Nr) * sind(topo) ... %%!!! Note that here we use an approximation: b0(Nr) instead of b0_wgrid(Nr+1)
     %     );
+
+
+    p0_ugrid = 0.5*(p0(1:Nr)+p0(2:Nr+1));
+    dpsidz = (p0(2:Nr+1)-p0(1:Nr))/dz;
+
+    bq1(o,:) = -1i*kx*C1*U.*b0;
+    bq2(o,:) = -1i*kx*cotd(topo).*p0_ugrid;
+    bq3(o,:) = dpsidz;
+    bq4(o,:) = +1i*kx*C1*dUdz.*tan(t0).*p0_ugrid;
+    bq5(o,:) = +C4*d2bdz2-C4*kx^2.*b0;
+    
+    dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
+              + bq4(o,:) + bq5(o,:);
+
 
     b0_wgrid = zeros(1,Nr+1);
     b0_wgrid(2:Nr) = 0.5*(b0(2:Nr)+b0(1:Nr-1));

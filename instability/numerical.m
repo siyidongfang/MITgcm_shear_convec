@@ -23,9 +23,10 @@ zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
 zz_wgrid = 0:dz:((Nr)*dz);
 dz_real  = dz*delta;
 
-Hshear = 300;
+Hshear = Hdepth;
 Lshear = Hshear/delta; % dimensionless vertical scale for velocity shear
-Nshear = round(Lshear/dz);
+Nshear = Nr+1;
+% Nshear = round(Lshear/dz);
 % Hshear = zz(Nshear)*delta;
 U0 = Uconst + Hshear * Shear;
 Re = U0*delta/nu;
@@ -109,14 +110,14 @@ for m=1:Nr+1
     end
 end
 
-% idx_smooth = Nshear-round(Nshear/4):Nshear+4*round(Nshear/4);
-idx_smooth = 1:Nr;
-% Atide(idx_smooth) = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(Atide(idx_smooth)))))))))))))))))))))';
-Atide(idx_smooth) = smooth(smooth(smooth(Atide(idx_smooth))))';
-Atide_wgrid(idx_smooth) = smooth(smooth(smooth(Atide_wgrid(idx_smooth))))';
+% % idx_smooth = Nshear-round(Nshear/4):Nshear+4*round(Nshear/4);
+% idx_smooth = 1:Nr;
+% % Atide(idx_smooth) = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(Atide(idx_smooth)))))))))))))))))))))';
+% Atide(idx_smooth) = smooth(smooth(smooth(Atide(idx_smooth))))';
+% Atide_wgrid(idx_smooth) = smooth(smooth(smooth(Atide_wgrid(idx_smooth))))';
 
-% figure()
-% plot(zz,Atide);grid;hold on;plot(zz_wgrid,Atide_wgrid);
+figure()
+plot(zz,Atide);grid;hold on;plot(zz_wgrid,Atide_wgrid);
 
 %%
 Utide =cos(tt)'.*Atide/U0;
@@ -126,29 +127,29 @@ for m = 2:Nr-1
     dUtidedz(:,m) = (Utide(:,m+1)-Utide(:,m-1))/2/dz;
 end
 
-% h=figure(1);
-% set(h,'Visible', FigureIsVisible);clf;
-% plot(Atide,zz*delta);
-% grid on;grid minor;
-% saveas(h,[expdir 'fig1.png'])
-% 
-% h=figure(2);
-% set(h,'Visible', FigureIsVisible);clf;
-% plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
-% grid on;grid minor;
-% saveas(h,[expdir 'fig2.png'])
-% 
-% h=figure(3);
-% set(h,'Visible', FigureIsVisible);clf;
-% pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
-% saveas(h,[expdir 'fig3.png'])
-% 
-% h=figure(4);
-% set(h,'Visible', FigureIsVisible);clf;
-% pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
-% saveas(h,[expdir 'fig4.png'])
+h=figure(1);
+set(h,'Visible', FigureIsVisible);clf;
+plot(Atide,zz*delta);
+grid on;grid minor;
+saveas(h,[expdir 'fig1.png'])
 
-% close all;
+h=figure(2);
+set(h,'Visible', FigureIsVisible);clf;
+plot(diff(Atide)./diff(zz)/delta,0.5*(zz(1:end-1)+zz(2:end))*delta)
+grid on;grid minor;
+saveas(h,[expdir 'fig2.png'])
+
+h=figure(3);
+set(h,'Visible', FigureIsVisible);clf;
+pcolor(tt/omega/3600,zz*delta,Utide'*U0);shading flat;colormap redblue; colorbar;
+saveas(h,[expdir 'fig3.png'])
+
+h=figure(4);
+set(h,'Visible', FigureIsVisible);clf;
+pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
+saveas(h,[expdir 'fig4.png'])
+
+close all;
 
 %%
 
@@ -195,14 +196,11 @@ for o=1:Nt-1
         zeta(o+1,:) = dzetadt(o,:)*dt;
     end
 
-    % %%% Free-slip boundary condition
-    % zeta(o+1,1) = 0; zeta(o+1,Nr+1) = 0; 
+    %%% No-stress (free-slip) boundary condition
+    zeta(o+1,1) = 0; zeta(o+1,Nr+1) = 0; 
 
-    %%% No-stress (free-slip) b.c. (du/dz = 0) At the ocean bottom
+    %%% No total stress b.c. At the ocean bottom
     % zeta(o,1) = delta/Hshear*cos(t0);
-
-    %%% No-stress (free-slip) b.c. (du/dz = 0) At the upper boundary
-    % zeta(o,Nr+1) = 0;
     
 
 end
