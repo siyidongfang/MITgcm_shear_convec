@@ -1,7 +1,7 @@
 
 figure(1)
 pcolor(re_d2bdz2)
-shading flat;colorbar;colormap(redblue);
+shading flat;colorbar;colormap(redblue);clim([-500 500]/10)
 
 figure(2)
 pcolor(re_dbdz)
@@ -24,3 +24,18 @@ clf;
 plot(aaa);
 hold on;
 plot(bbb,'--')
+
+
+aaa = re_d2zetadz2(:,1);
+bbb = re_d2zetadz2(:,Nr+1);
+figure(5)
+clf;
+plot(aaa);
+hold on;
+plot(bbb,'--')
+
+
+figure(6)
+pcolor(re_d2zetadz2)
+shading flat;colorbar;colormap(redblue);clim([-1 1]*1e3)
+
