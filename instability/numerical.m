@@ -67,7 +67,6 @@ dzetadt = zeros(Nt,Nr+1);
 d2bdz2 = zeros(1,Nr);
 
 dpsidz = zeros(1,Nr+1);
-d2psidz2 = zeros(1,Nr+1);
 d2zetadz2 = zeros(1,Nr+1);
 dUdz = zeros(1,Nr);
 U = zeros(1,Nr);
@@ -160,8 +159,9 @@ close all;
 
 zspan = [0 1];
 
-% %%% Free-slip boundary condition
-% zeta(1,1) = 0; zeta(1,Nr+1) = 0; 
+%%%%%%%%%%%% B.C.-1 %%%%%%%%%%%%
+zeta(1,1) = 0; zeta(1,Nr+1) = 0; 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 for o=1:Nt-1
 
@@ -196,12 +196,13 @@ for o=1:Nt-1
         zeta(o+1,:) = dzetadt(o,:)*dt;
     end
 
-    %%% No-stress (free-slip) boundary condition
+    %%%%%%%%%%%% B.C.-2 %%%%%%%%%%%%
+    %%% No-stress (free-slip)
     zeta(o+1,1) = 0; zeta(o+1,Nr+1) = 0; 
 
-    %%% No total stress b.c. At the ocean bottom
+    %%% No total stress at the ocean bottom
     % zeta(o,1) = delta/Hshear*cos(t0);
-    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 end
 
