@@ -64,10 +64,10 @@ zq3 = zeros(Nt,Nr+1);
 zq4 = zeros(Nt,Nr+1);
 dzetadt = zeros(Nt,Nr+1);
 
-d2bdz2 = zeros(1,Nr);
+d2bdz2 = zeros(Nt,Nr);
+d2zetadz2 = zeros(Nt,Nr+1);
 
 dpsidz = zeros(1,Nr+1);
-d2zetadz2 = zeros(1,Nr+1);
 dUdz = zeros(1,Nr);
 U = zeros(1,Nr);
 U_wgrid = zeros(1,Nr+1);
@@ -352,8 +352,13 @@ saveas(h,[expdir 'fig5.png'])
 decompose;
 close all
 
+re_dbdz = real(dbdz);
+re_d2bdz2 = real(d2bdz2);
+re_d2zetadz2 = real(d2zetadz2);
+
+
 clear b0 b_wgrid b_2 b_3 b_4 buoy p0 p0_ugrid psi psi0 sol1 solinit ...
-    z0 z_2 z_3 z_4 zeta ...
+    z0 z_2 z_3 z_4 zeta dbdz ...
     d2bdz2 d2psidz2 d2zetadz2 dbdt dpsidz dUtidedz dzetadt ...
     k_1b k_1z k_2b k_2z k_3b k_3z k_4b k_4z h ...
     bq1 bq2 bq3 bq4 bq5 zq1 zq2 zq3 zq4

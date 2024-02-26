@@ -21,8 +21,8 @@ m1km =1000;
 % Shear_parm = [0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4]*1e-3; 
 Shear_parm = [0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4]*1e-3; 
 NEXP = length(Shear_parm);
-dz_group = 0.01*ones(1,NEXP);
-dt_group = 0.01*ones(1,NEXP);
+dz_group = 0.005*ones(1,NEXP);
+dt_group = 0.005*ones(1,NEXP);
 
 for ne = 1:NEXP
 % for ne = [1 3]
@@ -36,14 +36,17 @@ for ne = 1:NEXP
     %%%%% Floquet stability
     oT = round(Ptide*omega/dt);% The time step after one tidal cycle
 
-    tidx1 = 4*oT+1:5*oT-2;
-    tidx2 = 5*oT+1:6*oT-2;
-    
+    % tidx1 = 4*oT+1:5*oT-2;
+    % tidx2 = 5*oT+1:6*oT-2;
+    tidx1 = 0*oT+1:3*oT-2;
+    tidx2 = 3*oT+1:6*oT-2;
+    Ncoeff = 3;
+
     % zidx=2:Nshear;
     zidx = 2:Nr-1;
-    muk_psi = mean(abs(re_psi(tidx2,zidx)))./mean(abs(re_psi(tidx1,zidx)));
-    muk_zeta = mean(abs(re_zeta(tidx2,zidx)))./mean(abs(re_zeta(tidx1,zidx)));
-    muk_buoy = mean(abs(re_buoy(tidx2,zidx)))./mean(abs(re_buoy(tidx1,zidx)));
+    muk_psi = (mean(abs(re_psi(tidx2,zidx)))./mean(abs(re_psi(tidx1,zidx)))).^(1/Ncoeff);
+    muk_zeta = (mean(abs(re_zeta(tidx2,zidx)))./mean(abs(re_zeta(tidx1,zidx)))).^(1/Ncoeff);
+    muk_buoy = (mean(abs(re_buoy(tidx2,zidx)))./mean(abs(re_buoy(tidx1,zidx)))).^(1/Ncoeff);
 
     % muk_radko = 
 
@@ -85,7 +88,7 @@ end
 % log10_muk_psi = log10(muk_mean_psi);
 
 
-save('exps_NoStressBottom0.01.mat','muk_mean_buoy','muk_mean_zeta','muk_mean_psi',...
+save('exps_NoStressBottom0.005.mat','muk_mean_buoy','muk_mean_zeta','muk_mean_psi',...
                'muk_max_buoy','muk_max_zeta','muk_max_psi',...
                'muk_rms_buoy','muk_rms_zeta','muk_rms_psi',...
                'Shear_parm')

@@ -16,7 +16,7 @@ m1km = 1000;
 Uconst = 0; %%% A time-invariant background flow adding to the tidal oscillation
 Hdepth = 300;
 delta = Hdepth;
-NTtide = 6;
+NTtide = 10;
 
 dz_parm = [0.3:0.1:2]*0.01;
 topo_parm = [1e-20 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20];
@@ -30,7 +30,7 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
 expfolder = 'exps_NoStressBottom/';
 % expfolder = 'exps_NoSlipBottom/';
 
-for ne =1:length(Shear_parm)
+for ne =7:length(Shear_parm)
 % for ne =1
 % for ne =10:12
     % dz = dz_parm(ne)
@@ -49,7 +49,7 @@ for ne =1:length(Shear_parm)
 
     expdir = [expfolder 'H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
         '_N' num2str(N) '_S' num2str(Shear) ...
-        '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '/']
+        '_lambda' num2str(lambda) '_dz' num2str(dz) '_dt' num2str(dt) '_extrapolate/']
 
     mkdir(expdir);
 

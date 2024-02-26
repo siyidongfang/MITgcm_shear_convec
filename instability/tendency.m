@@ -60,7 +60,7 @@
 
 
     for m = 2:Nr-1
-        d2bdz2(m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
+        d2bdz2(o,m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
     end
 
     %%%%%%%%%%%% B.C.-10 %%%%%%%%%%%%
@@ -78,9 +78,12 @@
     zNr = zz(Nr);
 
     % Taylor expansion: bw2 ~= b1 + dbdz1*(zw2-z1) + 0.5*d2bdz2(1)*(zw2-z1)^2
-    d2bdz2(1) = ( bw2 - b1 - dbdz1*(zw2-z1) ) ./ ( 0.5*(zw2-z1)^2 );
+    d2bdz2(o,1) = ( bw2 - b1 - dbdz1*(zw2-z1) ) ./ ( 0.5*(zw2-z1)^2 );
     % Taylor expansion: bwNr ~= bNr + dbdzNr*(zwNr-zNr) + 0.5*d2bdz2(Nr)*(zwNr-zNr)^2
-    d2bdz2(Nr) = ( bwNr - bNr - dbdzNr*(zwNr-zNr) ) ./ ( 0.5*(zwNr-zNr)^2 );
+    d2bdz2(o,Nr) = ( bwNr - bNr - dbdzNr*(zwNr-zNr) ) ./ ( 0.5*(zwNr-zNr)^2 );
+
+    %%% Linear extrapolation
+    % d2bdz2(o,[1 Nr]) = interp1(zz(2:Nr-1),d2bdz2(o,2:Nr-1),zz([1 Nr]),'linear','extrap');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -91,24 +94,25 @@
     bq2(o,:) = -1i*kx*cotd(topo).*p0_ugrid;
     bq3(o,:) = dpsidz;
     bq4(o,:) = +1i*kx*C1*dUdz.*tan(t0).*p0_ugrid;
-    bq5(o,:) = +C4*d2bdz2-C4*kx^2.*b0;
+    bq5(o,:) = +C4*d2bdz2(o,:)-C4*kx^2.*b0;
     
     dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
               + bq4(o,:) + bq5(o,:);
 
 
     for m = 2:Nr
-        d2zetadz2(m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
+        d2zetadz2(o,m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
     end
 
     %%%%%%%%%%%% B.C.-11 %%%%%%%%%%%%
-    d2zetadz2 = interp1(zz_wgrid(2:Nr),d2zetadz2(2:Nr),zz_wgrid,'linear','extrap');
+    %%% Linear extrapolation
+    d2zetadz2(o,:) = interp1(zz_wgrid(2:Nr),d2zetadz2(o,2:Nr),zz_wgrid,'linear','extrap');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     zq1(o,:) = -1i*kx*C1*U_wgrid.*z0;
     zq2(o,:) = +C2^2*(1i*kx*cotd(topo)*b0_wgrid);
     zq3(o,:) = +C2^2*(-dbdz(o,:));
-    zq4(o,:) = +C3*d2zetadz2-C3*kx^2.*z0;
+    zq4(o,:) = +C3*d2zetadz2(o,:)-C3*kx^2.*z0;
 
     dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) + zq4(o,:);
 
