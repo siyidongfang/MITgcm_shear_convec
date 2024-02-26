@@ -14,11 +14,14 @@
     % solinit = bvpinit(xmesh, [0 0]);
     % end
     %%% Solve the boundary value problem using the bvp4c solver.
-    sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit);
+    % options = bvpset('RelTol', 1e-3, 'AbsTol', 1e-3, 'NMax', 20000);
+    options = bvpset('NMax', 10000);
+    sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit,options);
+    % sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit);
     psi0 = sol1.y(1,:);
     zz0 = sol1.x;
-    % p0 = interp1(zz0,psi0,zz_wgrid);
-    p0 = psi0;
+    p0 = interp1(zz0,psi0,zz_wgrid);
+    % p0 = psi0;
 
     %%%%%%%%%%%% B.C.-7 %%%%%%%%%%%%
     %%% Impermeable (w=0) At the ocean bottom
@@ -58,7 +61,6 @@
     b0_wgrid(Nr+1) = 2*b0(Nr)-b0_wgrid(Nr);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
     for m = 2:Nr-1
         d2bdz2(o,m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
     end
@@ -85,7 +87,6 @@
     %%% Linear extrapolation
     % d2bdz2(o,[1 Nr]) = interp1(zz(2:Nr-1),d2bdz2(o,2:Nr-1),zz([1 Nr]),'linear','extrap');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
     p0_ugrid = 0.5*(p0(1:Nr)+p0(2:Nr+1));
     dpsidz = (p0(2:Nr+1)-p0(1:Nr))/dz;

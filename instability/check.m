@@ -37,5 +37,5 @@ plot(bbb,'--')
 
 figure(6)
 pcolor(re_d2zetadz2)
-shading flat;colorbar;colormap(redblue);clim([-1 1]*1e3)
-
+shading flat;colorbar;colormap(redblue);
+clim([-5 5]/1e16)
