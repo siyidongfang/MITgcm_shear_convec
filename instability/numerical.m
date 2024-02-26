@@ -253,8 +253,8 @@ load_colors;
     %%%%% Floquet stability
     oT = round(Ptide*omega/dt);% The time step after one tidal cycle
     % tidx = 10:20;
-    zidx=2:Nshear;
-    % zidx = 2:Nr
+    % zidx=2:Nshear;
+    zidx = 2:Nr
     tidx = 10:20;
     t2 = 3*oT+tidx;
     t1 = 2*oT+tidx;

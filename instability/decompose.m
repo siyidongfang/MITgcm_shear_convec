@@ -33,7 +33,7 @@ legend_zeta = {'$-U \zeta^\prime_x$',...
 %%% Vertically integrate the right-hand-side terms of dbdt, dzetadt
 %%% Then cumulatively integrate those terms with time
 
-zidx = 1:Nshear;
+zidx = 1:Nr;
 
 bq1_int = real((sum(bq1(:,zidx),2)))';
 bq2_int = real((sum(bq2(:,zidx),2)))';
@@ -43,6 +43,8 @@ bq5_int = real((sum(bq5(:,zidx),2)))';
 
 % bq_all = bq1_int+bq2_int+bq3_int+bq4_int+bq5_int;
 bq_all = 1;
+
+zidx = 1:Nr+1;
 
 zq1_int = real((sum(zq1(:,zidx),2)))';
 zq2_int = real((sum(zq2(:,zidx),2)))';

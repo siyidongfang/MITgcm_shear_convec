@@ -102,7 +102,7 @@
     end
 
     %%%%%%%%%%%% B.C.-11 %%%%%%%%%%%%
-    
+    d2zetadz2 = interp1(zz_wgrid(2:Nr),d2zetadz2(2:Nr),zz_wgrid,'linear','extrap');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     zq1(o,:) = -1i*kx*C1*U_wgrid.*z0;
