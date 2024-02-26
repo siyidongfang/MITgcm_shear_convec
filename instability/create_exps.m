@@ -25,12 +25,13 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
 
 expfolder = 'experiments/';
 
-for Nexp_lambda = 25:32
+for Nexp_lambda = 1
 
     lambda = lambda_parm(Nexp_lambda);
     expfolder = [expfolder 'lambda' num2str(lambda) '/']
 
-    for Nexp_shear =1:length(Shear_parm)
+    % for Nexp_shear =1:length(Shear_parm)
+    for Nexp_shear =30
 
         Shear = Shear_parm(Nexp_shear)
         expdir = [expfolder 'H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...

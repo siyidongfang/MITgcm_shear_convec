@@ -167,9 +167,9 @@ zeta(1,1) = 0; zeta(1,Nr+1) = 0;
 
 for o=1:Nt-1
 
-    % if(rem(o,round(Nt/50))==0)
-    %     o/Nt
-    % end
+    if(rem(o,round(Nt/20))==0)
+        Progress = o/Nt
+    end
 
     t0 = tt(o);
     b0 = buoy(o,:);
