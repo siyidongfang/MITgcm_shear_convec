@@ -1,9 +1,9 @@
 #!/bin/bash
-#PBS -N smooth_Atide0.08_Nx80Ny200Nr318_spin 
+#PBS -N test_simulation
 #PBS -A UMIT0054 
 #PBS -m abe
 #PBS -M y_si@mit.edu
-#PBS -q regular
+#PBS -q premium
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=1
 #PBS -o output.txt
