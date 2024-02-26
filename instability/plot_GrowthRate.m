@@ -1,11 +1,13 @@
 
 clear;close all;
-load('../products/muk_inviscid_noBC.mat')
+load('exps_NoStressBottom0.01.mat')
 % load('muk.mat')
 plot_parm = Shear_parm;
 NEXP = length(plot_parm);
 
 Pr = 1;
+
+addpath    /Users/ysi/MITgcm_shear_convec/analysis
 
 for ne = 1:7
     load_all
