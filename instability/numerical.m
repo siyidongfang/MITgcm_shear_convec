@@ -16,6 +16,8 @@ Pr = nu/kappa;
 t1hour = 3600;
 omega = 2*pi/Ptide;
 
+kx = 2*pi/(lambda/delta);
+
 %%% Model dimension
 Lz = Hdepth/delta;     % dimensionless domain height
 Nr = round(Lz/dz);
@@ -32,7 +34,7 @@ U0 = Uconst + Hshear * Shear;
 Re = U0*delta/nu;
 
 Lt = NTtide*43200*omega; % dimensionless simulation time
-Nt = round(Lt/dt)
+Nt = round(Lt/dt);
 dt_real = NTtide*43200/Nt;
 tt = dt:dt:Nt*dt;
 
@@ -73,8 +75,8 @@ U = zeros(1,Nr);
 U_wgrid = zeros(1,Nr+1);
 
 %%% check CLF condition:
-CFLz = U0*dt_real/dz_real
-CFLx = U0*dt_real/lambda 
+CFLz = U0*dt_real/dz_real;
+CFLx = U0*dt_real/lambda;
 
 %%% Initial condition
 % buoy(1,:) = (rand(1,Nr)-1/2)/1e20; %%% Random
@@ -115,8 +117,8 @@ end
 % Atide(idx_smooth) = smooth(smooth(smooth(Atide(idx_smooth))))';
 % Atide_wgrid(idx_smooth) = smooth(smooth(smooth(Atide_wgrid(idx_smooth))))';
 
-figure()
-plot(zz,Atide);grid;hold on;plot(zz_wgrid,Atide_wgrid);
+% figure()
+% plot(zz,Atide);grid;hold on;plot(zz_wgrid,Atide_wgrid);
 
 %%
 Utide =cos(tt)'.*Atide/U0;
@@ -165,9 +167,9 @@ zeta(1,1) = 0; zeta(1,Nr+1) = 0;
 
 for o=1:Nt-1
 
-    if(rem(o,round(Nt/50))==0)
-        o/Nt
-    end
+    % if(rem(o,round(Nt/50))==0)
+    %     o/Nt
+    % end
 
     t0 = tt(o);
     b0 = buoy(o,:);
@@ -252,7 +254,7 @@ load_colors;
     oT = round(Ptide*omega/dt);% The time step after one tidal cycle
     % tidx = 10:20;
     % zidx=2:Nshear;
-    zidx = 2:Nr
+    zidx = 2:Nr;
     tidx = 10:20;
     t2 = 3*oT+tidx;
     t1 = 2*oT+tidx;
@@ -265,15 +267,15 @@ load_colors;
     % muk_zeta = (re_zeta(t2,zidx))./(re_zeta(t1,zidx));
     % muk_buoy = (re_buoy(t2,zidx))./(re_buoy(t1,zidx));
     
-    muk_max_buoy = max(abs(muk_buoy))
+    muk_max_buoy = max(abs(muk_buoy));
     muk_mean_buoy = mean(abs(muk_buoy));
     muk_rms_buoy = rms(abs(muk_buoy));
 
-    muk_max_zeta = max(abs(muk_zeta))
+    muk_max_zeta = max(abs(muk_zeta));
     muk_mean_zeta = mean(abs(muk_zeta));
     muk_rms_zeta = rms(abs(muk_zeta));
 
-    muk_max_psi = max(abs(muk_psi))
+    muk_max_psi = max(abs(muk_psi));
     muk_mean_psi = mean(abs(muk_psi));
     muk_rms_psi = rms(abs(muk_psi));
 
@@ -354,11 +356,11 @@ re_dbdz = real(dbdz);
 re_d2bdz2 = real(d2bdz2);
 re_d2zetadz2 = real(d2zetadz2);
 
-% clear b0 b_wgrid b_2 b_3 b_4 buoy p0 p0_ugrid psi psi0 sol1 solinit ...
-%     z0 z_2 z_3 z_4 zeta dbdz ...
-%     d2bdz2 d2psidz2 d2zetadz2 dbdt dpsidz dUtidedz dzetadt ...
-%     k_1b k_1z k_2b k_2z k_3b k_3z k_4b k_4z h ...
-%     bq1 bq2 bq3 bq4 bq5 zq1 zq2 zq3 zq4
+clear b0 b_wgrid b_2 b_3 b_4 buoy p0 p0_ugrid psi psi0 sol1 solinit ...
+    z0 z_2 z_3 z_4 zeta dbdz ...
+    d2bdz2 d2psidz2 d2zetadz2 dbdt dpsidz dUtidedz dzetadt ...
+    k_1b k_1z k_2b k_2z k_3b k_3z k_4b k_4z h ...
+    bq1 bq2 bq3 bq4 bq5 zq1 zq2 zq3 zq4
 save(outputname)
 
 

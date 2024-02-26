@@ -20,8 +20,12 @@
     % sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit);
     psi0 = sol1.y(1,:);
     zz0 = sol1.x;
-    p0 = interp1(zz0,psi0,zz_wgrid);
-    % p0 = psi0;
+    if(length(psi0)>length(p0))
+        p0 = interp1(zz0,psi0,zz_wgrid);
+        % warning('length(psi0)>length(p0)')
+    else
+        p0 = psi0;
+    end
 
     %%%%%%%%%%%% B.C.-7 %%%%%%%%%%%%
     %%% Impermeable (w=0) At the ocean bottom
