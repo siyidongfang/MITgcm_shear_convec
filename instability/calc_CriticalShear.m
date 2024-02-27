@@ -6,9 +6,9 @@ close all;clear;
 
 expdir = '/Volumes/MIT/MITgcm_shear_convec/instability/experiments/lambda';
 
-topo_parm = 0:0.5:20;
+topo_parm = 0:1:40;
 Nsquare_parm = 1e1.^(-9:0.1:-4);
-Shear_parm = (0.01:0.01:30)*1e-3; 
+Shear_parm = [0.01:0.01:10 11:1:100 110:10:1000]*1e-3; 
 Ptide_parm = [1 2]*43200;
 
 NTtide = 10;
@@ -74,7 +74,7 @@ for nn=1:NN
     end
 end
 
-save('CriticalShear.mat')
+save('CriticalShear_largeTopo.mat')
 
 
 
