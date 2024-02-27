@@ -9,8 +9,8 @@ if(NOdiffusion)
     nu = 0;
     kappa = 0;
 else
-    nu = 2e-4; %%% Kaiser and Pratt 2022: nu=kappa=2e-6
-    kappa = 2e-4;
+    nu = 2e-6; %%% Kaiser and Pratt 2022: nu=kappa=2e-6; Ruan: 2e-4??
+    kappa = 2e-6;
 end
 Pr = nu/kappa;
 t1hour = 3600;
@@ -121,7 +121,10 @@ end
 % plot(zz,Atide);grid;hold on;plot(zz_wgrid,Atide_wgrid);
 
 %%
-Utide =cos(tt)'.*Atide/U0;
+% Utide =cos(tt)'.*Atide/U0;
+
+Utide = repmat(cos(tt)',[1 length(Atide)])...
+    .*repmat(Atide,[length(tt) 1])/U0;
 
 dUtidedz = zeros(Nt,Nr);
 for m = 2:Nr-1
@@ -147,7 +150,7 @@ saveas(h,[expdir 'fig3.png'])
 
 h=figure(4);
 set(h,'Visible', FigureIsVisible);clf;
-pcolor(tt/omega/3600,zz*delta,dUtidedz'*U0/delta);shading flat;colormap redblue; colorbar;
+pcolor(tt/omega/3600,zz(2:Nr-1)*delta,dUtidedz(:,2:Nr-1)'*U0/delta);shading flat;colormap redblue; colorbar;
 saveas(h,[expdir 'fig4.png'])
 
 close all;
@@ -167,7 +170,7 @@ zeta(1,1) = 0; zeta(1,Nr+1) = 0;
 
 for o=1:Nt-1
 
-    if(rem(o,round(Nt/20))==0)
+    if(rem(o,round(Nt/10))==0)
         Progress = o/Nt
     end
 
@@ -243,42 +246,11 @@ end
 
 
 plot_tidx = 1:10:Nt;
+
 load_colors;
-
-%%
-    re_buoy = real(buoy);
-    re_zeta = real(zeta);
-    re_psi = real(psi);
-    
-    %%%%% Floquet stability
-    oT = round(Ptide*omega/dt);% The time step after one tidal cycle
-    % tidx = 10:20;
-    % zidx=2:Nshear;
-    zidx = 2:Nr;
-    tidx = 10:20;
-    t2 = 3*oT+tidx;
-    t1 = 2*oT+tidx;
-
-    % zidx = 2:Nr-1;
-    muk_psi = mean(re_psi(oT+tidx,zidx))./mean(re_psi(tidx,zidx));
-    muk_zeta = mean(re_zeta(oT+tidx,zidx))./mean(re_zeta(tidx,zidx));
-    muk_buoy = mean(re_buoy(oT+tidx,zidx))./mean(re_buoy(tidx,zidx));
-    % muk_psi = (re_psi(t2,zidx))./(re_psi(t1,zidx));
-    % muk_zeta = (re_zeta(t2,zidx))./(re_zeta(t1,zidx));
-    % muk_buoy = (re_buoy(t2,zidx))./(re_buoy(t1,zidx));
-    
-    muk_max_buoy = max(abs(muk_buoy));
-    muk_mean_buoy = mean(abs(muk_buoy));
-    muk_rms_buoy = rms(abs(muk_buoy));
-
-    muk_max_zeta = max(abs(muk_zeta));
-    muk_mean_zeta = mean(abs(muk_zeta));
-    muk_rms_zeta = rms(abs(muk_zeta));
-
-    muk_max_psi = max(abs(muk_psi));
-    muk_mean_psi = mean(abs(muk_psi));
-    muk_rms_psi = rms(abs(muk_psi));
-
+re_buoy = real(buoy);
+re_zeta = real(zeta);
+re_psi = real(psi);
 
 %%
 
@@ -298,7 +270,7 @@ title('Streamfunction \psi','Fontsize',fontsize+3);
 set(gca,'color',gray);
 aaa = max(max(abs(re_psid))/DIV);
 if(~isnan(aaa))
-clim([-1 1]*aaa)
+caxis([-1 1]*aaa)
 end
 
 subplot(3,2,2)
@@ -309,7 +281,7 @@ title('Horizontal vorticity perturbation \zeta','Fontsize',fontsize+3);
 set(gca,'color',gray);
 aaa = max(max(abs(re_zetad))/DIV);
 if(~isnan(aaa))
-clim([-1 1]*aaa)
+caxis([-1 1]*aaa)
 end
 
 subplot(3,2,3)
@@ -320,7 +292,7 @@ title('Buoyancy perturbation b^\prime','Fontsize',fontsize+3);
 set(gca,'color',gray);
 aaa = max(max(abs(re_buoyd))/DIV);
 if(~isnan(aaa))
-clim([-1 1]*aaa)
+caxis([-1 1]*aaa)
 end
 
 
@@ -333,7 +305,7 @@ title('Horizontal velocity perturbation u^\prime','Fontsize',fontsize+3);
 set(gca,'color',gray);
 aaa = max(max((abs(uuu))))/DIV;
 if(~isnan(aaa)&& aaa~=0)
-clim([-1 1]*aaa)
+caxis([-1 1]*aaa)
 end
 
 subplot(3,2,6)
@@ -343,7 +315,7 @@ ylabel('HAB (m)');xlabel('Time (hours)')
 title('Vertical velocity w','Fontsize',fontsize+3);
 set(gca,'color',gray);
 if(kx~=0)
-    clim([-1 1]*max(max((abs(www))))/DIV)
+    caxis([-1 1]*max(max((abs(www))))/DIV)
 end
 
 saveas(h,[expdir 'fig5.png'])
