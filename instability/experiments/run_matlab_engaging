@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH -J lambda1                  # job name 
+#SBATCH -J lambda_5
 #SBATCH -o output_%j.txt                # output and error file name (%j expands to jobID)
-#SBATCH -n 1          # total number of mpi tasks requested
+#SBATCH -n 20          # total number of mpi tasks requested
 #SBATCH --nodes=1     # total number of nodes requested
 #SBATCH -p sched_mit_raffaele          # queue (partition) -- sched_mit_raffaele, newnodes, etc. use sinfo to check
 #SBATCH -t 48:00:00  # run time (hh:mm:ss)
@@ -11,4 +11,4 @@
 
 cd ../.
 module load mit/matlab/2019a
-matlab -singleCompThread -nodisplay -nosplash -r create_exps
+matlab -nodisplay -nosplash -r create_exps
