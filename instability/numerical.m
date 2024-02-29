@@ -9,8 +9,10 @@ if(NOdiffusion)
     nu = 0;
     kappa = 0;
 else
-    nu = 2e-6; %%% Kaiser and Pratt 2022: nu=kappa=2e-6; Ruan: 2e-4??
-    kappa = 2e-6;
+    % nu = 2e-6; %%% Kaiser and Pratt 2022: nu=kappa=2e-6; Ruan: 2e-4??
+    % kappa = 2e-6;
+    nu = 2e-4; %%% Use larger diffusivity and visocity to eliminate numerical errors
+    kappa = 2e-4;
 end
 Pr = nu/kappa;
 t1hour = 3600;
@@ -170,7 +172,7 @@ zeta(1,1) = 0; zeta(1,Nr+1) = 0;
 
 for o=1:Nt-1
 
-    if(rem(o,round(Nt/10))==0)
+    if(rem(o,round(Nt/20))==0)
         Progress = o/Nt
     end
 

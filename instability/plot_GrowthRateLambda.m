@@ -3,7 +3,6 @@ clear; close all;
 fontsize = 20;
 load_colors;
 
-
 load('GrowthRate_new.mat')
 growthrate = squeeze(GrowthRate(1,:,:));
 max_growth_allLambda = max(growthrate);
