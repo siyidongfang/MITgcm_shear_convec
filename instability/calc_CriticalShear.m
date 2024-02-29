@@ -4,9 +4,7 @@
 
 close all;clear;
 
-expdir = '/Volumes/MIT/MITgcm_shear_convec/instability/experiments/lambda';
-
-topo_parm = 0:1:40;
+topo_parm = 0:0.5:20;
 Nsquare_parm = 1e1.^(-9:0.1:-4);
 Shear_parm = [0.01:0.01:10 11:1:100 110:10:1000]*1e-3; 
 Ptide_parm = [1 2]*43200;
@@ -24,6 +22,7 @@ NT = length(topo_parm);
 NS = length(Shear_parm);
 
 Ri_min = NaN*zeros(NP,NN,NT,NS);
+isConvec = zeros(NP,NN,NT,NS);
 criticalShear = NaN*zeros(NP,NN,NT);
 
 %%
@@ -42,6 +41,9 @@ for np = 1:NP
             
                 Ri_inverse = (Shear*cos(tt)).^2./(Nsquare*cosd(topo) - Nsquare*sind(topo)/omega*Shear*sin(tt));
                 
+                if(min(Ri_inverse)<0)
+                    isConvec(np,nn,nt,ns) = 1;
+                end
                 Ri_min(np,nn,nt,ns) = 1/max(Ri_inverse);
             
             end
@@ -74,7 +76,7 @@ for nn=1:NN
     end
 end
 
-save('CriticalShear_largeTopo.mat')
+save('CriticalShear.mat')
 
 
 

@@ -9,8 +9,8 @@ Shear = 1e-3;
 N = 1e-3;
 topo = 4;
 Ptide = 43200;
-dz = 0.0005;         % dimensionless vertical grid spacing
-dt = 0.0005;
+dz = 0.001;         % dimensionless vertical grid spacing
+dt = 0.001;
 m1km = 1000;
 Uconst = 0; %%% A time-invariant background flow adding to the tidal oscillation
 Hdepth = 300;
@@ -23,9 +23,9 @@ Shear_parm = (0.1:0.1:2.5)*1e-3;
 lambda_parm = [5 10 50:50:350 400:50:1000 1200:200:5000 6000:1000:20000 30000:10000:100000];
 Ptide_parm = [0.5:0.5:5 10000]*43200;
 
-expfolder = 'exps_test/';
+expfolder = 'experiments/';
 
-for Nexp_lambda = 1
+for Nexp_lambda = 7
 
     lambda = lambda_parm(Nexp_lambda);
     expfolder = [expfolder 'lambda' num2str(lambda) '/']
