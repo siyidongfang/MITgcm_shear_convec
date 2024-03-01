@@ -11,8 +11,8 @@ if(NOdiffusion)
 else
     % nu = 2e-6; %%% Kaiser and Pratt 2022: nu=kappa=2e-6; Ruan: 2e-4??
     % kappa = 2e-6;
-    nu = 2e-4; %%% Use larger diffusivity and visocity to eliminate numerical errors
-    kappa = 2e-4;
+    nu = 1e-2; %%% Use larger diffusivity and visocity to eliminate numerical errors
+    kappa = 1e-2;
 end
 Pr = nu/kappa;
 t1hour = 3600;

@@ -9,11 +9,11 @@ Shear = 1e-3;
 N = 1e-3;
 topo = 4;
 Ptide = 43200;
-dz = 0.005;         % dimensionless vertical grid spacing
-dt = 0.005;
+dz = 0.01;         % dimensionless vertical grid spacing
+dt = 0.01;
 m1km = 1000;
 Uconst = 0; %%% A time-invariant background flow adding to the tidal oscillation
-Hdepth = 150;
+Hdepth = 300;
 delta = Hdepth;
 NTtide = 20;
 
@@ -24,7 +24,7 @@ Shear_parm = (0.1:0.1:2.5)*1e-3;
 lambda_parm = [400]
 Ptide_parm = [0.5:0.5:5 10000]*43200;
 
-expfolder = 'experiments_H150/';
+expfolder = 'exps_test/lores_';
 
 for Nexp_lambda = 1
 
@@ -32,12 +32,12 @@ for Nexp_lambda = 1
     expfolder = [expfolder 'lambda' num2str(lambda) '/']
 
     % for Nexp_shear =1:length(Shear_parm)
-    for Nexp_shear =9:16
+    for Nexp_shear =13:25
 
         Shear = Shear_parm(Nexp_shear)
         expdir = [expfolder 'H' num2str(Hdepth) '_topo' num2str(topo) '_Pt' num2str(Ptide) ...
             '_N' num2str(N) '_S' num2str(Shear) ...
-            '_lambda' num2str(lambda) '/'];
+            '_lambda' num2str(lambda) '_largeNuKappa/'];
         mkdir(expdir);
         
         NOdiffusion = false;  %%% Exclude diffusion/dissipation
