@@ -67,7 +67,7 @@ dudz = diff(uu)./dz;
 % dvdz = diff(vv)./dz;
 % dwdz = diff(ww)./dz;
 
-save('MAVS2_velocity.mat','uu','vv','ww','u_meridional','v_zonal','depth','angle_canyon','time')
+% save('MAVS2_velocity.mat','uu','vv','ww','u_meridional','v_zonal','depth','angle_canyon','time')
 
 
 
