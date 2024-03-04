@@ -17,14 +17,14 @@ for nt = 1:NT
     critical_convec_shear_k1(nt) = cotd(topo)*omega_k1;
 end
 
-topo_parm_plot = topo_parm/180*pi;
-% topo_parm_plot = topo_parm;
+% topo_parm_plot = topo_parm/180*pi;
+topo_parm_plot = topo_parm;
 figure(11)
 clf;
 set(gcf,'color','w','Position',[133 306 717 582]);
 l1 = plot(topo_parm_plot,critical_convec_shear_m2,'LineWidth',2);
 hold on;
-sp1 =plot([0 topo_parm_plot],0.8e-3*ones(1,length(critical_convec_shear_m2)+1),...
+sp1 =plot([0 topo_parm_plot],1e-3*ones(1,length(critical_convec_shear_m2)+1),...
     '--','LineWidth',2);
 l2 = plot(topo_parm_plot,critical_convec_shear_k1,'LineWidth',2);
 
@@ -69,7 +69,7 @@ shading interp;
 c=colorbar;
 colormap(WhiteBlueGreenYellowRed(0));
 hold on;
-l1 = contour(log10(Nsquare_parm),topo_parm_plot,log10(criticalShear_M2)',[log10(0.8e-3) log10(0.8e-3)],'LineWidth',2,'Color',black);
+l1 = contour(log10(Nsquare_parm),topo_parm_plot,log10(criticalShear_M2)',[log10(1e-3) log10(1e-3)],'LineWidth',2,'Color',black);
 l2 = plot(-6*ones(1,length(topo_parm_plot)),topo_parm_plot,'--','Color',purple);
 xlabel('Background N^2 (1/s^2)')
 ylabel('Slope \theta')

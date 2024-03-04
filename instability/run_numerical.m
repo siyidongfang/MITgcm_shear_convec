@@ -11,8 +11,10 @@ if(NOdiffusion)
 else
     % nu = 2e-6; %%% Kaiser and Pratt 2022: nu=kappa=2e-6; Ruan: 2e-4??
     % kappa = 2e-6;
-    nu = 1e-2; %%% Use larger diffusivity and visocity to eliminate numerical errors
-    kappa = 1e-2;
+    nu = 1e-5; %%% Use larger diffusivity and visocity to eliminate numerical errors
+    kappa = 1e-5;
+    % nu = 1e-2; %%% test very large diffusivity and viscosity
+    % kappa = 1e-2;
 end
 Pr = nu/kappa;
 t1hour = 3600;
@@ -180,16 +182,16 @@ for o=1:Nt-1
     b0 = buoy(o,:);
     z0 = zeta(o,:);
     
-    tendency;
+    run_tendency;
     psi(o,:) = p0;
 
     if(useRK4)
-        RK4;
+        run_RK4;
     elseif(useAB3)
         %%% Third-order Adams-Bashforth method %%%
         if (o <= 2)
             %%% Use RK4 for the first 2 time steps
-            RK4; 
+            run_RK4; 
             %%% Use Euler-forward for the first 2 time steps
             % buoy(o+1,:) = buoy(o,:) + dbdt(o,:)*dt;
             % zeta(o+1,:) = zeta(o,:) + dzetadt(o,:)*dt;
@@ -323,7 +325,7 @@ end
 saveas(h,[expdir 'fig5.png'])
 
 
-decompose;
+run_decompose;
 close all
 
 re_dbdz = real(dbdz);

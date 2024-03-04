@@ -13,7 +13,7 @@
         t0 = tt(o)+dt/2;
         b0 = b_2;
         z0 = z_2;
-        tendency;
+        run_tendency;
         k_2b = dbdt(o,:);
         k_2z = dzetadt(o,:);
 
@@ -28,7 +28,7 @@
         t0 = tt(o)+dt/2;
         b0 = b_3;
         z0 = z_3;
-        tendency;
+        run_tendency;
         k_3b = dbdt(o,:);
         k_3z = dzetadt(o,:);
 
@@ -43,7 +43,7 @@
         t0 = tt(o)+dt;
         b0 = b_4;
         z0 = z_4;
-        tendency;
+        run_tendency;
         k_4b = dbdt(o,:);
         k_4z = dzetadt(o,:);
         % Simpson rule corrector advancing dt:
