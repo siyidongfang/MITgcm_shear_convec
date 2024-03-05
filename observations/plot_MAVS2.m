@@ -1,21 +1,23 @@
 
-addpath ../colormaps/
+addpath ../analysis/colormaps/
 load MAVS2_Phase_Average.mat
 
-fontsize = 17;
+fontsize = 20;
+
+time = sin(phase);
 
 figure(1)
-set(gcf,'color','w')
+clf;set(gcf,'color','w')
 subplot(2,1,1)
-pcolor(phase,hab(:,1),temp)
+pcolor(phase/pi*180,hab(:,1),temp)
 shading flat;colorbar;colormap(redblue)
-xlabel('Phase');ylabel('HAB (m)')
+xlabel('Tidal phase (degrees)');ylabel('HAB (m)')
 set(gca,'Fontsize',fontsize)
-title('Temperature','Fontsize',fontsize+2)
+title('Temperature (^oC)','Fontsize',fontsize+2)
 
 subplot(2,1,2)
-pcolor(phase,hab(:,1),N2)
+pcolor(phase/pi*180,hab(:,1),N2)
 shading flat;colorbar;colormap(redblue)
-xlabel('Phase');ylabel('HAB (m)')
+xlabel('Tidal phase (degrees)');ylabel('HAB (m)')
 set(gca,'Fontsize',fontsize)
-title('N^2','Fontsize',fontsize+2)
+title('N^2 (1/s^2)','Fontsize',fontsize+2)
