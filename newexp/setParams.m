@@ -13,7 +13,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/library/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/;
-  addpath ../analysis/observations/
 
   %%%%%%%%%%%%%%%%%%
   %%%%% SET-UP %%%%%
@@ -58,7 +57,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 5*t1day;
+  simTime = 15*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -80,7 +79,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 3*m1km;
-  Lx = 3*m1km; 
+  Lx = 15*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -349,15 +348,15 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   [Y,X] = meshgrid(yy,xx);
 
   %%% Varied dz with depth  %  -- from Xiaozhou
-  % Hsurface = 1000;
-  % Ntop = 150;
+  Hsurface = 1002;
+  Ntop = 120;
   dz_const = 3;
-  % dz = dz_const.*ones(1,Nr);
-  % dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.009.^(1:Ntop);
-  % sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
-  % dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
-  % dz = flipud(dz')';
-  dz = dz_const*ones(1,Nr);
+  dz = dz_const.*ones(1,Nr);
+  dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.015.^(1:Ntop);
+  sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
+  dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
+  dz = flipud(dz')';
+  % dz = dz_const*ones(1,Nr);
  
   zz = -cumsum((dz+[0 dz(1:end-1)])/2);
 
@@ -922,12 +921,12 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-6;  
+  tNoise = 1e-60;  
   % tNoise = 0;
   sNoise = 0;
 
   %---- Add random noise with a certain wavelength to the initial temperature field
-  noise_length = 400;
+  noise_length = 600;
   noise_amp = 1;
   Nx_noise = Lx;
   Nr_noise = Hmax;
@@ -1019,7 +1018,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
   Shear = 1.8e-3
-  Hshear = Hmax-250;
+  Hshear = Hmax-300;
   [a Nshear] = min(abs(abs(zz)-Hshear));
   for k = Nshear+1:Nr
       vrelax(k) = (zz(k)-zz(end)+dz_const/2)*Shear;
@@ -1362,8 +1361,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   if(run_type~='prod')
         diag_fields_avg = {...   
             %%%%%%%% for spin-up
-           'UVEL','WVEL','THETA',...
-           % 'VVEL','UVELSQ','VVELSQ','WVELSQ'...
+           'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ','THETASQ',...
            % 'Um_Diss','Vm_Diss','Wm_Diss',...
             ... % 'ETAN',...
             ... % 'PHIHYD','PHI_NH',...
@@ -1398,7 +1396,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   end
       
   numdiags_avg = length(diag_fields_avg);  
-  diag_freq_avg = 60*t1min;
+  diag_freq_avg = 30*t1min;
   % diag_freq_avg = 1*t1day;
 
   diag_phase_avg = 0;    
@@ -1417,14 +1415,14 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
 if(run_type=='prod')
     diag_fields_inst = {...
-        'UVEL','VVEL', 'WVEL','THETA','ETAN',...
+        'UVEL','VVEL', 'WVEL','THETA','UVELSQ','VVELSQ','WVELSQ','THETASQ',...
             ...%  'UVEL','VVEL', 'WVEL','THETA','PHIHYD','PHI_NH','DRHODR','ETAN',...
             ... % 'RHOAnoma','LaVH1RHO','LaHs1RHO','LaVH2TH','LaHs2TH','LaUH1RHO','LaHw1RHO','LaUH2TH','LaHw2TH',...
             ... % 'ADVr_TH', 'ADVx_TH', 'ADVy_TH','DFrE_TH', 'DFrI_TH', 'DFxE_TH', 'DFyE_TH','TOTTTEND','TRAC01','TRAC02','Tp_gTr01','Tp_gTr02',...
           };
       numdiags_inst = length(diag_fields_inst);  
        % diag_freq_inst = 1*t1day;
-      diag_freq_inst = 60*t1min;
+      diag_freq_inst = 30*t1min;
       diag_phase_inst = 0;
     
       for n=1:numdiags_inst    
