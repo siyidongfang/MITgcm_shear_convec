@@ -5,32 +5,32 @@ load_colors;
 
 
 
-figure(1);
-clf;set(gcf,'Color','w','Position',[114 662 1188 289]);
-subplot(1,2,1)
-pcolor(time_temp,depth_temp,temp');shading flat;colorbar;
-hold on;
-contour(time_temp,depth_temp,temp',[meanT-2:0.5:meanT+2],'Color',black);
-hold off;
-xlabel('Time (hours)')
-ylabel('Depth (m)')
-set(gca,'Fontsize',fontsize);
-axis ij;
-clim([meanT-2 meanT+2])
-title('Temperature (^oC)')
-
-subplot(1,2,2)
-pcolor(time_temp,depth_n2,N2');shading flat;colorbar;
-hold on;
-contour(time_temp,depth_temp,temp',meanT-2:0.5:meanT+2,'Color',black);
-hold off;
-xlabel('Time (hours)')
-ylabel('Depth (m)')
-set(gca,'Fontsize',fontsize);
-axis ij;
-title('N^2 (1/s^2)')
-clim([0 1.6]/1e5)
-colormap(cmocean('balance'));
+% figure(1);
+% clf;set(gcf,'Color','w','Position',[114 662 1188 289]);
+% subplot(1,2,1)
+% pcolor(time_temp,depth_temp,temp');shading flat;colorbar;
+% hold on;
+% contour(time_temp,depth_temp,temp',[meanT-2:0.5:meanT+2],'Color',black);
+% hold off;
+% xlabel('Time (hours)')
+% ylabel('Depth (m)')
+% set(gca,'Fontsize',fontsize);
+% axis ij;
+% clim([meanT-2 meanT+2])
+% title('Temperature (^oC)')
+% 
+% subplot(1,2,2)
+% pcolor(time_temp,depth_n2,N2');shading flat;colorbar;
+% hold on;
+% contour(time_temp,depth_temp,temp',meanT-2:0.5:meanT+2,'Color',black);
+% hold off;
+% xlabel('Time (hours)')
+% ylabel('Depth (m)')
+% set(gca,'Fontsize',fontsize);
+% axis ij;
+% title('N^2 (1/s^2)')
+% clim([0 1.6]/1e5)
+% colormap(cmocean('balance'));
 
 
 

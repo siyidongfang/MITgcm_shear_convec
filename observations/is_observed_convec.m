@@ -13,10 +13,10 @@ Time_adcp = datetime(2021,7,7) + hours(round(time_adcp/1e6/3600)+6);
 Time_adcp.Format = 'yyyy-MM-dd';
 
 % Find time indices in the ADCP data of two tidal cycles:
-% nStart = 1031;
-% nEnd = 1222;
-nStart = 263;
-nEnd = 454;
+nStart = 1031;
+nEnd = 1222;
+% nStart = 263;
+% nEnd = 454;
 tidx = nStart:nEnd;
 zidx = 4:18;
 uselect = uu(zidx,tidx)';
@@ -31,18 +31,18 @@ if(size(find(isnan(uselect)))~=0)
     uselect(3,8)=0.5*(uselect(2,8)+uselect(4,8));
     wselect(3,8)=0.5*(wselect(2,8)+wselect(4,8));
 end
-
-windowsize = round(400./mean(diff(depth_uw)));
-uselect = smoothdata(uselect,2,'gaussian',windowsize,'omitnan');
+% 
+% windowsize = round(400./mean(diff(depth_uw)));
+% uselect = smoothdata(uselect,2,'gaussian',windowsize,'omitnan');
 
 %%% Temperature data of two tidal cycles:
-% temp = ncread('mavs2_20210718_level1.nc','__xarray_dataarray_variable__');
-% depth_temp = ncread('mavs2_20210718_level1.nc','depth');
-% time_temp = double(ncread('mavs2_20210718_level1.nc','time'));
-addpath moorings_gridded_thermistors/level1/mavs2/
-temp = ncread('mavs2_20210710.nc','__xarray_dataarray_variable__');
-depth_temp = ncread('mavs2_20210710.nc','depth');
-time_temp = double(ncread('mavs2_20210710.nc','time'));
+temp = ncread('mavs2_20210718_level1.nc','__xarray_dataarray_variable__');
+depth_temp = ncread('mavs2_20210718_level1.nc','depth');
+time_temp = double(ncread('mavs2_20210718_level1.nc','time'));
+% addpath moorings_gridded_thermistors/level1/mavs2/
+% temp = ncread('mavs2_20210710.nc','__xarray_dataarray_variable__');
+% depth_temp = ncread('mavs2_20210710.nc','depth');
+% time_temp = double(ncread('mavs2_20210710.nc','time'));
 
 % temp = temp(21600:end,:);
 % time_temp = time_temp(21600:end);
@@ -85,27 +85,36 @@ ttselect = 1:length(uselect);
 uprescribe = zeros(size(uselect));
 adv0 = uprescribe*meanN2*sind(topo);
  
-% %%% time-mean, depth-averaged N^2 + observed velocities
-% adv1 = uselect(ttselect,:)*meanN2*sind(topo)+wselect(ttselect,:)*meanN2*cosd(topo);
-% 
-% %%% time-mean, depth-varying N^2 + observed velocities
-% adv2 = uselect(ttselect,:).*N2avg_uwgrid*sind(topo)+wselect(ttselect,:).*N2avg_uwgrid*cosd(topo);
-% 
-% %%% observed N^2 + observed velocities
-% adv3 = uselect(ttselect,:).*N2_uwgrid(ttselect,:)*sind(topo)+wselect(ttselect,:).*N2_uwgrid(ttselect,:)*cosd(topo);
-
-
 %%% time-mean, depth-averaged N^2 + observed velocities
-adv1 = uselect(ttselect,:)*meanN2*sind(topo);
+adv1 = uselect(ttselect,:)*meanN2*sind(topo)+wselect(ttselect,:)*meanN2*cosd(topo);
 
 %%% time-mean, depth-varying N^2 + observed velocities
-adv2 = uselect(ttselect,:).*N2avg_uwgrid*sind(topo);
+adv2 = uselect(ttselect,:).*N2avg_uwgrid*sind(topo)+wselect(ttselect,:).*N2avg_uwgrid*cosd(topo);
 
 %%% observed N^2 + observed velocities
-adv3 = uselect(ttselect,:).*N2_uwgrid(ttselect,:)*sind(topo);
+adv3 = uselect(ttselect,:).*N2_uwgrid(ttselect,:)*sind(topo)+wselect(ttselect,:).*N2_uwgrid(ttselect,:)*cosd(topo);
+
+% %%% time-mean, depth-averaged N^2 + observed velocities
+% adv1 = wselect(ttselect,:)*meanN2*cosd(topo);
+% 
+% %%% time-mean, depth-varying N^2 + observed velocities
+% adv2 = wselect(ttselect,:).*N2avg_uwgrid*cosd(topo);
+% 
+% %%% observed N^2 + observed velocities
+% adv3 = wselect(ttselect,:).*N2_uwgrid(ttselect,:)*cosd(topo);
 
 
-b0 = gravity*tAlpha*0.5*(temp_uw_stagger(25,1:end-1)+temp_uw_stagger(25,2:end));
+% %%% time-mean, depth-averaged N^2 + observed velocities
+% adv1 = uselect(ttselect,:)*meanN2*sind(topo);
+% 
+% %%% time-mean, depth-varying N^2 + observed velocities
+% adv2 = uselect(ttselect,:).*N2avg_uwgrid*sind(topo);
+% 
+% %%% observed N^2 + observed velocities
+% adv3 = uselect(ttselect,:).*N2_uwgrid(ttselect,:)*sind(topo);
+
+% b0 = 0;
+b0 = gravity*tAlpha*0.5*(temp_uw_stagger(1,1:end-1)+temp_uw_stagger(1,2:end));
 dt = 3600*(time_uw(2)-time_uw(1));
 
 buoy0 = b0 - cumsum(adv0*dt,1);

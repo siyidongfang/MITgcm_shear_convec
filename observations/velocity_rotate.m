@@ -19,9 +19,7 @@ lon2 = lon9(10);
 t_idx = 32:8574;
 depth1 = depth9(9);
 depth2 = depth9(10);
-
-distance12 = distance(lat2,lon2,lat1,lon1,referenceEllipsoid('GRS80','m'));
-topo = atand(-(depth2-depth1)./distance12);
+zidx = 4:18;
 
 
 
@@ -32,6 +30,9 @@ topo = atand(-(depth2-depth1)./distance12);
 % lat2 = lat9(9);
 % lon2 = lon9(9);
 % t_idx = 40:8756;
+% depth1 = depth9(8);
+% depth2 = depth9(9);
+% zidx = 5:18;
 
 
 % ncfname = 'MP1_24839.nc';
@@ -41,6 +42,12 @@ topo = atand(-(depth2-depth1)./distance12);
 % lat2 = lat9(6);
 % lon2 = lon9(6);
 % t_idx = 12:644;
+% depth1 = depth9(5);
+% depth2 = depth9(6);
+% zidx = 3:36;
+
+distance12 = distance(lat2,lon2,lat1,lon1,referenceEllipsoid('GRS80','m'));
+topo = atand(-(depth2-depth1)./distance12);
 
 tt = ncread(ncfname,'temperature')';
 u_meridional = ncread(ncfname,'u')';
@@ -64,11 +71,10 @@ uu = uu_tilde*cosd(topo)+ww_tilde*sind(topo);
 ww = -uu_tilde*sind(topo)+ww_tilde*cosd(topo);
 vv = vv_tilde;
 
-zidx = 4:18;
 
 fontsize = 20;
-t_idx_plot = 97:96*10;
-% t_idx_plot = 1:length(time);
+% t_idx_plot = 97:96*10;
+t_idx_plot = 1:length(time);
 
 dz = diff(depth); %%% DOUBLE CHECK dz!!
 dz = dz(1)

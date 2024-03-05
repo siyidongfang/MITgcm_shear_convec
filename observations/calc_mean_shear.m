@@ -5,8 +5,10 @@
 
 load('MAVS2_velocity.mat')
 
-nStart = 263;
-nEnd = 454;
+% nStart = 263;
+% nEnd = 454;
+nStart = 1;
+nEnd = length(uu);
 tidx = nStart:nEnd;
 zidx = 4:18;
 uselect = uu(zidx,tidx)';
@@ -21,6 +23,20 @@ fontsize = 20;
 shear = diff(uselect,1,2)./diff(-depth_uw);
 depth_shear = 0.5*(depth_uw(1:end-1)+depth_uw(2:end));
 
+shear_zavg = mean(shear,2);
+
+figure(1)
+clf;set(gcf,'Color','w');
+plot(time_uw/24,shear_zavg);
+grid on;grid minor;
+set(gca,'Fontsize',fontsize);
+xlabel('Time (days)')
+ylabel('shear (1/s)')
+title('Depth-averaged velocity shear at MAVS2')
+
+
+
+%%
 
 figure(4);
 clf;set(gcf,'Color','w');set(gcf,'Position', [56 352 600 305]);
@@ -46,25 +62,18 @@ title('Shear (1/s)')
 
 max_shear_nosmooth = max(abs(shear));
 
-windowsize = round(100./mean(diff(depth_uw)));
-u_smooth = smoothdata(uselect,2,'gaussian',windowsize,'omitnan');
-shear_smooth = diff(u_smooth,1,2)./diff(-depth_uw);
-max_shear_100 = max(abs(shear_smooth));
+smoothmethod = 'gaussian';
 
-windowsize = round(200./mean(diff(depth_uw)));
-u_smooth = smoothdata(uselect,2,'gaussian',windowsize,'omitnan');
+windowsize = round(120./mean(diff(depth_uw)));
+u_smooth = smoothdata(uselect,2,smoothmethod,windowsize);
 shear_smooth = diff(u_smooth,1,2)./diff(-depth_uw);
-max_shear_200 = max(abs(shear_smooth));
+max_shear_120 = max(abs(shear_smooth));
 
-windowsize = round(300./mean(diff(depth_uw)));
-u_smooth = smoothdata(uselect,2,'gaussian',windowsize,'omitnan');
-shear_smooth = diff(u_smooth,1,2)./diff(-depth_uw);
-max_shear_300 = max(abs(shear_smooth));
 
-windowsize = round(400./mean(diff(depth_uw)));
-u_smooth = smoothdata(uselect,2,'gaussian',windowsize,'omitnan');
+windowsize = 15;
+u_smooth = smoothdata(uselect,2,smoothmethod,windowsize);
 shear_smooth = diff(u_smooth,1,2)./diff(-depth_uw);
-max_shear_400 = max(abs(shear_smooth));
+max_shear_240 = max(abs(shear_smooth));
 
 figure(6);
 clf;set(gcf,'Color','w');set(gcf,'Position', [56 352 600 305]);
@@ -85,15 +94,13 @@ figure(8)
 clf;set(gcf,'Color','w');
 l0 = plot(max_shear_nosmooth,depth_shear,'LineWidth',2,'Color','k');
 hold on;
-l1=plot(max_shear_100,depth_shear,'LineWidth',2);
-l2=plot(max_shear_200,depth_shear,'LineWidth',2);
-l3=plot(max_shear_300,depth_shear,'LineWidth',2);
-l4=plot(max_shear_400,depth_shear,'LineWidth',2);
+l1=plot(max_shear_120,depth_shear,'LineWidth',2);
+l2=plot(max_shear_240,depth_shear,'LineWidth',2);
 grid on;grid minor;
 set(gca,'Fontsize',fontsize);axis ij;
 xlabel('Velocity shear (1/s)');ylabel('Depth (m)')
-legend([l0 l1 l2 l3 l4],'Velocity shear (no smooth)','Window size = 100 m',...
-    'Window size = 200 m','Window size = 300 m','Window size = 400 m')
+legend([l0 l1 l2],'local shear (not smoothed)','Window size = 120 m',...
+    'Window size = 240 m')
 
 
 
