@@ -32,6 +32,8 @@ if(size(find(isnan(uselect)))~=0)
     wselect(3,8)=0.5*(wselect(2,8)+wselect(4,8));
 end
 
+windowsize = round(400./mean(diff(depth_uw)));
+uselect = smoothdata(uselect,2,'gaussian',windowsize,'omitnan');
 
 %%% Temperature data of two tidal cycles:
 % temp = ncread('mavs2_20210718_level1.nc','__xarray_dataarray_variable__');
@@ -41,6 +43,9 @@ addpath moorings_gridded_thermistors/level1/mavs2/
 temp = ncread('mavs2_20210710.nc','__xarray_dataarray_variable__');
 depth_temp = ncread('mavs2_20210710.nc','depth');
 time_temp = double(ncread('mavs2_20210710.nc','time'));
+
+% temp = temp(21600:end,:);
+% time_temp = time_temp(21600:end);
 
 meanT = mean(temp,'all','omitnan');
 T_tavg = mean(temp,'omitnan');
@@ -72,22 +77,43 @@ Ttavg_uw_stagger= mean(temp_uw_stagger);
 N2avg_uwgrid = mean(N2_uwgrid);
 
 
+% ttselect = 40:192;
+ttselect = 1:length(uselect);
+
+
+%%% time-mean, depth-averaged N^2 + prescribed velocities
+uprescribe = zeros(size(uselect));
+adv0 = uprescribe*meanN2*sind(topo);
+ 
+% %%% time-mean, depth-averaged N^2 + observed velocities
+% adv1 = uselect(ttselect,:)*meanN2*sind(topo)+wselect(ttselect,:)*meanN2*cosd(topo);
+% 
+% %%% time-mean, depth-varying N^2 + observed velocities
+% adv2 = uselect(ttselect,:).*N2avg_uwgrid*sind(topo)+wselect(ttselect,:).*N2avg_uwgrid*cosd(topo);
+% 
+% %%% observed N^2 + observed velocities
+% adv3 = uselect(ttselect,:).*N2_uwgrid(ttselect,:)*sind(topo)+wselect(ttselect,:).*N2_uwgrid(ttselect,:)*cosd(topo);
+
+
 %%% time-mean, depth-averaged N^2 + observed velocities
-adv1 = uselect*meanN2*sind(topo)+wselect*meanN2*cosd(topo);
+adv1 = uselect(ttselect,:)*meanN2*sind(topo);
 
 %%% time-mean, depth-varying N^2 + observed velocities
-adv2 = uselect.*N2avg_uwgrid*sind(topo)+wselect.*N2avg_uwgrid*cosd(topo);
+adv2 = uselect(ttselect,:).*N2avg_uwgrid*sind(topo);
 
 %%% observed N^2 + observed velocities
-adv3 = uselect.*N2_uwgrid*sind(topo)+wselect.*N2_uwgrid*cosd(topo);
+adv3 = uselect(ttselect,:).*N2_uwgrid(ttselect,:)*sind(topo);
 
-b0 = gravity*tAlpha*0.5*(temp_uw_stagger(1,1:end-1)+temp_uw_stagger(1,2:end));
+
+b0 = gravity*tAlpha*0.5*(temp_uw_stagger(25,1:end-1)+temp_uw_stagger(25,2:end));
 dt = 3600*(time_uw(2)-time_uw(1));
 
+buoy0 = b0 - cumsum(adv0*dt,1);
 buoy1 = b0 - cumsum(adv1*dt,1);
 buoy2 = b0 - cumsum(adv2*dt,1);
 buoy3 = b0 - cumsum(adv3*dt,1);
 
+n2_0 = diff(buoy0,1,2)./diff(-depth_uw);
 n2_1 = diff(buoy1,1,2)./diff(-depth_uw);
 n2_2 = diff(buoy2,1,2)./diff(-depth_uw);
 n2_3 = diff(buoy3,1,2)./diff(-depth_uw);

@@ -131,6 +131,8 @@ colormap(cmocean('balance'));
 
 %%
 
+time_uw = time_uw(ttselect);
+temp_uw_stagger = temp_uw_stagger(ttselect,:);
 
 figure(9)
 clf;set(gcf,'Color','w','Position', [56 352 1865 305]);

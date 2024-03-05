@@ -22,8 +22,8 @@ gravity = 9.81;
 
 load('MAVS2_velocity.mat','uu','vv','ww','depth','time','topo');
 
-nStart = 263+22;
-% nStart = 1031-5;
+% nStart = 263+22;
+nStart = 1031-5;
 nEnd = nStart+48;
 tidx = nStart:nEnd;
 zidx = 4:18;
@@ -59,15 +59,30 @@ meanN2 = mean(N2avg);
 
 meanT = mean(temp,'all','omitnan');
 
+ttselect = 1:length(uselect);
+
+windowsize = round(400./mean(diff(depth_uw)));
+uselect = smoothdata(uselect,2,'gaussian',windowsize,'omitnan');
+
 %%
+% %%% time-mean, depth-averaged N^2 + observed velocities
+% adv1 = uselect*meanN2*sind(topo)+wselect*meanN2*cosd(topo);
+% 
+% %%% time-mean, depth-varying N^2 + observed velocities
+% adv2 = uselect.*N2avg_uwgrid*sind(topo)+wselect.*N2avg_uwgrid*cosd(topo);
+% 
+% %%% observed N^2 + observed velocities
+% adv3 = uselect.*N2_uwgrid*sind(topo)+wselect.*N2_uwgrid*cosd(topo);
+
 %%% time-mean, depth-averaged N^2 + observed velocities
-adv1 = uselect*meanN2*sind(topo)+wselect*meanN2*cosd(topo);
+adv1 = uselect*meanN2*sind(topo);
 
 %%% time-mean, depth-varying N^2 + observed velocities
-adv2 = uselect.*N2avg_uwgrid*sind(topo)+wselect.*N2avg_uwgrid*cosd(topo);
+adv2 = uselect.*N2avg_uwgrid*sind(topo);
 
 %%% observed N^2 + observed velocities
-adv3 = uselect.*N2_uwgrid*sind(topo)+wselect.*N2_uwgrid*cosd(topo);
+adv3 = uselect.*N2_uwgrid*sind(topo);
+
 
 b0 = gravity*tAlpha*temp_uwgrid(2,:);
 dt = 3600*(time_uw(2)-time_uw(1));
