@@ -4,6 +4,10 @@
     % expdir = '/Users/ysi/MITgcm_shear_convec/exps_backup_wrongBBC/';
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
     EXPNAME = {...
+        'lx3km_s2.4e-3_noise1e-15nL400m'
+        'lx3km_s2.4e-3_noise1e-20nL400m'
+        'lx3km_s2.4e-3_noise1e-25nL400m'
+        'lx3km_s2.4e-3_noise1e-30nL100m'
         's0.4e-3_noise1e-6nL400'
         's0.6e-3_noise1e-6nL400'
         's0.8e-3_noise1e-6nL400'
@@ -11,7 +15,7 @@
         's1.2e-3_noise1e-6nL400'
         's1.4e-3_noise1e-6nL400'
         's1.6e-3_noise1e-6nL400'
-        % 's1.8e-3_noise1e-6nL400'
+        's1.8e-3_noise1e-6nL400'
         % 's0.8e-3_noise1e-6nL200'
         % 's0.9e-3_noise1e-6nL200'
         % 's1.0e-3_noise1e-6nL200'

@@ -79,7 +79,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 3*m1km;
-  Lx = 15*m1km; 
+  Lx = 3*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -234,8 +234,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm01.addParm('no_slip_sides',false,PARM_BOOL);
   parm01.addParm('no_slip_bottom',false,PARM_BOOL);
   % parm01.addParm('bottomDragLinear',0,PARM_REAL);  %-- from Xiaozhou
-  % parm01.addParm('bottomDragQuadratic',2e-3,PARM_REAL);
-  % parm01.addParm('bottomDragQuadratic',0.8e-3,PARM_REAL);
   parm01.addParm('bottomDragQuadratic',2.5e-3,PARM_REAL);  %-- from Xiaozhou
   % parm01.addParm('bottomDragQuadratic',0,PARM_REAL); 
   %%% physical parameters
@@ -347,10 +345,10 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Plotting mesh
   [Y,X] = meshgrid(yy,xx);
 
+  dz_const = 3;
   %%% Varied dz with depth  %  -- from Xiaozhou
   Hsurface = 1002;
   Ntop = 120;
-  dz_const = 3;
   dz = dz_const.*ones(1,Nr);
   dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.015.^(1:Ntop);
   sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
@@ -921,12 +919,12 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-60;  
+  tNoise = 1e-30;  
   % tNoise = 0;
   sNoise = 0;
 
   %---- Add random noise with a certain wavelength to the initial temperature field
-  noise_length = 600;
+  noise_length = 100;
   noise_amp = 1;
   Nx_noise = Lx;
   Nr_noise = Hmax;
@@ -1017,16 +1015,17 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
-  Shear = 1.8e-3
-  Hshear = Hmax-300;
+  % Shear and Hshear must be changed together with external_forcing.F
+  Shear = 2.4e-3
+  Hshear = Hmax-250.5; 
   [a Nshear] = min(abs(abs(zz)-Hshear));
-  for k = Nshear+1:Nr
+  for k = Nshear:Nr
       vrelax(k) = (zz(k)-zz(end)+dz_const/2)*Shear;
   end
-  for k = 1:Nshear
-      vrelax(k) = vrelax(Nshear+1);
+  for k = 1:Nshear-1
+      vrelax(k) = vrelax(Nshear);
   end
-  vrelax = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(vrelax))))))))))))))))))))';
+  % vrelax = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(vrelax))))))))))))))))))))';
 
 
   %%% Plot velocity shear
@@ -1361,7 +1360,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   if(run_type~='prod')
         diag_fields_avg = {...   
             %%%%%%%% for spin-up
-           'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ','THETASQ',...
+            'UVEL','WVEL','THETA'
+           % 'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ','THETASQ',...
            % 'Um_Diss','Vm_Diss','Wm_Diss',...
             ... % 'ETAN',...
             ... % 'PHIHYD','PHI_NH',...
@@ -1396,7 +1396,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   end
       
   numdiags_avg = length(diag_fields_avg);  
-  diag_freq_avg = 30*t1min;
+  diag_freq_avg = 60*t1min;
   % diag_freq_avg = 1*t1day;
 
   diag_phase_avg = 0;    
@@ -1415,14 +1415,14 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
 if(run_type=='prod')
     diag_fields_inst = {...
-        'UVEL','VVEL', 'WVEL','THETA','UVELSQ','VVELSQ','WVELSQ','THETASQ',...
+        % 'UVEL','VVEL', 'WVEL','THETA',...
             ...%  'UVEL','VVEL', 'WVEL','THETA','PHIHYD','PHI_NH','DRHODR','ETAN',...
             ... % 'RHOAnoma','LaVH1RHO','LaHs1RHO','LaVH2TH','LaHs2TH','LaUH1RHO','LaHw1RHO','LaUH2TH','LaHw2TH',...
             ... % 'ADVr_TH', 'ADVx_TH', 'ADVy_TH','DFrE_TH', 'DFrI_TH', 'DFxE_TH', 'DFyE_TH','TOTTTEND','TRAC01','TRAC02','Tp_gTr01','Tp_gTr02',...
           };
       numdiags_inst = length(diag_fields_inst);  
        % diag_freq_inst = 1*t1day;
-      diag_freq_inst = 30*t1min;
+      diag_freq_inst = 60*t1min;
       diag_phase_inst = 0;
     
       for n=1:numdiags_inst    

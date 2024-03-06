@@ -18,7 +18,7 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-Nx = 750;
+Nx = 150;
 
 Hmax = 1500;
 dz_const = 3;
@@ -32,7 +32,7 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-exp_name = 'lx15km_s1.8e-3_noise1e-60nL600m'
+exp_name = 'lx3km_s2.4e-3_noise1e-30nL100m'
 % exp_name = 's1.8e-3_noise1e-6nL400'
 % exp_name = 'test_shear1.5e-3_phase0.5pi_NOnoise'
 
