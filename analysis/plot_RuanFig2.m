@@ -10,8 +10,7 @@ load_all
 
 % xx = xx-xx(1);
 % No = nDumps-1;
-% No = 56520/360
-No = 28;
+No = 44;
 uu_timeseries= zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 % ww_timeseries = zeros(No,Nr);

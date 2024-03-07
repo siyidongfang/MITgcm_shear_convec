@@ -1,6 +1,8 @@
 
 clear;close all;
 addpath ../instability/
+addpath ../analysis/colormaps/
+
 load_colors;
 showplot = false;
 fontsize = 20;
@@ -115,6 +117,14 @@ adv3 = uselect(ttselect,:).*N2_uwgrid(ttselect,:)*sind(topo)+wselect(ttselect,:)
 
 % b0 = 0;
 b0 = gravity*tAlpha*0.5*(temp_uw_stagger(1,1:end-1)+temp_uw_stagger(1,2:end));
+
+%%% Add the contribution of salinity to buoyancy:
+load('CTD/CTD.mat','SA_all','P_all')
+salinity = SA_all(:,8);
+depth_salinity = P_all(:,8);
+sBeta = 1e-3;
+
+
 dt = 3600*(time_uw(2)-time_uw(1));
 
 buoy0 = b0 - cumsum(adv0*dt,1);

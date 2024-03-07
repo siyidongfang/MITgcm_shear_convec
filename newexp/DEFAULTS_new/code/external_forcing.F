@@ -212,36 +212,36 @@ C      end if
       END DO
 
       Nshear_smooth_half = 15
-      shearRatio = 0.
-      Ndivide = 0.
 
-      if(klev.gt.Nshear_smooth_half) then
+      if(kLev.gt.Nshear_smooth_half) then
       if((Nr-kLev).gt.Nshear_smooth_half) then
       NsmoothStart = kLev-Nshear_smooth_half
       NsmoothEnd = kLev+Nshear_smooth_half
       end if
       end if
 
-      if(klev.gt.Nshear_smooth_half) then
       if((Nr-kLev).lt.Nshear_smooth_half) then
       NsmoothStart = kLev-(Nr-kLev)
       NsmoothEnd = Nr
       end if
-      end if
 
-      if(klev.lt.Nshear_smooth_half) then
-      if((Nr-kLev).gt.Nshear_smooth_half) then
+      if(kLev.lt.Nshear_smooth_half) then
       NsmoothStart = 1
       NsmoothEnd = kLev+(kLev-1)
       end if
-      end if
 
+      shearRatio = 0.
+      Ndivide = 0.
+
+      if(NsmoothEnd.gt.NsmoothStart) then
       DO i=NsmoothStart,NsmoothEnd
        shearRatio = shearRatio + shearProfile(i)
        Ndivide = Ndivide + 1.
       END DO
       shearRatio = shearRatio/Ndivide
-
+      else
+      shearRatio = shearProfile(kLev)
+      end if
 
       DO j=0,sNy+1
        DO i=2,sNx+1

@@ -1,6 +1,7 @@
 
 clear;close all;
 addpath ../instability/
+addpath ../analysis/colormaps/
 fontsize = 20;
 load('MAVS2_Phase_Average.mat')
 
