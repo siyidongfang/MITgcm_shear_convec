@@ -57,9 +57,12 @@ C     kSurface  :: index of surface level
 CEOP
 
 C=== Yidongfang Si =====
+      INTEGER Nshear_smooth_half
+      REAL*8 shearProfile(Nr)
+      REAL*8 shearRatio
+
       REAL*8 tauTop
       REAL*8 tauProfile
-      REAL*8 shearProfile
       REAL*8 dz_const
 
       REAL*8 amp_tide
@@ -68,7 +71,6 @@ C=== Yidongfang Si =====
 
       REAL*8 u_shear
       REAL*8 h_shear
-
       REAL*8 Nsquare_const
       REAL*8 gravity_const
       REAL*8 temp_Alpha
@@ -196,20 +198,34 @@ C      if((rC(kLev)-rC(Nr)).gt.900.) then
 C      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
 C      end if
 
-      shearProfile = 0.
       dz_const = 3.
-      if((rC(kLev)-rC(Nr)+dz_const/2.).lt.h_shear) then
-      shearProfile=(rC(kLev)-rC(Nr)+dz_const/2.)/h_shear
-      else
-      shearProfile=1.
+      Nshear_smooth_half = 15
+      shearRatio = 0.
+
+      DO i=1,Nr
+       if((rC(i)-rC(Nr)+dz_const/2.).lt.h_shear) then
+       shearProfile(i)=(rC(i)-rC(Nr)+dz_const/2.)/h_shear
+       else
+       shearProfile(i)=1.
+       end if
+      END DO
+
+      if((Nr-kLev).gt.Nshear_smooth_half) then
+      if(klev.gt.Nshear_smooth_half) then
+      DO i=kLev-Nshear_smooth_half,kLev+Nshear_smooth_half
+       shearRatio = shearRatio + shearProfile(i)
+      END DO
+      shearRatio = 1./31.*shearRatio
       end if
+      end if
+
 
       DO j=0,sNy+1
        DO i=2,sNx+1
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
 C     Add tidal forcing
      &  + amp_force*omega_tide*cos(omega_tide*myTime
-     &  +0.5*pi_const)*shearProfile ! *cos_slope
+     &  +0.5*pi_const)*shearRatio ! *cos_slope
 C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(i,j,kLev,bi,bj)+theta(i-1,j,kLev,bi,bj))
      &  -Tref_const)*gravity_const*temp_Alpha*sin_slope
