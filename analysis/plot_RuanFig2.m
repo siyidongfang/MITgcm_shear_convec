@@ -5,13 +5,13 @@
 
 clear;
 close all;
-ne =2;
+ne =1;
 load_all
 
 % xx = xx-xx(1);
 % No = nDumps-1;
 % No = 56520/360
-No = 188;
+No = 28;
 uu_timeseries= zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 % ww_timeseries = zeros(No,Nr);

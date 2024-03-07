@@ -58,8 +58,11 @@ CEOP
 
 C=== Yidongfang Si =====
       INTEGER Nshear_smooth_half
+      INTEGER NsmoothStart
+      INTEGER NsmoothEnd
       REAL*8 shearProfile(Nr)
       REAL*8 shearRatio
+      REAL*8 Ndivide
 
       REAL*8 tauTop
       REAL*8 tauProfile
@@ -199,8 +202,6 @@ C      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
 C      end if
 
       dz_const = 3.
-      Nshear_smooth_half = 15
-      shearRatio = 0.
 
       DO i=1,Nr
        if((rC(i)-rC(Nr)+dz_const/2.).lt.h_shear) then
@@ -210,14 +211,36 @@ C      end if
        end if
       END DO
 
-      if((Nr-kLev).gt.Nshear_smooth_half) then
+      Nshear_smooth_half = 15
+      shearRatio = 0.
+      Ndivide = 0.
+
       if(klev.gt.Nshear_smooth_half) then
-      DO i=kLev-Nshear_smooth_half,kLev+Nshear_smooth_half
+      if((Nr-kLev).gt.Nshear_smooth_half) then
+      NsmoothStart = kLev-Nshear_smooth_half
+      NsmoothEnd = kLev+Nshear_smooth_half
+      end if
+      end if
+
+      if(klev.gt.Nshear_smooth_half) then
+      if((Nr-kLev).lt.Nshear_smooth_half) then
+      NsmoothStart = kLev-(Nr-kLev)
+      NsmoothEnd = Nr
+      end if
+      end if
+
+      if(klev.lt.Nshear_smooth_half) then
+      if((Nr-kLev).gt.Nshear_smooth_half) then
+      NsmoothStart = 1
+      NsmoothEnd = kLev+(kLev-1)
+      end if
+      end if
+
+      DO i=NsmoothStart,NsmoothEnd
        shearRatio = shearRatio + shearProfile(i)
+       Ndivide = Ndivide + 1.
       END DO
-      shearRatio = 1./31.*shearRatio
-      end if
-      end if
+      shearRatio = shearRatio/Ndivide
 
 
       DO j=0,sNy+1
@@ -240,7 +263,7 @@ C     For zonal grid at the re-entry boundaries
         gU(1,j,kLev,bi,bj) = gU(1,j,kLev,bi,bj)
 C     Add tidal forcing
      &  + amp_force*omega_tide*cos(omega_tide*myTime
-     &  +0.5*pi_const)*shearProfile ! *cos_slope
+     &  +0.5*pi_const)*shearRatio ! *cos_slope
 C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(1,j,kLev,bi,bj)+theta(sNx+1,j,kLev,bi,bj))
      &  -Tref_const)*gravity_const*temp_Alpha*sin_slope

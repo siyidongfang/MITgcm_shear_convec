@@ -1031,8 +1031,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   end
   % vrelax = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(vrelax))))))))))))))))))))';
 
-  span_shearProf = 31;
-  vrelax = smooth(vrelax,span_shearProf);
+  Nshear_smooth_half = 15;
+  Nsmooth_span = Nshear_smooth_half*2+1;
+  vrelax = smooth(vrelax,Nsmooth_span);
 
   %%% Plot velocity shear
   h_figure=figure(fignum);
