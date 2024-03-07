@@ -8,6 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
+  FigureIsVisible = true;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -79,6 +80,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 5*m1km;
+  % Lx = 3*m1km; 
   Lx = 10*m1km; 
 
   g = 9.81; %%% Gravity
@@ -165,12 +167,23 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % parm01.addParm('implicDiv2DFlow',0.6,PARM_REAL); %%% test20231027
 
   %------ ysi's configuration
-  viscAh = 1e-4; %%% Horizontal viscosity 
-  viscAr = 2e-4; %%% Vertical viscosity 
-  diffKhT = 1e-5; %%% Horizontal temp diffusion
-  diffKhS = 1e-5; %%% Horizontal salt diffusion
-  diffKrT = 2e-5; %%% Vertical temp diffusion   
-  diffKrS = 2e-5; %%% Vertical salt diffusion 
+  % viscAh = 1e-4; %%% Horizontal viscosity 
+  % viscAr = 2e-4; %%% Vertical viscosity 
+  % diffKhT = 1e-5; %%% Horizontal temp diffusion
+  % diffKhS = 1e-5; %%% Horizontal salt diffusion
+  % diffKrT = 2e-5; %%% Vertical temp diffusion   
+  % diffKrS = 2e-5; %%% Vertical salt diffusion 
+
+  %------ xruan's viscosity and diffusivity
+  lfac = 2.5; 
+  viscAh = 1e-4*lfac; %%% Horizontal viscosity         %-- from Xiaozhou
+  viscAr = 2e-4*lfac; %%% Vertical viscosity           %-- from Xiaozhou
+  diffKhT = 1e-4*lfac; %%% Horizontal temp diffusion   %-- from Xiaozhou
+  diffKhS = 1e-4*lfac; %%% Horizontal salt diffusion   %-- from Xiaozhou
+  diffKrT = 2e-4*lfac; %%% Vertical temp diffusion     %-- from Xiaozhou
+  diffKrS = 2e-4*lfac; %%% Vertical salt diffusion     %-- from Xiaozhou
+  %------ xruan's viscosity and diffusivity
+
 
   viscA4 = 0; %%% Biharmonic viscosity
   viscAhGrid = 0; %%% Grid-dependent viscosity
@@ -194,15 +207,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm01.addParm('viscC2leithD',0,PARM_REAL);  
   %------ ysi's configuration
 
-  % %------ xruan's viscosity and diffusivity
-  % lfac = 1;
-  % viscAh = 1e-4*lfac; %%% Horizontal viscosity         %-- from Xiaozhou
-  % viscAr = 2e-4*lfac; %%% Vertical viscosity           %-- from Xiaozhou
-  % diffKhT = 1e-4*lfac; %%% Horizontal temp diffusion   %-- from Xiaozhou
-  % diffKhS = 1e-4*lfac; %%% Horizontal salt diffusion   %-- from Xiaozhou
-  % diffKrT = 2e-4*lfac; %%% Vertical temp diffusion     %-- from Xiaozhou
-  % diffKrS = 2e-4*lfac; %%% Vertical salt diffusion     %-- from Xiaozhou
-  % %------ xruan's viscosity and diffusivity
 
   parm01.addParm('viscAr',viscAr,PARM_REAL);      
   parm01.addParm('viscAh',viscAh,PARM_REAL);
@@ -348,14 +352,14 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   dz_const = 3;
   %%% Varied dz with depth  %  -- from Xiaozhou
-  Hsurface = 1002;
-  Ntop = 120;
-  dz = dz_const.*ones(1,Nr);
-  dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.015.^(1:Ntop);
-  sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
-  dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
-  dz = flipud(dz')';
-  % dz = dz_const*ones(1,Nr);
+  % Hsurface = 1002;
+  % Ntop = 120;
+  % dz = dz_const.*ones(1,Nr);
+  % dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.015.^(1:Ntop);
+  % sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
+  % dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
+  % dz = flipud(dz')';
+  dz = dz_const*ones(1,Nr);
  
   zz = -cumsum((dz+[0 dz(1:end-1)])/2);
 
@@ -521,9 +525,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
   %%% Plot bathymetry
-  figure(fignum);
+  h_figure=figure(fignum);
   fignum = fignum + 1;
-  clf;
+  set(h_figure,'Visible', FigureIsVisible);clf;
   fontsize = 15;
   plot(xx/m1km,h,'LineWidth',2)
   xlabel('Latitude, y (km)')
@@ -563,9 +567,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % 
   % %%% Plot the surface heat flux
   % if (showplots)
-  %   figure(fignum);
+  %   h_figure=figure(fignum);
   %   fignum = fignum + 1;
-  %   clf;
+  %   set(h_figure,'Visible', FigureIsVisible);clf;
   %   set(gcf,'Color','w')
   %   % semilogx(squeeze(diffKr(1,round(Ny/2),:)),-zz); axis ij;grid on;grid minor
   %   plot(squeeze(diffKr(1,round(Ny/2),:)),-zz); axis ij;grid on;grid minor
@@ -629,9 +633,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     % rho_north = densmdjwf(sNorth,tNorth,ref_pres_surf)';
     %%% Plot the relaxation density
   if (showplots)
-    figure(fignum);
+    h_figure=figure(fignum);
     fignum = fignum + 1;
-    clf;
+    set(h_figure,'Visible', FigureIsVisible);clf;
     plot(rho_north,-zz,'LineWidth',1.5); axis ij;
     xlabel('\rho_r_e_f (\circC)');
     ylabel('Depth (m)');
@@ -648,9 +652,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   %%% Plot the relaxation temperature
   if (showplots)
-    figure(fignum);
+    h_figure=figure(fignum);
     fignum = fignum + 1;
-    clf;
+    set(h_figure,'Visible', FigureIsVisible);clf;
     plot(tNorth,-zz,'LineWidth',1.5); axis ij;
     xlabel('\theta_r_e_f (\circC)');
     ylabel('Depth (m)');
@@ -667,9 +671,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     
   %%% Plot the relaxation salinity
   if (showplots)
-    figure(fignum);
+    h_figure=figure(fignum);
     fignum = fignum + 1;
-    clf;
+    set(h_figure,'Visible', FigureIsVisible);clf;
     plot(sNorth,-zz,'LineWidth',1.5);axis ij;
     xlabel('S_r_e_f (psu)');
     ylabel('Depth (m)');
@@ -713,9 +717,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     Rd = Cig./(pi*abs(f0+beta*Y(1,:)));
 
     if (showplots)
-      figure(fignum);
+      h_figure=figure(fignum);
       fignum = fignum + 1;
-      clf;
+      set(h_figure,'Visible', FigureIsVisible);clf;
       semilogx(N2_north,pp_mid_north,'LineWidth',1.5);axis ij;
       xlabel('N^2 (s^-^2)');
       ylabel('Depth (m)');
@@ -734,9 +738,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     
 
     if (showplots)
-      figure(fignum);
+      h_figure=figure(fignum);
       fignum = fignum + 1;
-      clf;
+      set(h_figure,'Visible', FigureIsVisible);clf;
       plot(xx/1000,Rd/1000,'LineWidth',1.5);
       xlabel('Offshore distance (km)');
       ylabel('R_d (km)');
@@ -789,9 +793,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % % 
   % % 
   % %   if (showplots)
-  % %     figure(fignum);
+  % %     h_figure=figure(fignum);
   % %     fignum = fignum + 1;
-  % %     clf;
+  % %     set(h_figure,'Visible', FigureIsVisible);clf;
   % %     plot(yy_mid/1000,s_topog,'LineWidth',1.5);
   % %     hold on;
   % %     % plot(yy_mid/1000,r_iw.*ones(1,length(yy_mid)),'r--','LineWidth',1.5);
@@ -810,9 +814,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % % 
   % % 
   % %     %%% Plot bathymetry
-  % %     figure(fignum);
+  % %     h_figure=figure(fignum);
   % %     fignum = fignum + 1;
-  % %     clf;
+  % %     set(h_figure,'Visible', FigureIsVisible);clf;
   % %     plot(yy/m1km,h_subcritical,'LineWidth',2)
   % %     hold on;
   % %     plot(yy/m1km,h_supercritical,'LineWidth',2)
@@ -975,9 +979,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     end
   % end
 
-  figure(fignum);
+  h_figure=figure(fignum);
   fignum = fignum + 1;
-  clf;set(gcf,'Color','w')
+  set(h_figure,'Visible', FigureIsVisible);clf;set(gcf,'Color','w')
   pcolor(xx/1000,-zz,squeeze(hydroTh)');axis ij;
   % hold on;
   % contour(xx/1000,-zz,squeeze(hydroTh)',[0:0.03:2.5]);axis ij;
@@ -1029,9 +1033,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
   %%% Plot velocity shear
-  figure(fignum);
+  h_figure=figure(fignum);
   fignum = fignum + 1;
-  clf;
+  set(h_figure,'Visible', FigureIsVisible);clf;
   fontsize = 15;
   plot(vrelax,-zz,'LineWidth',2);axis ij;
   xlabel('v (m/s)')
@@ -1194,9 +1198,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
       end
   end
 
-  figure(fignum);
+  h_figure=figure(fignum);
   fignum = fignum + 1;
-  clf;set(gcf,'Color','w')
+  set(h_figure,'Visible', FigureIsVisible);clf;set(gcf,'Color','w')
   pcolor(xx/1000,-zz,squeeze(uVelInit)');axis ij;
   hold on;
   plot(xx/1000,-h);
@@ -1360,7 +1364,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   if(run_type~='prod')
         diag_fields_avg = {...   
             %%%%%%%% for spin-up
-           'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ',...
+            'UVEL','WVEL','THETA',...
+           % 'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ',...
            % 'Um_Diss','Vm_Diss','Wm_Diss',...
             ... % 'ETAN',...
             ... % 'PHIHYD','PHI_NH',...

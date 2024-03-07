@@ -17,7 +17,7 @@ for Nexp_lambda = 1
     for Nexp_shear =1:length(Shear_parm)
         Shear = Shear_parm(Nexp_shear);
 
-        expname = ['H300_topo4_Pt43200_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '_largeNuKappa/'];
+        expname = ['H300_topo4_Pt43200_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
         
         clear re_buoy uuu www re_buoyd U0 NTtide tt Nr Nt Utide ttd t1hour zz fit_span zzd
 
@@ -111,6 +111,7 @@ for Nexp_lambda = 1
     
 end
 
+save('GrowthRate_lores_H300_Nu2e-4.mat','lambda_parm','Shear_parm','GrowthRate','fit_span')
 
-save('GrowthRate_lores_H300_largeNuKappa.mat','lambda_parm','Shear_parm','GrowthRate','fit_span')
+% save('GrowthRate_lores_H300_largeNuKappa.mat','lambda_parm','Shear_parm','GrowthRate','fit_span')
 

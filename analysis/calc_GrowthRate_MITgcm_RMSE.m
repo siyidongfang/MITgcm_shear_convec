@@ -5,12 +5,12 @@
 
 
 clear;close all;
-for  ne = 4
+for  ne = 2
 load_all
 
-Ntide = 2;
-tidx = 1:Ntide*12;
-% tidx = 1:Ntide*24;
+% Ntide = 20;
+% tidx = 1:Ntide*12;
+tidx = 1:188;
 Nt = length(tidx);
 Hshear = 250;
 dz = delR(end);

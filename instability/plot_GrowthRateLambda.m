@@ -51,7 +51,7 @@ grid on;
 
 
 %%
-% 
+
 % figure(11)
 % clf;
 % set(gcf,'color','w','Position',[184 283 666 420]);
@@ -76,10 +76,10 @@ grid on;
 % xlabel('Shear \Lambda (1/s)')
 % ylabel('Growth Rate (hour^{-1})')
 % title('Maximum growth rate for all wavenumbers')
-% 
-% 
-% 
-% %%
+
+
+
+%%
 
 % figure(4)
 % clf;
