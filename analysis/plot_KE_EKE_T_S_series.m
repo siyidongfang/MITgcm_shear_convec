@@ -10,7 +10,7 @@
     
 clear; close all;
 
-ne=5;
+ne=2;
 load_all;
 
 %%% Add path
@@ -20,14 +20,13 @@ addpath colormaps/cmocean/;
 
 figdir = [exppath '/img/'];
 
-nDumps = 120
+% nDumps = 120
 ntime = zeros(1,nDumps);
 EKEtot = zeros(1,nDumps);
 KEtot = zeros(1,nDumps);
 KElen = 0;
 
 nseries = 1:nDumps;
-% nseries = 1:56520/360;
 
 for n= nseries
  
@@ -48,7 +47,7 @@ for n= nseries
   EKE = 0.5*(uvelsq + vvelsq + wvelsq - uvel.^2 - vvel.^2 - wvel.^2);
   KEtot(n) = 0;
   EKEtot(n) = 0;
-  
+
 
   for i=1:Nx
     for j=1:Ny

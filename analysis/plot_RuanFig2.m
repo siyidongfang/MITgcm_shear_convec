@@ -5,13 +5,13 @@
 
 clear;
 close all;
-ne =4;
+ne =2;
 load_all
 
 % xx = xx-xx(1);
-No = nDumps-50;
+% No = nDumps-1;
 % No = 56520/360
-% No = 105;
+No = 24;
 uu_timeseries= zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 % ww_timeseries = zeros(No,Nr);
@@ -88,7 +88,7 @@ botZ =-1500;
 
 % YLIM = [0 300];
 YLIM = [0 1500];
-XLIM = [0 30];
+XLIM = [0 15];
 % XLIM = [15 40];
 
 figure(3)

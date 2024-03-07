@@ -18,7 +18,7 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-Nx = 150;
+Nx = 500;
 
 Hmax = 1500;
 dz_const = 3;
@@ -32,16 +32,10 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-exp_name = 'lx3km_s2.4e-3_noise1e-30nL100m'
-% exp_name = 's1.8e-3_noise1e-6nL400'
-% exp_name = 'test_shear1.5e-3_phase0.5pi_NOnoise'
+Shear = 2.5e-3
+exp_name = ['s' num2str(Shear) '_lx10km_noise1e-15nL400m'];
 
-% exp_name = ['nh_shear9Hs250_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type '_restore'];
-% exp_name = ['nh_shear9Hs250_Nr',num2str(Nr),'Nx',num2str(Nx) '_' run_type '_noTideInW'];
-
-% exp_name = 'nonhydro_test'
-
-newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
+newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)
 
 
 

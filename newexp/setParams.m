@@ -6,7 +6,7 @@
 %%%
 
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
-    = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type)
+    = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
   addpath ../utils/;
   addpath ../newexp_utils/;
@@ -57,7 +57,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 15*t1day;
+  simTime = 10*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -78,8 +78,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
   
   
-  Ly = 3*m1km;
-  Lx = 3*m1km; 
+  Ly = 5*m1km;
+  Lx = 10*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -264,6 +264,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   end
   %%% file IO stuff
   parm01.addParm('readBinaryPrec',64,PARM_INT);
+  parm01.addParm('writeBinaryPrec',64,PARM_INT);
   parm01.addParm('useSingleCpuIO',true,PARM_BOOL);
   parm01.addParm('debugLevel',-1,PARM_INT);
   %%% Wet-point method at boundaries - may improve boundary stability
@@ -919,12 +920,12 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-30;  
+  tNoise = 1e-15;  
   % tNoise = 0;
   sNoise = 0;
 
   %---- Add random noise with a certain wavelength to the initial temperature field
-  noise_length = 100;
+  noise_length = 400;
   noise_amp = 1;
   Nx_noise = Lx;
   Nr_noise = Hmax;
@@ -1016,7 +1017,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
   % Shear and Hshear must be changed together with external_forcing.F
-  Shear = 2.4e-3
   Hshear = Hmax-250.5; 
   [a Nshear] = min(abs(abs(zz)-Hshear));
   for k = Nshear:Nr
@@ -1200,7 +1200,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   pcolor(xx/1000,-zz,squeeze(uVelInit)');axis ij;
   hold on;
   plot(xx/1000,-h);
-  shading flat;colormap(redblue);clim([-0.5 0.5]);colorbar;
+  shading flat;colormap(redblue);clim([-0.7 0.7]);colorbar;
   xlabel('Distance, y (km)');
   ylabel('Depth (m)');
   title('Initial velocity u (m/s)');
@@ -1360,8 +1360,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   if(run_type~='prod')
         diag_fields_avg = {...   
             %%%%%%%% for spin-up
-            'UVEL','WVEL','THETA'
-           % 'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ','THETASQ',...
+           'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ',...
            % 'Um_Diss','Vm_Diss','Wm_Diss',...
             ... % 'ETAN',...
             ... % 'PHIHYD','PHI_NH',...

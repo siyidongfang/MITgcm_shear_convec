@@ -20,7 +20,7 @@
 %%% NOTE: 'expname' MUST NOT be set to 'DEFAULTS'
 %%%
 
-function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
+function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)
  
   select_DEFAULTS = 'DEFAULTS_new';
    
@@ -58,15 +58,15 @@ function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,N
   OLx = 4; %%% no. of overlapping x-gridpoints per tile
   OLy = 4; %%% no. of overlapping y-gridpoints per tile    
 
-  % %%% Set-up for Derecho, 64 CPUs per nodes
-  % opt_file = 'linux_amd64_ifort+impi_derecho';
-  % use_mpi = true; %%% set true for parallel processing
-  % use_pbs = true; %%% set true for execution via PBS
-  % cluster = 'derecho';    
-  % nPx = 100; %%% no. of processors in x-direction
-  % nPy = 1; %%% no. of processors in y-direction
-  % sNx = Nx/nPx; %%% no. of x-gridpoints per tile
-  % sNy = 1; %%% no. of x-gridpoints per tile
+  %%% Set-up for Derecho, 64 CPUs per nodes
+  opt_file = 'linux_amd64_ifort+impi_derecho';
+  use_mpi = true; %%% set true for parallel processing
+  use_pbs = true; %%% set true for execution via PBS
+  cluster = 'derecho';    
+  nPx = 50; %%% no. of processors in x-direction
+  nPy = 1; %%% no. of processors in y-direction
+  sNx = Nx/nPx; %%% no. of x-gridpoints per tile
+  sNy = 1; %%% no. of x-gridpoints per tile
 
   % %%% Set-up for Cheyenne, 36 CPUs per nodes
   % opt_file = 'linux_amd64_ifort+impi'; %%% options file name
@@ -78,16 +78,16 @@ function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,N
   % sNx = 1; %%% no. of x-gridpoints per tile
   % sNy = Ny/nPy; %%% no. of y-gridpoints per tile
 
-  %%% Set-up for Engaging
-  opt_file = 'linux_amd64_ifort+impi_engaging'; %%% options file name
-  use_mpi = true; %%% set true for parallel processing
-  use_pbs = true; %%% set true for execution via PBS
-  cluster = 'engaging';    
-  nPx = 30; %%% no. of processors in x-direction
-  nPy = 1; %%% no. of processors in y-direction
-  sNx = Nx/nPx; %%% no. of x-gridpoints per tile
-  sNy = 1; %%% no. of x-gridpoints per tile
-  % sNy = Ny/nPy; %%% no. of y-gridpoints per tile
+  % %%% Set-up for Engaging
+  % opt_file = 'linux_amd64_ifort+impi_engaging'; %%% options file name
+  % use_mpi = true; %%% set true for parallel processing
+  % use_pbs = true; %%% set true for execution via PBS
+  % cluster = 'engaging';    
+  % nPx = 50; %%% no. of processors in x-direction
+  % nPy = 1; %%% no. of processors in y-direction
+  % sNx = Nx/nPx; %%% no. of x-gridpoints per tile
+  % sNy = 1; %%% no. of x-gridpoints per tile
+  % % sNy = Ny/nPy; %%% no. of y-gridpoints per tile
 
 
   % %%% Set-up for Si's Mac Pro - barotropic test case
@@ -258,7 +258,7 @@ function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,N
 
 
   [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
-    = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type);
+    = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear);
 
 
   %%% Generate 'eedata'
@@ -438,6 +438,13 @@ function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,N
   commands = [...
     'cd ./',builddir,'/',lf, ...
     'sh build.sh',lf, ...
+    'mv build.sh ../.',lf, ...
+    'mv mitgcmuv ../.',lf, ...
+    'mv external_forcing.* ../.',lf, ...
+    'rm *',lf, ...
+    'mv ../build.sh .',lf, ...
+    'mv ../mitgcmuv .',lf, ...
+    'mv ../external_forcing.* .',lf, ...
     'cd ../',resultsdir,'/ ',lf, ...
     'sh run.sh',lf ];
 

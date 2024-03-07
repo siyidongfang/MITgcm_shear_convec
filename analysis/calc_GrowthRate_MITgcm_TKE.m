@@ -1,8 +1,8 @@
 %%% 
-%%% calc_GrowthRate_MITgcm.m
+%%% calc_GrowthRate_MITgcm_TKE.m
 %%% 
 %%% Calculate the instability growth rate of the MITgcm simulations
-%%% following Radko (2019), using kinetic energy and potential energy
+%%% using turbulent kinetic energy 
 
 
 
@@ -12,7 +12,6 @@ load_all
 
 Ntide = 25;
 tidx = 1:Ntide*12;
-% tidx = 1:Ntide*24;
 Nt = length(tidx);
 Hshear = 250;
 dz = delR(end);
