@@ -53,6 +53,21 @@ N2_uwgrid = interp2(DD_temp,TT_temp,N2,DD_uw,TT_uw);
 depth_uw_stagger = depth_uw;
 temp_uw_stagger = temp_uwgrid;
 
+%%% Add the contribution of salinity to buoyancy:
+load('CTD/CTD.mat','SA_all','P_all','SA_mean15','p_mid15')
+% salinity = SA_all(:,9);
+% depth_salinity = P_all(:,9);
+sBeta = 1e-3;
+salinity = SA_mean15;
+depth_salinity = P_all(:,9);
+
+%%% Interpolate salinity to buoyancy grid
+salt_uw1 = interp1(depth_salinity(590:711),salinity(590:711),depth_uw');
+salt_uw1 = salt_uw1';
+
+!!! TO DO: CALCULATE N^2 from both temperature and salinity
+salt_uw = repmat(salt_uw1,[length(temp_uw) 1]);
+
 Ttavg_uw= mean(temp_uwgrid,'omitnan');
 N2avg_uwgrid = mean(N2_uwgrid,'omitnan');
 
@@ -97,7 +112,9 @@ adv3 = uselect.*N2_uwgrid*sind(topo)+wselect.*N2_uwgrid*cosd(topo);
 
 % b0 =0;
 
-b0 = gravity*tAlpha*temp_uwgrid(2,:);
+b01 = gravity*tAlpha*temp_uwgrid(2,:);
+b0 = gravity*(tAlpha*temp_uwgrid(2,:)-sBeta*salt_uwgrid(2,:));
+
 dt = 3600*(time_uw(2)-time_uw(1));
 
 buoy1 = b0 - cumsum(adv1*dt,1,'omitnan');

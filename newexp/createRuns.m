@@ -34,7 +34,7 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
 Shear = 0.1e-3
-exp_name = ['s' num2str(Shear) '_3km_noise1e-6_nl1'];
+exp_name = ['s' num2str(Shear) '_3km_noise1e-6_kappa2e-3'];
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)
 

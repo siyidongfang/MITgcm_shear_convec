@@ -175,7 +175,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % diffKrS = 2e-5; %%% Vertical salt diffusion 
 
   %------ xruan's viscosity and diffusivity
-  lfac = 1; 
+  lfac = 10; 
   viscAh = 1e-4*lfac; %%% Horizontal viscosity         %-- from Xiaozhou
   viscAr = 2e-4*lfac; %%% Vertical viscosity           %-- from Xiaozhou
   diffKhT = 1e-4*lfac; %%% Horizontal temp diffusion   %-- from Xiaozhou

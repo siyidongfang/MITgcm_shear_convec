@@ -5,12 +5,12 @@
 
 clear;
 close all;
-ne =1;
+ne =5;
 load_all
 
 % xx = xx-xx(1);
-% No = nDumps-1;
-No = 44;
+No = nDumps-1;
+% No = 130;
 uu_timeseries= zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 % ww_timeseries = zeros(No,Nr);
@@ -102,7 +102,7 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
 shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 % xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('u (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-0.6 0.6]/20)
+clim([-0.6 0.6])
 ylabel('HAB (m)','interpreter','latex')
 ylim(YLIM)
 xlim(XLIM)
@@ -120,7 +120,7 @@ title('$\theta^\prime \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter
 ylabel('HAB (m)','interpreter','latex')
 % clim([-0.1 0.8]);
 % clim([-0.04 0.25]/2);
-clim([-0.1 0.1]/20);
+clim([-0.1 0.1]);
 colormap(redblue)
 ylim(YLIM)
 xlim(XLIM)
@@ -138,7 +138,7 @@ set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('$N^2\ (s^{-2})$','Fontsize',fontsize+4,'interpreter','latex')
 % clim([-3 3]/1e6/2)
-clim(([-1 1]/10+1)/1e6)
+clim(([-1 1]+1)/1e6)
  % clim([0.98 1.02]/1e6)
 ylim(YLIM)
 xlim(XLIM)

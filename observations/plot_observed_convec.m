@@ -147,7 +147,8 @@ set(gca,'Fontsize',fontsize);
 axis ij;
 title('Buoyancy (m/s^2)')
 colormap(WhiteBlueGreenYellowRed(0))
-clim([0.005 0.015])
+% clim([0.005 0.015])
+clim([-0.34 -0.33])
 
 subplot(1,3,2)
 pcolor(time_uw,depth_uw,buoy2');shading flat;colorbar;
@@ -160,7 +161,8 @@ set(gca,'Fontsize',fontsize);
 axis ij;
 title('Buoyancy (m/s^2)')
 colormap(WhiteBlueGreenYellowRed(0))
-clim([0.005 0.015])
+% clim([0.005 0.015])
+clim([-0.34 -0.33])
 
 subplot(1,3,3)
 pcolor(time_uw,depth_uw,buoy3');shading flat;colorbar;
@@ -173,7 +175,8 @@ set(gca,'Fontsize',fontsize);
 axis ij;
 title('Buoyancy (m/s^2)')
 colormap(WhiteBlueGreenYellowRed(0))
-clim([0.005 0.015])
+% clim([0.005 0.015])
+clim([-0.34 -0.33])
 
 
 figure(10)

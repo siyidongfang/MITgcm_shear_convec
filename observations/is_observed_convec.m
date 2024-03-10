@@ -73,7 +73,28 @@ depth_uw_stagger = 0.5*(depth_uw2(1:end-1)+depth_uw2(2:end));
 [DD_uw_stagger,TT_uw_stagger] = meshgrid(depth_uw_stagger,time_uw);
 
 temp_uw_stagger = interp2(DD_temp,TT_temp,temp,DD_uw_stagger,TT_uw_stagger);
+
+%%% Add the contribution of salinity to buoyancy:
+load('CTD/CTD.mat','SA_all','P_all','SA_mean15','p_mid15')
+% salinity = SA_all(:,9);
+% depth_salinity = P_all(:,9);
+sBeta = 1e-3;
+salinity = SA_mean15;
+depth_salinity = P_all(:,9);
+
+%%% Interpolate salinity to buoyancy grid
+salt_uw_stagger1 = interp1(depth_salinity(590:711),salinity(590:711),depth_uw_stagger');
+salt_uw_stagger1 = salt_uw_stagger1';
+figure(20)
+plot(salinity,depth_salinity);axis ij
+hold on;
+plot(salt_uw_stagger1,depth_uw_stagger)
+
+salt_uw_stagger = repmat(salt_uw_stagger1,[length(temp_uw_stagger) 1]);
+
 N2_uwgrid = gravity*tAlpha.*diff(temp_uw_stagger,1,2)./repmat(diff(-depth_uw_stagger),[length(temp_uw_stagger) 1]);
+
+N2_uwgrid = N2_uwgrid - gravity*sBeta.*diff(salt_uw_stagger,1,2)./repmat(diff(-depth_uw_stagger),[length(salt_uw_stagger) 1]);
 
 Ttavg_uw_stagger= mean(temp_uw_stagger);
 N2avg_uwgrid = mean(N2_uwgrid);
@@ -116,14 +137,9 @@ adv3 = uselect(ttselect,:).*N2_uwgrid(ttselect,:)*sind(topo)+wselect(ttselect,:)
 % adv3 = uselect(ttselect,:).*N2_uwgrid(ttselect,:)*sind(topo);
 
 % b0 = 0;
-b0 = gravity*tAlpha*0.5*(temp_uw_stagger(1,1:end-1)+temp_uw_stagger(1,2:end));
-
-%%% Add the contribution of salinity to buoyancy:
-load('CTD/CTD.mat','SA_all','P_all')
-salinity = SA_all(:,8);
-depth_salinity = P_all(:,8);
-sBeta = 1e-3;
-
+b01 = gravity*tAlpha*0.5*(temp_uw_stagger(1,1:end-1)+temp_uw_stagger(1,2:end));
+b0 = gravity*(tAlpha*0.5*(temp_uw_stagger(1,1:end-1)+temp_uw_stagger(1,2:end))...
+    -sBeta*0.5*(salt_uw_stagger(1,1:end-1)+salt_uw_stagger(1,2:end)));
 
 dt = 3600*(time_uw(2)-time_uw(1));
 
