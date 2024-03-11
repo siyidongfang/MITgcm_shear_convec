@@ -22,7 +22,6 @@ depth2 = depth9(10);
 zidx = 4:18;
 
 
-
 % ncfname = 'MAVS1_24608.nc';
 % lat = 54.197478060955085; 
 % lat1 = lat9(8);
