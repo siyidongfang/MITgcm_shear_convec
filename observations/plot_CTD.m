@@ -50,6 +50,7 @@ for nf = 1:15
     Pmid_all(1:Nz-1,nf) = p_mid;
 
     lat_all(nf) = lat;
+    lon_all(nf) = lon;
 
 end
 
@@ -101,8 +102,8 @@ plot(pt_mean15,pp15);axis ij;
 subplot(1,2,2)
 plot(psal_mean15,pp15);axis ij;
 
-% save('CTD.mat','P_all','pt_all','psal_all','SA_all','CT_all','N2_all','Pmid_all','lat_all',...
-%     'lat_mean7','pt_mean15','psal_mean15','SA_mean15','pp15','N2_mean15','p_mid15','lat15')
+save('CTD/CTD.mat','P_all','pt_all','psal_all','SA_all','CT_all','N2_all','Pmid_all','lat_all','lon_all',...
+    'lat_mean7','pt_mean15','psal_mean15','SA_mean15','pp15','N2_mean15','p_mid15','lat15')
 
 %%
 % color1=red;color2=orange;color3=pink;color4=yellow;color5=brown;color6=lightblue;color7=purple;color8=green;

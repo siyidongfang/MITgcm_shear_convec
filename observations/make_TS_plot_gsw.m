@@ -1,4 +1,4 @@
-function make_TS_plot_gsw (salt,pot_temp,depths,p_ref,pot_dens_contours,lat_ref,lon_ref)
+function [p1 p2]  = make_TS_plot_gsw (salt,pot_temp,depths,p_ref,pot_dens_contours,lat_ref,lon_ref)
 %%%
 %%% USAGE: make_TS_plot_gsw (salt, pot_temp, depths, p_ref, pot_dens_contours)
 %%%
@@ -6,7 +6,7 @@ function make_TS_plot_gsw (salt,pot_temp,depths,p_ref,pot_dens_contours,lat_ref,
 %%% temperature data, using the GSW Toolbox.
 %%%
 %%% Arguments:
-%%% salt - salinity matrix
+%%% salt - practical salinity matrix
 %%% pot_temp - potential temperature matrix
 %%% depths - vector of depths
 %%% p_ref - scalar reference pressure for contouring density lines
@@ -78,16 +78,30 @@ for j=1:Ny
 end
 [C,h] = contour(SS_grid,PT_grid,pd,pot_dens_contours,'EdgeColor','k');
 clabel(C,h);
-% hold off;
+
+    min_depth = 1200-150;
+    max_depth = min([1400+150 depths(end)]);
+    dp = 2;
+    zidx = min_depth/dp:max_depth/dp;
+
+    % [p,S] = polyfit(ss(zidx),pt(zidx),1); 
+    [p,S] = polyfit(pt(zidx),ss(zidx),1); 
+    p1 = p(1);p2 = p(2);
+    % plot(ss(zidx),p(1)*ss(zidx)+p(2),'k--','LineWidth',2)
+    plot(ss(zidx),ss(zidx)/p(1)-p(2)/p(1),'k--','LineWidth',2)
+
+hold off;
 xlabel('Salinity (g/kg)','interpreter','latex');
 ylabel('Potential temperature ($^\circ$C)','interpreter','latex');
 set(gca,'Position',plotloc);
 handle = colorbar;
 colormap(flipdim(jet(100),2));
 set(handle,'FontSize',fontsize);
-caxis([min(-depths) max(-depths)]);
-%axis([ss_min ss_max pt_min pt_max]);
+% caxis([min(-depths) max(-depths)]);
+caxis([-2200 -500])
+axis([ss_min ss_max pt_min pt_max]);
 % axis([33.4 34.7 -2 -1]);
 
 annotation('textbox',[0.82 0.05 0.3 0.05],'String','Depth (m)','interpreter','latex','FontSize',fontsize+2,'LineStyle','None');
 set(gca,'FontSize',fontsize);
+
