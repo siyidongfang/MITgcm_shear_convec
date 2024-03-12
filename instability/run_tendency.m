@@ -16,7 +16,7 @@
 
     %%% Solve the boundary value problem using the bvp4c solver.
     % options = bvpset('RelTol', 1e-3, 'AbsTol', 1e-3, 'NMax', 20000);
-    options = bvpset('NMax', 5000);
+    options = bvpset('NMax', 10000);
     sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit,options);
     % sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit);
     psi0 = sol1.y(1,:);
