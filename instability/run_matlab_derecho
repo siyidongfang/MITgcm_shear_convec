@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N smooth_Atide0.08_Nx80Ny200Nr318_spin 
+#PBS -N lam 
 #PBS -A UMIT0054 
 #PBS -m abe
 #PBS -M y_si@mit.edu
