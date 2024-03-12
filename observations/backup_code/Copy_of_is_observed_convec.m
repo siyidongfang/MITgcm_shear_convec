@@ -4,11 +4,11 @@ addpath ../instability/
 addpath ../analysis/colormaps/
 
 load_colors;
-showplot = true;
+showplot = false;
 fontsize = 20;
 
 %%% Velocity data:
-load('MAVS2_LinearShear.mat');
+load('MAVS2_velocity.mat','uu','vv','ww','depth','time','topo');
 
 time_adcp = double(ncread('MAVS2_24606.nc','time')) + 33.000323*1e6; % microseconds since 2021-07-07 06:00:33.000323
 Time_adcp = datetime(2021,7,7) + hours(round(time_adcp/1e6/3600)+6);
@@ -21,11 +21,21 @@ nEnd = 1222;
 % nEnd = 454;
 tidx = nStart:nEnd;
 zidx = 4:18;
-uselect = u_reconstruct(zidx,tidx)';
-time_u = time(tidx)/3600; %%% in hours
-time_u = time_u-time_u(1);
+uselect = uu(zidx,tidx)';
+vselect = vv(zidx,tidx)';
+wselect = ww(zidx,tidx)';
+time_uw = time(tidx)/3600; %%% in hours
+time_uw = time_uw-time_uw(1);
 
 depth_uw = depth(zidx);
+
+if(size(find(isnan(uselect)))~=0)
+    uselect(3,8)=0.5*(uselect(2,8)+uselect(4,8));
+    wselect(3,8)=0.5*(wselect(2,8)+wselect(4,8));
+end
+% 
+% windowsize = round(400./mean(diff(depth_uw)));
+% uselect = smoothdata(uselect,2,'gaussian',windowsize,'omitnan');
 
 %%% Temperature data of two tidal cycles:
 temp = ncread('mavs2_20210718_level1.nc','__xarray_dataarray_variable__');
@@ -35,6 +45,9 @@ time_temp = double(ncread('mavs2_20210718_level1.nc','time'));
 % temp = ncread('mavs2_20210710.nc','__xarray_dataarray_variable__');
 % depth_temp = ncread('mavs2_20210710.nc','depth');
 % time_temp = double(ncread('mavs2_20210710.nc','time'));
+
+% temp = temp(21600:end,:);
+% time_temp = time_temp(21600:end);
 
 meanT = mean(temp,'all','omitnan');
 T_tavg = mean(temp,'omitnan');
@@ -57,7 +70,7 @@ depth_uw2 = depth(min(zidx)-1:max(zidx)+1);
 depth_uw_stagger = 0.5*(depth_uw2(1:end-1)+depth_uw2(2:end));
 
 [DD_temp,TT_temp] = meshgrid(depth_temp,time_temp);
-[DD_uw_stagger,TT_uw_stagger] = meshgrid(depth_uw_stagger,time_u);
+[DD_uw_stagger,TT_uw_stagger] = meshgrid(depth_uw_stagger,time_uw);
 
 temp_uw_stagger = interp2(DD_temp,TT_temp,temp,DD_uw_stagger,TT_uw_stagger);
 
@@ -128,7 +141,7 @@ b01 = gravity*tAlpha*0.5*(temp_uw_stagger(1,1:end-1)+temp_uw_stagger(1,2:end));
 b0 = gravity*(tAlpha*0.5*(temp_uw_stagger(1,1:end-1)+temp_uw_stagger(1,2:end))...
     -sBeta*0.5*(salt_uw_stagger(1,1:end-1)+salt_uw_stagger(1,2:end)));
 
-dt = 3600*(time_u(2)-time_u(1));
+dt = 3600*(time_uw(2)-time_uw(1));
 
 buoy0 = b0 - cumsum(adv0*dt,1);
 buoy1 = b0 - cumsum(adv1*dt,1);

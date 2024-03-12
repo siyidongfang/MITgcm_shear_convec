@@ -6,16 +6,17 @@
 
     zeta0 = @(z) interp1(linspace(min(zspan),max(zspan),numel(z0)), z0, z);    
     %%% Form Initial Guess
-    xmesh = linspace(0,1,Nr+1);
+    xmesh = zz_wgrid;
     solinit = bvpinit(xmesh, [0 0]);
-    % if(sum(z0~=0)~=0)
-    % solinit = bvpinit(xmesh, [0.1 0]);
-    % else
-    % solinit = bvpinit(xmesh, [0 0]);
-    % end
+    % p0_guess = real(p0);
+    % solinit.y(1,:) = p0_guess;
+    % solinit.y(2,2:end-1) = (p0_guess(3:end)-p0_guess(1:end-2))/dz/2; %%% Centered difference
+    % solinit.y(2,1)=(p0_guess(2)-p0_guess(1))/dz;
+    % solinit.y(2,end)=(p0_guess(end)-p0_guess(end-1))/dz;
+
     %%% Solve the boundary value problem using the bvp4c solver.
     % options = bvpset('RelTol', 1e-3, 'AbsTol', 1e-3, 'NMax', 20000);
-    options = bvpset('NMax', 10000);
+    options = bvpset('NMax', 5000);
     sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit,options);
     % sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit);
     psi0 = sol1.y(1,:);
@@ -134,6 +135,8 @@
                yb(1)];
     end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    
 
 
 

@@ -17,7 +17,6 @@
         k_2b = dbdt(o,:);
         k_2z = dzetadt(o,:);
 
-
         % Euler backward corrector advancing dt/2:
         b_3 = buoy(o,:)+0.5*dt*k_2b;
         z_3 = zeta(o,:)+0.5*dt*k_2z;

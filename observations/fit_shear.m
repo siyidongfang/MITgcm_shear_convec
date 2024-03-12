@@ -48,10 +48,14 @@ for i=1:length(time)
 
 end
 
+shear_linear = p1;
+
+u_reconstruct = depth'.*p1+p2;
+
+save('MAVS2_LinearShear.mat','depth','uu_tilde','topo','u_reconstruct','shear_linear','p1','p2','time')
 
 
 %%
-shear_linear = p1;
 
 figure(1)
 clf;set(gcf,'Color','w');
@@ -63,8 +67,6 @@ ylabel('shear (1/s)')
 title('Linear-fit shear at MAVS2')
 ylim([-2.2 1.5]/1e3)
 xlim([0 90])
-
-u_reconstruct = depth'.*p1+p2;
 
 
 % t_idx_plot = 1:length(time);
@@ -85,5 +87,6 @@ shading interp;colorbar;colormap(redblue);clim([-0.4 0.4])
 title('Along-canyon velocity: observed (m/s)')
 ylabel('Depth (m)');xlabel('time (days)');set(gca,'FontSize',fontsize)
 axis ij;
+
 
 
