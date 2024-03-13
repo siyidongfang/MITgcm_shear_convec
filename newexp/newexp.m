@@ -63,7 +63,7 @@ function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,N
   use_mpi = true; %%% set true for parallel processing
   use_pbs = true; %%% set true for execution via PBS
   cluster = 'derecho';    
-  nPx = 30; %%% no. of processors in x-direction
+  nPx = 75; %%% no. of processors in x-direction
   % nPx = 125;
   nPy = 1; %%% no. of processors in y-direction
   sNx = Nx/nPx; %%% no. of x-gridpoints per tile

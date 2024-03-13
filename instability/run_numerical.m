@@ -9,7 +9,7 @@ if(NOdiffusion)
     nu = 0;
     kappa = 0;
 else
-    nu = 2e-6; %%% Kaiser and Pratt 2022: nu=kappa=2e-6; Ruan: 2e-4??
+    nu = 2e-6; %%% Kaiser and Pratt 2022: nu=kappa=2e-6; 
     kappa = 2e-6;
     % nu = 1e-5; 
     % kappa = 1e-5;

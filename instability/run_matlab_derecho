@@ -1,13 +1,13 @@
 #!/bin/bash
-#PBS -N lambda_10
+#PBS -N l100-s1.5e-3
 #PBS -A UMIT0054 
 #PBS -m abe
 #PBS -M y_si@mit.edu
 #PBS -q main
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=1
-#PBS -o exps_Nr400_RK4/output_10.txt
-#PBS -e exps_Nr400_RK4/errors_10.txt
+#PBS -o exps_Nr200_RK4/output_shear9.txt
+#PBS -e exps_Nr200_RK4/errors_shear9.txt
 
 module load matlab
 

@@ -175,7 +175,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % diffKrS = 2e-5; %%% Vertical salt diffusion 
 
   %------ xruan's viscosity and diffusivity
-  lfac = 10; 
+  lfac = 1; 
   viscAh = 1e-4*lfac; %%% Horizontal viscosity         %-- from Xiaozhou
   viscAr = 2e-4*lfac; %%% Vertical viscosity           %-- from Xiaozhou
   diffKhT = 1e-4*lfac; %%% Horizontal temp diffusion   %-- from Xiaozhou
@@ -1032,7 +1032,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   end
   % vrelax = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(vrelax))))))))))))))))))))';
 
-  Nshear_smooth_half = 15;
+  Nshear_smooth_half = round(15*3/dz_const);
   Nsmooth_span = Nshear_smooth_half*2+1;
   vrelax = smooth(vrelax,Nsmooth_span);
 
