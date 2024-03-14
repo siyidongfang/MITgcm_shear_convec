@@ -4,6 +4,9 @@
     % expdir = '/Users/ysi/MITgcm_shear_convec/exps_backup_wrongBBC/';
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
     EXPNAME = {...
+        's0.0001_3km_noise1e-6_kappa2e-4_dx10dz3'
+        's0.0001_3km_noise1e-6_kappa2e-4_dx10dz1.5'
+        's0.0001_3km_noise1e-6_kappa2e-4_dx5dz3'
         's0.0001_3km'
         's0.0001_3km_noise1e-6'
         's0.0001_3km_noise1e-6_kappa2e-3'

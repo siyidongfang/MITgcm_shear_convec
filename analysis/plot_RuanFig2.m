@@ -5,12 +5,12 @@
 
 clear;
 close all;
-ne =5;
+ne =3;
 load_all
 
 % xx = xx-xx(1);
-No = nDumps-1;
-% No = 130;
+% No = nDumps-1;
+No = 75600/1200;
 uu_timeseries= zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 % ww_timeseries = zeros(No,Nr);

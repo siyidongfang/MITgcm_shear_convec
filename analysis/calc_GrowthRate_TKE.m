@@ -7,10 +7,10 @@
 
 
 clear;close all;
-for  ne = 3
+for  ne = 1
 load_all
 
-Ntide = 25;
+Ntide = 1;
 tidx = 1:Ntide*12;
 Nt = length(tidx);
 Hshear = 250;

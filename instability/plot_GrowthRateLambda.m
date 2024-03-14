@@ -3,9 +3,10 @@ clear; close all;
 fontsize = 20;
 load_colors;
 
-load('GrowthRate_new.mat')
+load('GrowthRate_RK4_Nr200.mat')
 % load('GrowthRate_lores_H150.mat')
-growthrate = squeeze(GrowthRate(4,:,:));
+% growthrate = squeeze(GrowthRate(4,:,:));
+growthrate = GrowthRate;
 max_growth_allLambda = max(growthrate);
 
 %%% Calculate the minimum Richardson Number
@@ -52,31 +53,33 @@ grid on;
 
 %%
 
-% figure(11)
-% clf;
-% set(gcf,'color','w','Position',[184 283 666 420]);
-% plot(1./Ri_min,growthrate(1:20),'LineWidth',2);
-% hold on;
-% plot((1/0.25*ones(1,length(0:0.01:0.25))),0:0.01:0.25,'--','LineWidth',2)
-% grid on;grid minor;
-% set(gca,'Fontsize',fontsize);
-% xlabel('Ri_{min}^{-1}')
-% ylabel('Growth Rate (hour^{-1})')
+figure(11)
+clf;
+set(gcf,'color','w','Position',[184 283 666 420]);
+plot(1./Ri_min,growthrate,'LineWidth',2);
+hold on;
+plot((1/0.25*ones(1,length(0:0.01:0.25))),0:0.01:0.25,'--','LineWidth',2)
+grid on;grid minor;
+set(gca,'Fontsize',fontsize);
+xlabel('Ri_{min}^{-1}')
+ylabel('Growth Rate (hour^{-1})')
 % title('Maximum growth rate for all wavenumbers')
-% 
-% 
-% figure(12)
-% clf;
-% set(gcf,'color','w','Position',[184 283 666 420]);
-% plot(Shear_parm,growthrate(1:20),'LineWidth',2);
-% hold on;
-% % plot((1/0.25*ones(1,length(0:0.01:0.25))),0:0.01:0.25,'--','LineWidth',2)
-% grid on;grid minor;
-% set(gca,'Fontsize',fontsize);
-% xlabel('Shear \Lambda (1/s)')
-% ylabel('Growth Rate (hour^{-1})')
-% title('Maximum growth rate for all wavenumbers')
+title('Growth rate (lambda = 100m)')
 
+
+
+figure(12)
+clf;
+set(gcf,'color','w','Position',[184 283 666 420]);
+plot(Shear_parm,growthrate,'LineWidth',2);
+hold on;
+% plot((1/0.25*ones(1,length(0:0.01:0.25))),0:0.01:0.25,'--','LineWidth',2)
+grid on;grid minor;
+set(gca,'Fontsize',fontsize);
+xlabel('Shear \Lambda (1/s)')
+ylabel('Growth Rate (hour^{-1})')
+% title('Maximum growth rate for all wavenumbers')
+title('Growth rate (lambda = 100m)')
 
 
 %%
