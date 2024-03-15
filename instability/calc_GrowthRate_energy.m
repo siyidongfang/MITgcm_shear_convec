@@ -7,11 +7,11 @@ fontsize = 20;
 % expdir = 'exps_test/lores_nu1e-5_lambda';
 % lambda_parm = [400 450 550 650 700 750 800 850 1000 1200:200:2400 2800:200:5000 6000 8000:1000:12000];
 
-expdir = 'exps_Nr200_RK4/lambda'
+expdir = 'exps_RK4_nu5e-6/lambda'
 % lambda_parm = round(10.^[2:0.1:3.4 3.6 3.8 4])
 % lambda_parm = round(10.^[2 2.1 2.4:0.1:3.4 3.6 3.8 4])
 lambda_parm = 100
-Shear_parm=[0.1:0.2:2.5]*1e-3;
+Shear_parm=[0.1:0.2:2.1]*1e-3;
 
 
 for Nexp_lambda = 1:length(lambda_parm)
@@ -61,7 +61,7 @@ for Nexp_lambda = 1:length(lambda_parm)
     
 end
 
-save('GrowthRate_RK4.mat','lambda_parm','Shear_parm','GrowthRate','fit_span')
+save('GrowthRate_RK4_nu5e-6.mat','lambda_parm','Shear_parm','GrowthRate','fit_span')
 
             
 % %%% Option 2

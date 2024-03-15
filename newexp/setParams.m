@@ -703,13 +703,13 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
     %%% Calculate internal wave speed and first Rossby radius of deformation
     N = sqrt(N2_north);
-    Cig = zeros(size(yy));
-    for j=1:Ny    
+    Cig = zeros(size(xx));
+    for j=1:Nx    
       for k=1:length(dzData)
-        if (zz(k) > h(1,j)) 
+        if (zz(k) > h(j,:)) 
             % k
             % min(dzData(k),zz(k)-h(1,j))
-          Cig(j) = Cig(j) + N(k)*min(dzData(k),zz(k)-h(1,j));
+          Cig(j) = Cig(j) + N(k)*min(dzData(k),zz(k)-h(j,:));
            % Cig(j) = Cig(j) + N(k)*(zz(k)-h(1,j));
         end
       end
@@ -860,9 +860,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Max gravity wave speed using total ocean depth
   cgmax = Umax + cmax;
   %%% Advective CFL
-  deltaT_adv = min([0.5*dx/cmax,0.5*dy/cmax]);
+  deltaT_adv = min([0.5*dx/Umax,0.5*dy/Umax]);
   %%% Gravity wave CFL
-  deltaT_gw = min([0.5*dx/Umax,0.5*dy/Umax]);
+  deltaT_gw = min([0.5*dx/cmax,0.5*dy/cmax]);
   %%% CFL time step based on full gravity wave speed
   deltaT_fgw = min([0.5*dx/cgmax,0.5*dy/cgmax]);
     
@@ -883,8 +883,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
  
   %%% Time step size  
   deltaT = min([deltaT_fgw deltaT_gw deltaT_adv deltaT_itl deltaT_Ah deltaT_Ar deltaT_KhT deltaT_KrT deltaT_A4]);
-  deltaT = round(deltaT) 
-  % deltaT = round(deltaT*2/3) 
+  deltaT = floor(deltaT) 
+  % deltaT = floor(deltaT*2/3) 
 
 
   % deltaT = 1

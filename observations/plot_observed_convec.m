@@ -3,14 +3,15 @@
 addpath /Users/ysi/MITgcm_shear_convec/analysis/
 load_colors;
 
+plot_tidx = 1:10:length(time_temp);
 
 
 % figure(1);
 % clf;set(gcf,'Color','w','Position',[114 662 1188*1.5 289]);
 % subplot(1,3,1)
-% pcolor(time_temp,depth_temp,temp');shading flat;colorbar;
+% pcolor(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)');shading flat;colorbar;
 % hold on;
-% contour(time_temp,depth_temp,temp',[meanT-2:0.5:meanT+2],'Color',black);
+% contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 % hold off;
 % xlabel('Time (days)')
 % ylabel('Depth (m)')
@@ -20,9 +21,9 @@ load_colors;
 % title('Temperature (^oC)')
 % 
 % subplot(1,3,2)
-% pcolor(time_temp,depth_temp,salt');shading flat;colorbar;
+% pcolor(time_temp(plot_tidx),depth_temp,salt(plot_tidx,:)');shading flat;colorbar;
 % hold on;
-% contour(time_temp,depth_temp,temp',[meanT-2:0.5:meanT+2],'Color',black);
+% contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 % hold off;
 % xlabel('Time (days)')
 % ylabel('Depth (m)')
@@ -32,9 +33,9 @@ load_colors;
 % title('Estimated salinity (psu)')
 % 
 % subplot(1,3,3)
-% pcolor(time_temp,depth_n2,N2');shading flat;colorbar;
+% pcolor(time_temp(plot_tidx),depth_n2,N2(plot_tidx,:)');shading flat;colorbar;
 % hold on;
-% contour(time_temp,depth_temp,temp',meanT-2:0.5:meanT+2,'Color',black);
+% contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 % hold off;
 % xlabel('Time (days)')
 % ylabel('Depth (m)')
@@ -70,7 +71,7 @@ clf;set(gcf,'Color','w');
 set(gcf,'Position', [56 352 1865 305]);
 subplot(1,3,1)
 pcolor(time_u,depth_u,uselect');shading flat;colorbar;colormap(redblue)
-xlabel('Time (hours)')
+xlabel('Time (days)')
 ylabel('Depth (m)')
 set(gca,'Fontsize',fontsize);
 axis ij;
@@ -79,7 +80,7 @@ title('u (m/s)')
 
 subplot(1,3,2)
 pcolor(time_temp,depth_n2,uselect_n2grid');shading flat;colorbar;colormap(redblue)
-xlabel('Time (hours)')
+xlabel('Time (days)')
 ylabel('Depth (m)')
 set(gca,'Fontsize',fontsize);
 axis ij;
@@ -89,7 +90,7 @@ title('u (m/s)')
 
 % subplot(1,3,2)
 % pcolor(time_u,depth_u,vselect');shading flat;colorbar;colormap(redblue)
-% xlabel('Time (hours)')
+% xlabel('Time (days)')
 % ylabel('Depth (m)')
 % set(gca,'Fontsize',fontsize);
 % axis ij;
@@ -98,7 +99,7 @@ title('u (m/s)')
 % 
 % subplot(1,3,3)
 % pcolor(time_u,depth_u,wselect');shading flat;colorbar;colormap(redblue)
-% xlabel('Time (hours)')
+% xlabel('Time (days)')
 % ylabel('Depth (m)')
 % set(gca,'Fontsize',fontsize);
 % axis ij;
@@ -107,12 +108,13 @@ title('u (m/s)')
 
 %%
 
+
 figure(9)
 clf;set(gcf,'Color','w','Position', [56 352 1865 305]);
 subplot(1,3,1)
-pcolor(time_temp,depth_n2,buoy1');shading flat;colorbar;
+pcolor(time_temp(plot_tidx),depth_n2,buoy1(plot_tidx,:)');shading flat;colorbar;
 hold on;
-contour(time_temp,depth_temp,temp',meanT-2:0.5:meanT+2,'Color',black);
+contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 hold off;
 xlabel('Time (days)')
 ylabel('Depth (m)')
@@ -120,43 +122,43 @@ set(gca,'Fontsize',fontsize);
 axis ij;
 title('Buoyancy (m/s^2)')
 colormap(WhiteBlueGreenYellowRed(0))
-clim([-0.01 0.01]/2)
+clim([-0.01 0.01]/4)
 
-subplot(1,3,2)
-pcolor(time_temp,depth_n2,buoy2');shading flat;colorbar;
-hold on;
-contour(time_temp,depth_temp,temp',meanT-2:0.5:meanT+2,'Color',black);
-hold off;
-xlabel('Time (days)')
-ylabel('Depth (m)')
-set(gca,'Fontsize',fontsize);
-axis ij;
-title('Buoyancy (m/s^2)')
-colormap(WhiteBlueGreenYellowRed(0))
-clim([-0.01 0.01]/2)
+% subplot(1,3,2)
+% pcolor(time_temp(plot_tidx),depth_n2,buoy2(plot_tidx,:)');shading flat;colorbar;
+% hold on;
+% contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+% hold off;
+% xlabel('Time (days)')
+% ylabel('Depth (m)')
+% set(gca,'Fontsize',fontsize);
+% axis ij;
+% title('Buoyancy (m/s^2)')
+% colormap(WhiteBlueGreenYellowRed(0))
+% clim([-0.01 0.01]/4)
 
-subplot(1,3,3)
-pcolor(time_temp,depth_n2,buoy3');shading flat;colorbar;
-hold on;
-contour(time_temp,depth_temp,temp',meanT-2:0.5:meanT+2,'Color',black);
-hold off;
-xlabel('Time (days)')
-ylabel('Depth (m)')
-set(gca,'Fontsize',fontsize);
-axis ij;
-title('Buoyancy (m/s^2)')
-colormap(WhiteBlueGreenYellowRed(0))
-clim([-0.01 0.01]/2)
+% subplot(1,3,3)
+% pcolor(time_temp(plot_tidx),depth_n2,buoy3(plot_tidx,:)');shading flat;colorbar;
+% hold on;
+% contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+% hold off;
+% xlabel('Time (days)')
+% ylabel('Depth (m)')
+% set(gca,'Fontsize',fontsize);
+% axis ij;
+% title('Buoyancy (m/s^2)')
+% colormap(WhiteBlueGreenYellowRed(0))
+% clim([-0.01 0.01]/4)
 
 
-%%
+
 
 figure(10)
 clf;set(gcf,'Color','w','Position', [56 352 1865 305]);
 subplot(1,3,1)
-pcolor(time_temp,depth_reconst_n,n2_1');shading flat;colorbar;
+pcolor(time_temp(plot_tidx),depth_reconst_n,n2_1(plot_tidx,:)');shading flat;colorbar;
 hold on;
-contour(time_temp,depth_temp,temp',meanT-2:0.5:meanT+2,'Color',black);
+contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 hold off;
 xlabel('Time (days)')
 ylabel('Depth (m)')
@@ -164,35 +166,35 @@ set(gca,'Fontsize',fontsize);
 axis ij;
 title('N^2 (1/s^2)')
 colormap(redblue)
-clim([-1 1]/1e4/2)
+clim([-1 1]/1e4/4)
 
-subplot(1,3,2)
-pcolor(time_temp,depth_reconst_n,n2_2');shading flat;colorbar;
-hold on;
-contour(time_temp,depth_temp,temp',meanT-2:0.5:meanT+2,'Color',black);
-hold off;
-xlabel('Time (days)')
-ylabel('Depth (m)')
-set(gca,'Fontsize',fontsize);
-axis ij;
-title('N^2 (1/s^2)')
-clim([-1 1]/1e4/2)
+% subplot(1,3,2)
+% pcolor(time_temp(plot_tidx),depth_reconst_n,n2_2(plot_tidx,:)');shading flat;colorbar;
+% hold on;
+% contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+% hold off;
+% xlabel('Time (days)')
+% ylabel('Depth (m)')
+% set(gca,'Fontsize',fontsize);
+% axis ij;
+% title('N^2 (1/s^2)')
+% clim([-1 1]/1e4/4)
 
-subplot(1,3,3)
-pcolor(time_temp,depth_reconst_n,n2_3');shading flat;colorbar;
-hold on;
-contour(time_temp,depth_temp,temp',meanT-2:0.5:meanT+2,'Color',black);
-hold off;
-xlabel('Time (days)')
-ylabel('Depth (m)')
-set(gca,'Fontsize',fontsize);
-axis ij;
-title('N^2 (1/s^2)')
-clim([-1 1]/1e4/2)
+% subplot(1,3,3)
+% pcolor(time_temp(plot_tidx),depth_reconst_n,n2_3(plot_tidx,:)');shading flat;colorbar;
+% hold on;
+% contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+% hold off;
+% xlabel('Time (days)')
+% ylabel('Depth (m)')
+% set(gca,'Fontsize',fontsize);
+% axis ij;
+% title('N^2 (1/s^2)')
+% clim([-1 1]/1e4/4)
 
-figure(11)
-plot(N2(1,:),depth_n2); axis ij;
-hold on;
-plot(n20,depth_reconst_n); axis ij;
+% figure(11)
+% plot(N2(1,:),depth_n2); axis ij;
+% hold on;
+% plot(n20,depth_reconst_n); axis ij;
 
 

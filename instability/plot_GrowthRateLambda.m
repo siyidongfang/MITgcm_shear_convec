@@ -4,14 +4,16 @@ fontsize = 20;
 load_colors;
 
 load('GrowthRate_RK4_Nr200.mat')
+% load('GrowthRate_RK4_nu5e-6.mat')
 % load('GrowthRate_lores_H150.mat')
 % growthrate = squeeze(GrowthRate(4,:,:));
-growthrate = GrowthRate;
+% growthrate = GrowthRate;
+growthrate = GrowthRate(1:10);
 max_growth_allLambda = max(growthrate);
 
 %%% Calculate the minimum Richardson Number
 
-% Shear_parm = [0.1:0.1:2]*1e-3;
+Shear_parm = [0.1:0.2:1.9]*1e-3;
 Ri_min = NaN*zeros(1,length(Shear_parm));
 
 NTtide = 10;
@@ -51,7 +53,7 @@ xlabel('Shear \Lambda (1/s)')
 grid on;
 
 
-%%
+
 
 figure(11)
 clf;
