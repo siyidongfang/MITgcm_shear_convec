@@ -9,10 +9,10 @@ if(NOdiffusion)
     nu = 0;
     kappa = 0;
 else
-    % nu = 2e-6; %%% Kaiser and Pratt 2022: nu=kappa=2e-6; 
-    % kappa = 2e-6;
-    nu = 5e-6; 
-    kappa = 5e-6;
+    nu = 2e-6; %%% Kaiser and Pratt 2022: nu=kappa=2e-6; 
+    kappa = 2e-6;
+    % nu = 5e-6; 
+    % kappa = 5e-6;
     % nu = 2e-4; %%% Use larger diffusivity and visocity to eliminate numerical errors
     % kappa = 2e-4;
     % nu = 1e-2; %%% test very large diffusivity and viscosity
@@ -334,14 +334,15 @@ re_d2bdz2 = real(d2bdz2);
 re_d2zetadz2 = real(d2zetadz2);
 
 
-clear b0 b_wgrid b0_wgrid b_2 b_3 b_4 buoy p0 p0_ugrid psi psi0 sol1 solinit ...
+clear b0 b_wgrid b0_wgrid b_2 b_3 b_4 p0 p0_ugrid psi psi0 sol1 solinit ...
     z0 z_2 z_3 z_4 zeta dbdz ...
     d2bdz2 d2psidz2 d2zetadz2 dbdt dpsidz dUtidedz dzetadt ...
-    k_1b k_1z k_2b k_2z k_3b k_3z k_4b k_4z h ...
     bq1 bq2 bq3 bq4 bq5 zq1 zq2 zq3 zq4 ...
+    k_1b k_1z k_2b k_2z k_3b k_3z k_4b k_4z h ...
     uuu re_psid re_zetad re_buoyd re_dbdz re_d2bdz2 re_d2zetadz2 ...
-    re_zq1 re_zq2 re_zq3 re_zq4 re_bq1 re_bq2 re_bq3 re_bq4 re_bq5 Utide 
 save(outputname)
+
+    % buoy re_zq1 re_zq2 re_zq3 re_zq4 re_bq1 re_bq2 re_bq3 re_bq4 re_bq5 Utide 
 
 
 

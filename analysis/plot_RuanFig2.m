@@ -5,12 +5,12 @@
 
 clear;
 close all;
-ne =3;
+ne =1;
 load_all
 
 % xx = xx-xx(1);
 % No = nDumps-1;
-No = 75600/1200;
+No = 120;
 uu_timeseries= zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
 % ww_timeseries = zeros(No,Nr);
@@ -86,7 +86,7 @@ botZ =-1500;
 %%
 
 % YLIM = [0 300];
-YLIM = [0 500];
+YLIM = [0 1500];
 XLIM = [0 20];
 % XLIM = [15 40];
 
@@ -137,7 +137,7 @@ shading interp;colorbar;
 set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('$N^2\ (s^{-2})$','Fontsize',fontsize+4,'interpreter','latex')
-% clim([-3 3]/1e6/2)
+% clim([-3 3]/1e6)
 clim(([-1 1]+1)/1e6)
  % clim([0.98 1.02]/1e6)
 ylim(YLIM)
