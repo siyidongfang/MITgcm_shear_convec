@@ -97,8 +97,10 @@
 
     bq1(o,:) = -1i*kx*C1*U.*b0;
     bq2(o,:) = -1i*kx*cotd(topo).*p0_ugrid;
-    bq3(o,:) = dpsidz;
-    bq4(o,:) = +1i*kx*C1*dUdz.*tan(t0).*p0_ugrid;
+    % bq3(o,:) = dpsidz;
+    % bq4(o,:) = +1i*kx*C1*dUdz.*tan(t0).*p0_ugrid;
+    bq3(o,:) = 0;
+    bq4(o,:) = 0;
     bq5(o,:) = +C4*d2bdz2(o,:)-C4*kx^2.*b0;
     
     dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
@@ -116,7 +118,8 @@
 
     zq1(o,:) = -1i*kx*C1*U_wgrid.*z0;
     zq2(o,:) = +C2^2*(1i*kx*cotd(topo)*b0_wgrid);
-    zq3(o,:) = +C2^2*(-dbdz(o,:));
+    % zq3(o,:) = +C2^2*(-dbdz(o,:));
+    zq3(o,:) = 0;
     zq4(o,:) = +C3*d2zetadz2(o,:)-C3*kx^2.*z0;
 
     dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) + zq4(o,:);

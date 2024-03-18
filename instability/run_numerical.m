@@ -184,11 +184,12 @@ for o=1:Nt-1
     b0 = buoy(o,:);
     z0 = zeta(o,:);
     
-    run_tendency;
+    % run_tendency;
+    run_tendency_reduced;
     psi(o,:) = p0;
 
     if(useRK4)
-        run_RK4;
+        run_RK4_reduced;
     elseif(useAB3)
         %%% Third-order Adams-Bashforth method %%%
         if (o <= 2)
@@ -243,7 +244,7 @@ if(U0==0)
 end
 re_psid = re_psi*U1/delta;
 re_zetad = re_zeta*U1*delta;
-re_buoyd = re_buoy*N^2*sind(topo)/omega;
+re_buoyd = re_buoy*N^2*U1*sind(topo)/omega;
 
 dbuoydz = zeros(Nt,Nr);
 for m = 2:Nr-1
@@ -334,15 +335,17 @@ re_d2bdz2 = real(d2bdz2);
 re_d2zetadz2 = real(d2zetadz2);
 
 
-clear b0 b_wgrid b0_wgrid b_2 b_3 b_4 p0 p0_ugrid psi psi0 sol1 solinit ...
-    z0 z_2 z_3 z_4 zeta dbdz ...
-    d2bdz2 d2psidz2 d2zetadz2 dbdt dpsidz dUtidedz dzetadt ...
-    bq1 bq2 bq3 bq4 bq5 zq1 zq2 zq3 zq4 ...
-    k_1b k_1z k_2b k_2z k_3b k_3z k_4b k_4z h ...
-    uuu re_psid re_zetad re_buoyd re_dbdz re_d2bdz2 re_d2zetadz2 ...
+% clear b0 b_wgrid b0_wgrid b_2 b_3 b_4 p0 p0_ugrid psi psi0 sol1 solinit ...
+%     z0 z_2 z_3 z_4 zeta dbdz ...
+%     d2bdz2 d2psidz2 d2zetadz2 dbdt dpsidz dUtidedz dzetadt ...
+%     bq1 bq2 bq3 bq4 bq5 zq1 zq2 zq3 zq4 ...
+%     k_1b k_1z k_2b k_2z k_3b k_3z k_4b k_4z h ...
+%     buoy re_zq1 re_zq2 re_zq3 re_zq4 re_bq1 re_bq2 re_bq3 re_bq4 re_bq5 Utide ...
+%     uuu re_psid re_zetad re_buoyd re_dbdz re_d2bdz2 re_d2zetadz2 
+
+
 save(outputname)
 
-    % buoy re_zq1 re_zq2 re_zq3 re_zq4 re_bq1 re_bq2 re_bq3 re_bq4 re_bq5 Utide 
 
 
 

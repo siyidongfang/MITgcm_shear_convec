@@ -1,9 +1,10 @@
 
 clear;
 
-addpath ../colormaps/
+addpath ../analysis/colormaps/
 addpath ../observations/
-
+addpath topography
+addpath CTD/
 
 load_colors;
 
@@ -99,10 +100,10 @@ latn = interp1(ll,lat9,llf,'linear','extrap');
 lonn = interp1(ll,lon9,llf,'linear','extrap');
 
 ll = 1:length(lat);
-llf = 1:1/10:length(lat);
+llf = 1:1/50:length(lat);
 latf = interp1(ll,lat,llf,'linear','extrap');
 ll = 1:length(lon);
-llf = 1:1/10:length(lon);
+llf = 1:1/50:length(lon);
 lonf = interp1(ll,lon,llf,'linear','extrap');
 [Y,X] = meshgrid(lat,lon);
 [Yq,Xq] = meshgrid(latf,lonf);
@@ -166,10 +167,11 @@ box on;grid on;grid minor;
 % figdir = '/Users/csi/MITgcm_BLT/analysis/NCAR_proposal/';
 % print('-djpeg','-r200',[figdir 'Bathymetry_canyon.jpeg']);
 
-
-depthn = smooth(smooth(smooth(depthn)')')';
-depth9_smooth = smooth(depth9)';
-s_topog9_smooth = -diff(depth9_smooth)./d1km/1000;
+%%
+% depthn = smooth(smooth(smooth(depthn)')')';
+% depthn = smoothdata(depthn,"movmean",50);
+% depth9_smooth = smooth(depth9)';
+% s_topog9_smooth = -diff(depth9_smooth)./d1km/1000;
 
 s_topog9 = -diff(depth9)./d1km/1000;
 along_mid = 0.5*(along_canyon(2:end)+along_canyon(1:end-1));
@@ -211,9 +213,9 @@ fobs = 4*pi/86164*sind(54.2);
 r_iw_obs = sqrt((omega_tides_obs^2-fobs^2)/(N_mean_obs^2-omega_tides_obs^2))
 
 
-save('topography/topog1D_28km.mat','depth9','along_canyon','d1km','along_mid','s_topog9', ...
-    'depthn','along_canyonn','d1kmn','along_midn','s_topogn',...
-    'r_iw_obs','fobs','N_mean_obs','omega_tides_obs','mean_slope1','mean_slope2',...
-    'lat9','lon9','depth9')
+% save('topography/topog1D_28km.mat','depth9','along_canyon','d1km','along_mid','s_topog9', ...
+%     'depthn','along_canyonn','d1kmn','along_midn','s_topogn',...
+%     'r_iw_obs','fobs','N_mean_obs','omega_tides_obs','mean_slope1','mean_slope2',...
+%     'lat9','lon9','depth9')
 
 
