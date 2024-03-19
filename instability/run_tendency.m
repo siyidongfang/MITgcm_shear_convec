@@ -101,6 +101,16 @@
     bq4(o,:) = +1i*kx*C1*dUdz.*tan(t0).*p0_ugrid;
     bq5(o,:) = +C4*d2bdz2(o,:)-C4*kx^2.*b0;
     
+    if(noBQ2)
+        bq2(o,:) = 0;
+    end
+    if(noBQ3)
+        bq3(o,:) = 0;
+    end
+    if(noBQ4)
+        bq4(o,:) = 0;
+    end
+
     dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
               + bq4(o,:) + bq5(o,:);
 
@@ -118,6 +128,13 @@
     zq2(o,:) = +C2^2*(1i*kx*cotd(topo)*b0_wgrid);
     zq3(o,:) = +C2^2*(-dbdz(o,:));
     zq4(o,:) = +C3*d2zetadz2(o,:)-C3*kx^2.*z0;
+
+    if(noZQ2)
+        zq2(o,:) = 0;
+    end
+    if(noZQ3)
+        zq3(o,:) = 0;
+    end
 
     dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) + zq4(o,:);
 

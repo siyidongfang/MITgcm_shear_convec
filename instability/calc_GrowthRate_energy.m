@@ -25,7 +25,7 @@ for Nexp_lambda = 1
     for Nexp_shear =7
         Shear = Shear_parm(Nexp_shear)
 
-        expname = ['H300_topo4_Pt43200_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '_reduced/'];
+        expname = ['H300_topo4_Pt43200_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '_reduced_NOwN2/'];
         exppath = [expdir num2str(lambda) '/' expname];
         clear uuu www psi U0 NTtide tt Nr Nt Utide ttd t1hour zz fit_span zzd
 

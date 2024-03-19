@@ -184,17 +184,16 @@ for o=1:Nt-1
     b0 = buoy(o,:);
     z0 = zeta(o,:);
     
-    % run_tendency;
-    run_tendency_reduced;
+    run_tendency;
     psi(o,:) = p0;
 
     if(useRK4)
-        run_RK4_reduced;
+        run_RK4;
     elseif(useAB3)
         %%% Third-order Adams-Bashforth method %%%
         if (o <= 2)
             %%% Use RK4 for the first 2 time steps
-            run_RK4; 
+            run_RK4;
             %%% Use Euler-forward for the first 2 time steps
             % buoy(o+1,:) = buoy(o,:) + dbdt(o,:)*dt;
             % zeta(o+1,:) = zeta(o,:) + dzetadt(o,:)*dt;
