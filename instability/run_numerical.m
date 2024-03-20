@@ -67,7 +67,8 @@ zq3 = zeros(Nt,Nr+1);
 zq4 = zeros(Nt,Nr+1);
 dzetadt = zeros(Nt,Nr+1);
 
-dbdz = zeros(1,Nr);
+b0_wgrid = zeros(1,Nr+1);
+dbdz = zeros(1,Nr+1);
 d2bdz2 = zeros(1,Nr);
 d2zetadz2 = zeros(1,Nr+1);
 

@@ -46,7 +46,7 @@
 
     dbdz(2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz; %%% on w-grid
 
-    % %%%%%%%%%%%% B.C.-8 %%%%%%%%%%%%
+    %%%%%%%%%%%% B.C.-8 %%%%%%%%%%%%
     % %%% No buoyancy flux, Ocean bottom, when diffusivity is not zero
     % %%% dbdz+dB/dz+dB0/dz = 0 ==>  dbdz = -(dB/dz+dB0/dz)
     % dbdz(1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)) ...
@@ -54,12 +54,10 @@
     % %%% No buoyancy flux, Upper boundary, when diffusivity is not zero
     % dbdz(Nr+1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)) ...
     %     +(delta/Hshear)*sin(t0); 
-    % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     dbdz(1) = 0;
     dbdz(Nr+1) = 0;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-    b0_wgrid = zeros(1,Nr+1);
     b0_wgrid(2:Nr) = 0.5*(b0(2:Nr)+b0(1:Nr-1));
 
     %%%%%%%%%%%% B.C.-9 %%%%%%%%%%%%
@@ -67,32 +65,7 @@
     b0_wgrid(Nr+1) = 2*b0(Nr)-b0_wgrid(Nr);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    for m = 2:Nr-1
-        d2bdz2(m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
-    end
-
-    %%%%%%%%%%%% B.C.-10 %%%%%%%%%%%%
-    dbdz1 = 0.5*(dbdz(1)+dbdz(2));
-    dbdzNr = 0.5*(dbdz(Nr)+dbdz(Nr+1));
-
-    bw2 = b0_wgrid(2); 
-    b1 = b0(1);
-    zw2 = zz_wgrid(2);
-    z1 = zz(1);
-
-    bwNr = b0_wgrid(Nr); 
-    bNr = b0(Nr);
-    zwNr = zz_wgrid(Nr);
-    zNr = zz(Nr);
-
-    % Taylor expansion: bw2 ~= b1 + dbdz1*(zw2-z1) + 0.5*d2bdz2(1)*(zw2-z1)^2
-    d2bdz2(1) = ( bw2 - b1 - dbdz1*(zw2-z1) ) ./ ( 0.5*(zw2-z1)^2 );
-    % Taylor expansion: bwNr ~= bNr + dbdzNr*(zwNr-zNr) + 0.5*d2bdz2(Nr)*(zwNr-zNr)^2
-    d2bdz2(Nr) = ( bwNr - bNr - dbdzNr*(zwNr-zNr) ) ./ ( 0.5*(zwNr-zNr)^2 );
-
-    %%% Linear extrapolation
-    % d2bdz2([1 Nr]) = interp1(zz(2:Nr-1),d2bdz2(2:Nr-1),zz([1 Nr]),'linear','extrap');
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    d2bdz2 = (dbdz(2:Nr+1)-dbdz(1:Nr))/dz; %%% 2nd-order centered difference
 
     p0_ugrid = 0.5*(p0(1:Nr)+p0(2:Nr+1));
     dpsidz = (p0(2:Nr+1)-p0(1:Nr))/dz;
