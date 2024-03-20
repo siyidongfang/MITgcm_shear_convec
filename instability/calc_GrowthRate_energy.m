@@ -11,7 +11,7 @@ fontsize = 20;
 % expdir = 'exps_RK4_nu5e-6/lambda'
 % expdir = 'exps_Nr200_RK4/lambda'
 expdir = 'exps_mechanism/lambda'
-lambda_parm = round(10.^[2:0.1:3.4 3.6 3.8 4])
+lambda_parm = round(10.^[2:0.1:3.4 3.6 3.8 4]);
 % lambda_parm = round(10.^[2 2.1 2.4:0.1:3.4 3.6 3.8 4])
 % lambda_parm = 100
 Shear_parm=[0.1:0.2:2.1]*1e-3;
@@ -25,7 +25,7 @@ for Nexp_lambda = 1
     for Nexp_shear =7
         Shear = Shear_parm(Nexp_shear)
 
-        expname = ['H300_topo4_Pt43200_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '_reduced_NOwN2/'];
+        expname = ['H300_topo4_Pt43200_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '_fixBoundarydbdz/'];
         exppath = [expdir num2str(lambda) '/' expname];
         clear uuu www psi U0 NTtide tt Nr Nt Utide ttd t1hour zz fit_span zzd
 

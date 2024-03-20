@@ -44,17 +44,19 @@
 
     dUdz = (U_wgrid(2:Nr+1)-U_wgrid(1:Nr))/dz;
 
-    dbdz(o,2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz; %%% on w-grid
+    dbdz(2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz; %%% on w-grid
 
-    %%%%%%%%%%%% B.C.-8 %%%%%%%%%%%%
-    %%% No buoyancy flux, Ocean bottom, when diffusivity is not zero
-    %%% dbdz+dB/dz+dB0/dz = 0 ==>  dbdz = -(dB/dz+dB0/dz)
-    dbdz(o,1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)) ...
-        -(delta/Hshear)*sin(t0); 
-    %%% No buoyancy flux, Upper boundary, when diffusivity is not zero
-    dbdz(o,Nr+1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)) ...
-        -(delta/Hshear)*sin(t0); 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % %%%%%%%%%%%% B.C.-8 %%%%%%%%%%%%
+    % %%% No buoyancy flux, Ocean bottom, when diffusivity is not zero
+    % %%% dbdz+dB/dz+dB0/dz = 0 ==>  dbdz = -(dB/dz+dB0/dz)
+    % dbdz(1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)) ...
+    %     +(delta/Hshear)*sin(t0); 
+    % %%% No buoyancy flux, Upper boundary, when diffusivity is not zero
+    % dbdz(Nr+1) = - (omega/Shear) * (delta/Hshear) * (cosd(topo)/sind(topo)) ...
+    %     +(delta/Hshear)*sin(t0); 
+    % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    dbdz(1) = 0;
+    dbdz(Nr+1) = 0;
 
 
     b0_wgrid = zeros(1,Nr+1);
@@ -66,12 +68,12 @@
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     for m = 2:Nr-1
-        d2bdz2(o,m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
+        d2bdz2(m) = (b0(m-1)-2*b0(m)+b0(m+1))/dz^2;
     end
 
     %%%%%%%%%%%% B.C.-10 %%%%%%%%%%%%
-    dbdz1 = 0.5*(dbdz(o,1)+dbdz(o,2));
-    dbdzNr = 0.5*(dbdz(o,Nr)+dbdz(o,Nr+1));
+    dbdz1 = 0.5*(dbdz(1)+dbdz(2));
+    dbdzNr = 0.5*(dbdz(Nr)+dbdz(Nr+1));
 
     bw2 = b0_wgrid(2); 
     b1 = b0(1);
@@ -84,12 +86,12 @@
     zNr = zz(Nr);
 
     % Taylor expansion: bw2 ~= b1 + dbdz1*(zw2-z1) + 0.5*d2bdz2(1)*(zw2-z1)^2
-    d2bdz2(o,1) = ( bw2 - b1 - dbdz1*(zw2-z1) ) ./ ( 0.5*(zw2-z1)^2 );
+    d2bdz2(1) = ( bw2 - b1 - dbdz1*(zw2-z1) ) ./ ( 0.5*(zw2-z1)^2 );
     % Taylor expansion: bwNr ~= bNr + dbdzNr*(zwNr-zNr) + 0.5*d2bdz2(Nr)*(zwNr-zNr)^2
-    d2bdz2(o,Nr) = ( bwNr - bNr - dbdzNr*(zwNr-zNr) ) ./ ( 0.5*(zwNr-zNr)^2 );
+    d2bdz2(Nr) = ( bwNr - bNr - dbdzNr*(zwNr-zNr) ) ./ ( 0.5*(zwNr-zNr)^2 );
 
     %%% Linear extrapolation
-    % d2bdz2(o,[1 Nr]) = interp1(zz(2:Nr-1),d2bdz2(o,2:Nr-1),zz([1 Nr]),'linear','extrap');
+    % d2bdz2([1 Nr]) = interp1(zz(2:Nr-1),d2bdz2(2:Nr-1),zz([1 Nr]),'linear','extrap');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     p0_ugrid = 0.5*(p0(1:Nr)+p0(2:Nr+1));
@@ -99,7 +101,7 @@
     bq2(o,:) = -1i*kx*cotd(topo).*p0_ugrid;
     bq3(o,:) = dpsidz;
     bq4(o,:) = +1i*kx*C1*dUdz.*tan(t0).*p0_ugrid;
-    bq5(o,:) = +C4*d2bdz2(o,:)-C4*kx^2.*b0;
+    bq5(o,:) = +C4*d2bdz2-C4*kx^2.*b0;
     
     if(noBQ2)
         bq2(o,:) = 0;
@@ -114,20 +116,19 @@
     dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
               + bq4(o,:) + bq5(o,:);
 
-
     for m = 2:Nr
-        d2zetadz2(o,m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
+        d2zetadz2(m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
     end
 
     %%%%%%%%%%%% B.C.-11 %%%%%%%%%%%%
     %%% Linear extrapolation
-    d2zetadz2(o,:) = interp1(zz_wgrid(2:Nr),d2zetadz2(o,2:Nr),zz_wgrid,'linear','extrap');
+    d2zetadz2 = interp1(zz_wgrid(2:Nr),d2zetadz2(2:Nr),zz_wgrid,'linear','extrap');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     zq1(o,:) = -1i*kx*C1*U_wgrid.*z0;
     zq2(o,:) = +C2^2*(1i*kx*cotd(topo)*b0_wgrid);
-    zq3(o,:) = +C2^2*(-dbdz(o,:));
-    zq4(o,:) = +C3*d2zetadz2(o,:)-C3*kx^2.*z0;
+    zq3(o,:) = +C2^2*(-dbdz);
+    zq4(o,:) = +C3*d2zetadz2-C3*kx^2.*z0;
 
     if(noZQ2)
         zq2(o,:) = 0;

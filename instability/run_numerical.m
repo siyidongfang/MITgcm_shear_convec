@@ -11,12 +11,8 @@ if(NOdiffusion)
 else
     nu = 2e-6; %%% Kaiser and Pratt 2022: nu=kappa=2e-6; 
     kappa = 2e-6;
-    % nu = 5e-6; 
+    % nu = 5e-6; %%% Use larger diffusivity and visocity to eliminate numerical errors
     % kappa = 5e-6;
-    % nu = 2e-4; %%% Use larger diffusivity and visocity to eliminate numerical errors
-    % kappa = 2e-4;
-    % nu = 1e-2; %%% test very large diffusivity and viscosity
-    % kappa = 1e-2;
 end
 Pr = nu/kappa;
 t1hour = 3600;
@@ -64,7 +60,6 @@ bq3 = zeros(Nt,Nr);
 bq4 = zeros(Nt,Nr);
 bq5 = zeros(Nt,Nr);
 dbdt = zeros(Nt,Nr);
-dbdz = zeros(Nt,Nr);
 
 zq1 = zeros(Nt,Nr+1);
 zq2 = zeros(Nt,Nr+1);
@@ -72,8 +67,9 @@ zq3 = zeros(Nt,Nr+1);
 zq4 = zeros(Nt,Nr+1);
 dzetadt = zeros(Nt,Nr+1);
 
-d2bdz2 = zeros(Nt,Nr);
-d2zetadz2 = zeros(Nt,Nr+1);
+dbdz = zeros(1,Nr);
+d2bdz2 = zeros(1,Nr);
+d2zetadz2 = zeros(1,Nr+1);
 
 dpsidz = zeros(1,Nr+1);
 dUdz = zeros(1,Nr);
@@ -87,8 +83,8 @@ CFLx = U0*dt_real/lambda;
 %%% Initial condition
 % buoy(1,:) = (rand(1,Nr)-1/2)/1e20; %%% Random
 % buoy(1,:) = rand(1,Nr)/1e20;       %%% Random 
-buoy(1,:) = [1:Nr]/Nr/1e20; %%% Linear 
-% buoy(1,:) = 1/1e20;       %%% Constant 
+% buoy(1,:) = [1:Nr]/Nr/1e20; %%% Linear 
+buoy(1,:) = 1/1e20;       %%% Constant 
 psi(1,:) = 0;
 zeta(1,:) = 0;
 % zeta(1,:) = (rand(1,Nr)-1/2)/1e30;
@@ -329,10 +325,39 @@ saveas(h,[expdir 'fig5.png'])
 run_decompose;
 close all
 
-re_dbdz = real(dbdz);
-re_d2bdz2 = real(d2bdz2);
-re_d2zetadz2 = real(d2zetadz2);
+% re_dbdz = real(dbdz);
+% re_d2bdz2 = real(d2bdz2);
+% re_d2zetadz2 = real(d2zetadz2);
 
+fit_span = round(Nt*2/3):Nt-1;
+
+clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
+TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
+TPE = 0;
+KE_PE = TKE+TPE;
+
+KE_PE_zavg = mean(KE_PE,2)';
+xxplot = ttd/t1hour;
+yyplot = log(KE_PE_zavg)/2;
+[p,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+GrowthRate(Nexp_lambda,Nexp_shear) = p(1);
+p(1)
+
+[y_fit,delta_fit] = polyval(p,xxplot,S);
+
+h=figure(8);
+set(h,'color','w','Visible', FigureIsVisible,'Position',[67 346 1015 619]/2);
+clf;
+plot(xxplot/12,yyplot,'LineWidth',2)
+hold on
+plot(xxplot(fit_span)/12,y_fit(fit_span),'LineWidth',1.5)
+grid on;grid minor;
+set(gca,'Fontsize',fontsize);
+ylim([p(2)-3 p(2)+p(1)*max(xxplot)+2])
+xlabel('$t$ (tidal cycle)','Interpreter','Latex')
+ylabel('$\ln(e)/2$','Interpreter','Latex')
+hold off;
+saveas(h,[expdir 'KE.png'])
 
 % clear b0 b_wgrid b0_wgrid b_2 b_3 b_4 p0 p0_ugrid psi psi0 sol1 solinit ...
 %     z0 z_2 z_3 z_4 zeta dbdz ...
