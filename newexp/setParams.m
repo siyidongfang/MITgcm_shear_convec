@@ -1192,13 +1192,13 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   for i=1:Nx
       for j=1:Ny
-          vVelInit(i,j,:) = vrelax*cos(0.5*pi); 
+          uVelInit(i,j,:) = vrelax*cos(0); 
       end
   end
-
+    
   for i=1:Nx
       for j=1:Ny
-          uVelInit(i,j,:) = vrelax*sin(0.5*pi); 
+          vVelInit(i,j,:) = vrelax*sin(0); 
       end
   end
 
