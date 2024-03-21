@@ -330,34 +330,44 @@ close all
 % re_d2bdz2 = real(d2bdz2);
 % re_d2zetadz2 = real(d2zetadz2);
 
-fit_span = round(Nt*2/3):Nt-1;
+fit_span = round(Nt/NTtide*3):Nt-1;
 
-clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
+% clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
 TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
+TKE = TKE/(0.5*U0^2);
 TPE = 0;
 KE_PE = TKE+TPE;
 
 KE_PE_zavg = mean(KE_PE,2)';
 xxplot = ttd/t1hour;
 yyplot = log(KE_PE_zavg)/2;
-[p,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-GrowthRate(Nexp_lambda,Nexp_shear) = p(1);
-p(1)
+[pKE,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+GrowthRate_KE(Nexp_lambda,Nexp_shear) = pKE(1);
+pKE(1);
+[y_fit,delta_fit] = polyval(pKE,xxplot,S);
 
-[y_fit,delta_fit] = polyval(p,xxplot,S);
+b2 = mean(re_buoy.^2,2)';
+yyplot_b2 = log(b2)/2;
+[pb2,S_b2] = polyfit(xxplot(fit_span),yyplot_b2(fit_span),1); 
+GrowthRate(Nexp_lambda,Nexp_shear) = pb2(1);
+[y_fit_b2,delta_fit_b2] = polyval(pb2,xxplot,S_b2);
+
 
 h=figure(8);
-set(h,'color','w','Visible', FigureIsVisible,'Position',[67 346 1015 619]/2);
 clf;
+set(h,'color','w','Visible', FigureIsVisible,'Position',[85 222 979 420]);
 plot(xxplot/12,yyplot,'LineWidth',2)
 hold on
-plot(xxplot(fit_span)/12,y_fit(fit_span),'LineWidth',1.5)
+plot(xxplot/12,yyplot_b2,'LineWidth',2)
+plot(xxplot(fit_span)/12,y_fit(fit_span),':','LineWidth',1.5)
+plot(xxplot(fit_span)/12,y_fit_b2(fit_span),':','LineWidth',1.5)
 grid on;grid minor;
-set(gca,'Fontsize',fontsize);
-ylim([p(2)-3 p(2)+p(1)*max(xxplot)+2])
+set(gca,'Fontsize',20);
+ylim([pKE(2)-3 pKE(2)+pKE(1)*max(xxplot)+2])
 xlabel('$t$ (tidal cycle)','Interpreter','Latex')
 ylabel('$\ln(e)/2$','Interpreter','Latex')
-hold off;
+hold off;axis tight
+legend('KE','b^2','Position',[0.8141 0.1988 0.0684 0.1393])
 saveas(h,[expdir 'KE.png'])
 
 % clear b0 b_wgrid b0_wgrid b_2 b_3 b_4 p0 p0_ugrid psi psi0 sol1 solinit ...
