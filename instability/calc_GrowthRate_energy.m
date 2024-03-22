@@ -1,5 +1,5 @@
 
-% close all;
+close all;
 clear;
 fontsize = 22;
 
@@ -9,19 +9,20 @@ fontsize = 22;
 % lambda_parm = [400 450 550 650 700 750 800 850 1000 1200:200:2400 2800:200:5000 6000 8000:1000:12000];
 
 
-expdir = 'exps_test_dz50/lambda'
-lambda_parm = round(10.^[2:0.1:3.4 3.6 3.8 4]);
+expdir = 'exps_test_Nr100/lambda'
+lambda_parm = [80 100 130 160 250 500 1000 2000 6310]
+% lambda_parm = round(10.^[2:0.1:3.4 3.6 3.8 4]);
 % lambda_parm = round(10.^[2 2.1 2.4:0.1:3.4 3.6 3.8 4])
 % lambda_parm = 100
 Shear_parm=[0.1:0.2:2.1]*1e-3;
 
 
-% for Nexp_lambda = 1:length(lambda_parm)
-for Nexp_lambda = 1
+for Nexp_lambda = 1:length(lambda_parm)
+% for Nexp_lambda = 2
     lambda = lambda_parm(Nexp_lambda);
 
-    % for Nexp_shear =1:length(Shear_parm)
-    for Nexp_shear =1:8
+    for Nexp_shear =1:length(Shear_parm)
+    % for Nexp_shear =1:8
         Shear = Shear_parm(Nexp_shear);
 
         expname = ['H250_topo4_Pt43200_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
@@ -71,7 +72,7 @@ for Nexp_lambda = 1
             xlabel('$t$ (tidal cycle)','Interpreter','Latex')
             ylabel('$\ln(e)/2$','Interpreter','Latex')
             hold off;
-            legend('KE','b^2','Position',[0.8141 0.1988 0.0684 0.1393])
+            legend('TKE','b^2','Position',[0.8141 0.1988 0.0684 0.1393])
             saveas(h,[exppath 'KE.png'])
 
        
@@ -80,13 +81,13 @@ for Nexp_lambda = 1
 end
 
 
-figure(2)
+figure(3)
 set(gcf,'color','w')
-plot(Shear_parm(1:7),growth(1:7),'LineWidth',2);
+plot(Shear_parm,growth,'LineWidth',2);
 grid on;grid minor;set(gca,'Fontsize',fontsize);
 xlabel('Shear (m/s)')
 ylabel('Growth rate (1/hour)')
- % save('GrowthRate_RK4_nu5e-6.mat','lambda_parm','Shear_parm','GrowthRate','fit_span')
+ save('GrowthRate-exps_test_Nr100.mat','lambda_parm','Shear_parm','GrowthRate_b2','GrowthRate_KE','fit_span')
 
             
 % %%% Option 2

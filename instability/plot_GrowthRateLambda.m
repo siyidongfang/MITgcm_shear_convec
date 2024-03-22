@@ -3,12 +3,12 @@ clear; close all;
 fontsize = 20;
 load_colors;
 
-load('GrowthRate_RK4_Nr200.mat')
+load('GrowthRate-exps_test_Nr100.mat')
 % load('GrowthRate_RK4_nu5e-6.mat')
 % load('GrowthRate_lores_H150.mat')
 % growthrate = squeeze(GrowthRate(4,:,:));
 % growthrate = GrowthRate;
-growthrate = GrowthRate(1:10);
+growthrate = GrowthRate_b2(:,1:10);
 max_growth_allLambda = max(growthrate);
 
 %%% Calculate the minimum Richardson Number
