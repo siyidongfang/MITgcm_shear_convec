@@ -4,6 +4,31 @@ fontsize = 20;
 load_colors;
 
 load('GrowthRate-exps_test_Nr100.mat')
+
+kx = 2*pi./lambda_parm;
+
+figure(40)
+clf;set(gcf,'Color','w')
+zcolor=Shear_parm;
+cmap = colormap(WhiteBlueGreenYellowRed(8));
+zmap = linspace( min(zcolor), max(zcolor), length(cmap));
+i=1;
+color = interp1( zmap, cmap, zcolor(i));
+semilogx(kx,GrowthRate_b2(:,i),'LineWidth',1.5,'Color',color);
+grid on;grid minor;
+hold on;
+for i=2:length(Shear_parm)
+    color = interp1( zmap, cmap, zcolor(i));
+    semilogx(kx,GrowthRate_b2(:,i),'LineWidth',1.5,'Color',color);
+end
+hold off;
+set(gca,'Fontsize',fontsize)
+xlabel('Horizontal wavenumber, k_x (1/m)')
+ylabel('Growth rate (1/hour)')
+clim([min(zcolor), max(zcolor)])
+c=colorbar;
+grid on;
+
 % load('GrowthRate_RK4_nu5e-6.mat')
 % load('GrowthRate_lores_H150.mat')
 % growthrate = squeeze(GrowthRate(4,:,:));

@@ -10,7 +10,7 @@ fontsize = 22;
 
 
 expdir = 'exps_test_Nr100/lambda'
-lambda_parm = [80 100 130 160 250 500 1000 2000 6310]
+lambda_parm = [80 100 130 160 250 320 500 630 1000 1260 2000 2510 6310 10000]
 % lambda_parm = round(10.^[2:0.1:3.4 3.6 3.8 4]);
 % lambda_parm = round(10.^[2 2.1 2.4:0.1:3.4 3.6 3.8 4])
 % lambda_parm = 100
@@ -18,11 +18,9 @@ Shear_parm=[0.1:0.2:2.1]*1e-3;
 
 
 for Nexp_lambda = 1:length(lambda_parm)
-% for Nexp_lambda = 2
     lambda = lambda_parm(Nexp_lambda);
 
     for Nexp_shear =1:length(Shear_parm)
-    % for Nexp_shear =1:8
         Shear = Shear_parm(Nexp_shear);
 
         expname = ['H250_topo4_Pt43200_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
@@ -87,7 +85,10 @@ plot(Shear_parm,growth,'LineWidth',2);
 grid on;grid minor;set(gca,'Fontsize',fontsize);
 xlabel('Shear (m/s)')
 ylabel('Growth rate (1/hour)')
- save('GrowthRate-exps_test_Nr100.mat','lambda_parm','Shear_parm','GrowthRate_b2','GrowthRate_KE','fit_span')
+
+
+
+save('GrowthRate-exps_test_Nr100.mat','lambda_parm','Shear_parm','GrowthRate_b2','GrowthRate_KE','fit_span')
 
             
 % %%% Option 2
