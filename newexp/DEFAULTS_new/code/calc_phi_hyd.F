@@ -315,7 +315,7 @@ C       Added index kp1
      &           + dRlocM*(gravity*alphaRho(i,j)*recip_rhoConst
 C       Added geometric factor due to rotation of buoyancy production
 C       into cross-slope direction
-     &                    *cos_slope
+     &           * cos_slope
 C       Added Coriolis term to C-grid potential (interpolating in y)
      &           + 0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
      &           * sin_slope*f0
@@ -329,7 +329,7 @@ C     &           +0.25*pi_const)* shearProfile*sin_slope
      &           + dRlocP*(gravity*alphaRho(i,j)*recip_rhoConst
 C       Added geometric factor due to rotation of buoyancy production
 C       into cross-slope direction
-     &                    *cos_slope
+     &            *cos_slope
 C       Added Coriolis term to F-grid potential (interpolating in y, r)
      &           + 0.5*(0.5*(vVel(i,j,k,bi,bj)+vVel(i,j+1,k,bi,bj))
      &                 +0.5*(vVel(i,j,kp1,bi,bj)+vVel(i,j+1,kp1,bi,bj)))

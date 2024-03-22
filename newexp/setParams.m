@@ -1022,25 +1022,73 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
   % Shear and Hshear must be changed together with external_forcing.F
-  Hshear = Hmax-250.5; 
-  [a Nshear] = min(abs(abs(zz)-Hshear));
-  for k = Nshear:Nr
-      vrelax(k) = (zz(k)-zz(end)+dz_const/2)*Shear;
-  end
-  for k = 1:Nshear-1
-      vrelax(k) = vrelax(Nshear);
-  end
-  % vrelax = smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(smooth(vrelax))))))))))))))))))))';
+  h_shear = 250.5;
+  % Hshear = Hmax-h_shear; 
+  % [a Nshear] = min(abs(abs(zz)-Hshear));
+  % for k = Nshear:Nr
+  %     vrelax(k) = (zz(k)-zz(end)+dz_const/2)*Shear;
+  % end
+  % for k = 1:Nshear-1
+  %     vrelax(k) = vrelax(Nshear);
+  % end
 
   Nshear_smooth_half = round(15*3/dz_const);
-  Nsmooth_span = Nshear_smooth_half*2+1;
-  vrelax = smooth(vrelax,Nsmooth_span);
+  % Nsmooth_span = Nshear_smooth_half*2+1;
+  % vrelax = smooth(vrelax,Nsmooth_span);
+
+
+  %%
+  % shearProfile = zeros(1,Nr); 
+  for i=1:Nr
+       if((zz(i)-zz(Nr)+dz_const/2.)<h_shear) 
+           shearProfile(i)=(zz(i)-zz(Nr)+dz_const/2.)/h_shear;
+       else
+           shearProfile(i)=1.;
+       end 
+   end 
+
+  vrelax2 = Shear*h_shear*shearProfile;
+  for kLev = 1:Nr
+      if(kLev>Nshear_smooth_half) 
+          if((Nr-kLev)>=Nshear_smooth_half) 
+              NsmoothStart = kLev-Nshear_smooth_half;
+              NsmoothEnd = kLev+Nshear_smooth_half;
+          end 
+      end 
+
+      if((Nr-kLev)<Nshear_smooth_half) 
+          NsmoothStart = kLev-(Nr-kLev);
+          NsmoothEnd = Nr;
+      end 
+
+      if(kLev<=Nshear_smooth_half) 
+          NsmoothStart = 1;
+          NsmoothEnd = kLev+(kLev-1);
+      end 
+
+      shearRatio(kLev) = 0.;
+      Ndivide(kLev) = 0.;
+
+      if(NsmoothEnd>NsmoothStart) 
+          for i= NsmoothStart:NsmoothEnd
+               shearRatio(kLev) = shearRatio(kLev) + shearProfile(i);
+               Ndivide(kLev) = Ndivide(kLev) + 1;
+          end 
+          shearRatio(kLev) = shearRatio(kLev)/Ndivide(kLev);
+      else
+          shearRatio(kLev) = shearProfile(kLev);
+      end 
+  end
+
+%%
+  vrelax = Shear*h_shear*shearRatio;
 
   %%% Plot velocity shear
   h_figure=figure(fignum);
   fignum = fignum + 1;
   set(h_figure,'Visible', FigureIsVisible);clf;
   fontsize = 15;
+  plot(vrelax2,-zz,'LineWidth',2);hold on;
   plot(vrelax,-zz,'LineWidth',2);axis ij;
   xlabel('v (m/s)')
   ylabel('Depth (m)')

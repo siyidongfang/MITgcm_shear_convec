@@ -191,7 +191,8 @@ C      topog_slope = 4.912113091736391
 
       amp_tide    = u_shear * h_shear
       amp_force   = amp_tide *
-     &     (omega_tide*omega_tide-f0*f0
+     &     (omega_tide*omega_tide
+     &      -f0*f0*cos_slope*cos_slope
      &      -Nsquare_const*sin_slope*sin_slope)
      &                       / (omega_tide*omega_tide)
 
@@ -214,7 +215,7 @@ C      end if
       Nshear_smooth_half = 15
 
       if(kLev.gt.Nshear_smooth_half) then
-      if((Nr-kLev).gt.Nshear_smooth_half) then
+      if((Nr-kLev).ge.Nshear_smooth_half) then
       NsmoothStart = kLev-Nshear_smooth_half
       NsmoothEnd = kLev+Nshear_smooth_half
       end if
@@ -225,7 +226,7 @@ C      end if
       NsmoothEnd = Nr
       end if
 
-      if(kLev.lt.Nshear_smooth_half) then
+      if(kLev.le.Nshear_smooth_half) then
       NsmoothStart = 1
       NsmoothEnd = kLev+(kLev-1)
       end if
@@ -247,8 +248,8 @@ C      end if
        DO i=2,sNx+1
         gU(i,j,kLev,bi,bj) = gU(i,j,kLev,bi,bj)
 C     Add tidal forcing
-     &  + amp_force*omega_tide*cos(omega_tide*myTime
-     &  +0.5*pi_const)*shearRatio ! *cos_slope
+     &  + amp_force*omega_tide*sin(omega_tide*myTime)
+     &  *shearRatio ! *cos_slope
 C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(i,j,kLev,bi,bj)+theta(i-1,j,kLev,bi,bj))
      &  -Tref_const)*gravity_const*temp_Alpha*sin_slope
@@ -262,8 +263,8 @@ C     &  * tauProfile
 C     For zonal grid at the re-entry boundaries
         gU(1,j,kLev,bi,bj) = gU(1,j,kLev,bi,bj)
 C     Add tidal forcing
-     &  + amp_force*omega_tide*cos(omega_tide*myTime
-     &  +0.5*pi_const)*shearRatio ! *cos_slope
+     &  + amp_force*omega_tide*sin(omega_tide*myTime)
+     &  *shearRatio ! *cos_slope
 C     Add projection of buoyancy production term to u-tendency
      &  + (0.5*(theta(1,j,kLev,bi,bj)+theta(sNx+1,j,kLev,bi,bj))
      &  -Tref_const)*gravity_const*temp_Alpha*sin_slope
@@ -482,13 +483,16 @@ C     2D, we do not need to convert v grid to mass grid
        ENDDO
       ENDIF
 C     Upper boundary grid cell
-      DO j=0,sNy+1
-       DO i=1,sNx+1
-        gV(i,j,1,bi,bj) = gV(i,j,1,bi,bj)
-     &  + f0*0.5*(0.+wVel(i,j,1,bi,bj))
+      IF ( kLev.EQ.1 ) THEN
+       DO j=0,sNy+1
+        DO i=1,sNx+1
+         gV(i,j,kLev,bi,bj) = gV(i,j,kLev,bi,bj)
+     &  + f0*0.5*(0.+wVel(i,j,kLev,bi,bj))
      &  *sin_slope
+        ENDDO
        ENDDO
-      ENDDO
+      ENDIF
+
 
 C==========================
 

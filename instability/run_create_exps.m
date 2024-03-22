@@ -55,7 +55,7 @@ for Nexp_lambda =4
         noZQ2 = false;
         noZQ3 = false;
 
-        hydrostatic = true;
+        hydrostatic = false;
 
         run_numerical;
 
