@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = true;
+  FigureIsVisible = false;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -80,8 +80,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   
   Ly = 5*m1km;
-  Lx = 3*m1km; 
-  % Lx = 10*m1km; 
+  % Lx = 3*m1km; 
+  Lx = 10*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -904,7 +904,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm03.addParm('deltaT',deltaT,PARM_REAL); 
 
 
-  
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% TRACER DIFFUSION %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -925,7 +924,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     
   %%% Random noise amplitude
   % tNoise = 1e-15;  
-  tNoise = 1e-6;
+  tNoise = 1e-15;
   % tNoise = 0;
   sNoise = 0;
 
@@ -1040,8 +1039,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%
   % shearProfile = zeros(1,Nr); 
   for i=1:Nr
-       if((zz(i)-zz(Nr)+dz_const/2.)<h_shear) 
-           shearProfile(i)=(zz(i)-zz(Nr)+dz_const/2.)/h_shear;
+       if((zz(i)-zz(Nr))<h_shear) 
+           shearProfile(i)=(zz(i)-zz(Nr))/h_shear;
        else
            shearProfile(i)=1.;
        end 
@@ -1416,8 +1415,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   if(run_type~='prod')
         diag_fields_avg = {...   
             %%%%%%%% for spin-up
-           'UVEL','WVEL','THETA'...
-           % 'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ','THETASQ',...
+           'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ','THETASQ',...
+           % 'UVEL','WVEL','THETA'...
            % 'Um_Diss','Vm_Diss','Wm_Diss',...
             ... % 'ETAN',...
             ... % 'PHIHYD','PHI_NH',...

@@ -176,7 +176,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 0.1e-03
+      u_shear = 2.1e-03
       h_shear = 250.5
       Nsquare_const = 1.0e-06
 
@@ -205,8 +205,8 @@ C      end if
       dz_const = 3.
 
       DO i=1,Nr
-       if((rC(i)-rC(Nr)+dz_const/2.).lt.h_shear) then
-       shearProfile(i)=(rC(i)-rC(Nr)+dz_const/2.)/h_shear
+       if((rC(i)-rC(Nr)).lt.h_shear) then
+       shearProfile(i)=(rC(i)-rC(Nr))/h_shear
        else
        shearProfile(i)=1.
        end if
