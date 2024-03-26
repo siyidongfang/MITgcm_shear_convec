@@ -258,7 +258,7 @@ re_psi = real(psi);
 %%
 
 DIV = 1;
-uuu = U1*real((psi(:,2:Nr+1)-psi(:,1:Nr))/dz);
+uuu = -U1*real((psi(:,2:Nr+1)-psi(:,1:Nr))/dz);
 www = real(1i*kx*psi)*U1;
 
 h=figure(5);

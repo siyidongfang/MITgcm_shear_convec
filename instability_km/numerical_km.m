@@ -5,27 +5,31 @@
 % kx = 2*pi/lx;
 % mz = 2*pi/lz;
 
-kx = 10.^([-5:0.5:2]);
-mz = 10.^([-5:0.5:2]);
-lx = 2*pi./kx;
-lz = 2*pi./mz;
+kxd = 10.^([-5:0.25:1.5]);
+mzd = 10.^([-5:0.25:1.5]);
+lxd = 2*pi./kxd;
+lzd = 2*pi./mzd;
 
-Nkx = length(kx);
-Nmz = length(mz);
+kx = kxd*Hshear;
+mz = mzd*Hshear;
+
+Nkx = length(kxd);
+Nmz = length(mzd);
+
 
 % z=0:0.5:1;
-z = 1;
+z=1;
 Nz = length(z);
 
 N = 1e-3;
 topo = 4;
 Ptide = 43200;
 omega = 2*pi/Ptide;
-NTtide = 10;
-dt = 0.01;
+NTtide = 5;
+dt = 0.005;
 
 Hshear = 250;
-Shear = 1.4e-3;
+Shear = 1.8e-3;
 U0 = Hshear * Shear;
 
 nu = 2e-6; 
@@ -57,7 +61,7 @@ dpdt = zeros(Nkx,Nmz,Nz,Nt);
 buoy = zeros(Nkx,Nmz,Nz,Nt);
 psi = zeros(Nkx,Nmz,Nz,Nt);
 
-buoy(:,:,:,1) = 1e-20;
+buoy(:,:,:,1) = rand()*1e-20+1i*rand()*1e-20;
 
 for k = 1:Nkx
     k
@@ -129,23 +133,72 @@ end
 ke = 0.5*(uuu.^2+www.^2);
 pe = re_buoyd.^2;
 
+%%
 %%% Calculate the growth rate for each wave numbers
+
+showfigure = true;
+
+t1hour = 3600;
 growth_ke = zeros(Nkx,Nmz,Nz);
 growth_pe = zeros(Nkx,Nmz,Nz);
 for k=1:Nkx
     for m=1:Nmz
         for d=1:Nz
-            growth_ke(k,m,d) =
-            growth_pe(k,m,d) =
+
+            % fit_span = 2:Nt-2;
+            fit_span = 2:round(Nt/NTtide)*4;
+            xxplot = ttd/t1hour;
+            yyplot = log(squeeze(ke(k,m,d,:))')/2;
+            [pKE,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+            [y_fit,delta_fit] = polyval(pKE,xxplot,S);
+
+            yyplot_b2 = log(squeeze(pe(k,m,d,:))')/2;
+            [pPE,S_b2] = polyfit(xxplot(fit_span),yyplot_b2(fit_span),1); 
+
+            growth_ke(k,m,d) = pKE(1);
+            growth_pe(k,m,d) = pPE(1);
+            [y_fit_b2,delta_fit_b2] = polyval(pPE,xxplot,S_b2);
+
+            if(showfigure)
+            if(~isnan(growth_ke(k,m,d)*growth_pe(k,m,d)))
+                h=figure(3);
+                clf;
+                set(gcf,'color','w','Position',[85 222 979 420]);
+                plot(xxplot/12,yyplot,'LineWidth',2)
+                hold on
+                plot(xxplot/12,yyplot_b2,'LineWidth',2)
+                plot(xxplot(fit_span)/12,y_fit(fit_span),':','LineWidth',1.5)
+                plot(xxplot(fit_span)/12,y_fit_b2(fit_span),':','LineWidth',1.5)
+                grid on;grid minor;
+                set(gca,'Fontsize',20);
+                % ylim([pKE(2)-3 pKE(2)+pKE(1)*max(xxplot)+2])
+                xlabel('$t$ (tidal cycle)','Interpreter','Latex')
+                ylabel('$\ln(e)/2$','Interpreter','Latex')
+                hold off;
+                axis tight
+                title(['k_x = ' num2str(kxd(k)) ', m_z = ' num2str(mzd(m)) ])
+                legend('TKE','b^2','Position',[0.8141 0.1988 0.0684 0.1393])
+            end
+            end
+
         end
     end
 end
 
+%%
+
+figure(2)
+set(gcf,'Color','w')
+pcolor(log10(kxd(1:18)),log10(mzd),growth_pe(1:18,:,1)');shading flat;colorbar;colormap(redblue);clim([-0.14 0.14]*3)
+xlabel('Cross-isobath wavenumber log_{10}(k_x) (1/m)');
+ylabel('Slope-normal wavenumber log_{10}(m_z) (1/m)');
+title('Growth rate (1/hour)');
+set(gca,'fontsize',20)
 
 
 %%
-www_plot = squeeze(www(12,10,1,:));
-re_buoyd_plot = squeeze(re_buoyd(12,10,1,:));
+www_plot = squeeze(www(10,10,1,:));
+re_buoyd_plot = squeeze(re_buoyd(10,10,1,:));
 
 figure(1)
 clf;set(gcf,'Color','w')
@@ -164,7 +217,7 @@ set(gca,'fontsize',20)
 title('Vertical velocity')
 xlabel('Time (tidal cycles)');ylabel('(m/s)')
 
-%%
+
 
 
 
