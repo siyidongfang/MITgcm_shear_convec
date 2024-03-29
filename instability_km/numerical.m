@@ -3,8 +3,8 @@
 clear all;
 
 %%% Define variables
-N = 1.5e-3;
-shear = 1.3e-3*1.3;
+N = 1e-3;
+shear = 1.3e-3;
 Ptide = 43200;
 omega = 2*pi/Ptide;
 
@@ -16,15 +16,15 @@ omega = 2*pi/Ptide;
 % nm = length(mz_all);
 mz = 1;
 % rw_all = 10.^([-2:0.05:1]);
-rw_all = 1;
+rw_all = 0.1; %%% kx/mz
 nr = length(rw_all);
 
 rs = shear/omega; %%% shear over omega
-b00 = 1e-8;
+b00 = 1e-7;
 b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 topo =4;
 
-NTtide = 5;
+NTtide = 10;
 dt = 30;
 Lt = NTtide*43200; 
 Nt = Lt/dt;
@@ -150,7 +150,7 @@ plot(tt/43200,kew/1e5);
 ylim([0 max(pe)/10])
 
 
-dbdz = 1i*mz*buoy+1i*kx*buoy*shear.*ct;
+dbdz = 1i*mz*buoy-1i*kx*buoy*rs.*st;
 dbdz = real(dbdz);
 
 dBdz = -rs*N^2*ss*st;
@@ -167,7 +167,7 @@ lu = plot(tt/43200,ct/1e6,':','LineWidth',2);
 set(gca,'Fontsize',20);grid on;grid minor;
 xlabel('Time (tidal cycles)')
 axis tight
-% xlim([1 4.5])
+% xlim([2.5 5.5])
 legend([lu lb lB ltotal],'Tidal velocity',...
     'db^\prime/dz','dB_{background}/dz','db_{total}/dz')
 
