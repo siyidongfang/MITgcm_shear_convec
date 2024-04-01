@@ -15,12 +15,12 @@ rw_all = 10.^([-2:0.1:-1.2 -1.15:0.05:0.6 1 2 3 4]); %%% kx/mz
 % rw_all = 10.^([-2:0.1:0.6 1 2 3 4]);
 nr = length(rw_all);
 
-b00 = 1e-150;
+b00 = 1e-120;
 b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
-for topo = [7 8]
+for topo = [0 0.5 1:10]
 
-NTtide = 60;
+NTtide = 50;
 dt = 600;
 Lt = NTtide*43200; 
 Nt = Lt/dt;
