@@ -1,6 +1,8 @@
 
-clear;
-load("growth_topo1.mat")
+clear;close all;
+
+topo = 6;
+load(['output/growth_topo' num2str(topo) '.mat'])
 
 %%%
 %%% Calculate the Richardson Number
@@ -11,10 +13,10 @@ growth_largerw = growth(:,end);
 
 %%% Find out the wavenumber ratio rw=kx/mz corresponding to the maximum
 %%% growth rate, for each shear value
-% growth_round = growth;
-% growth_round(growth>1) = round(growth(growth>1),2);
-% [max_growth rw_idx] = max(growth_round,[],2);
-[max_growth rw_idx] = max(growth,[],2);
+growth_round = growth;
+growth_round(growth>1) = round(growth(growth>1),2);
+[max_growth rw_idx] = max(growth_round,[],2);
+% [max_growth rw_idx] = max(growth,[],2);
 rw_mg = rw_all(rw_idx);
 
 criticalShear = omega*cosd(topo)/sind(topo);
@@ -49,6 +51,20 @@ ylabel('(1/hour)')
 % xlabel('Shear (1/s)')
 % title('Growth rate (1/hour), large k/m')
 % ylabel('(1/hour)')
+
+
+%%% Plot timeseries of dbdz, u, w, ke, etc., at wavenumber ratio rw=kx/mz 
+%%% corresponding to the maximum growth rate, for each shear value
+%%% Analyze the spectra of w, dbdz, ke, etc.
+%%
+% for i=1:ns
+for i=14
+    showfig_dbdz = true;
+    load(['output/topo' num2str(topo) '/shear' num2str(shear_all(i)) '_rw' num2str(rw_idx(i)) '.mat'])
+    plot_timeseires;
+end
+
+%%
 
 if(plotRi)
     dt_ri = dt/1000;
@@ -99,3 +115,4 @@ if(plotRi)
     title('Maximum growth rate (1/hour)')
     ylabel('(1/hour)')
 end
+

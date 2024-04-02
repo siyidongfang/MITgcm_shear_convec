@@ -18,9 +18,10 @@ nr = length(rw_all);
 b00 = 1e-120;
 b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
-for topo = [0 0.5 1:10]
+topo_all = [0:9];
+for topo = topo_all(9:10)
 
-NTtide = 50;
+NTtide = 30;
 dt = 600;
 Lt = NTtide*43200; 
 Nt = Lt/dt;
@@ -39,7 +40,6 @@ ss = sind(topo);
 buoy(1) = b0;
 psi(1) = 0;
 zeta(1) = 0;
-
 
 
 for i=1:ns
@@ -123,11 +123,12 @@ for i=1:ns
         % plot(xxplot(fit_span), y_fit(fit_span));
         % hold off;
         growth(i,j) = pKE(1);
+        save(['output/topo' num2str(topo) '/shear' num2str(shear) '_rw' num2str(j) '.mat'])
     end
 end
 
 
-save(['growth_topo' num2str(topo) '.mat'])
+save(['output/growth_topo' num2str(topo) '.mat'])
 
 end
 
@@ -147,39 +148,7 @@ end
 
 %%
 if(nr==1)
-
-dbdz = 1i*mz*buoy-1i*kx*buoy*rs.*st;
-dbdz = real(dbdz);
-
-dBdz = -rs*N^2*ss*st;
-dB0dz = N^2*cs*ones(1,Nt);
-
-figure(1)
-clf
-plot(tt/43200,real(buoy))
-hold on;
-plot(tt/43200,real(www)/400)
-
-figure(2)
-clf;
-plot(tt/43200,pe);
-hold on;
-plot(tt/43200,kew/1e5);
-ylim([0 max(pe)/10])
-
-figure(3)
-clf;set(gcf,'Color','w')
-lb = plot(tt/43200,dbdz,'LineWidth',2);
-hold on;
-lB = plot(tt/43200,dBdz+dB0dz,'LineWidth',2);
-ltotal = plot(tt/43200,dBdz+dbdz+dB0dz,'-.','LineWidth',4);
-lu = plot(tt/43200,ct/1e6,':','LineWidth',2);
-set(gca,'Fontsize',20);grid on;grid minor;
-xlabel('Time (tidal cycles)')
-axis tight
-% xlim([2.5 5.5])
-legend([lu lb lB ltotal],'Tidal velocity',...
-    'db^\prime/dz','dB_{background}/dz','db_{total}/dz')
+plot_timeseires
 end
 
 
