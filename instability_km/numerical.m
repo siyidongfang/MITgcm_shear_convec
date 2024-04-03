@@ -4,28 +4,32 @@ clear all;
 close all;
 
 showfigure = false;
-N = 1e-3;
+N = sqrt(10)*1e-3;
 shear_all = [0:0.1:3]*1e-3;
 ns = length(shear_all);
 Ptide = 43200;
 omega = 2*pi/Ptide;
 
-mz = 1;
-rw_all = 10.^([-2:0.1:-1.2 -1.15:0.05:0.6 1 2 3 4]); %%% kx/mz
-% rw_all = 10.^([-2:0.1:0.6 1 2 3 4]);
-nr = length(rw_all);
+mz_all = [0:0.025:6];
+kx_all = [-0.2:0.002:0.2];
 
-b00 = 1e-120;
+% rw_all = 10.^([-2:0.1:-1.2 -1.15:0.05:0.6 1 2 3 4]); %%% kx/mz
+% rw_all = 10.^([-2:0.1:-1.2 -1.15:0.05:0.6 1]); %%% kx/mz
+% rw_all = 10.^([-2:0.1:0.6 1 2 3 4]);
+% nr = length(rw_all);
+topo_all = [0:9];
+
+b00 = 1e-70;
 b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
-topo_all = [0:9];
-for topo = topo_all(9:10)
-
-NTtide = 30;
+NTtide = 10;
 dt = 600;
 Lt = NTtide*43200; 
 Nt = Lt/dt;
 tt = dt:dt:Nt*dt;
+
+kappa = 1e-7;
+nu = 1e-6;
 
 psi = zeros(1,Nt);
 zeta = zeros(1,Nt);
@@ -33,24 +37,32 @@ buoy = zeros(1,Nt);
 dbdt = zeros(1,Nt);
 dzetadt = zeros(1,Nt);
 
-cs = cosd(topo);
-ss = sind(topo);
-
 %%% Initial condition
 buoy(1) = b0;
 psi(1) = 0;
 zeta(1) = 0;
 
 
-for i=1:ns
-    i
-    shear = shear_all(i)
+for m =1:length(mz_all)
+    m
+    mz = mz_all(m);
+
+for topo = topo_all(1)
+
+    cs = cosd(topo);
+    ss = sind(topo);
+
+% for i=1:ns
+for i = 11
+    shear = shear_all(i);
     rs = shear/omega; %%% shear over omega
 
-    for j=1:nr
+    % for j=1:nr
+    for j=1:length(kx_all)
         % j
-        rw = rw_all(j); %%% ratio of the wavenumbers kx/mz
-        kx = mz*rw;
+        % rw = rw_all(j); %%% ratio of the wavenumbers kx/mz
+        % kx = mz*rw;
+        kx = kx_all(j);
     
         %%% Start the loop
         for o=1:Nt-1
@@ -92,7 +104,7 @@ for i=1:ns
             % Simpson rule corrector advancing dt:
             buoy(o+1) = buoy(o) + (1/6)*(k_1b+2*k_2b+2*k_3b+k_4b)*dt;
             zeta(o+1) = zeta(o) + (1/6)*(k_1z+2*k_2z+2*k_3z+k_4z)*dt;
-        
+
         end
         
         ct = cos(omega*tt);
@@ -110,10 +122,16 @@ for i=1:ns
         pe = re_buoy.^2;
         ke = 0.5*(re_uuu.^2+re_www.^2);
         kew = 0.5*(re_www.^2);
+        %%% To match Radko (2019) Eq.(19)
+        % pe = pe/4; %%% To match Radko (2019) Eq.(19)
+        % ke = 0.5*((real(-1i*mz*psi)).^2+re_www.^2);
+        % ke = ke/2; 
+        % kew = kew/2;
         
         fit_span = Nt/NTtide*3:Nt;
         xxplot = tt/3600/12;
-        yyplot = log(pe/median(pe)+ke/median(ke))/2;
+        % yyplot = log(pe/median(pe)+ke/median(ke))/2;
+        yyplot = log(pe+ke)/2;
         [pKE,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
         % [y_fit,delta_fit] = polyval(pKE,xxplot,S);
         % figure(20)
@@ -122,13 +140,12 @@ for i=1:ns
         % hold on;grid on;grid minor;
         % plot(xxplot(fit_span), y_fit(fit_span));
         % hold off;
-        growth(i,j) = pKE(1);
-        save(['output/topo' num2str(topo) '/shear' num2str(shear) '_rw' num2str(j) '.mat'])
+        growth(m,j) = pKE(1);
+        % save(['output_Nsquare1e-5/topo' num2str(topo) '/mz' num2str(mz) 'kx' num2str(kx) 'shear' num2str(shear) '.mat'])
     end
 end
 
-
-save(['output/growth_topo' num2str(topo) '.mat'])
+% save(['output_Nsquare1e-5/growth_topo' num2str(topo) '_mz' num2str(mz) 'kx' num2str(kx) '.mat'])
 
 end
 
@@ -146,12 +163,16 @@ end
 % end
 
 
-%%
-if(nr==1)
-plot_timeseires
+%%%
+% if(nr==1)
+% plot_timeseires
+% end
+
+
 end
 
 
+save(['output_Nsquare1e-5/growth_topo' num2str(topo) '.mat'])
 
 
 

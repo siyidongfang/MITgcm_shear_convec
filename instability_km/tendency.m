@@ -8,7 +8,7 @@ a3 = 1i*kx*(cs+rs*ss*st) - 1i*mz*ss;
 
 p0 = z0/a1;
 
-dbdt(o) = a2*p0;
+dbdt(o) = a2*p0 + kappa*a1*b0;
 
-dzetadt(o) = a3*b0;
+dzetadt(o) = a3*b0 + nu*a1*p0;
 
