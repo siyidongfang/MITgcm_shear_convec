@@ -1,13 +1,14 @@
 
-clear;close all;
+clear;
+% close all;
 
-topo = 6;
+topo = 0;
 load(['output/growth_topo' num2str(topo) '.mat'])
 
 %%%
 %%% Calculate the Richardson Number
 %%%
-plotRi = false;
+plotRi = true;
 NaN_numbers = sum(isnan(growth),'all')
 growth_largerw = growth(:,end);
 
@@ -25,10 +26,10 @@ criticalShear = omega*cosd(topo)/sind(topo);
 figure(22);
 clf;
 set(gcf,'Color','w');
-pcolor(shear_all,log10(rw_all),growth')
+pcolor(shear_all,atand(1./rw_all),growth')
 shading flat;colormap(WhiteBlueGreenYellowRed(0))
 hold on;
-scatter(shear_all,log10(rw_mg),50,'filled','black')
+scatter(shear_all,atand(1./rw_mg),50,'filled','black')
 plot(criticalShear*ones(1,nr),log10(rw_all),'Color','k','LineWidth',2)
 grid on;grid minor;
 title('Growth rate (1/hour)')
@@ -45,12 +46,12 @@ xlabel('Shear (1/s)')
 title('Maximum growth rate (1/hour)')
 ylabel('(1/hour)')
 
-% figure(24)
-% clf;set(gcf,'Color','w')
-% plot(shear_all,growth_largerw,'LineWidth',2);grid on;grid minor;set(gca,'fontsize',20)
-% xlabel('Shear (1/s)')
-% title('Growth rate (1/hour), large k/m')
-% ylabel('(1/hour)')
+figure(24)
+clf;set(gcf,'Color','w')
+plot(shear_all,growth_largerw,'LineWidth',2);grid on;grid minor;set(gca,'fontsize',20)
+xlabel('Shear (1/s)')
+title('Growth rate (1/hour), large k/m')
+ylabel('(1/hour)')
 
 
 %%% Plot timeseries of dbdz, u, w, ke, etc., at wavenumber ratio rw=kx/mz 
@@ -58,14 +59,14 @@ ylabel('(1/hour)')
 %%% Analyze the spectra of w, dbdz, ke, etc.
 %%
 % for i=1:ns
-for i=14
+for i=11
     showfig_dbdz = true;
-    load(['output/topo' num2str(topo) '/shear' num2str(shear_all(i)) '_rw' num2str(rw_idx(i)) '.mat'])
+    load(['output/topo' num2str(topo) '/shear' num2str(shear_all(i)) '_rw' num2str((rw_idx(i))) '.mat'])
     plot_timeseires;
 end
 
 %%
-
+N2 = N^2;
 if(plotRi)
     dt_ri = dt/1000;
     tt_ri = dt_ri:dt_ri:Nt*dt;
@@ -97,9 +98,9 @@ if(plotRi)
     figure(20);
     clf;
     set(gcf,'Color','w');
-    pcolor(1./Ri_min,log10(rw_all),growth')
+    pcolor(1./Ri_min,atand(1./rw_all),growth')
     shading flat;colormap(WhiteBlueGreenYellowRed(0))
-    hold on;
+    hold on;clim([0 6])
     grid on;grid minor;
     title('Growth rate (1/hour)')
     xlabel('1/Ri_{min}')
