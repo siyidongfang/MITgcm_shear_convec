@@ -1,7 +1,7 @@
 
 
 st = sin(omega*t0);
-mz = m0-rs*st*kx;
+% mz = m0-rs*st*kx;
 
 a1 = -(kx^2+mz^2+kx^2*rs^2*st^2)+2*kx*mz*rs*st;
 a2 = (1i*mz*ss-1i*kx*cs)*N^2;

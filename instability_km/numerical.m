@@ -12,7 +12,7 @@ Ptide = 43200;
 % omega = 2*pi/Ptide;
 omega = 0.1*1e-3;
 
-% m0_all = [0:0.09:6];
+% mz_all = [0:0.09:6];
 % kx_all = [-0.1:0.003:0.1];
 
 % rw_all = 10.^([-2:0.1:-1.2 -1.15:0.05:0.6 1 2 3 4]); %%% kx/mz
@@ -44,17 +44,17 @@ buoy(1) = b0;
 psi(1) = 0;
 zeta(1) = 0;
 
-NOdiff = false;
+NOdiff = true;
 
 topo = topo_all(1)
 cs = cosd(topo);
 ss = sind(topo);
 
 
-% for m =1:length(m0_all)
+% for m =1:length(mz_all)
     % m
     % m0 = m0_all(m);
-    m0 = 1;
+    mz = 0.01;
 
 
 
@@ -70,7 +70,8 @@ ss = sind(topo);
         
         % rw = rw_all(j); %%% ratio of the wavenumbers kx/mz
         rw = 0.015;
-        kx = m0*rw;
+        % rw = 1;
+        kx = mz*rw;
         % kx = kx_all(k);
     
         %%% Start the loop
@@ -119,13 +120,13 @@ ss = sind(topo);
         ct = cos(omega*tt);
         st = sin(omega*tt);
     
-        mz_t = m0-rs*st*kx;
+        % mz_t = m0-rs*st*kx;
 
-        a1t = -(kx^2+mz_t.^2+kx^2*rs^2*st.^2)+2*kx.*mz_t*rs.*st;
+        a1t = -(kx^2+mz^2+kx^2*rs^2*st.^2)+2*kx.*mz*rs.*st;
         
         psi = zeta./a1t;
         www = 1i*kx*psi;
-        uuu = -1i*mz_t.*psi-1i*kx*psi*rs.*st;
+        uuu = -1i*mz*psi-1i*kx*psi*rs.*st;
         
         re_buoy = real(buoy);
         re_uuu = real(uuu);
@@ -136,7 +137,7 @@ ss = sind(topo);
         % %%% To match Radko (2019) Eq.(19)
         Pr = nu/kappa;
         pe = Pr*pe/4; %%% To match Radko (2019) Eq.(19)
-        ke = 0.5*((real(-1i*mz_t.*psi)).^2+re_www.^2);
+        % ke = 0.5*((real(-1i*mz*psi)).^2+re_www.^2);
         ke = ke/2; 
         kew = kew/2;
         
