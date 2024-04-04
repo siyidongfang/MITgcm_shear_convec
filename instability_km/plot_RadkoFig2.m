@@ -2,20 +2,18 @@
 clear;
 
 topo = 0;
-% load(['output_Ri1/growth_topo' num2str(topo) '_test3.mat'])
-load('/Users/ysi/MITgcm_shear_convec/instability_km/output_Ri1_Nsq1e-6_topo4/growth_topo4.mat')
+load('/Users/ysi/MITgcm_shear_convec/instability_km/output_topo0/growth_topo4.mat')
 
 
 figure(1)
 set(gcf,'Color','w')
-pcolor(kx_all*0.01,mz_all*0.01,growth/3600*1000);shading flat;colorbar;
+pcolor(kx_all*0.01,m0_all*0.01,growth'/3600*1000);shading flat;colorbar;
 colormap(jet);
 % clim([0.001 0.015])
 set(gca,'Fontsize',20)
 xlabel('Dimensionless $k = k^\star d$  (d=0.01 m)','Interpreter','latex')
 ylabel('Dimensionless $m = m^\star d$  (d=0.01 m)','Interpreter','latex')
 title({'Dimensionless growth rate $\lambda = \lambda^\star \tau,\ (\tau=10^3\, s)$','$\overline{R_i}=1,\,\mathrm{dimensionless\ } \omega=\omega^\star\tau=0.1$','$N^2 = 1\times10^{-5}\,s^{-2},\ \Lambda = 0.0032\,s^{-1}$, tidal period = 17.45 hours'},'Interpreter','latex')
-
 
 
 %%

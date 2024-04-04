@@ -1,10 +1,37 @@
 
+
+mz_t = m0-rs*st*kx;
+wn2 = kx^2 + mz_t.^2;
+
+figure(10)
+clf;set(gcf,'Color','w')
+subplot(3,1,1)
+plot(tt/3600/12,mz_t,'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
+% xlabel('Time (tidal cycles)')
+title('$m(t)=m_0-\frac{\Lambda}{\omega}\sin(\omega t) k$','Interpreter','latex')
+
+subplot(3,1,2)
+plot(tt/3600/12,atand(mz_t/kx),'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
+% xlabel('Time (tidal cycles)')
+title('$\arctan(\frac{m(t)}{k})$ (degrees)','Interpreter','latex')
+
+subplot(3,1,3)
+plot(tt/3600/12,wn2,'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
+xlabel('Time (tidal cycles)')
+title('$m^2(t)+k^2$','Interpreter','latex')
+
+
+
+%%
+
+
+
 pe = re_buoy.^2;
 ke = 0.5*(re_uuu.^2+re_www.^2);
 kew = 0.5*(re_www.^2);
 %%% To match Radko (2019) Eq.(19)
 pe = pe/4; %%% To match Radko (2019) Eq.(19)
-ke = 0.5*((real(-1i*mz*psi)).^2+re_www.^2);
+ke = 0.5*((real(-1i*mz_t.*psi)).^2+re_www.^2);
 ke = ke/2; 
 kew = kew/2;
 fit_span = Nt/NTtide*3:Nt;
@@ -16,14 +43,14 @@ yyplot = log(pe/median(pe)+ke/median(ke))/2;
 [y_fit,delta_fit] = polyval(pKE,xxplot,S);
 figure(20)
 clf;set(gcf,'Color','w')
-% plot(xxplot*3600/1000,yyplot+25,'LineWidth',2)
-plot(xxplot/12,yyplot+25,'LineWidth',2)
+plot(xxplot*3600/1000,yyplot+30,'LineWidth',2)
+% plot(xxplot,yyplot+25,'LineWidth',2)
 hold on;grid on;grid minor;
 % plot(xxplot(fit_span), y_fit(fit_span));
 hold off;
 xlabel('Dimensionless $t = t^\star/\tau\ (\tau=10^3\,s)$','Interpreter','latex')
 set(gca,'FontSize',20)
-% xlim([0 2000])
+xlim([0 2000])
 ylabel('$0.5\ln(e)$','Interpreter','latex')
 %%
 figure(21)
@@ -34,7 +61,7 @@ hold on;grid on;grid minor;
 hold off;
 
 
-dbdz = 1i*mz*buoy-1i*kx*buoy*rs.*st;
+dbdz = 1i*mz_t.*buoy-1i*kx*buoy*rs.*st;
 dbdz = real(dbdz);
 dbdz = dbdz;
 
@@ -61,7 +88,7 @@ energy_fft = energy_fft/median(energy_fft);
 
 figure(5)
 clf
-loglog(freq/omega,abs(b_fft(1:Nt/2)).^2,'LineWidth',2);
+loglog(freq/omega,abs(dbdz_fft(1:Nt/2)).^2,'LineWidth',2);
 % loglog(freq/omega,abs(kew_fft(1:Nt/2)).^2,'LineWidth',2);
 % loglog(freq/omega,abs(energy_fft(1:Nt/2)).^2,'LineWidth',2);
 % semilogx(period/43200,abs(a(1:Nt/2)).^2,'LineWidth',2);
@@ -113,15 +140,16 @@ ylim([0 max(pe)/10])
 
 %%
 period_omega = 2*pi/omega;
-dbdz = dbdz*(N^2)/max(dbdz)*1000;
+dbdz = dbdz*(N^2)/max(dbdz);
 figure(3)
 clf;set(gcf,'Color','w')
 lb = plot(tt(tplot)/period_omega,dbdz(tplot),'LineWidth',2);
 hold on;
 lB = plot(tt(tplot)/period_omega,dBdz(tplot)+dB0dz(tplot),'LineWidth',2);
 ltotal = plot(tt(tplot)/period_omega,dBdz(tplot)+dbdz(tplot)+dB0dz(tplot),'-.','LineWidth',4);
-lu = plot(tt(tplot)/period_omega,ct(tplot)/10e5,':','LineWidth',2);
-lw = plot(tt(tplot)/period_omega,real(www(tplot))*(N^2)/max(real(www))*1000,'-.','LineWidth',2);
+lu = plot(tt(tplot)/period_omega,ct(tplot)/30e5,':','LineWidth',2);
+lw = plot(tt(tplot)/period_omega,real(www(tplot)),'-.','LineWidth',2);
+lw = plot(tt(tplot)/period_omega,real(www(tplot))*(N^2)/max(real(www)),'-.','LineWidth',2);
 set(gca,'Fontsize',20);grid on;grid minor;
 xlabel('Time (tidal cycles)')
 axis tight
