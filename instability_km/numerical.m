@@ -8,21 +8,22 @@ N = sqrt(10)*1e-3;
 shear_all = [0:0.1:3]*1e-3;
 ns = length(shear_all);
 Ptide = 43200;
-omega = 2*pi/Ptide;
+% omega = 2*pi/Ptide;
+omega = 0.1*1e-3;
 
-mz_all = [0:0.025:6];
-kx_all = [-0.2:0.002:0.2];
+% mz_all = [0:0.03:6];
+% kx_all = [-0.1:0.001:0.1];
 
 % rw_all = 10.^([-2:0.1:-1.2 -1.15:0.05:0.6 1 2 3 4]); %%% kx/mz
-% rw_all = 10.^([-2:0.1:-1.2 -1.15:0.05:0.6 1]); %%% kx/mz
-% rw_all = 10.^([-2:0.1:0.6 1 2 3 4]);
+% rw_all = 10.^([-3:0.005:1]); %%% kx/mz
+rw_all = 10.^([-3:0.02:1]); %%% kx/mz
 % nr = length(rw_all);
 topo_all = [0:9];
 
 b00 = 1e-70;
 b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
-NTtide = 10;
+NTtide = 100;
 dt = 600;
 Lt = NTtide*43200; 
 Nt = Lt/dt;
@@ -43,9 +44,10 @@ psi(1) = 0;
 zeta(1) = 0;
 
 
-for m =1:length(mz_all)
-    m
-    mz = mz_all(m);
+% for m =1:length(mz_all)
+%     m
+    % mz = mz_all(m);
+    mz = 0.01;
 
 for topo = topo_all(1)
 
@@ -54,15 +56,17 @@ for topo = topo_all(1)
 
 % for i=1:ns
 for i = 11
-    shear = shear_all(i);
+    % shear = shear_all(i);
+    shear = sqrt(N^2);
     rs = shear/omega; %%% shear over omega
 
     % for j=1:nr
-    for j=1:length(kx_all)
+    % for j=1:length(rw_all)
         % j
         % rw = rw_all(j); %%% ratio of the wavenumbers kx/mz
-        % kx = mz*rw;
-        kx = kx_all(j);
+        rw = 0.015;
+        kx = mz*rw;
+        % kx = kx_all(j);
     
         %%% Start the loop
         for o=1:Nt-1
@@ -70,6 +74,7 @@ for i = 11
             t0 = tt(o);
             b0 = buoy(o);
             z0 = zeta(o);
+            % tendency_NOdiff;
             tendency;
             k_1b = dbdt(o);
             k_1z = dzetadt(o);
@@ -79,6 +84,7 @@ for i = 11
             t0 = tt(o)+dt/2;
             b0 = b_2;
             z0 = z_2;
+            % tendency_NOdiff;
             tendency;
             k_2b = dbdt(o);
             k_2z = dzetadt(o);
@@ -88,6 +94,7 @@ for i = 11
             t0 = tt(o)+dt/2;
             b0 = b_3;
             z0 = z_3;
+            % tendency_NOdiff;
             tendency;
             k_3b = dbdt(o);
             k_3z = dzetadt(o);
@@ -97,6 +104,7 @@ for i = 11
             t0 = tt(o)+dt;
             b0 = b_4;
             z0 = z_4;
+            % tendency_NOdiff;
             tendency;
             k_4b = dbdt(o);
             k_4z = dzetadt(o);
@@ -122,16 +130,16 @@ for i = 11
         pe = re_buoy.^2;
         ke = 0.5*(re_uuu.^2+re_www.^2);
         kew = 0.5*(re_www.^2);
-        %%% To match Radko (2019) Eq.(19)
+        % %%% To match Radko (2019) Eq.(19)
         % pe = pe/4; %%% To match Radko (2019) Eq.(19)
         % ke = 0.5*((real(-1i*mz*psi)).^2+re_www.^2);
         % ke = ke/2; 
         % kew = kew/2;
         
         fit_span = Nt/NTtide*3:Nt;
-        xxplot = tt/3600/12;
-        % yyplot = log(pe/median(pe)+ke/median(ke))/2;
-        yyplot = log(pe+ke)/2;
+        xxplot = tt/3600;
+        yyplot = log(pe/median(pe)+ke/median(ke))/2;
+        % yyplot = log(pe+ke)/2;
         [pKE,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
         % [y_fit,delta_fit] = polyval(pKE,xxplot,S);
         % figure(20)
@@ -140,12 +148,12 @@ for i = 11
         % hold on;grid on;grid minor;
         % plot(xxplot(fit_span), y_fit(fit_span));
         % hold off;
-        growth(m,j) = pKE(1);
-        % save(['output_Nsquare1e-5/topo' num2str(topo) '/mz' num2str(mz) 'kx' num2str(kx) 'shear' num2str(shear) '.mat'])
-    end
+        % growth(j) = pKE(1)
+        save(['output_Ri1/topo' num2str(topo) '/mz' num2str(mz) 'kx' num2str(kx) 'shear' num2str(shear) '_NOdiff.mat'])
+    % end
 end
 
-% save(['output_Nsquare1e-5/growth_topo' num2str(topo) '_mz' num2str(mz) 'kx' num2str(kx) '.mat'])
+% save(['output_Ri1/growth_topo' num2str(topo) '_mz' num2str(mz) 'kx' num2str(kx) '_NOdiff.mat'])
 
 end
 
@@ -169,10 +177,10 @@ end
 % end
 
 
-end
+% end
 
 
-save(['output_Nsquare1e-5/growth_topo' num2str(topo) '.mat'])
+% save(['output_Ri1/growth_topo' num2str(topo) '_NOdiff_test.mat'])
 
 
 

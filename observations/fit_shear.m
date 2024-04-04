@@ -34,17 +34,17 @@ for i=1:length(time)
     [p,S] = polyfit(depth_fit,u_fit,1); 
     p1(i) = p(1);p2(i) = p(2);
     
-    % figure(1)
-    % clf;set(gcf,'color','w')
-    % plot(u_fit,depth_fit,'LineWidth',2)
-    % hold on;
-    % plot(depth_fit*p1(i)+p2(i),depth_fit,'k--','LineWidth',2)
-    % hold off;
-    % grid on;grid minor;
-    % ylabel('Depth (m)');xlabel('u (m/s)');set(gca,'FontSize',fontsize)
-    % axis ij;
-    % title('Along-canyon velocity')
-    % ylim([depth(3) depth(19)]);xlim([-0.3 0.4])
+    figure(1)
+    clf;set(gcf,'color','w')
+    plot(u_fit,depth_fit,'LineWidth',2)
+    hold on;
+    plot(depth_fit*p1(i)+p2(i),depth_fit,'k--','LineWidth',2)
+    hold off;
+    grid on;grid minor;
+    ylabel('Depth (m)');xlabel('u (m/s)');set(gca,'FontSize',fontsize)
+    axis ij;
+    title('Along-canyon velocity')
+    ylim([depth(3) depth(19)]);xlim([-0.3 0.4])
 
 end
 
