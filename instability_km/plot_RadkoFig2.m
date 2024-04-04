@@ -2,14 +2,15 @@
 clear;
 
 topo = 0;
-load(['output_Ri1/growth_topo' num2str(topo) '_test3.mat'])
+% load(['output_Ri1/growth_topo' num2str(topo) '_test3.mat'])
+load('/Users/ysi/MITgcm_shear_convec/instability_km/output_Ri1_Nsq1e-6_topo4/growth_topo4.mat')
 
 
 figure(1)
 set(gcf,'Color','w')
-pcolor(kx_all*0.01,mz_all*0.01,growth/3600*1000/12);shading interp;colorbar;
+pcolor(kx_all*0.01,mz_all*0.01,growth/3600*1000);shading flat;colorbar;
 colormap(jet);
-clim([0.001 0.015])
+% clim([0.001 0.015])
 set(gca,'Fontsize',20)
 xlabel('Dimensionless $k = k^\star d$  (d=0.01 m)','Interpreter','latex')
 ylabel('Dimensionless $m = m^\star d$  (d=0.01 m)','Interpreter','latex')

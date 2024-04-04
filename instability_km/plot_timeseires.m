@@ -41,6 +41,9 @@ dbdz = dbdz;
 period = diff(tt([1 end])) ./ (0:1:Nt/2-1);
 freq = 2*pi./period;
 
+b_fft = fft(detrend(re_buoy))/length(re_buoy);
+b_fft = b_fft/median(b_fft);
+
 dbdz_fft=fft(detrend(dbdz))/length(dbdz);
 dbdz_fft = dbdz_fft/median(dbdz_fft);
 
@@ -58,7 +61,7 @@ energy_fft = energy_fft/median(energy_fft);
 
 figure(5)
 clf
-loglog(freq/omega,abs(dbdz_fft(1:Nt/2)).^2,'LineWidth',2);
+loglog(freq/omega,abs(b_fft(1:Nt/2)).^2,'LineWidth',2);
 % loglog(freq/omega,abs(kew_fft(1:Nt/2)).^2,'LineWidth',2);
 % loglog(freq/omega,abs(energy_fft(1:Nt/2)).^2,'LineWidth',2);
 % semilogx(period/43200,abs(a(1:Nt/2)).^2,'LineWidth',2);
@@ -74,10 +77,15 @@ tplot = 1:Nt;
 
 % if(showfig_dbdz)
 figure(1)
-clf
-plot(tt(tplot)/43200,real(buoy(tplot)))
+clf;set(gcf,'Color','w')
+plot(tt(tplot)/43200,real(buoy(tplot)),'LineWidth',2)
 hold on;
-plot(tt(tplot)/43200,real(www(tplot))/400)
+plot(tt(tplot)/43200,real(www(tplot))/400,'LineWidth',2)
+grid on;grid minor;
+xlabel('Time (tidal cycles)')
+set(gca,'FontSize',20)
+xlim([94 100])
+legend('Buoyancy perturbation','Vertical velocity')
 
 figure(2)
 clf;
@@ -112,12 +120,12 @@ lb = plot(tt(tplot)/period_omega,dbdz(tplot),'LineWidth',2);
 hold on;
 lB = plot(tt(tplot)/period_omega,dBdz(tplot)+dB0dz(tplot),'LineWidth',2);
 ltotal = plot(tt(tplot)/period_omega,dBdz(tplot)+dbdz(tplot)+dB0dz(tplot),'-.','LineWidth',4);
-lu = plot(tt(tplot)/period_omega,ct(tplot)/4e5,':','LineWidth',2);
-lw = plot(tt(tplot)/period_omega,real(www(tplot))*(N^2)/max(www)*1000,'-.','LineWidth',2);
+lu = plot(tt(tplot)/period_omega,ct(tplot)/10e5,':','LineWidth',2);
+lw = plot(tt(tplot)/period_omega,real(www(tplot))*(N^2)/max(real(www))*1000,'-.','LineWidth',2);
 set(gca,'Fontsize',20);grid on;grid minor;
 xlabel('Time (tidal cycles)')
 axis tight
-xlim([54 60])
+% xlim([54 60])
 legend([lu lb lB ltotal lw],'Tidal velocity',...
     'db^\prime/dz','dB_{background}/dz','db_{total}/dz','w')
 % ylim([-6 6]*1e-6)
