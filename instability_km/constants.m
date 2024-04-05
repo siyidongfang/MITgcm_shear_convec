@@ -1,15 +1,16 @@
 
-b00 = 1e-70;
-b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 Lt = NTtide*Ptide; 
 dt = Ptide/nt_percycle;
-
 
 Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
 
-kappa = 1e-7;
-nu = 1e-6;
+b00 = 1e-100;
+b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
+
+
+kappa = 2e-6;
+nu = 2e-6;
 
 psi = zeros(1,Nt);
 zeta = zeros(1,Nt);

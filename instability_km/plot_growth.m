@@ -1,9 +1,9 @@
 
-clear;
+% clear;
 % close all;
 
 % load(['output/growth_topo0.mat'])
-load('/Users/ysi/MITgcm_shear_convec/instability_km/output_Ri1_Nsq1e-6_topo4/growth_topo4_NOdiff.mat')
+% load('/Users/ysi/MITgcm_shear_convec/instability_km/output_Ri1_Nsq1e-6_topo4/growth_topo4_NOdiff.mat')
 
 %%%
 %%% Calculate the Richardson Number

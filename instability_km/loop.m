@@ -61,17 +61,20 @@
     ke = ke/2; 
     kew = kew/2;
     
-    fit_span = Nt/NTtide*3:Nt;
+    fit_span = Nt/NTtide*5+1:Nt;
     xxplot = tt/3600;
     yyplot = log(pe/median(pe)+ke/median(ke))/2;
     % yyplot = log(pe+ke)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-    grow(i) = pp(1)*1e4
-    [y_fit,delta_fit] = polyval(pp,xxplot,S);
+    grow(i) = pp(1);
+    if(isnan(grow(i)))
+        warning('NaN in growth rate!')
+    end
+    % [y_fit,delta_fit] = polyval(pp,xxplot,S);
+    % figure(20)
+    % clf;
+    % plot(xxplot,yyplot)
+    % hold on;grid on;grid minor;
+    % plot(xxplot(fit_span), y_fit(fit_span));
+    % hold off;
 
-    figure(20)
-    clf;
-    plot(xxplot,yyplot)
-    hold on;grid on;grid minor;
-    plot(xxplot(fit_span), y_fit(fit_span));
-    hold off;

@@ -7,12 +7,12 @@ clear
 
 dt = 600;
 NTtide = 100;
-% omega = 1e-4;
-omega = 2*pi/43200
+omega = 1e-4;
+% omega = 2*pi/43200
 Nt = NTtide/omega/dt;
 
-topo=4;
-N2 = 1e-6;
+topo=0;
+N2 = 10e-6;
 
 shear_convec = cosd(topo)/sind(topo)*omega;
 if(topo==0)
@@ -38,8 +38,14 @@ for i=1:ns
 end
 % Ri_min(isConvec==1)=NaN;
 
-plot(shear_all,1./Ri_min)
+% plot(shear_all,1./Ri_min)
+
 [a idx] = min(abs(Ri_min-1))
-Ri1 = Ri_min(idx)
+Ri1 = Ri_min(idx);
 shear_Ri1 = shear_all(idx)
+
+
+[a idx] = min(abs(Ri_min-0.25));
+Ri0_25 = Ri_min(idx);
+shear_Ri0_25 = shear_all(idx)
 

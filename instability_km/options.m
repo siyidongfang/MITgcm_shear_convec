@@ -2,35 +2,69 @@
 
 clear; close all;
 
-NOdiff = true;
-nt_percycle = 72; %%% nt_percycle = 720 if use diffusion.
-NTtide = 100;
-topo = 0;
-N = sqrt(10)*1e-3;
-omega = 0.1*1e-3;
-Ptide = 2*pi/omega;
+Diffusion = true;
+nt_percycle = 72*30; 
+
+% topo = 0;
+% N = sqrt(10)*1e-3;
+% omega = 0.1*1e-3;
+% Ptide = 2*pi/omega;
+
+topo=4;
+N = sqrt(1)*1e-3;
+Ptide = 43200;
+omega = 2*pi/Ptide;
+
+% calc_shear_from_Ri
+% shear_Ri0_25 = 0.0050;
+shear_Ri0_25 = 0.0018;
+shear_all = [0:0.5e-4:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
+
+% rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
+rw_all= 10.^([-2:0.1:-1.1 -1:0.005:-0.7 -0.6:0.1:1]);
 m0 =1;
-shear = sqrt(N^2);
-rs = shear/omega; %%% shear over omega 
-constants;
 
-rw_all = 0.001:0.0005:0.01;
-
-for i=1:length(rw_all)
-    rw = rw_all(i);
-    kx = m0*rw;
-    loop;
-    if(grow(i)>0 && grow(i)<1e-3)
-        NTtide = 300;
+for ns = 1:length(shear_all)
+    ns
+    shear = shear_all(ns);
+    rs = shear/omega; %%% shear over omega 
+   
+    for i=1:length(rw_all)
+        i
+        rw = rw_all(i);
+        kx = m0*rw;
+        NTtide = 50;
         constants;
         loop;
+        if(grow(i)>0 && grow(i)<1e-3)
+            NTtide = 200;
+            constants;
+            loop;
+        end
     end
+    
+    %%% Save the data
+    clear buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta
+    save(['output/topo4_Nsq1e-5_withDiff/growth_shear' num2str(shear*1e3,3) '.mat'])
+    
+    figure(1)
+    clf;set(gcf,'Color','w');
+    semilogx((rw_all),grow,'LineWidth',2)
+    grid on;grid minor;
+    title('Growth rate (1/hour)')
+    ylabel('(1/hour)')
+    xlabel('Wavenumber ratio log10(k_x/m_z)')
+    set(gca,'fontsize',20)
+    % set(gcf, 'InvertHardcopy', 'off')
+    print('-djpeg','-r150',['output/topo4_Nsq1e-5_withDiff/growth_shear' num2str(shear*1e3,3) '.jpeg']);
+
 end
 
 
 
 
-
+% rw_all = 10.^([-1.5:0.1:-0.5]); 
+% rw_all= 10.^([-3:0.1:-1 -0.95:0.01:0 0.1:0.1:1]);
 % N = 1e-3;
 % shear = 9.7e-4;
 % shear_all = [0:0.1:3]*1e-3;
