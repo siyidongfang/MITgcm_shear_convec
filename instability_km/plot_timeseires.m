@@ -31,7 +31,7 @@ ke = 0.5*(re_uuu.^2+re_www.^2);
 kew = 0.5*(re_www.^2);
 %%% To match Radko (2019) Eq.(19)
 pe = pe/4; %%% To match Radko (2019) Eq.(19)
-ke = 0.5*((real(-1i*mz*psi)).^2+re_www.^2);
+ke = 0.5*((real(-1i*m0*psi)).^2+re_www.^2);
 ke = ke/2; 
 kew = kew/2;
 fit_span = Nt/NTtide*3:Nt;
@@ -61,7 +61,7 @@ hold on;grid on;grid minor;
 hold off;
 
 
-dbdz = 1i*mz*buoy-1i*kx*buoy*rs.*st;
+dbdz = 1i*m0*buoy-1i*kx*buoy*rs.*st;
 dbdz = real(dbdz);
 dbdz = dbdz;
 

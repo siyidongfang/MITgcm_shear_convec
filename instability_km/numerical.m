@@ -54,7 +54,7 @@ ss = sind(topo);
 % for m =1:length(mz_all)
     % m
     % m0 = m0_all(m);
-    mz = 0.01;
+    m0 = 0.01;
 
 
 
@@ -71,7 +71,7 @@ ss = sind(topo);
         % rw = rw_all(j); %%% ratio of the wavenumbers kx/mz
         rw = 0.015;
         % rw = 1;
-        kx = mz*rw;
+        kx = m0*rw;
         % kx = kx_all(k);
     
         %%% Start the loop
@@ -122,11 +122,11 @@ ss = sind(topo);
     
         % mz_t = m0-rs*st*kx;
 
-        a1t = -(kx^2+mz^2+kx^2*rs^2*st.^2)+2*kx.*mz*rs.*st;
+        a1t = -(kx^2+m0^2+kx^2*rs^2*st.^2)+2*kx.*m0*rs.*st;
         
         psi = zeta./a1t;
         www = 1i*kx*psi;
-        uuu = -1i*mz*psi-1i*kx*psi*rs.*st;
+        uuu = -1i*m0*psi-1i*kx*psi*rs.*st;
         
         re_buoy = real(buoy);
         re_uuu = real(uuu);
