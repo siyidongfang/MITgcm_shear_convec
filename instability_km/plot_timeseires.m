@@ -24,8 +24,6 @@
 
 %%
 
-
-
 pe = re_buoy.^2;
 ke = 0.5*(re_uuu.^2+re_www.^2);
 kew = 0.5*(re_www.^2);
