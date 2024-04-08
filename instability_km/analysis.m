@@ -1,13 +1,21 @@
 
 clear;close all;
-shear_all = [0:1e-4:1.8e-3]; % Ri=1, shear = 0.97e-3;
-rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
-growrate = zeros(length(shear_all),length(rw_all));
+% shear_all = [0:1e-4:1.8e-3]; % Ri=1, shear = 0.97e-3;
+shear_all = [0:0.1:1.8]*1e-3;
+% rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
+% growrate = zeros(length(shear_all),length(rw_all));
 for ns = 1:length(shear_all)
     shear = shear_all(ns)
-    load(['output/topo4_Nsq1e-6/growth_shear' num2str(shear*1e3,3) '.mat'])
+    % load(['output/topo4_Nsq1e-6/growth_shear' num2str(shear*1e3,3) '.mat'])
+    % load(['output/topo4_Nsq1e-6_longsim/growth_shear' num2str(shear*1e3,3) '.mat'])
+    % load(['output/topo4_Nsq3e-6/growth_shear' num2str(shear*1e3,3) '.mat'])
+    % load(['output/topo0_Nsq1e-5_omega1e-4/growth_shear' num2str(shear*1e3,3) '.mat'])
+    load(['output/topo4_Nsq1e-6_test2/growth_shear' num2str(shear*1e3,3) '.mat'])
     growrate(ns,:)=grow;
 end
+
+shear_all = [0:0.1:1.8]*1e-3;
+
 
 %%% Find out the wavenumber ratio rw=kx/mz corresponding to the maximum
 %%% growth rate, for each shear value
@@ -32,7 +40,7 @@ xlabel('Shear (1/s)')
 ylabel('Wavenumber ratio log_{10}(k_x/m_z)')
 set(gca,'fontsize',20)
 colorbar;
-% clim([0 6])
+clim([0 0.25])
 
 figure(23)
 clf;set(gcf,'Color','w')

@@ -6,10 +6,10 @@ Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
 
 b00 = 1e-100;
-b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
+% b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
+b0 = b00;
 
-
-kappa = 2e-6;
+kappa = 1e-6;
 nu = 2e-6;
 
 psi = zeros(1,Nt);

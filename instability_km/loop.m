@@ -66,7 +66,7 @@
     yyplot = log(pe/median(pe)+ke/median(ke))/2;
     % yyplot = log(pe+ke)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-    grow(i) = pp(1);
+    grow(i) = pp(1)
     if(isnan(grow(i)))
         warning('NaN in growth rate!')
     end
