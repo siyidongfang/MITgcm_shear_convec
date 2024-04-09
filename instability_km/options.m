@@ -3,7 +3,7 @@
 
 clear; close all;
 
-Diffusion = false;
+Diffusion = true;
 nt_percycle = 72*10; 
 
 % topo = 0;
@@ -11,7 +11,7 @@ nt_percycle = 72*10;
 % omega = 0.1*1e-3;
 % Ptide = 2*pi/omega;
 
-expdir = 'output/topo4_Nsq1e-6';
+expdir = 'output/topo4_Nsq1e-6_test3';
 mkdir(expdir);
 
 topo=4;
@@ -31,11 +31,10 @@ shear_all = [0:1e-4:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
 % rw_all = [0.140:0.001:0.146];
 % rw_all = 0.143;
 m0 =1;
-load('rw_mg.mat')
+load('rw_mg_test3.mat')
 
 
-% for ns = 1:length(shear_all)
-for ns =1
+for ns =1:length(shear_all)
     ns
     rw_all = rw_mg(ns)
 
@@ -46,7 +45,7 @@ for ns =1
         i
         rw = rw_all(i);
         kx = m0*rw;
-        NTtide = 150;
+        NTtide = 200;
         constants;
         loop;
         % if(grow(i)>0 && grow(i)<1e-3)
@@ -69,7 +68,7 @@ for ns =1
     
     %%% Save the data
     % clear buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta
-    save([expdir '/growth_shear' num2str(shear*1e3,3) '_analysis.mat'])
+    save([expdir '/growth_shear' num2str(shear*1e3,3) '_test3_analysis.mat'])
     
     % figure(1)
     % clf;set(gcf,'Color','w');

@@ -1,29 +1,5 @@
 
 
-% mz_t = m0-rs*st*kx;
-% wn2 = kx^2 + mz_t.^2;
-
-% figure(10)
-% clf;set(gcf,'Color','w')
-% subplot(3,1,1)
-% plot(tt/3600/12,mz_t,'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
-% % xlabel('Time (tidal cycles)')
-% title('$m(t)=m_0-\frac{\Lambda}{\omega}\sin(\omega t) k$','Interpreter','latex')
-% 
-% subplot(3,1,2)
-% plot(tt/3600/12,atand(mz_t/kx),'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
-% % xlabel('Time (tidal cycles)')
-% title('$\arctan(\frac{m(t)}{k})$ (degrees)','Interpreter','latex')
-% 
-% subplot(3,1,3)
-% plot(tt/3600/12,wn2,'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
-% xlabel('Time (tidal cycles)')
-% title('$m^2(t)+k^2$','Interpreter','latex')
-
-
-
-%%
-
 pe = re_buoy.^2;
 ke = 0.5*(re_uuu.^2+re_www.^2);
 kew = 0.5*(re_www.^2);
@@ -42,8 +18,8 @@ yyplot = log(pe/median(pe)+ke/median(ke))/2;
 
 
 figure(1)
-clf;set(gcf,'Color','w','Position',[0 1 1467 864])
-subplot(2,2,1)
+clf;set(gcf,'Color','w','Position',[0 1 1467*1.5 864])
+subplot(2,3,1)
 % plot(xxplot*3600/1000,yyplot-yyplot(1),'LineWidth',2)
 plot(xxplot/12,yyplot-yyplot(1),'LineWidth',2)
 hold on;grid on;grid minor;
@@ -56,8 +32,12 @@ set(gca,'FontSize',20)
 xlim([0 40])
 ylabel('$0.5\ln(e)$','Interpreter','latex')
 title('Energy')
-ylocation = max(yyplot(1:round(Nt/10))-yyplot(1));
-text(1,ylocation,['\Lambda=' num2str(shear) ' s^{-1}'],'Color','red','FontSize',50)
+ylocation = max(yyplot(round(Nt/50):round(Nt/20))-yyplot(1));
+text(0,ylocation,{['$\Lambda=$' num2str(shear) ' s$^{-1},\, R_{i,\mathrm{min}}=$ ' num2str(Ri_min(ns),3)],...
+    ... % '$\nu=10^{-5}\,m^2/s,\,\kappa=10^{-6}\,m^2/s$',...
+    '$\nu=\kappa=0$',...
+    ['$m_0/k_0$=' num2str(m0/kx,2) ', $\arctan(m_0/k_0)$=' num2str(atand(m0/kx),2) '$^\circ$']},...
+    'Color','red','FontSize',40,'Interpreter','latex')
 %%
 % figure(21)
 % clf;
@@ -91,7 +71,7 @@ energy_fft = energy_fft/median(energy_fft);
 % st_fft = fft(detrend(s2t))/length(st);
 % st_fft = st_fft/median(st_fft);
 
-subplot(2,2,2)
+subplot(2,3,2)
 s1_plot = abs(dbdz_fft(1:Nt/2)).^2;
 s1_plot = s1_plot/max(s1_plot);
 
@@ -119,7 +99,7 @@ dB0dz = N^2*cs*ones(1,Nt);
 tplot = 1:Nt;
 
 % if(showfig_dbdz)
-subplot(2,2,3)
+subplot(2,3,4)
 plot(tt(tplot)/43200,real(buoy(tplot)),'LineWidth',2)
 hold on;
 plot(tt(tplot)/43200,real(www(tplot))/300,'LineWidth',2)
@@ -127,7 +107,7 @@ grid on;grid minor;
 xlabel('Time (tidal cycles)')
 set(gca,'FontSize',20)
 xlim([94 100])
-legend('Buoyancy perturbation','Vertical velocity','Position',[0.1395 0.3828 0.1626 0.0583])
+legend('Buoyancy perturbation','Vertical velocity','Position', [0.1358 0.3860 0.1022 0.0561])
 
 % figure(2)
 % clf;
@@ -137,23 +117,7 @@ legend('Buoyancy perturbation','Vertical velocity','Position',[0.1395 0.3828 0.1
 % ylim([0 max(pe)/10])
 
 
-% figure(3)
-% clf;set(gcf,'Color','w')
-% lb = plot(tt(tplot)/43200,log10_dbdz(tplot),'LineWidth',2);
-% hold on;
-% lB = plot(tt(tplot)/43200,log10_dBdz(tplot)+log10_dB0dz(tplot),'LineWidth',2);
-% ltotal = plot(tt(tplot)/43200,log10_dBdz(tplot)+log10_dbdz(tplot)+log10_dB0dz(tplot),'-.','LineWidth',4);
-% lu = plot(tt(tplot)/43200,ct(tplot)/1e6,':','LineWidth',2);
-% set(gca,'Fontsize',20);grid on;grid minor;
-% xlabel('Time (tidal cycles)')
-% axis tight
-% % xlim([2.5 5.5])
-% legend([lu lb lB ltotal],'Tidal velocity',...
-%     'db^\prime/dz','dB_{background}/dz','db_{total}/dz')
-% % ylim([-6 6]*1e-6)
 
-
-%%
 period_omega = 2*pi/omega;
 
 lB_plot = dBdz(tplot)*cosd(topo)+dB0dz(tplot)*cosd(topo);
@@ -161,11 +125,11 @@ dbdz = dbdz*(max(lB_plot)/max(dbdz));
 lB_plot = lB_plot/max(lB_plot);
 lb_plot = dbdz(tplot)*cosd(topo)/max(dbdz(tplot)*cosd(topo));
 lu_plot = ct(tplot)/max(ct(tplot));
-lw_plot = real(www(tplot))/max(real(www(tplot)));
+lw_plot = real(www(tplot))/max(real(www(tplot)))/5;
 ltotal_plot = dBdz(tplot)*cosd(topo)+dbdz(tplot)*cosd(topo)+dB0dz(tplot)*cosd(topo);
 ltotal_plot = ltotal_plot/max(ltotal_plot);
 
-subplot(2,2,4)
+subplot(2,3,5)
 lb = plot(tt(tplot)/period_omega,lb_plot,'LineWidth',2);
 hold on;
 lB = plot(tt(tplot)/period_omega,lB_plot,'LineWidth',2);
@@ -178,8 +142,29 @@ xlabel('Time (tidal cycles)')
 axis tight
 xlim([NTtide-6 NTtide])
 legend([lu lb lB ltotal lw],'Tidal velocity',...
-    'db^\prime/dz','dB_{background}/dz','db_{total}/dz','w',...
-    'Position', [0.5756 0.1144 0.1221 0.1574])
+    'db^\prime/dz','dB_{background}/dz','db_{total}/dz','w','Position', [0.4144 0.1169 0.0768 0.1574])
 title('Normalized values')
 % ylim([-6 6]*1e-6)
 % end
+
+
+%%
+
+
+subplot(2,3,3)
+mz_t = m0-rs*st*kx;
+wn2 = kx^2 + mz_t.^2;
+wn2 = wn2/max(wn2);
+
+plot(tt/3600/12,1*mz_t,'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
+hold on;
+plot(tt/3600/12,atand(mz_t/kx),'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
+plot(tt/3600/12,50*wn2,'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
+xlabel('Time (tidal cycles)')
+
+leg1 = '$1\times m(t)=1\times (m_0-\frac{\Lambda}{\omega}\sin(\omega t) k )$';
+leg2 = '$\arctan(\frac{m(t)}{k})$ (degrees)';
+leg3 = '$50\times(m^2(t)+k^2)/\max(m^2(t)+k^2)$';
+legend(leg1,leg2,leg3,'Interpreter','latex','Fontsize',25,'Position',[0.7219 0.3946 0.1863 0.1158])
+ylim([-90 90])
+
