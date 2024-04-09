@@ -11,7 +11,7 @@ nt_percycle = 72*10;
 % omega = 0.1*1e-3;
 % Ptide = 2*pi/omega;
 
-expdir = 'output/topo4_Nsq1e-6_test';
+expdir = 'output/topo4_Nsq1e-6';
 mkdir(expdir);
 
 topo=4;
@@ -27,30 +27,34 @@ shear_all = [0:1e-4:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
 % rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
 % rw_all= 10.^([-2:0.1:-1.1 -1:0.005:-0.7 -0.6:0.1:1]);
 % rw_all = 10.^([-1.2:0.01:-0.5]);
-rw_all = 10.^([-1.2:0.1:-0.3]);
+% rw_all = 10.^([-1.2:0.1:-0.3]);
 % rw_all = [0.140:0.001:0.146];
 % rw_all = 0.143;
 m0 =1;
+load('rw_mg.mat')
+
 
 % for ns = 1:length(shear_all)
-for ns =18:19
+for ns =1
     ns
-    shear = shear_all(ns);
+    rw_all = rw_mg(ns)
+
+    shear = shear_all(ns)
     rs = shear/omega; %%% shear over omega 
    
     for i=1:length(rw_all)
         i
         rw = rw_all(i);
         kx = m0*rw;
-        NTtide = 50;
+        NTtide = 150;
         constants;
         loop;
         % if(grow(i)>0 && grow(i)<1e-3)
-        if(grow(i)>0)
-            NTtide = 150;
-            constants;
-            loop;
-        end
+        % if(grow(i)>0)
+        %     NTtide = 150;
+        %     constants;
+        %     loop;
+        % end
         % if(grow(i)>0)
         %     NTtide = 400;
         %     constants;
@@ -64,19 +68,19 @@ for ns =18:19
     end
     
     %%% Save the data
-    clear buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta
-    save([expdir '/growth_shear' num2str(shear*1e3,3) '.mat'])
+    % clear buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta
+    save([expdir '/growth_shear' num2str(shear*1e3,3) '_analysis.mat'])
     
-    figure(1)
-    clf;set(gcf,'Color','w');
-    semilogx((rw_all),grow,'LineWidth',2)
-    grid on;grid minor;
-    title('Growth rate (1/hour)')
-    ylabel('(1/hour)')
-    xlabel('Wavenumber ratio log10(k_x/m_z)')
-    set(gca,'fontsize',20)
-    % set(gcf, 'InvertHardcopy', 'off')
-    print('-djpeg','-r150',[expdir '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
+    % figure(1)
+    % clf;set(gcf,'Color','w');
+    % semilogx((rw_all),grow,'LineWidth',2)
+    % grid on;grid minor;
+    % title('Growth rate (1/hour)')
+    % ylabel('(1/hour)')
+    % xlabel('Wavenumber ratio log10(k_x/m_z)')
+    % set(gca,'fontsize',20)
+    % % set(gcf, 'InvertHardcopy', 'off')
+    % print('-djpeg','-r150',[expdir '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
 
 end
 

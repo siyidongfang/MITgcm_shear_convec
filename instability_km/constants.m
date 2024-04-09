@@ -6,8 +6,7 @@ Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
 
 b00 = 1e-100;
-% b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
-b0 = b00;
+b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
 kappa = 1e-6;
 nu = 10e-6;

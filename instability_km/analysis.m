@@ -7,7 +7,7 @@ shear_all = [0:0.1:1.8]*1e-3;
 % growrate = zeros(length(shear_all),length(rw_all));
 for ns = 1:length(shear_all)
     shear = shear_all(ns)
-    load(['output/topo4_Nsq1e-6_test3/growth_shear' num2str(shear*1e3,3) '.mat'])
+    load(['output/topo4_Nsq1e-6/growth_shear' num2str(shear*1e3,3) '.mat'])
     length_grow = length(grow);
     growrate(ns,1:length_grow)=grow;
     [max_growth(ns) rw_idx] = max(grow);
