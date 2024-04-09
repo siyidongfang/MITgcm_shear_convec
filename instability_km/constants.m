@@ -10,7 +10,7 @@ b00 = 1e-100;
 b0 = b00;
 
 kappa = 1e-6;
-nu = 2e-6;
+nu = 10e-6;
 
 psi = zeros(1,Nt);
 zeta = zeros(1,Nt);

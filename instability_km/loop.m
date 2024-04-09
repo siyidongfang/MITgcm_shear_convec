@@ -1,4 +1,5 @@
     %%% Start the loop
+
     for o=1:Nt-1
         %%% Fourth-order Runge-Kutta method %%%
         t0 = tt(o);
@@ -38,8 +39,8 @@
         % Simpson rule corrector advancing dt:
         buoy(o+1) = buoy(o) + (1/6)*(k_1b+2*k_2b+2*k_3b+k_4b)*dt;
         zeta(o+1) = zeta(o) + (1/6)*(k_1z+2*k_2z+2*k_3z+k_4z)*dt;
-
     end
+
     
     ct = cos(omega*tt);
     st = sin(omega*tt);

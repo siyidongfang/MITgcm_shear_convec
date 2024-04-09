@@ -1,8 +1,9 @@
+
 %%%%% All variables are dimensional variables
 
 clear; close all;
 
-Diffusion = true;
+Diffusion = false;
 nt_percycle = 72*10; 
 
 % topo = 0;
@@ -10,7 +11,7 @@ nt_percycle = 72*10;
 % omega = 0.1*1e-3;
 % Ptide = 2*pi/omega;
 
-expdir = 'output/topo4_Nsq1e-6_test2';
+expdir = 'output/topo4_Nsq1e-6_test';
 mkdir(expdir);
 
 topo=4;
@@ -25,13 +26,14 @@ shear_all = [0:1e-4:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
 
 % rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
 % rw_all= 10.^([-2:0.1:-1.1 -1:0.005:-0.7 -0.6:0.1:1]);
-rw_all = 10.^([-1.2:0.01:-0.5]);
+% rw_all = 10.^([-1.2:0.01:-0.5]);
+rw_all = 10.^([-1.2:0.1:-0.3]);
 % rw_all = [0.140:0.001:0.146];
 % rw_all = 0.143;
 m0 =1;
 
 % for ns = 1:length(shear_all)
-for ns =[15 19]
+for ns =18:19
     ns
     shear = shear_all(ns);
     rs = shear/omega; %%% shear over omega 
@@ -40,15 +42,15 @@ for ns =[15 19]
         i
         rw = rw_all(i);
         kx = m0*rw;
-        NTtide = 100;
+        NTtide = 50;
         constants;
         loop;
         % if(grow(i)>0 && grow(i)<1e-3)
-        % if(grow(i)>0)
-        %     NTtide = 400;
-        %     constants;
-        %     loop;
-        % end
+        if(grow(i)>0)
+            NTtide = 150;
+            constants;
+            loop;
+        end
         % if(grow(i)>0)
         %     NTtide = 400;
         %     constants;
