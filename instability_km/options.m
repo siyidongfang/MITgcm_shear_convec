@@ -3,89 +3,111 @@
 
 clear; close all;
 
-Diffusion = false;
-load('rw_mg.mat')
+Diffusion = true;
+ConvectiveAdjustment = false;
+% nt_percycle = 72*50; 
+nt_percycle = 72*5;
 
-ConvectiveAdjustment = true;
-nt_percycle = 72*50; 
+expdir = 'exps_KHinstability/';
+mkdir(expdir);
 
+%%% exps_KHinstability
+topo = 0;
+omega = 0;
+N = sqrt(1)*1e-3;
+Ptide = 43200; 
+shear_Ri0_25 = 2*N;
+
+%%% exps_Radko19
 % topo = 0;
 % N = sqrt(10)*1e-3;
 % omega = 0.1*1e-3;
 % Ptide = 2*pi/omega;
+% shear_Ri0_25 = 0.0050; %%% calculated by the script calc_shear_from_Ri
 
-expdir = 'exps_test/topo4_Nsq1e-6_diff_convec';
-mkdir(expdir);
+%%% Our simulation
+% topo=4;
+% N = sqrt(1)*1e-3;
+% Ptide = 43200;
+% omega = 2*pi/Ptide;
+% shear_Ri0_25 = 0.0018;
+% % load('rw_mg.mat') %%% The wavenumber ratio m0/k that corresponds to the largest growth rate with out diffusion; or load('rw_mg_test3.mat') with diffusion kappa=1e-5,nu=1e-6.
 
+% shear_all = [0:2e-4:2*shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
 
-topo=4;
-N = sqrt(1)*1e-3;
-Ptide = 43200;
-omega = 2*pi/Ptide;
-
-% calc_shear_from_Ri
-% shear_Ri0_25 = 0.0050;
-shear_Ri0_25 = 0.0018;
-shear_all = [0:1e-4:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
-
+shear_all = 1000*shear_Ri0_25;
+ 
 % rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
 % rw_all= 10.^([-2:0.1:-1.1 -1:0.005:-0.7 -0.6:0.1:1]);
 % rw_all = 10.^([-1.2:0.01:-0.5]);
 % rw_all = 10.^([-1.2:0.1:-0.3]);
 % rw_all = [0.140:0.001:0.146];
 % rw_all = 0.143;
+
+rw_all = 10.^([-5:0.5:2]); %%% For K-H instability
+rw_all = 10.^([-100:1:10]);
+
 m0 =1;
 
-
-% for ns =1:length(shear_all)
-for ns =13
+for ns =1:length(shear_all)
     ns
-    rw_all = rw_mg(ns)
+    % rw_all = rw_mg(ns)
 
     shear = shear_all(ns)
-    rs = shear/omega; %%% shear over omega 
+    
+    if(omega~=0)
+        rs = shear/omega; %%% shear over omega 
+    else
+        rs = 0; %%% In the equations, rs exist only in time-dependent terms 
+    end
    
     for i=1:length(rw_all)
-        i
         rw = rw_all(i);
         kx = m0*rw;
         NTtide = 30;
         constants;
         loop;
-        % if(grow(i)>0 && grow(i)<1e-3)
-        % if(grow(i)>0)
-        %     NTtide = 150;
+        if(grow(i)>0)
+            NTtide = 50;
+            constants;
+            loop;
+        end
+        % if(grow(i)>0 && grow(i)<1e-2)
+        %     NTtide = 30;
         %     constants;
         %     loop;
         % end
-        % if(grow(i)>0)
-        %     NTtide = 400;
+        % if(grow(i)>0 && grow(i)<1e-2)
+        %     NTtide = 50;
         %     constants;
         %     loop;
         % end
-        % if(grow(i)>0)
-        %     NTtide = 600;
+        % if(grow(i)>0 && grow(i)<1e-2)
+        %     NTtide = 50;
         %     constants;
         %     loop;
         % end
+
     end
 
-    plot_timeseires
+    % plot_timeseires
     
     %%% Save the data
-    % clear buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta
-    % save([expdir '/growth_shear' num2str(shear*1e3,3) '_analysis.mat'])
+    clear buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta
+    save([expdir '/growth_shear' num2str(shear*1e3,3) '.mat'])
+
+    maxgrow = max(grow)
     
-    % figure(1)
-    % clf;set(gcf,'Color','w');
-    % semilogx((rw_all),grow,'LineWidth',2)
-    % grid on;grid minor;
-    % title('Growth rate (1/hour)')
-    % ylabel('(1/hour)')
-    % xlabel('Wavenumber ratio log10(k_x/m_z)')
-    % set(gca,'fontsize',20)
-    % % set(gcf, 'InvertHardcopy', 'off')
-    % print('-djpeg','-r150',[expdir '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
+    figure(1)
+    clf;set(gcf,'Color','w');
+    semilogx((rw_all),grow,'LineWidth',2)
+    grid on;grid minor;
+    title('Growth rate (1/hour)')
+    ylabel('(1/hour)')
+    xlabel('Wavenumber ratio (k_x/m_z)')
+    set(gca,'fontsize',20)
+    % set(gcf, 'InvertHardcopy', 'off')
+    print('-djpeg','-r150',[expdir '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
 
 end
 

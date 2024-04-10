@@ -51,10 +51,6 @@
                 kappa=0.01;
                 % imagb = 1/mz*(-rs*N^2*ss*st + N^2*cs);
                 % buoy(o+1)=real(buoy(o))+1i*imagb;
-                % buoy_before = buoy(o+1);
-                % buoy(o+1)=1i*imagb;
-                % ratio = real(buoy_before^2/(buoy(o+1))^2)
-                % zeta(o+1) = zeta(o+1)*sqrt(ratio);
             else
                 if(Diffusion)
                     kappa = kappa_const;
@@ -84,21 +80,29 @@
     ke = 0.5*(re_uuu.^2+re_www.^2);
     kew = 0.5*(re_www.^2);
     % %%% To match Radko (2019) Eq.(19)
-    Pr = nu/kappa;
+    if(nu*kappa~=0)
+        Pr = nu/kappa;
+    else
+        Pr = 1;
+    end
     pe = Pr*pe/4; %%% To match Radko (2019) Eq.(19)
     ke = ke/2; 
     kew = kew/2;
     
-    fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
+    % fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
+    fit_span = Nt/NTtide*3+1:Nt;
+    if(omega==0)
+        fit_span = 1:Nt;
+    end
     xxplot = tt/3600;
     yyplot = log(pe/median(pe)+ke/median(ke))/2;
     % yyplot = log(pe+ke)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-    grow(i) = pp(1)
+    grow(i) = pp(1);
     if(isnan(grow(i)))
         warning('NaN in growth rate!')
     end
-    [y_fit,delta_fit] = polyval(pp,xxplot,S);
+    % [y_fit,delta_fit] = polyval(pp,xxplot,S);
     % figure(20)
     % clf;
     % plot(xxplot,yyplot)
