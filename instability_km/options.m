@@ -3,10 +3,10 @@
 
 clear; close all;
 
-Diffusion = true;
+Diffusion = false;
 ConvectiveAdjustment = false;
 % nt_percycle = 72*50; 
-nt_percycle = 72*5;
+nt_percycle = 10;
 
 expdir = 'exps_KHinstability/';
 mkdir(expdir);
@@ -33,9 +33,9 @@ shear_Ri0_25 = 2*N;
 % shear_Ri0_25 = 0.0018;
 % % load('rw_mg.mat') %%% The wavenumber ratio m0/k that corresponds to the largest growth rate with out diffusion; or load('rw_mg_test3.mat') with diffusion kappa=1e-5,nu=1e-6.
 
-% shear_all = [0:2e-4:2*shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
+% shear_all = [0:4e-4:2*shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
 
-shear_all = 1000*shear_Ri0_25;
+shear_all = 0.8*shear_Ri0_25;
  
 % rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
 % rw_all= 10.^([-2:0.1:-1.1 -1:0.005:-0.7 -0.6:0.1:1]);
@@ -44,8 +44,7 @@ shear_all = 1000*shear_Ri0_25;
 % rw_all = [0.140:0.001:0.146];
 % rw_all = 0.143;
 
-rw_all = 10.^([-5:0.5:2]); %%% For K-H instability
-rw_all = 10.^([-100:1:10]);
+rw_all = 10.^([-5:0.25:3]); %%% For K-H instability
 
 m0 =1;
 
@@ -55,20 +54,20 @@ for ns =1:length(shear_all)
 
     shear = shear_all(ns)
     
-    if(omega~=0)
-        rs = shear/omega; %%% shear over omega 
-    else
-        rs = 0; %%% In the equations, rs exist only in time-dependent terms 
+    rs = shear/omega; %%% shear over omega 
+    if(omega==0)
+        rs = 0;
     end
    
-    for i=1:length(rw_all)
+    % for i=1:length(rw_all)
+    for i = 1
         rw = rw_all(i);
         kx = m0*rw;
-        NTtide = 30;
+        NTtide = 200000;
         constants;
         loop;
         if(grow(i)>0)
-            NTtide = 50;
+            NTtide = 100;
             constants;
             loop;
         end

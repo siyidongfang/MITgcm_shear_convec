@@ -64,10 +64,13 @@
 
     end
 
-    
+   
     ct = cos(omega*tt);
     st = sin(omega*tt);
     mz_t = m0-rs*st*kx;
+    if(omega==0)
+        mz_t = m0-shear*tt*kx;
+    end
     a1_t = -(kx^2+mz_t.^2);  % a1_t = -(kx^2+m0^2+kx^2*rs^2*st.^2)+2*kx.*m0*rs.*st;
     psi = zeta./a1_t;
     www = 1i*kx*psi;
@@ -89,8 +92,10 @@
     ke = ke/2; 
     kew = kew/2;
     
-    % fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
     fit_span = Nt/NTtide*3+1:Nt;
+    if(ConvectiveAdjustment)
+    fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
+    end
     if(omega==0)
         fit_span = 1:Nt;
     end
@@ -102,11 +107,11 @@
     if(isnan(grow(i)))
         warning('NaN in growth rate!')
     end
-    % [y_fit,delta_fit] = polyval(pp,xxplot,S);
-    % figure(20)
-    % clf;
-    % plot(xxplot,yyplot)
-    % hold on;grid on;grid minor;
-    % plot(xxplot(fit_span), y_fit(fit_span));
-    % hold off;
+    [y_fit,delta_fit] = polyval(pp,xxplot,S);
+    figure(20)
+    clf;
+    plot(xxplot,yyplot)
+    hold on;grid on;grid minor;
+    plot(xxplot(fit_span), y_fit(fit_span));
+    hold off;
 
