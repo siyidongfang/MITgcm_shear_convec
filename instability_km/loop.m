@@ -39,6 +39,33 @@
         % Simpson rule corrector advancing dt:
         buoy(o+1) = buoy(o) + (1/6)*(k_1b+2*k_2b+2*k_3b+k_4b)*dt;
         zeta(o+1) = zeta(o) + (1/6)*(k_1z+2*k_2z+2*k_3z+k_4z)*dt;
+
+        if(ConvectiveAdjustment)
+            dbdz_vert(o) = 1/cs * real(1i*mz*buoy(o));
+            dBdz_vert(o) = 1/cs * (-rs*N^2*ss*st); %%% Vertical direction
+            dB0dz_vert(o) =1/cs * (N^2*cs);
+            dbtotaldz_vert(o) = dB0dz_vert(o)+dBdz_vert(o)+dbdz_vert(o);
+            
+            if(dbtotaldz_vert(o)<=0)
+                nu=0.01;
+                kappa=0.01;
+                % imagb = 1/mz*(-rs*N^2*ss*st + N^2*cs);
+                % buoy(o+1)=real(buoy(o))+1i*imagb;
+                % buoy_before = buoy(o+1);
+                % buoy(o+1)=1i*imagb;
+                % ratio = real(buoy_before^2/(buoy(o+1))^2)
+                % zeta(o+1) = zeta(o+1)*sqrt(ratio);
+            else
+                if(Diffusion)
+                    kappa = kappa_const;
+                    nu = nu_const;
+                else 
+                    kappa = 0;
+                    nu = 0;
+                end
+            end
+        end
+
     end
 
     
@@ -62,7 +89,7 @@
     ke = ke/2; 
     kew = kew/2;
     
-    fit_span = Nt/NTtide*5+1:Nt;
+    fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
     xxplot = tt/3600;
     yyplot = log(pe/median(pe)+ke/median(ke))/2;
     % yyplot = log(pe+ke)/2;
@@ -72,10 +99,10 @@
         warning('NaN in growth rate!')
     end
     [y_fit,delta_fit] = polyval(pp,xxplot,S);
-    figure(20)
-    clf;
-    plot(xxplot,yyplot)
-    hold on;grid on;grid minor;
-    plot(xxplot(fit_span), y_fit(fit_span));
-    hold off;
+    % figure(20)
+    % clf;
+    % plot(xxplot,yyplot)
+    % hold on;grid on;grid minor;
+    % plot(xxplot(fit_span), y_fit(fit_span));
+    % hold off;
 

@@ -1,11 +1,22 @@
 
 
+
+% dt = 600;
+% NTtide = 100;
+% omega = 2*pi/43200
+% Nt = NTtide/omega/dt;
+dt_ri = dt/1000;
+tt_ri = dt_ri:dt_ri:Nt*dt;
+N2 = N^2;
+Ri_inverse = (shear*cos(omega*tt_ri)).^2./(N2*cosd(topo) - N2*sind(topo)/omega*shear*sin(omega*tt_ri));
+Ri_min = 1/max(Ri_inverse);  
+
 pe = re_buoy.^2;
 ke = 0.5*(re_uuu.^2+re_www.^2);
 kew = 0.5*(re_www.^2);
 %%% To match Radko (2019) Eq.(19)
 pe = pe/4; %%% To match Radko (2019) Eq.(19)
-ke = 0.5*((real(-1i*m0*psi)).^2+re_www.^2);
+% ke = 0.5*((real(-1i*m0*psi)).^2+re_www.^2);
 ke = ke/2; 
 kew = kew/2;
 fit_span = Nt/NTtide*3:Nt;
@@ -29,15 +40,19 @@ hold off;
 xlabel('Time (tidal cycles)')
 set(gca,'FontSize',20)
 % xlim([0 2000])
-xlim([0 40])
+% xlim([0 40])
 ylabel('$0.5\ln(e)$','Interpreter','latex')
 title('Energy')
 ylocation = max(yyplot(round(Nt/50):round(Nt/20))-yyplot(1));
-text(0,ylocation,{['$\Lambda=$' num2str(shear) ' s$^{-1},\, R_{i,\mathrm{min}}=$ ' num2str(Ri_min(ns),3)],...
-    ... % '$\nu=10^{-5}\,m^2/s,\,\kappa=10^{-6}\,m^2/s$',...
-    '$\nu=\kappa=0$',...
+if(Diffusion)
+    ltext = '$\nu=10^{-5}\,m^2/s,\,\kappa=10^{-6}\,m^2/s$';
+else
+    ltext = '$\nu=\kappa=0$';
+end
+text(0,ylocation,{['$\Lambda=$' num2str(shear) ' s$^{-1},\, R_{i,\mathrm{min}}=$ ' num2str(Ri_min,3)],...
+    ltext,...
     ['$m_0/k_0$=' num2str(m0/kx,2) ', $\arctan(m_0/k_0)$=' num2str(atand(m0/kx),2) '$^\circ$']},...
-    'Color','red','FontSize',40,'Interpreter','latex')
+    'Color','red','FontSize',35,'Interpreter','latex')
 %%
 % figure(21)
 % clf;
@@ -106,7 +121,7 @@ plot(tt(tplot)/43200,real(www(tplot))/300,'LineWidth',2)
 grid on;grid minor;
 xlabel('Time (tidal cycles)')
 set(gca,'FontSize',20)
-xlim([94 100])
+xlim([NTtide-6 NTtide])
 legend('Buoyancy perturbation','Vertical velocity','Position', [0.1358 0.3860 0.1022 0.0561])
 
 % figure(2)
@@ -120,14 +135,18 @@ legend('Buoyancy perturbation','Vertical velocity','Position', [0.1358 0.3860 0.
 
 period_omega = 2*pi/omega;
 
-lB_plot = dBdz(tplot)*cosd(topo)+dB0dz(tplot)*cosd(topo);
-dbdz = dbdz*(max(lB_plot)/max(dbdz));
-lB_plot = lB_plot/max(lB_plot);
-lb_plot = dbdz(tplot)*cosd(topo)/max(dbdz(tplot)*cosd(topo));
-lu_plot = ct(tplot)/max(ct(tplot));
-lw_plot = real(www(tplot))/max(real(www(tplot)))/5;
-ltotal_plot = dBdz(tplot)*cosd(topo)+dbdz(tplot)*cosd(topo)+dB0dz(tplot)*cosd(topo);
-ltotal_plot = ltotal_plot/max(ltotal_plot);
+lB_plot = dBdz(tplot)/cosd(topo)+dB0dz(tplot)/cosd(topo);
+
+% dbdz = dbdz*(max(lB_plot)/max(dbdz));
+% lB_plot = lB_plot/max(lB_plot);
+
+lb_plot = dbdz(tplot)*cosd(topo);
+% lb_plot = lb_plot/max(dbdz(tplot)*cosd(topo));
+lu_plot = ct(tplot)/max(ct(tplot))*N^2;
+lw_plot = real(www(tplot));
+lw_plot = lw_plot/max(real(www(tplot)))*N^2;
+ltotal_plot = dBdz(tplot)/cosd(topo)+dbdz(tplot)/cosd(topo)+dB0dz(tplot)/cosd(topo);
+% ltotal_plot = ltotal_plot/max(ltotal_plot);
 
 subplot(2,3,5)
 lb = plot(tt(tplot)/period_omega,lb_plot,'LineWidth',2);
@@ -143,7 +162,7 @@ axis tight
 xlim([NTtide-6 NTtide])
 legend([lu lb lB ltotal lw],'Tidal velocity',...
     'db^\prime/dz','dB_{background}/dz','db_{total}/dz','w','Position', [0.4144 0.1169 0.0768 0.1574])
-title('Normalized values')
+% title('Normalized values')
 % ylim([-6 6]*1e-6)
 % end
 

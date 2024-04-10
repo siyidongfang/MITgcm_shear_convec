@@ -17,20 +17,6 @@ clear;
 shear_all = [0:0.1:1.8]*1e-3;
 NS = length(shear_all);
 
-dt = 600;
-NTtide = 100;
-omega = 2*pi/43200
-Nt = NTtide/omega/dt;
-dt_ri = dt/1000;
-tt_ri = dt_ri:dt_ri:Nt*dt;
-N2 = 1e-6;
-topo = 4;
-for ns=1:NS
-    shear = shear_all(ns);
-    Ri_inverse = (shear*cos(omega*tt_ri)).^2./(N2*cosd(topo) - N2*sind(topo)/omega*shear*sin(omega*tt_ri));
-    Ri_min(ns) = 1/max(Ri_inverse);  
-end
-
 expdir = 'output/topo4_Nsq1e-6';
 
 % for ns = 1:NS

@@ -9,11 +9,9 @@ a3 = 1i*kx*(cs+rs*ss*st) - 1i*m0*ss;
 
 p0 = z0/a1;
 
-if(Diffusion)
-    dbdt(o) = a2*p0 + kappa*a1*b0;
-    dzetadt(o) = a3*b0 + nu*a1*z0;
-else
-    dbdt(o) = a2*p0 ;
-    dzetadt(o) = a3*b0 ;
-end
+dbdt(o) = a2*p0 + kappa*a1*b0;
+dzetadt(o) = a3*b0 + nu*a1*z0;
+
+
+
 

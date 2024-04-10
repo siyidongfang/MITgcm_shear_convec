@@ -5,17 +5,30 @@ dt = Ptide/nt_percycle;
 Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
 
-b00 = 1e-100;
+b00 = 1e-10;
 b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
-kappa = 1e-6;
-nu = 10e-6;
+kappa_const = 1e-7;
+nu_const = 1e-6;
+
+if(Diffusion)
+    kappa = kappa_const;
+    nu = nu_const;
+else 
+    kappa = 0;
+    nu = 0;
+end
 
 psi = zeros(1,Nt);
 zeta = zeros(1,Nt);
 buoy = zeros(1,Nt);
 dbdt = zeros(1,Nt);
 dzetadt = zeros(1,Nt);
+
+dbdz_vert = zeros(1,Nt);
+dBdz_vert = zeros(1,Nt);
+dB0dz_vert = zeros(1,Nt);
+dbtotaldz_vert = zeros(1,Nt);
 
 %%% Initial condition
 buoy(1) = b0;
