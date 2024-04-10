@@ -6,7 +6,7 @@ clear; close all;
 Diffusion = false;
 ConvectiveAdjustment = false;
 % nt_percycle = 72*50; 
-nt_percycle = 10;
+nt_percycle = 100;
 
 expdir = 'exps_KHinstability/';
 mkdir(expdir);
@@ -35,8 +35,8 @@ shear_Ri0_25 = 2*N;
 
 % shear_all = [0:4e-4:2*shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
 
-shear_all = 0.8*shear_Ri0_25;
- 
+% shear_all = 1.3*shear_Ri0_25;
+ shear_all = 100e-3;
 % rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
 % rw_all= 10.^([-2:0.1:-1.1 -1:0.005:-0.7 -0.6:0.1:1]);
 % rw_all = 10.^([-1.2:0.01:-0.5]);
@@ -44,8 +44,8 @@ shear_all = 0.8*shear_Ri0_25;
 % rw_all = [0.140:0.001:0.146];
 % rw_all = 0.143;
 
-rw_all = 10.^([-5:0.25:3]); %%% For K-H instability
-
+rw_all = 10.^([-3:1:1]); %%% For K-H instability
+% rw_all = 0
 m0 =1;
 
 for ns =1:length(shear_all)
@@ -59,18 +59,23 @@ for ns =1:length(shear_all)
         rs = 0;
     end
    
-    % for i=1:length(rw_all)
-    for i = 1
+    for i=1:length(rw_all)
+    % for i = 1
         rw = rw_all(i);
         kx = m0*rw;
-        NTtide = 200000;
+
+        NTtide = 100;
+        if(omega==0)
+            NTtide = 1/rw/shear/Ptide*0.8;
+        end
         constants;
         loop;
-        if(grow(i)>0)
-            NTtide = 100;
-            constants;
-            loop;
-        end
+        % if(grow(i)>0)
+        %     i
+        %     NTtide =3000;
+        %     constants;
+        %     loop;
+        % end
         % if(grow(i)>0 && grow(i)<1e-2)
         %     NTtide = 30;
         %     constants;
@@ -92,8 +97,8 @@ for ns =1:length(shear_all)
     % plot_timeseires
     
     %%% Save the data
-    clear buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta
-    save([expdir '/growth_shear' num2str(shear*1e3,3) '.mat'])
+    % clear buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta
+    % save([expdir '/growth_shear' num2str(shear*1e3,3) '.mat'])
 
     maxgrow = max(grow)
     
@@ -106,7 +111,7 @@ for ns =1:length(shear_all)
     xlabel('Wavenumber ratio (k_x/m_z)')
     set(gca,'fontsize',20)
     % set(gcf, 'InvertHardcopy', 'off')
-    print('-djpeg','-r150',[expdir '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
+    % print('-djpeg','-r150',[expdir '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
 
 end
 

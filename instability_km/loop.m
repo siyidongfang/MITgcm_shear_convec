@@ -86,22 +86,24 @@
     if(nu*kappa~=0)
         Pr = nu/kappa;
     else
-        Pr = 1;
+        Pr = 10;
     end
-    pe = Pr*pe/4; %%% To match Radko (2019) Eq.(19)
-    ke = ke/2; 
-    kew = kew/2;
-    
+    % pe = Pr*pe/4; %%% To match Radko (2019) Eq.(19)
+    % ke = ke/2; 
+    % kew = kew/2;
+    % pe = abs(re_buoy);
     fit_span = Nt/NTtide*3+1:Nt;
     if(ConvectiveAdjustment)
     fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
     end
     if(omega==0)
-        fit_span = 1:Nt;
+        % fit_span = 1:Nt;
+        fit_span = round(Nt/5):Nt;
     end
     xxplot = tt/3600;
     yyplot = log(pe/median(pe)+ke/median(ke))/2;
     % yyplot = log(pe+ke)/2;
+    % yyplot = log(pe)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
     grow(i) = pp(1);
     if(isnan(grow(i)))
@@ -110,8 +112,9 @@
     [y_fit,delta_fit] = polyval(pp,xxplot,S);
     figure(20)
     clf;
-    plot(xxplot,yyplot)
+    plot(xxplot/24,yyplot)
     hold on;grid on;grid minor;
-    plot(xxplot(fit_span), y_fit(fit_span));
+    plot(xxplot(fit_span)/24, y_fit(fit_span));
     hold off;
+    xlabel('Time (days)')
 
