@@ -2,20 +2,23 @@
 %%%%% All variables are dimensional variables
 
 clear; close all;
-
 Diffusion = false;
 ConvectiveAdjustment = false;
 nt_percycle = 720; 
 
-% %%% exps_KH
+% %%%%%% exps_KH %%%%%%
 % expdir = 'exps_KH/';
 % topo = 0;
 % omega = 0;
 % N = sqrt(1)*1e-3;
 % Ptide = 43200; 
 % shear_Ri0_25 = 2*N;
+% shear_all = shear_Ri0_25*10;
+% m0 =1;
+% rw_all = 10.^([-2:0.1:5]); %%% For K-H instability
 
-%%% exps_Radko
+
+%%%%%% exps_Radko %%%%%%
 expdir = 'exps_Radko/';
 topo = 0;
 N = sqrt(10)*1e-3;
@@ -23,31 +26,24 @@ omega = 0.1*1e-3;
 Ptide = 2*pi/omega;
 shear_Ri0_25 = 0.0050; %%% calculated by the script calc_shear_from_Ri
 shear_Ri1 = 0.0031625;
+shear_all = shear_Ri1;
+mz_all = [0:0.09:6];
+kx_all = [-0.1:0.003:0.1];
 
-% %%% exps_test
+% %%%%%% exps_test %%%%%%
 % expdir = 'exps_test/';
 % topo=4;
 % N = sqrt(1)*1e-3;
 % Ptide = 43200;
 % omega = 2*pi/Ptide;
 % shear_Ri0_25 = 0.0018;
+% shear_Ri1 = 0.97e-3;
 % % load('rw_mg.mat') %%% The wavenumber ratio m0/k that corresponds to the largest growth rate with out diffusion; or load('rw_mg_test3.mat') with diffusion kappa=1e-5,nu=1e-6.
+% shear_all = [0:0.1e-4:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
+% rw_all= 10.^([-2:0.1:-1.1 -1.05 -1:0.0025:-0.7 -0.6:0.1:1]);
+% m0 =1;
 
 mkdir(expdir);
-% shear_all = [12.1e-04:0.1e-4:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
-shear_all = shear_Ri1;
-
-rw_all= 10.^([-2:0.1:-1.1 -1.05 -1:0.0025:-0.7 -0.6:0.1:1]);
-% rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
-% rw_all= 10.^([-2:0.1:-1.1 -1:0.005:-0.7 -0.6:0.1:1]);
-% rw_all = 10.^([-1.2:0.01:-0.5]);
-% rw_all = 10.^([-1.2:0.1:-0.3]);
-% rw_all = [0.140:0.001:0.146];
-% rw_all = 0.143;
-
-% rw_all = 10.^([-1:0.1:1]); %%% For K-H instability
-% rw_all = 0
-m0 =1;
 
 for ns =1:length(shear_all)
     ns
@@ -74,7 +70,7 @@ for ns =1:length(shear_all)
             constants;
             loop;
         end
-        if(grow(i)>0 && grow(i)<1e-3)
+        if(grow(i)>0 && grow(i)<5e-3)
             NTtide = 600;
             constants;
             loop;
@@ -92,18 +88,19 @@ for ns =1:length(shear_all)
     clear buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta
     save([expdir '/growth_shear' num2str(shear*1e3,3) '.mat'])
 
-    maxgrow = max(grow)
+    % maxgrow = max(grow)
     
-    fig=figure('visible','off');
-    clf;set(gcf,'Color','w');
-    semilogx((rw_all),grow,'LineWidth',2)
-    grid on;grid minor;
-    title('Growth rate (1/hour)')
-    ylabel('(1/hour)')
-    xlabel('Wavenumber ratio (k_x/m_z)')
-    set(gca,'fontsize',20)
-    set(gcf, 'InvertHardcopy', 'off')
-    saveas(fig,[expdir '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
+    % fig=figure(1);
+    % set(fig,'visible','off');
+    % clf;set(gcf,'Color','w');
+    % semilogx((rw_all),grow,'LineWidth',2)
+    % grid on;grid minor;
+    % title('Growth rate (1/hour)')
+    % ylabel('(1/hour)')
+    % xlabel('Wavenumber ratio (k_x/m_z)')
+    % set(gca,'fontsize',20)
+    % set(gcf, 'InvertHardcopy', 'off')
+    % saveas(fig,[expdir '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
 
 end
 
@@ -131,6 +128,13 @@ end
 % save(['output_topo0/growth_topo' num2str(topo) '_mz' num2str(mz) 'kx' num2str(kx) '_NOdiff.mat'])
 
 
+
+% rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
+% rw_all= 10.^([-2:0.1:-1.1 -1:0.005:-0.7 -0.6:0.1:1]);
+% rw_all = 10.^([-1.2:0.01:-0.5]);
+% rw_all = 10.^([-1.2:0.1:-0.3]);
+% rw_all = [0.140:0.001:0.146];
+% rw_all = 0.143;
 
 
 
