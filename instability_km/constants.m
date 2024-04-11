@@ -12,14 +12,14 @@ if(omega==0)
     tt = dt:dt:Nt*dt;
 end
 
-b00 = 1e-10;
+b00 = 1e-50;
 b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
-% kappa_const = 1e-7;
-% nu_const = 1e-6;
-
-kappa_const = 1e-6;
+kappa_const = 1e-7;
 nu_const = 1e-6;
+
+% kappa_const = 1e-6;
+% nu_const = 1e-5;
 
 if(Diffusion)
     kappa = kappa_const;

@@ -110,12 +110,12 @@
     if(isnan(grow(i)))
         warning('NaN in growth rate!')
     end
-    [y_fit,delta_fit] = polyval(pp,xxplot,S);
-    figure(20)
-    clf;
-    plot(xxplot/24,yyplot)
-    hold on;grid on;grid minor;
-    plot(xxplot(fit_span)/24, y_fit(fit_span));
-    hold off;
-    xlabel('Time (days)')
+    % [y_fit,delta_fit] = polyval(pp,xxplot,S);
+    % figure(20)
+    % clf;
+    % plot(xxplot/24,yyplot)
+    % hold on;grid on;grid minor;
+    % plot(xxplot(fit_span)/24, y_fit(fit_span));
+    % hold off;
+    % xlabel('Time (days)')
 

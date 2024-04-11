@@ -18,7 +18,7 @@ shear_convec = cosd(topo)/sind(topo)*omega;
 if(topo==0)
     shear_convec = 5e-3;
 end
-shear_all = 0:1e-5:shear_convec;
+shear_all = 0:0.25e-5:shear_convec;
 ns = length(shear_all);
 
 %%
