@@ -71,6 +71,7 @@
     if(omega==0)
         mz_t = m0-shear*tt*kx;
     end
+    angle_front = atand(mz_t/kx);
     a1_t = -(kx^2+mz_t.^2);  % a1_t = -(kx^2+m0^2+kx^2*rs^2*st.^2)+2*kx.*m0*rs.*st;
     psi = zeta./a1_t;
     www = 1i*kx*psi;
@@ -94,11 +95,11 @@
     % pe = abs(re_buoy);
     fit_span = Nt/NTtide*3+1:Nt;
     if(ConvectiveAdjustment)
-    fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
+        fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
     end
     if(omega==0)
         % fit_span = 1:Nt;
-        fit_span = round(Nt/5):Nt;
+        fit_span = round(Nt/10):Nt;
     end
     xxplot = tt/3600;
     yyplot = log(pe/median(pe)+ke/median(ke))/2;

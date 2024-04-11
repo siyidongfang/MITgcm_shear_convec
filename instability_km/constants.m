@@ -5,8 +5,14 @@ dt = Ptide/nt_percycle;
 Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
 
-% b00 = 1e-10;
-b00 = 1e-20;
+
+if(omega==0)
+    Nt = 1e3;
+    dt = NTtide*Ptide/Nt;
+    tt = dt:dt:Nt*dt;
+end
+
+b00 = 1e-10;
 b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
 % kappa_const = 1e-7;
@@ -29,10 +35,12 @@ buoy = zeros(1,Nt);
 dbdt = zeros(1,Nt);
 dzetadt = zeros(1,Nt);
 
+if(ConvectiveAdjustment)
 dbdz_vert = zeros(1,Nt);
 dBdz_vert = zeros(1,Nt);
 dB0dz_vert = zeros(1,Nt);
 dbtotaldz_vert = zeros(1,Nt);
+end
 
 %%% Initial condition
 buoy(1) = b0;

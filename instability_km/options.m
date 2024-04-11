@@ -3,11 +3,9 @@
 
 clear; close all;
 
-Diffusion = true;
+Diffusion = false;
 ConvectiveAdjustment = false;
-% nt_percycle = 72*50; 
-nt_percycle = 1e4;
-% nt_percycle = 1000;
+nt_percycle = 72*50; 
 
 expdir = 'exps_KHinstability/';
 mkdir(expdir);
@@ -37,7 +35,7 @@ shear_Ri0_25 = 2*N;
 % shear_all = [0:4e-4:2*shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
 
 % shear_all = 1.3*shear_Ri0_25;
- shear_all = 1e-3;
+ shear_all = 100e-3;
 % rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
 % rw_all= 10.^([-2:0.1:-1.1 -1:0.005:-0.7 -0.6:0.1:1]);
 % rw_all = 10.^([-1.2:0.01:-0.5]);
@@ -45,7 +43,7 @@ shear_Ri0_25 = 2*N;
 % rw_all = [0.140:0.001:0.146];
 % rw_all = 0.143;
 
-rw_all = 10.^([-3:0.05:1]); %%% For K-H instability
+rw_all = 10.^([-3:0.5:10]); %%% For K-H instability
 % rw_all = 0
 m0 =1;
 
@@ -60,23 +58,24 @@ for ns =1:length(shear_all)
         rs = 0;
     end
    
-    % for i=1:length(rw_all)
-    for i = 1
+    for i=1:length(rw_all)
+    % for i = 1
         rw = rw_all(i);
         kx = m0*rw;
 
-        NTtide = 30;
-        % if(omega==0)
-        %     NTtide = 1/rw/shear/Ptide*0.8;
-        % end
+        NTtide = 10;
+        if(omega==0)
+            NTtide = 1/rw/shear/Ptide*10;
+        end
         constants;
         loop;
-        % if(grow(i)>0)
-        %     i
-        %     NTtide =3000;
-        %     constants;
-        %     loop;
-        % end
+        if(grow(i)>0)
+            i
+            % NTtide =3000;
+            NTtide = 10
+            constants;
+            loop;
+        end
         % if(grow(i)>0 && grow(i)<1e-2)
         %     NTtide = 30;
         %     constants;
