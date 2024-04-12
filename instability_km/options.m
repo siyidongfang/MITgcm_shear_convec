@@ -2,7 +2,7 @@
 %%%%% All variables are dimensional variables
 
 clear; close all;
-Diffusion = false;
+Diffusion = true;
 ConvectiveAdjustment = false;
 nt_percycle = 720; 
 
@@ -27,8 +27,11 @@ Ptide = 2*pi/omega;
 shear_Ri0_25 = 0.0050; %%% calculated by the script calc_shear_from_Ri
 shear_Ri1 = 0.0031625;
 shear_all = shear_Ri1;
-mz_all = [0:0.09:6];
-kx_all = [-0.1:0.003:0.1];
+m0_all = [0:0.01:6];
+kx_all = [-0.1:0.00025:0.1];
+
+% m0_all = [0:3:6];
+% kx_all = [-0.1:0.05:0.1];
 
 % %%%%%% exps_test %%%%%%
 % expdir = 'exps_test/';
@@ -55,52 +58,72 @@ for ns =1:length(shear_all)
         rs = 0;
     end
    
-    for i=1:length(rw_all)
-        rw = rw_all(i);
-        kx = m0*rw;
+    for m=1:length(m0_all)
+            m0 = m0_all(m);
 
-        NTtide = 30;
-        if(omega==0)
-            NTtide = 1/rw/shear/Ptide*10;
-        end
-        constants;
-        loop;
-        if(grow(i)>0 && grow(i)<5e-2)
-            NTtide = 100;
+
+        for i=1:length(kx_all)
+            kx=kx_all(i);
+
+        % for i=1:length(rw_all)
+        %     rw = rw_all(i);
+            % kx = m0*rw;
+    
+            NTtide = 10;
+            if(omega==0)
+                NTtide = 1/rw/shear/Ptide*10;
+            end
             constants;
             loop;
+            if(grow(i)>0)
+                NTtide = 30;
+                constants;
+                loop;
+            end
+            if(grow(i)>0 && grow(i)<5e-2)
+                NTtide = 100;
+                constants;
+                loop;
+            end
+            if(grow(i)>0 && grow(i)<5e-3)
+                NTtide = 600;
+                constants;
+                loop;
+            end
+            if(grow(i)>0 && grow(i)<1e-4)
+                NTtide = 1000;
+                constants;
+                loop;
+            end
         end
-        if(grow(i)>0 && grow(i)<5e-3)
-            NTtide = 600;
-            constants;
-            loop;
-        end
-        if(grow(i)>0 && grow(i)<1e-4)
-            NTtide = 1000;
-            constants;
-            loop;
-        end
+
+
+    %%% Save the data
+    clear a1_t angle_front ct fit_span mz_t pe st tt xx_plot yy_plot buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta ke_nond ps_nond
+    save([expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '.mat'])
+
+    maxgrow = max(grow)
+    
+    fig=figure(1);
+    set(fig,'visible','off');
+    clf;set(gcf,'Color','w');
+    plot(kx_all,grow,'LineWidth',2)
+    xlabel('\it{k_x} (m^{-1})')
+    title(['Growth rate (1/hour), \it{m_0}=' num2str(m0) ' (m^{-1})'])
+    % semilogx((rw_all),grow,'LineWidth',2)
+    % xlabel('Wavenumber ratio (k_x/m_z)')
+    % title('Growth rate (1/hour)')
+    grid on;grid minor;
+    ylabel('(1/hour)')
+    set(gca,'fontsize',20)
+    set(gcf, 'InvertHardcopy', 'off')
+    saveas(fig,[expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '.jpeg']);
+
+
     end
 
     % plot_timeseires
-    
-    %%% Save the data
-    clear buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta
-    save([expdir '/growth_shear' num2str(shear*1e3,3) '.mat'])
 
-    % maxgrow = max(grow)
-    
-    % fig=figure(1);
-    % set(fig,'visible','off');
-    % clf;set(gcf,'Color','w');
-    % semilogx((rw_all),grow,'LineWidth',2)
-    % grid on;grid minor;
-    % title('Growth rate (1/hour)')
-    % ylabel('(1/hour)')
-    % xlabel('Wavenumber ratio (k_x/m_z)')
-    % set(gca,'fontsize',20)
-    % set(gcf, 'InvertHardcopy', 'off')
-    % saveas(fig,[expdir '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
 
 end
 

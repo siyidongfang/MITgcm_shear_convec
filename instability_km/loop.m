@@ -77,32 +77,33 @@
     www = 1i*kx*psi;
     uuu = -1i*mz_t.*psi;   % uuu = -1i*m0*psi+1i*kx*psi*rs.*st;
 
-    re_buoy = real(buoy);
-    re_uuu = real(uuu);
-    re_www = real(www);
-    pe = re_buoy.^2;
-    ke = 0.5*(re_uuu.^2+re_www.^2);
-    kew = 0.5*(re_www.^2);
+    % re_buoy = real(buoy);
+    % re_uuu = real(uuu);
+    % re_www = real(www);
+    % pe = re_buoy.^2;
+    % ke = 0.5*(re_uuu.^2+re_www.^2);
+    % kew = 0.5*(re_www.^2);
     % %%% To match Radko (2019) Eq.(19)
     if(nu*kappa~=0)
         Pr = nu/kappa;
     else
         Pr = 10;
     end
-    % pe = Pr*pe/4; %%% To match Radko (2019) Eq.(19)
-    % ke = ke/2; 
-    % kew = kew/2;
-    % pe = abs(re_buoy);
-    fit_span = Nt/NTtide*3+1:Nt;
+
+    ke_nond = (kx^2+mz_t.^2).*abs(psi/kappa_const).^2/4;    %%% To match Radko (2019) Eq.(19) 
+    grav = 10;
+    pe_nond = Pr*(abs(buoy)/grav).^2/4; %%% Non-dimensionalized KE and PE
+
+    fit_span = Nt/NTtide*5+1:Nt;
     if(ConvectiveAdjustment)
         fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
     end
     if(omega==0)
-        % fit_span = 1:Nt;
         fit_span = round(Nt/10):Nt;
     end
     xxplot = tt/3600;
-    yyplot = log(pe/median(pe)+ke/median(ke))/2;
+    yyplot = log(ke_nond+pe_nond)/2;
+    % yyplot = log(pe/median(pe)+ke/median(ke))/2;
     % yyplot = log(pe+ke)/2;
     % yyplot = log(pe)/2;
     % yyplot = log(ke)/2;
@@ -111,14 +112,14 @@
     if(isnan(grow(i)))
         warning('NaN in growth rate!')
     end
-    [y_fit,delta_fit] = polyval(pp,xxplot,S);
-    
-    figure(20)
-    clf;set(gcf,'Color','w')
-    plot(xxplot/24,yyplot,'LineWidth',2)
-    hold on;grid on;grid minor;
-    plot(xxplot(fit_span)/24, y_fit(fit_span));
-    hold off;
-    xlabel('Time (days)')
-    set(gca,'Fontsize',20)
+
+    % [y_fit,delta_fit] = polyval(pp,xxplot,S);
+    % figure(20)
+    % clf;set(gcf,'Color','w')
+    % plot(xxplot/24,yyplot,'LineWidth',2)
+    % hold on;grid on;grid minor;
+    % plot(xxplot(fit_span)/24, y_fit(fit_span));
+    % hold off;
+    % xlabel('Time (days)')
+    % set(gca,'Fontsize',20)
     
