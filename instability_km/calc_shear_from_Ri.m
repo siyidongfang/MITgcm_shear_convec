@@ -40,6 +40,12 @@ end
 
 % plot(shear_all,1./Ri_min)
 
+
+[a idx] = min(abs(Ri_min-5))
+Ri5 = Ri_min(idx);
+shear_Ri5 = shear_all(idx)
+
+
 [a idx] = min(abs(Ri_min-1))
 Ri1 = Ri_min(idx);
 shear_Ri1 = shear_all(idx)

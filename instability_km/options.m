@@ -26,12 +26,12 @@ omega = 0.1*1e-3;
 Ptide = 2*pi/omega;
 shear_Ri0_25 = 0.0050; %%% calculated by the script calc_shear_from_Ri
 shear_Ri1 = 0.0031625;
-shear_all = shear_Ri1;
-m0_all = [0:0.01:6];
-kx_all = [-0.1:0.00025:0.1];
-
-% m0_all = [0:3:6];
-% kx_all = [-0.1:0.05:0.1];
+shear_Ri5 = 0.001415;
+shear_all = shear_Ri5;
+% m0_all = [0:0.015:6];
+% kx_all = [-0.1:0.0005:0.1];
+m0_all = [0:0.01:4];
+kx_all = [-0.5:0.0025:0.5];
 
 % %%%%%% exps_test %%%%%%
 % expdir = 'exps_test/';
@@ -58,11 +58,17 @@ for ns =1:length(shear_all)
         rs = 0;
     end
    
-    for m=1:length(m0_all)
-            m0 = m0_all(m);
+    for m=301:length(m0_all)
+            m
+	    m0 = m0_all(m);
 
 
         for i=1:length(kx_all)
+	    
+	    if(rem(i,30)==0)
+            i
+            end
+	   
             kx=kx_all(i);
 
         % for i=1:length(rw_all)
@@ -80,18 +86,18 @@ for ns =1:length(shear_all)
                 constants;
                 loop;
             end
-            if(grow(i)>0 && grow(i)<5e-2)
+            if(grow(i)>0 && grow(i)<1e-2)
                 NTtide = 100;
                 constants;
                 loop;
             end
-            if(grow(i)>0 && grow(i)<5e-3)
-                NTtide = 600;
+            if(grow(i)>0 && grow(i)<1e-3)
+                NTtide = 400;
                 constants;
                 loop;
             end
             if(grow(i)>0 && grow(i)<1e-4)
-                NTtide = 1000;
+                NTtide = 800;
                 constants;
                 loop;
             end
