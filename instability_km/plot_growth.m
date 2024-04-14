@@ -2,26 +2,36 @@
 % clear;
 % close all;
 
-% load(['output/growth_topo0.mat'])
-% load('/Users/ysi/MITgcm_shear_convec/instability_km/output_Ri1_Nsq1e-6_topo4/growth_topo4_NOdiff.mat')
+% % % load(['output/growth_topo0.mat'])
+% % % load('/Users/ysi/MITgcm_shear_convec/instability_km/output_Ri1_Nsq1e-6_topo4/growth_topo4_NOdiff.mat')
+% % 
+% % %%%
+% % %%% Calculate the Richardson Number
+% % %%%
+% % plotRi = true;
+% % NaN_numbers = sum(isnan(growth),'all')
+% % growth_largerw = growth(:,end);
+% % 
+% % %%% Find out the wavenumber ratio rw=kx/mz corresponding to the maximum
+% % %%% growth rate, for each shear value
+% % growth_round = growth;
+% % growth_round(growth>1) = round(growth(growth>1),2);
+% % [max_growth rw_idx] = max(growth_round,[],2);
+% % % [max_growth rw_idx] = max(growth,[],2);
+% % rw_mg = rw_all(rw_idx);
+% % 
+% % criticalShear = omega*cosd(topo)/sind(topo);
 
-%%%
-%%% Calculate the Richardson Number
-%%%
-plotRi = true;
-NaN_numbers = sum(isnan(growth),'all')
-growth_largerw = growth(:,end);
-
-%%% Find out the wavenumber ratio rw=kx/mz corresponding to the maximum
-%%% growth rate, for each shear value
-growth_round = growth;
-growth_round(growth>1) = round(growth(growth>1),2);
-[max_growth rw_idx] = max(growth_round,[],2);
-% [max_growth rw_idx] = max(growth,[],2);
-rw_mg = rw_all(rw_idx);
-
-criticalShear = omega*cosd(topo)/sind(topo);
-
+expdir = 'exps_test/';
+shear_all = [0:0.1e-4:1.8e-3];
+rw_all= 10.^([-2:0.1:-1.1 -1.05 -1:0.0025:-0.7 -0.6:0.1:1]);
+growth = zeros(length(shear_all),length(rw_all));
+for i=1:length(shear_all)
+    shear = shear_all(i);
+    load([expdir '/growth_shear' num2str(shear*1e3,3) '.mat'],'grow')
+    growth(i,:)=grow;
+    max_growth(i)=max(grow);
+end
 
 figure(22);
 clf;
@@ -29,19 +39,20 @@ set(gcf,'Color','w');
 pcolor(shear_all,atand(1./rw_all),growth')
 shading flat;colormap(WhiteBlueGreenYellowRed(0))
 hold on;
-scatter(shear_all,atand(1./rw_mg),50,'filled','black')
-plot(criticalShear*ones(1,nr),log10(rw_all),'Color','k','LineWidth',2)
+% scatter(shear_all,atand(1./rw_mg),50,'filled','black')
+% plot(criticalShear*ones(1,nr),log10(rw_all),'Color','k','LineWidth',2)
 grid on;grid minor;
 title('Growth rate (1/hour)')
 xlabel('Shear (1/s)')
-ylabel('Wavenumber ratio log_{10}(k_x/m_z)')
+ylabel('arctan(m_0/k) (degree)')
+% ylabel('Wavenumber ratio log_{10}(k_x/m_z)')
 set(gca,'fontsize',20)
 colorbar;
-clim([0 6])
+clim([0 6]/20)
 
 figure(23)
 clf;set(gcf,'Color','w')
-plot(shear_all,max_growth,'LineWidth',2);grid on;grid minor;set(gca,'fontsize',20)
+semilogx(shear_all,max_growth,'LineWidth',2);grid on;grid minor;set(gca,'fontsize',20)
 xlabel('Shear (1/s)')
 title('Maximum growth rate (1/hour)')
 ylabel('(1/hour)')
