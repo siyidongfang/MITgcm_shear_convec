@@ -71,6 +71,10 @@ freq = 2*pi./period;
 b_fft = fft(detrend(re_buoy))/length(re_buoy);
 b_fft = b_fft/median(b_fft);
 
+re_zeta = real(zeta);
+zeta_fft = fft(detrend(re_zeta))/length(re_zeta);
+zeta_fft = zeta_fft/median(zeta_fft);
+
 dbdz_fft=fft(detrend(dbdz))/length(dbdz);
 dbdz_fft = dbdz_fft/median(dbdz_fft);
 
@@ -92,6 +96,9 @@ s1_plot = s1_plot/max(s1_plot);
 
 s2_plot = abs(b_fft(1:Nt/2)).^2;
 s2_plot = s2_plot/max(s2_plot);
+
+% s2_plot = abs(zeta_fft(1:Nt/2)).^2;
+% s2_plot = s2_plot/max(s2_plot);
 
 s3_plot = abs(energy_fft(1:Nt/2)).^2;
 s3_plot = s3_plot/max(s3_plot);
@@ -175,13 +182,13 @@ mz_t = m0-rs*st*kx;
 wn2 = kx^2 + mz_t.^2;
 wn2 = wn2/max(wn2);
 
-plot(tt/3600/12,1*mz_t,'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
+plot(tt/3600/12,5*mz_t,'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
 hold on;
 plot(tt/3600/12,atand(mz_t/kx),'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
 plot(tt/3600/12,50*wn2,'LineWidth',2);grid on;grid minor;xlim([0 10]);set(gca,'FontSize',20)
 xlabel('Time (tidal cycles)')
 
-leg1 = '$1\times m(t)=1\times (m_0-\frac{\Lambda}{\omega}\sin(\omega t) k )$';
+leg1 = '$5\times m(t)=5\times (m_0-\frac{\Lambda}{\omega}\sin(\omega t) k )$';
 leg2 = '$\arctan(\frac{m(t)}{k})$ (degrees)';
 leg3 = '$50\times(m^2(t)+k^2)/\max(m^2(t)+k^2)$';
 legend(leg1,leg2,leg3,'Interpreter','latex','Fontsize',25,'Position',[0.7219 0.3946 0.1863 0.1158])

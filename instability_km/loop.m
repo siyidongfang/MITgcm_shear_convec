@@ -77,9 +77,9 @@
     www = 1i*kx*psi;
     uuu = -1i*mz_t.*psi;   % uuu = -1i*m0*psi+1i*kx*psi*rs.*st;
 
-    % re_buoy = real(buoy);
-    % re_uuu = real(uuu);
-    % re_www = real(www);
+    re_buoy = real(buoy);
+    re_uuu = real(uuu);
+    re_www = real(www);
     % pe = re_buoy.^2;
     % ke = 0.5*(re_uuu.^2+re_www.^2);
     % kew = 0.5*(re_www.^2);
@@ -108,18 +108,18 @@
     % yyplot = log(pe)/2;
     % yyplot = log(ke)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-    grow(i) = pp(1);
+    grow(i) = pp(1)
     if(isnan(grow(i)))
         warning('NaN in growth rate!')
     end
 
-    % [y_fit,delta_fit] = polyval(pp,xxplot,S);
-    % figure(20)
-    % clf;set(gcf,'Color','w')
-    % plot(xxplot/24,yyplot,'LineWidth',2)
-    % hold on;grid on;grid minor;
-    % plot(xxplot(fit_span)/24, y_fit(fit_span));
-    % hold off;
-    % xlabel('Time (days)')
-    % set(gca,'Fontsize',20)
-    
+    [y_fit,delta_fit] = polyval(pp,xxplot,S);
+    figure(20)
+    clf;set(gcf,'Color','w')
+    plot(xxplot/24,yyplot,'LineWidth',2)
+    hold on;grid on;grid minor;
+    plot(xxplot(fit_span)/24, y_fit(fit_span));
+    hold off;
+    xlabel('Time (days)')
+    set(gca,'Fontsize',20)
+

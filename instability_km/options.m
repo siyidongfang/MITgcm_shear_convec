@@ -2,9 +2,9 @@
 %%%%% All variables are dimensional variables
 
 clear; close all;
-Diffusion = true;
+Diffusion = false;
 ConvectiveAdjustment = false;
-nt_percycle = 720; 
+nt_percycle = 72; 
 
 % %%%%%% exps_KH %%%%%%
 % expdir = 'exps_KH/';
@@ -18,20 +18,20 @@ nt_percycle = 720;
 % rw_all = 10.^([-2:0.1:5]); %%% For K-H instability
 
 
-%%%%%% exps_Radko %%%%%%
-expdir = 'exps_Radko/';
-topo = 0;
-N = sqrt(10)*1e-3;
-omega = 0.1*1e-3;
-Ptide = 2*pi/omega;
-shear_Ri0_25 = 0.0050; %%% calculated by the script calc_shear_from_Ri
-shear_Ri1 = 0.0031625;
-shear_Ri5 = 0.001415;
-shear_all = shear_Ri5;
-% m0_all = [0:0.015:6];
-% kx_all = [-0.1:0.0005:0.1];
-m0_all = [0:0.01:4];
-kx_all = [-0.5:0.0025:0.5];
+% %%%%%% exps_Radko %%%%%%
+% expdir = 'exps_Radko/';
+% topo = 0;
+% N = sqrt(10)*1e-3;
+% omega = 0.1*1e-3;
+% Ptide = 2*pi/omega;
+% shear_Ri0_25 = 0.0050; %%% calculated by the script calc_shear_from_Ri
+% shear_Ri1 = 0.0031625;
+% shear_Ri5 = 0.001415;
+% shear_all = shear_Ri5;
+% % m0_all = [0:0.015:6];
+% % kx_all = [-0.1:0.0005:0.1];
+% m0_all = [0:0.01:4];
+% kx_all = [-0.5:0.0025:0.5];
 
 % %%%%%% exps_test %%%%%%
 % expdir = 'exps_test/';
@@ -46,9 +46,29 @@ kx_all = [-0.5:0.0025:0.5];
 % rw_all= 10.^([-2:0.1:-1.1 -1.05 -1:0.0025:-0.7 -0.6:0.1:1]);
 % m0 =1;
 
+%%%%%% exps_flatbottom %%%%%%
+expdir = 'exps_flatbottom/';
+topo=4;
+N = sqrt(1)*1e-3;
+Ptide = 43200;
+omega = 2*pi/Ptide;
+shear_Ri0_25 = 2*N;
+shear_Ri1 = N;
+shear_all = 5e-5;
+% shear_all = [0:1e-4:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
+% rw_all= 10.^([-2:0.1:-1.1 -1.05 -1:0.0025:-0.7 -0.6:0.1:1]);
+% rw_all= 10.^([-2:0.3:-1.1 -1.05 -1:0.0025:-0.9 -0.8:0.1:1]);
+% rw_all= 10.^([-1:0.0025:-0.9]);
+% rw_all = [0.096:0.001:0.143];
+% rw_all=[0.1:0.025:0.3]
+rw_all = [0.142:0.0005:0.145]
+m0 =1;
+% load("rw_mg_exps_test.mat",'rw_mg')
+
 mkdir(expdir);
 
-for ns =1:length(shear_all)
+% for ns =1:length(shear_all)
+for ns =1
     ns
     % rw_all = rw_mg(ns)
     shear = shear_all(ns)
@@ -58,77 +78,74 @@ for ns =1:length(shear_all)
         rs = 0;
     end
    
-    for m=301:length(m0_all)
-            m
-	    m0 = m0_all(m);
+    % for m=1:length(m0_all)
+        %     m
+	    % m0 = m0_all(m);
 
+        % for i=1:length(kx_all)
+            % kx=kx_all(i);
+            % if(rem(i,30)==0)
+            % i
+            % end
 
-        for i=1:length(kx_all)
-	    
-	    if(rem(i,30)==0)
-            i
-            end
-	   
-            kx=kx_all(i);
+    % for i=1:length(rw_all)
+    for i=4
+        i
+        rw = rw_all(i);
+        kx = m0*rw;
 
-        % for i=1:length(rw_all)
-        %     rw = rw_all(i);
-            % kx = m0*rw;
-    
-            NTtide = 10;
-            if(omega==0)
-                NTtide = 1/rw/shear/Ptide*10;
-            end
-            constants;
-            loop;
-            if(grow(i)>0)
-                NTtide = 30;
-                constants;
-                loop;
-            end
-            if(grow(i)>0 && grow(i)<1e-2)
-                NTtide = 100;
-                constants;
-                loop;
-            end
-            if(grow(i)>0 && grow(i)<1e-3)
-                NTtide = 400;
-                constants;
-                loop;
-            end
-            if(grow(i)>0 && grow(i)<1e-4)
-                NTtide = 800;
-                constants;
-                loop;
-            end
+        NTtide = 600;
+        if(omega==0)
+            NTtide = 1/rw/shear/Ptide*10;
         end
-
+        constants;
+        loop;
+        % if(grow(i)>0)
+        %     NTtide = 100;
+        %     constants;
+        %     loop;
+        % end
+        % if(grow(i)>0 && grow(i)<1e-2)
+        %     NTtide = 100;
+        %     constants;
+        %     loop;
+        % end
+        % if(grow(i)>0 && grow(i)<1e-3)
+        %     NTtide = 400;
+        %     constants;
+        %     loop;
+        % end
+        % if(grow(i)>0 && grow(i)<1e-4)
+        %     NTtide = 800;
+        %     constants;
+        %     loop;
+        % end
+    end
 
     %%% Save the data
-    clear a1_t angle_front ct fit_span mz_t pe st tt xx_plot yy_plot buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta ke_nond ps_nond
-    save([expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '.mat'])
+    % clear a1_t angle_front ct fit_span mz_t pe st tt xx_plot yy_plot buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta ke_nond ps_nond
+    % save([expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '_test2.mat'])
 
     maxgrow = max(grow)
     
-    fig=figure(1);
-    set(fig,'visible','off');
-    clf;set(gcf,'Color','w');
-    plot(kx_all,grow,'LineWidth',2)
-    xlabel('\it{k_x} (m^{-1})')
-    title(['Growth rate (1/hour), \it{m_0}=' num2str(m0) ' (m^{-1})'])
+    % fig=figure(1);
+    % % set(fig,'visible','on');
+    % clf;set(gcf,'Color','w');
+    % % plot(kx_all,grow,'LineWidth',2)
+    % % xlabel('\it{k_x} (m^{-1})')
+    % % title(['Growth rate (1/hour), \it{m_0}=' num2str(m0) ' (m^{-1})'])
     % semilogx((rw_all),grow,'LineWidth',2)
     % xlabel('Wavenumber ratio (k_x/m_z)')
     % title('Growth rate (1/hour)')
-    grid on;grid minor;
-    ylabel('(1/hour)')
-    set(gca,'fontsize',20)
-    set(gcf, 'InvertHardcopy', 'off')
-    saveas(fig,[expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '.jpeg']);
+    % grid on;grid minor;
+    % ylabel('(1/hour)')
+    % set(gca,'fontsize',20)
+    % % set(gcf, 'InvertHardcopy', 'off')
+    % % saveas(fig,[expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '_test2.jpeg']);
 
+    % end
 
-    end
-
-    % plot_timeseires
+    plot_timeseires
 
 
 end

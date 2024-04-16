@@ -1,26 +1,6 @@
 
-% clear;
-% close all;
-
-% % % load(['output/growth_topo0.mat'])
-% % % load('/Users/ysi/MITgcm_shear_convec/instability_km/output_Ri1_Nsq1e-6_topo4/growth_topo4_NOdiff.mat')
-% % 
-% % %%%
-% % %%% Calculate the Richardson Number
-% % %%%
-% % plotRi = true;
-% % NaN_numbers = sum(isnan(growth),'all')
-% % growth_largerw = growth(:,end);
-% % 
-% % %%% Find out the wavenumber ratio rw=kx/mz corresponding to the maximum
-% % %%% growth rate, for each shear value
-% % growth_round = growth;
-% % growth_round(growth>1) = round(growth(growth>1),2);
-% % [max_growth rw_idx] = max(growth_round,[],2);
-% % % [max_growth rw_idx] = max(growth,[],2);
-% % rw_mg = rw_all(rw_idx);
-% % 
-% % criticalShear = omega*cosd(topo)/sind(topo);
+clear;
+close all;
 
 expdir = 'exps_test/';
 shear_all = [0:0.1e-4:1.8e-3];
@@ -28,18 +8,24 @@ rw_all= 10.^([-2:0.1:-1.1 -1.05 -1:0.0025:-0.7 -0.6:0.1:1]);
 growth = zeros(length(shear_all),length(rw_all));
 for i=1:length(shear_all)
     shear = shear_all(i);
-    load([expdir '/growth_shear' num2str(shear*1e3,3) '.mat'],'grow')
+    load([expdir '/growth_shear' num2str(shear*1e3,3) '.mat'],'grow','topo','omega')
     growth(i,:)=grow;
-    max_growth(i)=max(grow);
+    [max_growth(i) rw_idx]=max(grow);
+    rw_mg(i) = rw_all(rw_idx);
 end
+
+criticalShear = omega*cosd(topo)/sind(topo);
+
+plot_rw = atand(1./rw_all);
+plot_rwmg = atand(1./rw_mg);
 
 figure(22);
 clf;
 set(gcf,'Color','w');
-pcolor(shear_all,atand(1./rw_all),growth')
+pcolor(shear_all,plot_rw,growth')
 shading flat;colormap(WhiteBlueGreenYellowRed(0))
 hold on;
-% scatter(shear_all,atand(1./rw_mg),50,'filled','black')
+scatter(shear_all,plot_rwmg,10,'filled','black')
 % plot(criticalShear*ones(1,nr),log10(rw_all),'Color','k','LineWidth',2)
 grid on;grid minor;
 title('Growth rate (1/hour)')
@@ -57,13 +43,23 @@ xlabel('Shear (1/s)')
 title('Maximum growth rate (1/hour)')
 ylabel('(1/hour)')
 
-figure(24)
-clf;set(gcf,'Color','w')
-plot(shear_all,growth_largerw,'LineWidth',2);grid on;grid minor;set(gca,'fontsize',20)
-xlabel('Shear (1/s)')
-title('Growth rate (1/hour), large k/m')
-ylabel('(1/hour)')
 
+figure(2)
+clf;set(gcf,'Color','w')
+plot(shear_all,1./rw_mg,'LineWidth',2)
+xlabel('Shear (1/s)')
+ylabel('m/k at t=0')
+title('Aspect ratio of the initial perturbation (m_0/k) that corresponds to the largest growth rate')
+set(gca,'fontsize',20)
+grid on;grid minor;
+
+
+
+
+% %%% Find out the wavenumber ratio rw=kx/mz corresponding to the maximum
+% %%% growth rate, for each shear value
+% growth_round = growth;
+% growth_round(growth>1) = round(growth(growth>1),2);
 
 %%% Plot timeseries of dbdz, u, w, ke, etc., at wavenumber ratio rw=kx/mz 
 %%% corresponding to the maximum growth rate, for each shear value
@@ -99,13 +95,7 @@ if(plotRi)
     plot(shear_all,(1./Ri_min))
     Ri_min(Ri_min==Inf)=NaN;
     
-    figure(25)
-    clf;set(gcf,'Color','w')
-    plot(1./Ri_min,growth_largerw,'LineWidth',2);grid on;grid minor;set(gca,'fontsize',20)
-    xlabel('1/Ri_{min}')
-    title('Growth rate (1/hour), large k/m')
-    ylabel('(1/hour)')
-    
+
     figure(20);
     clf;
     set(gcf,'Color','w');
@@ -127,4 +117,6 @@ if(plotRi)
     title('Maximum growth rate (1/hour)')
     ylabel('(1/hour)')
 end
+
+
 
