@@ -4,7 +4,7 @@
 clear; close all;
 Diffusion = false;
 ConvectiveAdjustment = false;
-nt_percycle = 72; 
+nt_percycle = 72*4; 
 
 
 % %%%%%% exps_KH %%%%%%
@@ -54,8 +54,9 @@ Ptide = 43200;
 omega = 2*pi/Ptide;
 shear_Ri0_25 = 2*N;
 shear_Ri1 = N;
-% shear_all = 5e-5;
-
+omega0_all = sqrt([0:5*0.01:5])*omega;
+rw_all = omega0_all/N;
+shear_all = [0:5*1e-5:shear_Ri0_25];
 m0 =1;
 % load("rw_mg_exps_test.mat",'rw_mg')
 
@@ -84,21 +85,23 @@ for ns =1:length(shear_all)
 
     for i=1:length(rw_all)
     % for i=4
+        if(rem(i,25)==0)
         i
+        end
         rw = rw_all(i);
         kx = m0*rw;
 
-        NTtide = 30;
+        NTtide = 100;
         if(omega==0)
             NTtide = 1/rw/shear/Ptide*10;
         end
         constants;
         loop;
-        if(grow(i)>0)
-            NTtide = 100;
-            constants;
-            loop;
-        end
+        % if(grow(i)>0)
+        %     NTtide = 100;
+        %     constants;
+        %     loop;
+        % end
         % if(grow(i)>0 && grow(i)<1e-2)
         %     NTtide = 100;
         %     constants;
@@ -117,25 +120,26 @@ for ns =1:length(shear_all)
     end
 
     %%% Save the data
-    clear a1_t angle_front ct fit_span mz_t pe st tt xx_plot yy_plot buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta ke_nond ps_nond
-    save([expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '_test2.mat'])
+    clear fig a1_t angle_front ct fit_span mz_t pe st tt xx_plot yy_plot buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta ke_nond ps_nond
+    save([expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '-nt288.mat'])
 
     maxgrow = max(grow)
     
     fig=figure(1);
-    % set(fig,'visible','on');
+    set(fig,'visible','ofuof');
     clf;set(gcf,'Color','w');
     % plot(kx_all,grow,'LineWidth',2)
     % xlabel('\it{k_x} (m^{-1})')
     % title(['Growth rate (1/hour), \it{m_0}=' num2str(m0) ' (m^{-1})'])
-    semilogx((rw_all),grow,'LineWidth',2)
-    xlabel('Wavenumber ratio (k_x/m_z)')
+    plot((rw_all)*N/omega,grow,'LineWidth',2)
+    % xlabel('Wavenumber ratio (k_x/m_z)')
+    xlabel('Natural frequency/Forcing frequency (N k_x/m_z/\omega)')
     title('Growth rate (1/hour)')
     grid on;grid minor;
     ylabel('(1/hour)')
     set(gca,'fontsize',20)
     set(gcf, 'InvertHardcopy', 'off')
-    saveas(fig,[expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '_test2.jpeg']);
+    saveas(fig,[expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '-nt288.jpeg']);
 
     % end
 
