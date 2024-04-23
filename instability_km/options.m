@@ -4,8 +4,7 @@
 clear; close all;
 Diffusion = false;
 ConvectiveAdjustment = false;
-nt_percycle = 72; 
-
+nt_percycle = 72*2; 
 
 % %%%%%% exps_KH %%%%%%
 % expdir = 'exps_KH/';
@@ -33,37 +32,39 @@ nt_percycle = 72;
 % m0_all = [0:0.01:4];
 % kx_all = [-0.5:0.0025:0.5];
 
-% %%%%%% exps_test %%%%%%
-% expdir = 'exps_test/';
-% topo=4;
-% N = sqrt(1)*1e-3;
-% Ptide = 43200;
-% omega = 2*pi/Ptide;
-% shear_Ri0_25 = 0.0018;
-% shear_Ri1 = 0.97e-3;
-% % load('rw_mg.mat') %%% The wavenumber ratio m0/k that corresponds to the largest growth rate with out diffusion; or load('rw_mg_test3.mat') with diffusion kappa=1e-5,nu=1e-6.
-% shear_all = [0:0.1e-4:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
-% rw_all= 10.^([-2:0.1:-1.1 -1.05 -1:0.0025:-0.7 -0.6:0.1:1]);
-% m0 =1;
-
-%%%%%% exps_flatbottom %%%%%%
-expdir = 'exps_flat/';
-topo=0;
+%%%%%% exps_test %%%%%%
+expdir = 'exps_topo4/';
+topo=4;
 N = sqrt(1)*1e-3;
 Ptide = 43200;
 omega = 2*pi/Ptide;
-shear_Ri0_25 = 2*N;
-shear_Ri1 = N;
+shear_Ri0_25 = 0.0018;
+shear_Ri1 = 0.97e-3;
+% load('rw_mg.mat') %%% The wavenumber ratio m0/k that corresponds to the largest growth rate with out diffusion; or load('rw_mg_test3.mat') with diffusion kappa=1e-5,nu=1e-6.
+shear_all = [0:0.5e-5:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
 omega0_all = sqrt([0:0.01:6])*omega;
 rw_all = omega0_all/N;
-shear_all = [0:0.5e-5:shear_Ri0_25];
+% rw_all= 10.^([-2:0.1:-1.1 -1.05 -1:0.0025:-0.7 -0.6:0.1:1]);
 m0 =1;
-% load("rw_mg_exps_test.mat",'rw_mg')
+
+% %%%%%% exps_flatbottom %%%%%%
+% expdir = 'exps_flat/';
+% topo=0;
+% N = sqrt(1)*1e-3;
+% Ptide = 43200;
+% omega = 2*pi/Ptide;
+% shear_Ri0_25 = 2*N;
+% shear_Ri1 = N;
+% omega0_all = sqrt([0:0.01:6])*omega;
+% rw_all = omega0_all/N;
+% shear_all = [0:0.5e-5:shear_Ri0_25];
+% m0 =1;
+% % load("rw_mg_exps_test.mat",'rw_mg')
 
 mkdir(expdir);
 
 % for ns =1:length(shear_all)
-for ns =301:401
+for ns =76:100
     ns
     % rw_all = rw_mg(ns)
     shear = shear_all(ns)
@@ -91,7 +92,7 @@ for ns =301:401
         rw = rw_all(i);
         kx = m0*rw;
 
-        NTtide = 150;
+        NTtide = 100;
         if(omega==0)
             NTtide = 1/rw/shear/Ptide*10;
         end
@@ -125,8 +126,7 @@ for ns =301:401
 
     maxgrow = max(grow)
     
-    fig=figure(1);
-    set(fig,'visible','on');
+    fig=figure('visible','off');
     clf;set(gcf,'Color','w');
     % plot(kx_all,grow,'LineWidth',2)
     % xlabel('\it{k_x} (m^{-1})')
@@ -139,7 +139,7 @@ for ns =301:401
     ylabel('(1/hour)')
     set(gca,'fontsize',20)
     set(gcf, 'InvertHardcopy', 'off')
-    saveas(fig,[expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '-nt288.jpeg']);
+    saveas(fig,[expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '.jpeg']);
 
     % end
 

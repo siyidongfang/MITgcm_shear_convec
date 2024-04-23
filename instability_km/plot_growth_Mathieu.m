@@ -40,83 +40,83 @@ end
 
 
 
-for ns =169:217
-    shear = shear_all(ns);
-    load([expdir '/growth_shear' num2str(shear*1e3,3) '_m01.mat'],'grow','rw_all','m0','N','omega')
-    k0_all = rw_all*m0;
-    omega0 = N*k0_all*m0;
-    epsilon = 2*omega0.^2.*omega0/omega*shear/N;
-    epsilon = (epsilon/omega^2).^(1/2);
-    grow_all = [grow_all grow];
-    omega0_all = [omega0_all omega0];
-    epsilon_all = [epsilon_all epsilon];
-
-    % fig=figure(2);
-    % set(fig,'visible','on');
-    % clf;set(gcf,'Color','w');
-    % plot((rw_all)*N/omega,grow,'LineWidth',2)
-    % xlabel('Natural frequency/Forcing frequency (N k_x/m_z/\omega)')
-    % title('Growth rate (1/hour)')
-    % grid on;grid minor;
-    % ylabel('(1/hour)')
-    % set(gca,'fontsize',20)
-    % set(gcf, 'InvertHardcopy', 'off')
-    % ylim([-0.1 10]*1e-2)
-    % saveas(fig,[expdir '/figs/flat_shearN' num2str(ns+22) '.jpeg']);
-
-end
-
-for ns = 218:251
-    shear = shear_all(ns);
-    load([expdir '/growth_shear' num2str(shear*1e3,3) '_m01_newRW.mat'],'grow','rw_all','m0','N','omega')
-    k0_all = rw_all*m0;
-    omega0 = N*k0_all*m0;
-    epsilon = 2*omega0.^2.*omega0/omega*shear/N;
-    epsilon = (epsilon/omega^2).^(1/2);
-    grow_all = [grow_all grow];
-    omega0_all = [omega0_all omega0];
-    epsilon_all = [epsilon_all epsilon];
-
-    % fig=figure(2);
-    % set(fig,'visible','on');
-    % clf;set(gcf,'Color','w');
-    % plot((rw_all)*N/omega,grow,'LineWidth',2)
-    % xlabel('Natural frequency/Forcing frequency (N k_x/m_z/\omega)')
-    % title('Growth rate (1/hour)')
-    % grid on;grid minor;
-    % ylabel('(1/hour)')
-    % set(gca,'fontsize',20)
-    % set(gcf, 'InvertHardcopy', 'off')
-    % ylim([-0.1 10]*1e-2)
-    % saveas(fig,[expdir '/figs/flat_shearN' num2str(ns+22) '.jpeg']);
-
-end
-
-for ns = 252:length(shear_all)
-    shear = shear_all(ns);
-    load([expdir '/growth_shear' num2str(shear*1e3,3) '_m01_newRW2.mat'],'grow','rw_all','m0','N','omega')
-    k0_all = rw_all*m0;
-    omega0 = N*k0_all*m0;
-    epsilon = 2*omega0.^2.*omega0/omega*shear/N;
-    epsilon = (epsilon/omega^2).^(1/2);
-    grow_all = [grow_all grow];
-    omega0_all = [omega0_all omega0];
-    epsilon_all = [epsilon_all epsilon];
-
-    fig=figure(2);
-    set(fig,'visible','on');
-    clf;set(gcf,'Color','w');
-    plot((rw_all)*N/omega,grow,'LineWidth',2)
-    xlabel('Natural frequency/Forcing frequency (N k_x/m_z/\omega)')
-    title('Growth rate (1/hour)')
-    grid on;grid minor;
-    ylabel('(1/hour)')
-    set(gca,'fontsize',20)
-    set(gcf, 'InvertHardcopy', 'off')
-    ylim([-0.1 40]*1e-2)
-    saveas(fig,[expdir '/figs/flat_shearN' num2str(ns+22) '.jpeg']);
-
-end
+% for ns =169:217
+%     shear = shear_all(ns);
+%     load([expdir '/growth_shear' num2str(shear*1e3,3) '_m01.mat'],'grow','rw_all','m0','N','omega')
+%     k0_all = rw_all*m0;
+%     omega0 = N*k0_all*m0;
+%     epsilon = 2*omega0.^2.*omega0/omega*shear/N;
+%     epsilon = (epsilon/omega^2).^(1/2);
+%     grow_all = [grow_all grow];
+%     omega0_all = [omega0_all omega0];
+%     epsilon_all = [epsilon_all epsilon];
+% 
+%     % fig=figure(2);
+%     % set(fig,'visible','on');
+%     % clf;set(gcf,'Color','w');
+%     % plot((rw_all)*N/omega,grow,'LineWidth',2)
+%     % xlabel('Natural frequency/Forcing frequency (N k_x/m_z/\omega)')
+%     % title('Growth rate (1/hour)')
+%     % grid on;grid minor;
+%     % ylabel('(1/hour)')
+%     % set(gca,'fontsize',20)
+%     % set(gcf, 'InvertHardcopy', 'off')
+%     % ylim([-0.1 10]*1e-2)
+%     % saveas(fig,[expdir '/figs/flat_shearN' num2str(ns+22) '.jpeg']);
+% 
+% end
+% 
+% for ns = 218:251
+%     shear = shear_all(ns);
+%     load([expdir '/growth_shear' num2str(shear*1e3,3) '_m01_newRW.mat'],'grow','rw_all','m0','N','omega')
+%     k0_all = rw_all*m0;
+%     omega0 = N*k0_all*m0;
+%     epsilon = 2*omega0.^2.*omega0/omega*shear/N;
+%     epsilon = (epsilon/omega^2).^(1/2);
+%     grow_all = [grow_all grow];
+%     omega0_all = [omega0_all omega0];
+%     epsilon_all = [epsilon_all epsilon];
+% 
+%     % fig=figure(2);
+%     % set(fig,'visible','on');
+%     % clf;set(gcf,'Color','w');
+%     % plot((rw_all)*N/omega,grow,'LineWidth',2)
+%     % xlabel('Natural frequency/Forcing frequency (N k_x/m_z/\omega)')
+%     % title('Growth rate (1/hour)')
+%     % grid on;grid minor;
+%     % ylabel('(1/hour)')
+%     % set(gca,'fontsize',20)
+%     % set(gcf, 'InvertHardcopy', 'off')
+%     % ylim([-0.1 10]*1e-2)
+%     % saveas(fig,[expdir '/figs/flat_shearN' num2str(ns+22) '.jpeg']);
+% 
+% end
+% 
+% for ns = 252:length(shear_all)
+%     shear = shear_all(ns);
+%     load([expdir '/growth_shear' num2str(shear*1e3,3) '_m01_newRW2.mat'],'grow','rw_all','m0','N','omega')
+%     k0_all = rw_all*m0;
+%     omega0 = N*k0_all*m0;
+%     epsilon = 2*omega0.^2.*omega0/omega*shear/N;
+%     epsilon = (epsilon/omega^2).^(1/2);
+%     grow_all = [grow_all grow];
+%     omega0_all = [omega0_all omega0];
+%     epsilon_all = [epsilon_all epsilon];
+% 
+%     fig=figure(2);
+%     set(fig,'visible','on');
+%     clf;set(gcf,'Color','w');
+%     plot((rw_all)*N/omega,grow,'LineWidth',2)
+%     xlabel('Natural frequency/Forcing frequency (N k_x/m_z/\omega)')
+%     title('Growth rate (1/hour)')
+%     grid on;grid minor;
+%     ylabel('(1/hour)')
+%     set(gca,'fontsize',20)
+%     set(gcf, 'InvertHardcopy', 'off')
+%     ylim([-0.1 40]*1e-2)
+%     saveas(fig,[expdir '/figs/flat_shearN' num2str(ns+22) '.jpeg']);
+% 
+% end
 
 [omega0_sort,I] = sort(omega0_all);
 epsilon_sort = epsilon_all(I);
