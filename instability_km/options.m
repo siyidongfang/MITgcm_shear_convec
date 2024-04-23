@@ -1,10 +1,10 @@
 
-%%%%% All variables are dimensional variables
 
+%%%%% All variables are dimensional variables
 clear; close all;
 Diffusion = false;
 ConvectiveAdjustment = false;
-nt_percycle = 72*4; 
+nt_percycle = 72; 
 
 
 % %%%%%% exps_KH %%%%%%
@@ -47,23 +47,23 @@ nt_percycle = 72*4;
 % m0 =1;
 
 %%%%%% exps_flatbottom %%%%%%
-expdir = 'exps_Mathieu/';
+expdir = 'exps_flat/';
 topo=0;
 N = sqrt(1)*1e-3;
 Ptide = 43200;
 omega = 2*pi/Ptide;
 shear_Ri0_25 = 2*N;
 shear_Ri1 = N;
-omega0_all = sqrt([0:5*0.01:5])*omega;
+omega0_all = sqrt([0:0.01:6])*omega;
 rw_all = omega0_all/N;
-shear_all = [0:5*1e-5:shear_Ri0_25];
+shear_all = [0:0.5e-5:shear_Ri0_25];
 m0 =1;
 % load("rw_mg_exps_test.mat",'rw_mg')
 
 mkdir(expdir);
 
-for ns =1:length(shear_all)
-% for ns =1
+% for ns =1:length(shear_all)
+for ns =301:401
     ns
     % rw_all = rw_mg(ns)
     shear = shear_all(ns)
@@ -91,7 +91,7 @@ for ns =1:length(shear_all)
         rw = rw_all(i);
         kx = m0*rw;
 
-        NTtide = 100;
+        NTtide = 150;
         if(omega==0)
             NTtide = 1/rw/shear/Ptide*10;
         end
@@ -121,12 +121,12 @@ for ns =1:length(shear_all)
 
     %%% Save the data
     clear fig a1_t angle_front ct fit_span mz_t pe st tt xx_plot yy_plot buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta ke_nond ps_nond
-    save([expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '-nt288.mat'])
+    save([expdir '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '.mat'])
 
     maxgrow = max(grow)
     
     fig=figure(1);
-    set(fig,'visible','ofuof');
+    set(fig,'visible','on');
     clf;set(gcf,'Color','w');
     % plot(kx_all,grow,'LineWidth',2)
     % xlabel('\it{k_x} (m^{-1})')
