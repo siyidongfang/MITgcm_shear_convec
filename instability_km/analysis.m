@@ -3,19 +3,18 @@
 % close all;
 % shear_all = [0:1e-4:1.8e-3]; % Ri=1, shear = 0.97e-3;
 % rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
-shear_all = [0:0.01:1.8]*1e-3;
+shear_all = [0:0.005:0.495]*1e-3;
 % growrate = zeros(length(shear_all),length(rw_all));
 for ns = 1:length(shear_all)
     shear = shear_all(ns);
-    % load(['output/topo4_Nsq1e-6_test3/growth_shear' num2str(shear*1e3,3) '.mat'])
-    load(['exps_test/growth_shear' num2str(shear*1e3,3) '.mat'],'grow','rw_all')
+    load(['exps_topo4/growth_shear' num2str(shear*1e3,3) '_m01.mat'],'grow','rw_all')
     length_grow = length(grow);
     growrate(ns,1:length_grow)=grow;
     [max_growth(ns) rw_idx] = max(grow);
     rw_mg(ns) = rw_all(rw_idx);
 end
 
-save('rw_mg_exps_test.mat','rw_mg','shear_all','rw_all')
+save('rw_mg_exps_topo4.mat','rw_mg','shear_all','rw_all')
 
 shear_all = [0:0.01:1.8]*1e-3;
 

@@ -28,7 +28,7 @@ yyplot = log(pe/median(pe)+ke/median(ke))/2;
 [y_fit,delta_fit] = polyval(pKE,xxplot,S);
 
 
-figure(1)
+fig=figure('visible','off');
 clf;set(gcf,'Color','w','Position',[0 1 1467*1.5 864])
 subplot(2,3,1)
 % plot(xxplot*3600/1000,yyplot-yyplot(1),'LineWidth',2)
