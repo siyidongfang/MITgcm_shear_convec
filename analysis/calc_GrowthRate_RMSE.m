@@ -5,7 +5,7 @@
 
 
 clear;close all;
-for  ne = 2
+for  ne = 13
 load_all
 
 % Ntide = 20;
@@ -112,11 +112,23 @@ div_uu_norm = div_uu_zavg/div_uu_zavg(1);
 % div_vv_norm = div_vv_zavg/div_vv_zavg(1);
 % div_ww_norm = div_ww_zavg/div_ww_zavg(1);
 
+
+
+
+%%% Calculate the growth rate
+    fit_span = 12*2+1:12*12;
+    xxplot = time_h;
+    yyplot = log(div_uu_zavg/2)/2;
+    [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+    grow = pp(1)
+    [y_fit,delta_fit] = polyval(pp,xxplot,S);
+
 figure(2)
 clf;set(gcf,'Color','w','Position',[211 289 852 394])
-semilogy(time_h,div_tt_zavg,'LineWidth',2);
+plot(time_h,log(div_tt_zavg/2)/2,'LineWidth',2);
 hold on;
-semilogy(time_h,div_uu_zavg,'LineWidth',2);
+plot(time_h,log(div_uu_zavg/2)/2,'LineWidth',2);
+plot(xxplot(fit_span), y_fit(fit_span),'--');
 set(gca,'Fontsize',fontsize)
 xlabel('Time (hours)')
 title('Normalized temperature RMSE')
@@ -125,7 +137,7 @@ ylabel('(degC)')
 grid on;grid minor;
 hold on;
 % ylim([1e-9 1e-1])
-ylim([min(min([div_tt_zavg div_uu_zavg])) max(max([div_tt_zavg div_uu_zavg]))])
+% ylim([min(min([div_tt_zavg div_uu_zavg])) max(max([div_tt_zavg div_uu_zavg]))])
 
 % plot(div_uu_norm);
 % plot(div_vv_norm);

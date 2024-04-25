@@ -38,7 +38,7 @@ clim([0 6]/20)
 
 figure(23)
 clf;set(gcf,'Color','w')
-semilogx(shear_all,max_growth,'LineWidth',2);grid on;grid minor;set(gca,'fontsize',20)
+plot(shear_all,max_growth,'LineWidth',2);grid on;grid minor;set(gca,'fontsize',20)
 xlabel('Shear (1/s)')
 title('Maximum growth rate (1/hour)')
 ylabel('(1/hour)')

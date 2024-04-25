@@ -7,7 +7,7 @@ NEXP = length(plot_parm);
 
 Pr = 1;
 
-addpath    /Users/ysi/MITgcm_shear_convec/analysis
+addpath   /Users/ysi/MITgcm_shear_convec/analysis
 
 for ne = 1:7
     load_all

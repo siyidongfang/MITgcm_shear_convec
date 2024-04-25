@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = false;
+  FigureIsVisible = true;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 10*t1day;
+  simTime = 20*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -79,9 +79,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
   
   
-  Ly = 5*m1km;
-  % Lx = 3*m1km; 
-  Lx = 10*m1km; 
+  Ly = 3*m1km;
+  Lx = 3*m1km; 
+  % Lx = 10*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -924,7 +924,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     
   %%% Random noise amplitude
   % tNoise = 1e-15;  
-  tNoise = 1e-15;
+  tNoise = 1e-10;
   % tNoise = 0;
   sNoise = 0;
 
@@ -1031,7 +1031,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     vrelax(k) = vrelax(Nshear);
   % end
 
-  Nshear_smooth_half = round(15*3/dz_const);
+  % Nshear_smooth_half = round(15*3/dz_const);
+  Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);
 
@@ -1415,8 +1416,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   if(run_type~='prod')
         diag_fields_avg = {...   
             %%%%%%%% for spin-up
-           'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ','THETASQ',...
-           % 'UVEL','WVEL','THETA'...
+           'UVEL','WVEL','VVEL','THETA'...
+           % 'UVEL','WVEL','VVEL','THETA','UVELSQ','VVELSQ','WVELSQ','THETASQ',...
            % 'Um_Diss','Vm_Diss','Wm_Diss',...
             ... % 'ETAN',...
             ... % 'PHIHYD','PHI_NH',...
