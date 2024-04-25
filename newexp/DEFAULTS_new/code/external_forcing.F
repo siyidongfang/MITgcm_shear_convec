@@ -190,7 +190,8 @@ C      topog_slope = 4.912113091736391
       Tref_const = 0.d0
 
       amp_force   = amp_tide *
-     &     (omega_tide*omega_tide-f0*f0)
+     &     (omega_tide*omega_tide
+     &      -f0*f0*cos_slope*cos_slope)
      &      / (omega_tide*omega_tide)
 
 C      amp_force   = amp_tide *
@@ -215,7 +216,7 @@ C      end if
        end if
       END DO
 
-      Nshear_smooth_half = 0.
+      Nshear_smooth_half = 15
 
       if(kLev.gt.Nshear_smooth_half) then
       if((Nr-kLev).ge.Nshear_smooth_half) then

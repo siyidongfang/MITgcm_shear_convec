@@ -923,8 +923,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  % tNoise = 1e-15;  
-  tNoise = 1e-10;
+  tNoise = 1e-20;  
   % tNoise = 0;
   sNoise = 0;
 
@@ -1031,8 +1030,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     vrelax(k) = vrelax(Nshear);
   % end
 
-  % Nshear_smooth_half = round(15*3/dz_const);
-  Nshear_smooth_half = 0;
+  Nshear_smooth_half = round(15*3/dz_const);
+  % Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);
 
