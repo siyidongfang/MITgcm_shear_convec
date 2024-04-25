@@ -10,7 +10,7 @@ load_all
 
 % xx = xx-xx(1);
 % No = nDumps-1;
-No = 54720/360;
+No = 76680/360;
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
 vv_timeseries = zeros(No,Nr);
