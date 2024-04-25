@@ -18,22 +18,22 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-Nx = 150;
-
-Hmax = 1500;
-dz_const = 3;
+Nx = 500;
+Nr = 450;
+% Hmax = 900;
+% dz_const = 3;
 % Hsurface = 1002; 
 % Ntop = 120;
 % Nr = round((Hmax-Hsurface)/dz_const) + Ntop;
-Nr = round(Hmax/dz_const);
+% Nr = round(Hmax/dz_const);
 
 run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with very small time step, spin-up run for 10 to 20 days, and product run,
 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-Shear = 1e-3
-exp_name = ['s' num2str(Shear) '_dz3dx20Lx10km_n1e-20Ln400_smoothShear'];
+Shear = 2.2e-03
+exp_name = ['s' num2str(Shear) '_dz1dx6n1e-30'];
 % exp_name = ['s' num2str(Shear) '_test3']
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)

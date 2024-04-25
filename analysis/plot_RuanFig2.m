@@ -4,13 +4,13 @@
 %%% Replicate Fig. 2 of Xiaozhou's manuscript
 
 clear;
-% close all;
+close all;
 for ne =1
 load_all
 
 % xx = xx-xx(1);
 % No = nDumps-1;
-No = 76680/360;
+No = 59400/360;
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
 vv_timeseries = zeros(No,Nr);
@@ -66,7 +66,7 @@ for o=1:No
     % LC = 0.75*Ly;
     % LC = 0.85*Lx;
 
-    LC = 2*m1km;
+    LC = 1*m1km;
     [mC,nC] = min(abs(xx-LC));
     ttC = tt(nC,:)+tt_background(nC,:);
     % ssC = tt(nC,:);
@@ -85,16 +85,16 @@ end
 % botN = find(isnan(uu_timeseries(1,:)),1);
 % botZ = zz(botN)
 botN = Nr;
-botZ =-1500;
+botZ =zz(end);
 
 %%
 
 YLIM = [0 300];
 % YLIM = [0 1500];
-XLIM = [0 20];
+XLIM = [0 40];
 % XLIM = [15 40];
 
-figure(3)
+figure()
 set(gcf,'Position',[56 139 898 762])
 clf;set(gcf,'color','w');
 subplot(3,1,1)
@@ -148,7 +148,7 @@ ylim(YLIM)
 xlim(XLIM)
 
 
-figure(4)
+figure()
 clf;set(gcf,'color','w');
 pcolor(time_tidal,zz-botZ,ww_timeseries');
 hold on;
@@ -163,7 +163,7 @@ ylim(YLIM)
 xlim(XLIM)
 
 
-figure(5)
+figure()
 clf;set(gcf,'color','w');
 pcolor(time_tidal,zz-botZ,vv_timeseries');
 hold on;
@@ -178,7 +178,7 @@ ylim(YLIM)
 xlim(XLIM)
 
 
-figure(6)
+figure()
 clf;set(gcf,'color','w');
 pcolor(time_tidal,zz-botZ,shear_timeseries');
 hold on;

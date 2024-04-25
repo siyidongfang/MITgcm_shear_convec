@@ -1,16 +1,17 @@
 
     clear;close all;
-    ne=5;
+    ne=1;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
 
 
-    o2 = nDumps;
-    o1 = 1;
+    % o2 = nDumps;
+    o2 = 59400/360;
 
-    % YLIM = [0 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
-     YLIM = [1100 1500];XLIM = [-Lx/2/1000 Lx/2/1000];
+    o1 = o2-20;
+
+     YLIM = [-zz(end)-300 -zz(end)];XLIM = [-Lx/2/1000 Lx/2/1000];
     [ZZ,XX] = meshgrid(zz,xx);
     
     Hz = sum(delR);
@@ -23,8 +24,8 @@
     end
 
 
-    for o=60:120
-% for o=o1:o2
+    % % for o=60:120
+for o=o1:o2
 % for o=300:nDumps
 
     nIter = dumpIters(o);

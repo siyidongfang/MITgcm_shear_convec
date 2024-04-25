@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = true;
+  FigureIsVisible = false;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 20*t1day;
+  simTime = 30*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -81,7 +81,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   Ly = 3*m1km;
   Lx = 3*m1km; 
-  % Lx = 10*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -175,7 +174,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % diffKrS = 2e-5; %%% Vertical salt diffusion 
 
   %------ xruan's viscosity and diffusivity
-  lfac = 1; 
+  lfac = 0.5; 
   viscAh = 1e-4*lfac; %%% Horizontal viscosity         %-- from Xiaozhou
   viscAr = 2e-4*lfac; %%% Vertical viscosity           %-- from Xiaozhou
   diffKhT = 1e-4*lfac; %%% Horizontal temp diffusion   %-- from Xiaozhou
@@ -349,17 +348,20 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   %%% Plotting mesh
   [Y,X] = meshgrid(yy,xx);
+  
+  dz = [1*ones(1,250) [1:3/99:4] 4*ones(1,100)];
+  dz = flipud(dz')';
 
-  dz_const = 3;
-  %%% Varied dz with depth  %  -- from Xiaozhou
-  % Hsurface = 1002;
-  % Ntop = 120;
-  % dz = dz_const.*ones(1,Nr);
-  % dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.015.^(1:Ntop);
-  % sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
-  % dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
-  % dz = flipud(dz')';
-  dz = dz_const*ones(1,Nr);
+  % % dz_const = 3;
+  % % %%% Varied dz with depth  %  -- from Xiaozhou
+  % % % Hsurface = 1002;
+  % % % Ntop = 120;
+  % % % dz = dz_const.*ones(1,Nr);
+  % % % dz(Nr-Ntop + 1:Nr) = dz(Nr - Ntop) * 1.015.^(1:Ntop);
+  % % % sum_dz_sponge = sum(dz(Nr-Ntop + 1:Nr));
+  % % % dz(Nr-Ntop + 1:Nr) = dz(Nr-Ntop + 1:Nr).*Hsurface/sum_dz_sponge;
+  % % % dz = flipud(dz')';
+  % % dz = dz_const*ones(1,Nr);
  
   zz = -cumsum((dz+[0 dz(1:end-1)])/2);
 
@@ -370,7 +372,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
   %%%%%% Flat bottom -- start
-  Hmax = 1500;
+  Hmax = 900;
   h = -Hmax*ones(Nx,Ny);
   %%%%%% Flat bottom -- end
 
@@ -923,7 +925,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-20;  
+  tNoise = 1e-30;  
   % tNoise = 0;
   sNoise = 0;
 
@@ -1030,8 +1032,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     vrelax(k) = vrelax(Nshear);
   % end
 
-  Nshear_smooth_half = round(15*3/dz_const);
-  % Nshear_smooth_half = 0;
+  % Nshear_smooth_half = round(15*3/dz_const);
+  Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);
 
@@ -1255,7 +1257,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   pcolor(xx/1000,-zz,squeeze(uVelInit)');axis ij;
   hold on;
   plot(xx/1000,-h);
-  shading flat;colormap(redblue);clim([-0.7 0.7]);colorbar;
+  shading flat;colormap(redblue);clim([-2 2]*(max(vrelax)+0.0001));colorbar;
   xlabel('Distance, y (km)');
   ylabel('Depth (m)');
   title('Initial velocity u (m/s)');

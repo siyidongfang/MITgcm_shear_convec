@@ -66,7 +66,6 @@ C=== Yidongfang Si =====
 
       REAL*8 tauTop
       REAL*8 tauProfile
-      REAL*8 dz_const
 
       REAL*8 amp_tide
       REAL*8 amp_force
@@ -176,7 +175,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 1e-03
+      u_shear = 2.2e-03
       h_shear = 250.5
       Nsquare_const = 1.0e-06
 
@@ -206,8 +205,6 @@ C      if((rC(kLev)-rC(Nr)).gt.900.) then
 C      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
 C      end if
 
-      dz_const = 3.
-
       DO i=1,Nr
        if((rC(i)-rC(Nr)).lt.h_shear) then
        shearProfile(i)=(rC(i)-rC(Nr))/h_shear
@@ -216,7 +213,7 @@ C      end if
        end if
       END DO
 
-      Nshear_smooth_half = 15
+      Nshear_smooth_half = 0
 
       if(kLev.gt.Nshear_smooth_half) then
       if((Nr-kLev).ge.Nshear_smooth_half) then
