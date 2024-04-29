@@ -5,13 +5,13 @@
 
 
 clear;
-for  ne = 1
+for  ne = 23
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps-1;
-No = 59400/360;
+No =  240;
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -117,13 +117,13 @@ div_uu_norm = div_uu_zavg/div_uu_zavg(1);
 
 
 
-% %%% Calculate the growth rate
-%     fit_span = 12*1+1:10*12;
-%     xxplot = time_h;
-%     yyplot = log(div_uu_zavg/2)/2;
-%     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-%     grow = pp(1)
-%     [y_fit,delta_fit] = polyval(pp,xxplot,S);
+%%% Calculate the growth rate
+    fit_span = 12*1+1:10*12;
+    xxplot = time_h;
+    yyplot = log(div_uu_zavg/2)/2;
+    [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+    grow = pp(1)
+    [y_fit,delta_fit] = polyval(pp,xxplot,S);
 
 figure()
 clf;set(gcf,'Color','w','Position',[211 289 852 394])
