@@ -1,17 +1,17 @@
 
     clear;close all;
-    ne=1;
+    ne=6;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
 
 
-    % o2 = nDumps;
-    o2 = 26400/1200;
+    o2 = nDumps;
+    % o2 = 240;
 
-    o1 = o2-20;
+    o1 = 20;
 
-     YLIM = [-zz(end)-300 -zz(end)];XLIM = [-Lx/2/1000 Lx/2/1000];
+    YLIM = [-zz(end)-900 -zz(end)];XLIM = [-Lx/2/1000 Lx/2/1000];
     [ZZ,XX] = meshgrid(zz,xx);
     
     Hz = sum(delR);

@@ -10,7 +10,7 @@
     
 clear; close all;
 
-ne=4;
+ne=1;
 load_all;
 
 %%% Add path
@@ -27,7 +27,7 @@ EKEtot = zeros(1,nDumps);
 KEtot = zeros(1,nDumps);
 KElen = 0;
 
-nseries = 1:nDumps;
+nseries = 1:nDumps-1;
 
 for n= nseries
  

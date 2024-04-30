@@ -5,7 +5,7 @@
 
 
 clear;
-for  ne = 23
+for  ne = 1:11
 load_all
 
 % Ntide = 20;

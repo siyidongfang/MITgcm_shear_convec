@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = false;
+  FigureIsVisible = true;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 15*t1day;
+  simTime = 20*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -954,8 +954,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   end
 
   % %%%% Initial condition: random noise in buoyancy field
-  %   hydroTh = hydroTh + tNoise*(2*rand(Nx,Ny,Nr)-1);
-  %   hydroSa = hydroSa + sNoise*(2*rand(Nx,Ny,Nr)-1);
+  % hydroTh = hydroTh + tNoise*(2*rand(Nx,Ny,Nr)-1);
+  % hydroSa = hydroSa + sNoise*(2*rand(Nx,Ny,Nr)-1);
 
   for i=1:Nx
       for j=1:Ny
@@ -1033,7 +1033,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     vrelax(k) = vrelax(Nshear);
   % end
 
-  Nshear_smooth_half = round(15*3/dz_const);
+  % Nshear_smooth_half = round(15*3/dz_const);
+  Nshear_smooth_half = 15;
   % Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);
