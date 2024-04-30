@@ -4,14 +4,14 @@
 %%% Calculate the instability growth rate of the MITgcm simulations
 
 
-clear;
-for  ne = 1:11
+clear;close all;
+for  ne = 1
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps-1;
-No =  240;
+No =  70;
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -118,7 +118,7 @@ div_uu_norm = div_uu_zavg/div_uu_zavg(1);
 
 
 %%% Calculate the growth rate
-    fit_span = 12*1+1:10*12;
+    fit_span = 12*1+1:5*12;
     xxplot = time_h;
     yyplot = log(div_uu_zavg/2)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 

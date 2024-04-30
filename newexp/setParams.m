@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 20*t1day;
+  simTime = 10*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -174,7 +174,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % diffKrS = 2e-5; %%% Vertical salt diffusion 
 
   %------ xruan's viscosity and diffusivity
-  lfac = 0.5; 
+  lfac = 1; 
   viscAh = 1e-4*lfac; %%% Horizontal viscosity         %-- from Xiaozhou
   viscAr = 2e-4*lfac; %%% Vertical viscosity           %-- from Xiaozhou
   diffKhT = 1e-4*lfac; %%% Horizontal temp diffusion   %-- from Xiaozhou
@@ -926,9 +926,13 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-15;  
+  tNoise = 1e-7;  
   % tNoise = 0;
   sNoise = 0;
+
+  %---- Add an infinitesimal linear stratification 
+  % Flinear = zeros(1,Nr);
+  Flinear = tNoise*10*(flip(-zz)); 
 
   %---- Add random noise with a certain wavelength to the initial temperature field
   noise_length = 400;
@@ -942,6 +946,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   [zzz2,xxx2] = meshgrid(zz,xx);
 
   Fnoise = interp2(zzz1,xxx1,Fnoise,zzz2,xxx2);
+
+
   %----------------
 
   %%% Align initial temp with background
@@ -960,7 +966,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   for i=1:Nx
       for j=1:Ny
           for k=1:Nr
-              hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k);
+              hydroTh(i,j,k)=hydroTh(i,j,k)+Flinear(k);
+              % hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k)+Flinear(k);
           end
       end
   end
@@ -991,7 +998,11 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   plot(xx/1000,-h);
   shading flat;colormap(redblue);
   if(tNoise ~=0)
-    clim([-tNoise tNoise]*2);
+      if (max(Flinear)~=0)
+        clim([-tNoise tNoise]*10000);
+      else
+        clim([-tNoise tNoise]);
+      end
   end
   % clim([0 1]);
   colorbar;

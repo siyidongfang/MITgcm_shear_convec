@@ -175,13 +175,13 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 0.0e-03
+      u_shear = 1.5e-03
       h_shear = 250.5
       Nsquare_const = 1.0e-06
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
@@ -191,16 +191,16 @@ C      topog_slope = 4.d0
 
       amp_tide = u_shear * h_shear
 
-      amp_force   = amp_tide *
-     &     (omega_tide*omega_tide
-     &      -f0*f0*cos_slope*cos_slope)
-     &      / (omega_tide*omega_tide)
-
 C      amp_force   = amp_tide *
 C     &     (omega_tide*omega_tide
-C     &      -f0*f0*cos_slope*cos_slope
-C     &      -Nsquare_const*sin_slope*sin_slope)
-C     &                       / (omega_tide*omega_tide)
+C     &      -f0*f0*cos_slope*cos_slope)
+C     &      / (omega_tide*omega_tide)
+
+      amp_force   = amp_tide *
+     &     (omega_tide*omega_tide
+     &      -f0*f0*cos_slope*cos_slope
+     &      -Nsquare_const*sin_slope*sin_slope)
+     &                       / (omega_tide*omega_tide)
 
 C      tauTop = 1./3600./100.
 C      tauProfile = 0.
@@ -442,8 +442,8 @@ C      u_shear = 1.5e-03
 C      h_shear = 250.5
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
@@ -851,8 +851,8 @@ C=== Yidongfang Si =====
       temp_Alpha = 2.0e-04
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)

@@ -34,8 +34,8 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-Shear = 0.0e-03
-exp_name = ['new_smooth_noslope_s' num2str(Shear) '_dz3dx15n1e-15'];
+Shear = 1.5e-03
+exp_name = ['LinearN_noNoise_lfac1_topo4_s' num2str(Shear) '_dz3dx15n1e-6'];
 % exp_name = ['s' num2str(Shear) '_test3']
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)
