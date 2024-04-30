@@ -57,12 +57,12 @@ C     kSurface  :: index of surface level
 CEOP
 
 C=== Yidongfang Si =====
-      INTEGER Nshear_smooth_half
-      INTEGER NsmoothStart
-      INTEGER NsmoothEnd
-      REAL*8 shearProfile(Nr)
+C      INTEGER Nshear_smooth_half
+C      INTEGER NsmoothStart
+C      INTEGER NsmoothEnd
+C      REAL*8 shearProfile(Nr)
       REAL*8 shearRatio
-      REAL*8 Ndivide
+C      REAL*8 Ndivide
 
       REAL*8 tauTop
       REAL*8 tauProfile
@@ -175,7 +175,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 1.5e-03
+      u_shear = 0.0e-03
       h_shear = 250.5
       Nsquare_const = 1.0e-06
 
@@ -192,14 +192,14 @@ C      topog_slope = 0.0
       amp_tide = u_shear * h_shear
 
 C      amp_force   = amp_tide *
-C     &     (omega_tide*omega_tide
-C     &      -f0*f0*cos_slope*cos_slope)
+C     &     (-omega_tide*omega_tide
+C     &      +f0*f0*cos_slope*cos_slope)
 C     &      / (omega_tide*omega_tide)
 
       amp_force   = amp_tide *
-     &     (omega_tide*omega_tide
-     &      -f0*f0*cos_slope*cos_slope
-     &      -Nsquare_const*sin_slope*sin_slope)
+     &     (f0*f0*cos_slope*cos_slope
+     &      -omega_tide*omega_tide
+     &      +Nsquare_const*sin_slope*sin_slope)
      &                       / (omega_tide*omega_tide)
 
 C      tauTop = 1./3600./100.
@@ -208,44 +208,10 @@ C      if((rC(kLev)-rC(Nr)).gt.900.) then
 C      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
 C      end if
 
-      DO i=1,Nr
-       if((rC(i)-rC(Nr)).lt.h_shear) then
-       shearProfile(i)=(rC(i)-rC(Nr))/h_shear
-       else
-       shearProfile(i)=1.
-       end if
-      END DO
-
-      Nshear_smooth_half = 15
-
-      if(kLev.gt.Nshear_smooth_half) then
-      if((Nr-kLev).ge.Nshear_smooth_half) then
-      NsmoothStart = kLev-Nshear_smooth_half
-      NsmoothEnd = kLev+Nshear_smooth_half
-      end if
-      end if
-
-      if((Nr-kLev).lt.Nshear_smooth_half) then
-      NsmoothStart = kLev-(Nr-kLev)
-      NsmoothEnd = Nr
-      end if
-
-      if(kLev.le.Nshear_smooth_half) then
-      NsmoothStart = 1
-      NsmoothEnd = kLev+(kLev-1)
-      end if
-
-      shearRatio = 0.
-      Ndivide = 0.
-
-      if(NsmoothEnd.gt.NsmoothStart) then
-      DO i=NsmoothStart,NsmoothEnd
-       shearRatio = shearRatio + shearProfile(i)
-       Ndivide = Ndivide + 1.
-      END DO
-      shearRatio = shearRatio/Ndivide
+      if((rC(kLev)-rC(Nr)).lt.h_shear) then
+      shearRatio=(rC(kLev)-rC(Nr))/h_shear
       else
-      shearRatio = shearProfile(kLev)
+      shearRatio=1.
       end if
 
       DO j=0,sNy+1

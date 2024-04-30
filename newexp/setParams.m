@@ -926,13 +926,13 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-7;  
+  tNoise = 1e-6;  
   % tNoise = 0;
   sNoise = 0;
 
   %---- Add an infinitesimal linear stratification 
-  % Flinear = zeros(1,Nr);
-  Flinear = tNoise*10*(flip(-zz)); 
+  Flinear = zeros(1,Nr);
+  % Flinear = tNoise*10*(flip(-zz)); 
 
   %---- Add random noise with a certain wavelength to the initial temperature field
   noise_length = 400;
@@ -946,7 +946,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   [zzz2,xxx2] = meshgrid(zz,xx);
 
   Fnoise = interp2(zzz1,xxx1,Fnoise,zzz2,xxx2);
-
 
   %----------------
 
@@ -966,8 +965,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   for i=1:Nx
       for j=1:Ny
           for k=1:Nr
-              hydroTh(i,j,k)=hydroTh(i,j,k)+Flinear(k);
+              % hydroTh(i,j,k)=hydroTh(i,j,k)+Flinear(k);
               % hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k)+Flinear(k);
+              hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k);
           end
       end
   end
@@ -1045,8 +1045,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   % Nshear_smooth_half = round(15*3/dz_const);
-  Nshear_smooth_half = 15;
-  % Nshear_smooth_half = 0;
+  % Nshear_smooth_half = 15;
+  Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);
 
@@ -1062,40 +1062,44 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
    end 
 
   vrelax2 = Shear*h_shear*shearProfile;
-  for kLev = 1:Nr
-      if(kLev>Nshear_smooth_half) 
-          if((Nr-kLev)>=Nshear_smooth_half) 
-              NsmoothStart = kLev-Nshear_smooth_half;
-              NsmoothEnd = kLev+Nshear_smooth_half;
-          end 
-      end 
+  
 
-      if((Nr-kLev)<Nshear_smooth_half) 
-          NsmoothStart = kLev-(Nr-kLev);
-          NsmoothEnd = Nr;
-      end 
+  %--- smooth the velocity shear
+  % for kLev = 1:Nr
+  %     if(kLev>Nshear_smooth_half) 
+  %         if((Nr-kLev)>=Nshear_smooth_half) 
+  %             NsmoothStart = kLev-Nshear_smooth_half;
+  %             NsmoothEnd = kLev+Nshear_smooth_half;
+  %         end 
+  %     end 
+  % 
+  %     if((Nr-kLev)<Nshear_smooth_half) 
+  %         NsmoothStart = kLev-(Nr-kLev);
+  %         NsmoothEnd = Nr;
+  %     end 
+  % 
+  %     if(kLev<=Nshear_smooth_half) 
+  %         NsmoothStart = 1;
+  %         NsmoothEnd = kLev+(kLev-1);
+  %     end 
+  % 
+  %     shearRatio(kLev) = 0.;
+  %     Ndivide(kLev) = 0.;
+  % 
+  %     if(NsmoothEnd>NsmoothStart) 
+  %         for i= NsmoothStart:NsmoothEnd
+  %              shearRatio(kLev) = shearRatio(kLev) + shearProfile(i);
+  %              Ndivide(kLev) = Ndivide(kLev) + 1;
+  %         end 
+  %         shearRatio(kLev) = shearRatio(kLev)/Ndivide(kLev);
+  %     else
+  %         shearRatio(kLev) = shearProfile(kLev);
+  %     end 
+  % end
 
-      if(kLev<=Nshear_smooth_half) 
-          NsmoothStart = 1;
-          NsmoothEnd = kLev+(kLev-1);
-      end 
+  % vrelax = Shear*h_shear*shearRatio;
 
-      shearRatio(kLev) = 0.;
-      Ndivide(kLev) = 0.;
-
-      if(NsmoothEnd>NsmoothStart) 
-          for i= NsmoothStart:NsmoothEnd
-               shearRatio(kLev) = shearRatio(kLev) + shearProfile(i);
-               Ndivide(kLev) = Ndivide(kLev) + 1;
-          end 
-          shearRatio(kLev) = shearRatio(kLev)/Ndivide(kLev);
-      else
-          shearRatio(kLev) = shearProfile(kLev);
-      end 
-  end
-
-%%
-  vrelax = Shear*h_shear*shearRatio;
+  vrelax = vrelax2;
 
   %%% Plot velocity shear
   h_figure=figure(fignum);
