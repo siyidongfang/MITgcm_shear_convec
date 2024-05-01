@@ -11,17 +11,16 @@ load_all
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps-1;
-No =  round(15943/514);
+No =  round(12343/514)+90;
 tidx = 1:No;
 Nt = length(tidx);
-Hshear = 250;
+Hshear = 890;
 dz = delR(end);
 Nshear = round(Hshear/dz);
 zidx = Nr-Nshear:Nr-1;
 % zidx = 1:Nr;
 % Nshear = length(zidx)
-botZ =-1500;
-hab_shear = zz(zidx)-botZ;
+hab_shear = zz(zidx)-min(zz);
 
 div_tt = zeros(Nt,Nshear);
 div_uu = zeros(Nt,Nshear);
@@ -71,36 +70,36 @@ end
 
 %%
 
-CLIM = [0 1]*1e-6;
+CLIM = [0 1]*1e-10;
 
-% % figure(1)
-% % % clf;set(gcf,'Color','w','Position', [75 224 1362 647])
-% % % subplot(2,2,1)
-% % % pcolor(time_h,hab_shear,div_tt');shading flat;colorbar
-% % % ylabel('HAB (m)');xlabel('Time (hours)');
-% % % title('RMSE of potential temperature (degC)')
-% % % set(gca,'Fontsize',fontsize)
-% % % clim(CLIM)
-% % subplot(2,2,2)
-% % pcolor(time_h,hab_shear,div_uu');shading flat;colorbar
-% % ylabel('HAB (m)');xlabel('Time (hours)');
-% % set(gca,'Fontsize',fontsize)
-% % title('RMSE of cross-isobath velocity u RMSE (m/s)')
-% % clim(CLIM)
-% % % subplot(2,2,3)
-% % % pcolor(time_h,hab_shear,div_vv');shading flat;colorbar
-% % % ylabel('HAB (m)');xlabel('Time (hours)');
-% % % set(gca,'Fontsize',fontsize)
-% % % title('RMSE of along-isobath velocity v (m/s)')
-% % % clim(CLIM)
-% % subplot(2,2,4)
-% % pcolor(time_h,hab_shear,div_ww');shading flat;colorbar
-% % ylabel('HAB (m)');xlabel('Time (hours)');
-% % set(gca,'Fontsize',fontsize)
-% % title('RMSE of vertical velocity w (m/s)')
-% % colormap(WhiteBlueGreenYellowRed(0))
-% % clim(CLIM)
-% % 
+figure(1)
+clf;set(gcf,'Color','w','Position', [75 224 1362 647])
+subplot(2,2,1)
+pcolor(time_h,hab_shear,div_tt');shading flat;colorbar
+ylabel('HAB (m)');xlabel('Time (hours)');
+title('RMSE of potential temperature (degC)')
+set(gca,'Fontsize',fontsize)
+clim(CLIM)
+subplot(2,2,2)
+pcolor(time_h,hab_shear,div_uu');shading flat;colorbar
+ylabel('HAB (m)');xlabel('Time (hours)');
+set(gca,'Fontsize',fontsize)
+title('RMSE of cross-isobath velocity u RMSE (m/s)')
+clim(CLIM)
+subplot(2,2,3)
+pcolor(time_h,hab_shear,div_vv');shading flat;colorbar
+ylabel('HAB (m)');xlabel('Time (hours)');
+set(gca,'Fontsize',fontsize)
+title('RMSE of along-isobath velocity v (m/s)')
+clim(CLIM)
+subplot(2,2,4)
+pcolor(time_h,hab_shear,div_ww');shading flat;colorbar
+ylabel('HAB (m)');xlabel('Time (hours)');
+set(gca,'Fontsize',fontsize)
+title('RMSE of vertical velocity w (m/s)')
+colormap(WhiteBlueGreenYellowRed(0))
+clim(CLIM)
+
 % % % % % % print('-dpng','-r150',[expname '_rmse.png']);
 
 %%
@@ -135,7 +134,8 @@ set(gca,'Fontsize',fontsize)
 xlabel('Time (tidal cycles)')
 title('Normalized temperature RMSE')
 title('RMSE of T and u averaged over the bottom shear layer')
-ylabel('(degC)')
+% ylabel('(degC)')
+legend('RMSE of T','RMSE of u')
 grid on;grid minor;
 hold on;
 % ylim([1e-9 1e-1])
