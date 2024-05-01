@@ -5,13 +5,13 @@
 
 
 clear;
-for  ne = 3
+for  ne = 2
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps-1;
-No =  round(16971/514);
+No =  round(15943/514);
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;

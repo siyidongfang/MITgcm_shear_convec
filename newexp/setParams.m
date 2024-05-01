@@ -236,9 +236,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% boundary conditions
   parm01.addParm('no_slip_sides',false,PARM_BOOL);
   parm01.addParm('no_slip_bottom',false,PARM_BOOL);
-  % parm01.addParm('bottomDragLinear',0,PARM_REAL);  %-- from Xiaozhou
-  parm01.addParm('bottomDragQuadratic',2.5e-3,PARM_REAL);  %-- from Xiaozhou
-  % parm01.addParm('bottomDragQuadratic',0,PARM_REAL); 
+  parm01.addParm('bottomDragLinear',0,PARM_REAL);  %-- from Xiaozhou
+  % parm01.addParm('bottomDragQuadratic',2.5e-3,PARM_REAL);  %-- from Xiaozhou
+  parm01.addParm('bottomDragQuadratic',0,PARM_REAL); 
   %%% physical parameters
   parm01.addParm('f0',f0,PARM_REAL);
   parm01.addParm('beta',beta,PARM_REAL);
@@ -926,7 +926,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-6;  
+  tNoise = 1e-10;  
   % tNoise = 0;
   sNoise = 0;
 
@@ -946,7 +946,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   [zzz2,xxx2] = meshgrid(zz,xx);
 
   Fnoise = interp2(zzz1,xxx1,Fnoise,zzz2,xxx2);
-
   %----------------
 
   %%% Align initial temp with background
@@ -965,9 +964,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   for i=1:Nx
       for j=1:Ny
           for k=1:Nr
-              % hydroTh(i,j,k)=hydroTh(i,j,k)+Flinear(k);
+              hydroTh(i,j,k)=hydroTh(i,j,k)+Flinear(k);
               % hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k)+Flinear(k);
-              hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k);
+              % hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k);
           end
       end
   end
