@@ -292,7 +292,7 @@ function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,N
   %%% Estimated for a single Fram core.
   switch (cluster)
     case 'derecho'
-      alpha = 1.59e-9*0.4610;
+      alpha = 1.59e-9*0.6479;
     case 'cheyenne'
       alpha = 1.59e-9*6;
     case 'engaging'

@@ -5,12 +5,13 @@
 
 clear;
 % close all;
-for ne =11
+for ne =3
 
 load_all
 
 % xx = xx-xx(1);
-No = nDumps-1;
+% No = nDumps-1;
+No = 200
 % No =  round(74057/514)-1;
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
@@ -92,7 +93,7 @@ botZ =zz(end);
 
 YLIM = [0 350];
 % YLIM = [0 1500];
-XLIM = [0 12];
+XLIM = [0 40];
 % XLIM = [15 40];
 
 figure()

@@ -4,16 +4,16 @@
 %%% Calculate the instability growth rate of the MITgcm simulations
 
 
-clear;close all
+clear;
+% close all
 
-for  ne = 21
+for  ne = 1:21
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps-1;
-% No =  round(55543/514);
-No = 260;
+No =  round(113143/514)
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -41,22 +41,22 @@ for o = tidx
     % ww = squeeze(rdmds([exppath,'/results/WVEL_inst'],nIter));
     tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
     uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
-    % vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
-    % ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
+    vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
+    ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
     tt_shear = tt(:,zidx);
     uu_shear = uu(:,zidx);
-    % vv_shear = vv(:,zidx);
-    % ww_shear = ww(:,zidx);
+    vv_shear = vv(:,zidx);
+    ww_shear = ww(:,zidx);
     
     mean_tt_shear = mean(tt(:,zidx));
     mean_uu_shear = mean(uu(:,zidx));
-    % mean_vv_shear = mean(vv(:,zidx));
-    % mean_ww_shear = mean(ww(:,zidx));
+    mean_vv_shear = mean(vv(:,zidx));
+    mean_ww_shear = mean(ww(:,zidx));
 
     mean_tt_shear_2d = repmat(mean_tt_shear,[Nx 1]);
     mean_uu_shear_2d = repmat(mean_uu_shear,[Nx 1]);
-    % mean_vv_shear_2d = repmat(mean_vv_shear,[Nx 1]);
-    % mean_ww_shear_2d = repmat(mean_ww_shear,[Nx 1]);
+    mean_vv_shear_2d = repmat(mean_vv_shear,[Nx 1]);
+    mean_ww_shear_2d = repmat(mean_ww_shear,[Nx 1]);
 
     % for kk = 1:Nshear
         % div_tt(o,kk) = rms(tt_shear(:,kk) - mean_tt_shear(kk));
@@ -66,8 +66,8 @@ for o = tidx
     % end
         div_tt(o,:) = rmse(tt_shear,mean_tt_shear_2d,1);
         div_uu(o,:) = rmse(uu_shear,mean_uu_shear_2d,1);
-        % div_vv(o,:) = rmse(vv_shear,mean_vv_shear_2d,1);
-        % div_ww(o,:) = rmse(ww_shear,mean_ww_shear_2d,1);
+        div_vv(o,:) = rmse(vv_shear,mean_vv_shear_2d,1);
+        div_ww(o,:) = rmse(ww_shear,mean_ww_shear_2d,1);
 
 end
 
@@ -108,31 +108,35 @@ end
 %%
 div_tt_zavg = mean(div_tt,2);
 div_uu_zavg = mean(div_uu,2);
-% div_vv_zavg = mean(div_vv,2);
-% div_ww_zavg = mean(div_ww,2);
+div_vv_zavg = mean(div_vv,2);
+div_ww_zavg = mean(div_ww,2);
 
 div_tt_norm = div_tt_zavg/div_tt_zavg(1);
 div_uu_norm = div_uu_zavg/div_uu_zavg(1);
-% div_vv_norm = div_vv_zavg/div_vv_zavg(1);
-% div_ww_norm = div_ww_zavg/div_ww_zavg(1);
+div_vv_norm = div_vv_zavg/div_vv_zavg(1);
+div_ww_norm = div_ww_zavg/div_ww_zavg(1);
 
 
+Pr = 2;
+ke = div_uu_zavg/2+div_vv_zavg/2+div_ww_zavg/2
+pe = Pr*div_tt_zavg/2;
+energy =ke+pe;
 
-
-% %%% Calculate the growth rate
-%     fit_span = 12*1+1:5*12;
-%     xxplot = time_h;
-%     yyplot = log(div_uu_zavg/2)/2;
-%     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-%     grow = pp(1)
-%     [y_fit,delta_fit] = polyval(pp,xxplot,S);
+%%% Calculate the growth rate
+fit_span = 12*1+1:5*12;
+xxplot = time_h;
+yyplot = log(energy)/2;
+[pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+grow(ne) = pp(1)
+[y_fit,delta_fit] = polyval(pp,xxplot,S);
 
 figure()
 clf;set(gcf,'Color','w','Position',[211 289 852 394])
-plot(time_h/12,log(div_tt_zavg/2)/2,'LineWidth',2);
+plot(time_h/12,log(pe)/2,'LineWidth',2);
 hold on;
-plot(time_h/12,log(div_uu_zavg/2)/2,'LineWidth',2);
-% plot(xxplot(fit_span)/12, y_fit(fit_span),'--');
+plot(time_h/12,log(ke)/2,'LineWidth',2);
+plot(time_h/12,log(energy)/2,'LineWidth',2);
+plot(xxplot(fit_span)/12, y_fit(fit_span),'--','LineWidth',2);
 set(gca,'Fontsize',fontsize)
 xlabel('Time (tidal cycles)')
 % xlabel('Time (days)')
@@ -140,7 +144,7 @@ title('Normalized temperature RMSE')
 title('RMSE of T and u averaged over the bottom shear layer')
 % title('Vertically averaged RMSE of T and u')
 % ylabel('(degC)')
-legend('RMSE of T','RMSE of u')
+legend('RMSE of PE','RMSE of KE','RMSE of PE+KE','Linear fit')
 grid on;grid minor;
 hold on;
 % ylim([1e-9 1e-1])
