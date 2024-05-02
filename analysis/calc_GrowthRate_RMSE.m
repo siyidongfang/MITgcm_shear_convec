@@ -4,22 +4,25 @@
 %%% Calculate the instability growth rate of the MITgcm simulations
 
 
-clear;
-for  ne = 2
+clear;close all
+
+for  ne = 21
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps-1;
-No =  round(12343/514)+90;
+% No =  round(55543/514);
+No = 260;
 tidx = 1:No;
 Nt = length(tidx);
-Hshear = 890;
+Hshear = 250;
 dz = delR(end);
 Nshear = round(Hshear/dz);
 zidx = Nr-Nshear:Nr-1;
+% zidx = Nr-Nshear+20:Nr-1-20;
 % zidx = 1:Nr;
-% Nshear = length(zidx)
+Nshear = length(zidx)
 hab_shear = zz(zidx)-min(zz);
 
 div_tt = zeros(Nt,Nshear);
@@ -70,35 +73,35 @@ end
 
 %%
 
-CLIM = [0 1]*1e-10;
-
-figure(1)
-clf;set(gcf,'Color','w','Position', [75 224 1362 647])
-subplot(2,2,1)
-pcolor(time_h,hab_shear,div_tt');shading flat;colorbar
-ylabel('HAB (m)');xlabel('Time (hours)');
-title('RMSE of potential temperature (degC)')
-set(gca,'Fontsize',fontsize)
-clim(CLIM)
-subplot(2,2,2)
-pcolor(time_h,hab_shear,div_uu');shading flat;colorbar
-ylabel('HAB (m)');xlabel('Time (hours)');
-set(gca,'Fontsize',fontsize)
-title('RMSE of cross-isobath velocity u RMSE (m/s)')
-clim(CLIM)
-subplot(2,2,3)
-pcolor(time_h,hab_shear,div_vv');shading flat;colorbar
-ylabel('HAB (m)');xlabel('Time (hours)');
-set(gca,'Fontsize',fontsize)
-title('RMSE of along-isobath velocity v (m/s)')
-clim(CLIM)
-subplot(2,2,4)
-pcolor(time_h,hab_shear,div_ww');shading flat;colorbar
-ylabel('HAB (m)');xlabel('Time (hours)');
-set(gca,'Fontsize',fontsize)
-title('RMSE of vertical velocity w (m/s)')
-colormap(WhiteBlueGreenYellowRed(0))
-clim(CLIM)
+% CLIM = [0 1]*1e-18;
+% 
+% figure(1)
+% clf;set(gcf,'Color','w','Position', [75 224 1362 647])
+% subplot(2,2,1)
+% pcolor(time_h,hab_shear,div_tt');shading flat;colorbar
+% ylabel('HAB (m)');xlabel('Time (hours)');
+% title('RMSE of potential temperature (degC)')
+% set(gca,'Fontsize',fontsize)
+% clim(CLIM)
+% subplot(2,2,2)
+% pcolor(time_h,hab_shear,div_uu');shading flat;colorbar
+% ylabel('HAB (m)');xlabel('Time (hours)');
+% set(gca,'Fontsize',fontsize)
+% title('RMSE of cross-isobath velocity u RMSE (m/s)')
+% clim(CLIM)
+% subplot(2,2,3)
+% pcolor(time_h,hab_shear,div_vv');shading flat;colorbar
+% ylabel('HAB (m)');xlabel('Time (hours)');
+% set(gca,'Fontsize',fontsize)
+% title('RMSE of along-isobath velocity v (m/s)')
+% clim(CLIM)
+% subplot(2,2,4)
+% pcolor(time_h,hab_shear,div_ww');shading flat;colorbar
+% ylabel('HAB (m)');xlabel('Time (hours)');
+% set(gca,'Fontsize',fontsize)
+% title('RMSE of vertical velocity w (m/s)')
+% colormap(WhiteBlueGreenYellowRed(0))
+% clim(CLIM)
 
 % % % % % % print('-dpng','-r150',[expname '_rmse.png']);
 
@@ -132,8 +135,10 @@ plot(time_h/12,log(div_uu_zavg/2)/2,'LineWidth',2);
 % plot(xxplot(fit_span)/12, y_fit(fit_span),'--');
 set(gca,'Fontsize',fontsize)
 xlabel('Time (tidal cycles)')
+% xlabel('Time (days)')
 title('Normalized temperature RMSE')
 title('RMSE of T and u averaged over the bottom shear layer')
+% title('Vertically averaged RMSE of T and u')
 % ylabel('(degC)')
 legend('RMSE of T','RMSE of u')
 grid on;grid minor;

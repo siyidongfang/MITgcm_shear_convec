@@ -1,15 +1,15 @@
 
     clear;close all;
-    ne=2;
+    ne=1;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
 
 
     % o2 = nDumps;
-    o2 = 107;
+    o2 = round(74057/514)-1;
 
-    o1 = 95;
+    o1 = 20;
 
     YLIM = [-zz(end)-900 -zz(end)];XLIM = [-Lx/2/1000 Lx/2/1000];
     [ZZ,XX] = meshgrid(zz,xx);

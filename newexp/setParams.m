@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = false;
+  FigureIsVisible = true;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -174,7 +174,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % diffKrS = 2e-5; %%% Vertical salt diffusion 
 
   %------ xruan's viscosity and diffusivity
-  lfac = 0.5; 
+  lfac = 1; 
   viscAh = 1e-4*lfac; %%% Horizontal viscosity         %-- from Xiaozhou
   viscAr = 2e-4*lfac; %%% Vertical viscosity           %-- from Xiaozhou
   diffKhT = 1e-4*lfac; %%% Horizontal temp diffusion   %-- from Xiaozhou
@@ -925,13 +925,13 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-21;  
+  tNoise = 1e-20;  
   % tNoise = 0;
   sNoise = 0;
 
   %---- Add an infinitesimal linear stratification 
-  % Flinear = zeros(1,Nr);
-  Flinear = tNoise*10*(flip(-zz)); 
+  Flinear = zeros(1,Nr);
+  % Flinear = tNoise*(flip(-zz)); 
 
   %---- Add random noise with a certain wavelength to the initial temperature field
   noise_length = 400;
@@ -963,9 +963,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   for i=1:Nx
       for j=1:Ny
           for k=1:Nr
-              hydroTh(i,j,k)=hydroTh(i,j,k)+Flinear(k);
+              % hydroTh(i,j,k)=hydroTh(i,j,k)+Flinear(k);
               % hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k)+Flinear(k);
-              % hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k);
+              hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k);
           end
       end
   end
