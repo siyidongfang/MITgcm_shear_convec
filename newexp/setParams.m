@@ -1043,8 +1043,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   % Nshear_smooth_half = round(15*3/dz_const);
-  % Nshear_smooth_half = 15;
-  Nshear_smooth_half = 0;
+  Nshear_smooth_half = 15;
+  % Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);
 
@@ -1063,41 +1063,41 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
 
   %--- smooth the velocity shear
-  % for kLev = 1:Nr
-  %     if(kLev>Nshear_smooth_half) 
-  %         if((Nr-kLev)>=Nshear_smooth_half) 
-  %             NsmoothStart = kLev-Nshear_smooth_half;
-  %             NsmoothEnd = kLev+Nshear_smooth_half;
-  %         end 
-  %     end 
-  % 
-  %     if((Nr-kLev)<Nshear_smooth_half) 
-  %         NsmoothStart = kLev-(Nr-kLev);
-  %         NsmoothEnd = Nr;
-  %     end 
-  % 
-  %     if(kLev<=Nshear_smooth_half) 
-  %         NsmoothStart = 1;
-  %         NsmoothEnd = kLev+(kLev-1);
-  %     end 
-  % 
-  %     shearRatio(kLev) = 0.;
-  %     Ndivide(kLev) = 0.;
-  % 
-  %     if(NsmoothEnd>NsmoothStart) 
-  %         for i= NsmoothStart:NsmoothEnd
-  %              shearRatio(kLev) = shearRatio(kLev) + shearProfile(i);
-  %              Ndivide(kLev) = Ndivide(kLev) + 1;
-  %         end 
-  %         shearRatio(kLev) = shearRatio(kLev)/Ndivide(kLev);
-  %     else
-  %         shearRatio(kLev) = shearProfile(kLev);
-  %     end 
-  % end
+  for kLev = 1:Nr
+      if(kLev>Nshear_smooth_half) 
+          if((Nr-kLev)>=Nshear_smooth_half) 
+              NsmoothStart = kLev-Nshear_smooth_half;
+              NsmoothEnd = kLev+Nshear_smooth_half;
+          end 
+      end 
 
-  % vrelax = Shear*h_shear*shearRatio;
+      if((Nr-kLev)<Nshear_smooth_half) 
+          NsmoothStart = kLev-(Nr-kLev);
+          NsmoothEnd = Nr;
+      end 
 
-  vrelax = vrelax2;
+      if(kLev<=Nshear_smooth_half) 
+          NsmoothStart = 1;
+          NsmoothEnd = kLev+(kLev-1);
+      end 
+
+      shearRatio(kLev) = 0.;
+      Ndivide(kLev) = 0.;
+
+      if(NsmoothEnd>NsmoothStart) 
+          for i= NsmoothStart:NsmoothEnd
+               shearRatio(kLev) = shearRatio(kLev) + shearProfile(i);
+               Ndivide(kLev) = Ndivide(kLev) + 1;
+          end 
+          shearRatio(kLev) = shearRatio(kLev)/Ndivide(kLev);
+      else
+          shearRatio(kLev) = shearProfile(kLev);
+      end 
+  end
+
+  vrelax = Shear*h_shear*shearRatio;
+
+  % vrelax = vrelax2;
 
   %%% Plot velocity shear
   h_figure=figure(fignum);

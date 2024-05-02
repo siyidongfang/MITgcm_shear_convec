@@ -1,8 +1,8 @@
 
 
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
-    expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat'
-    % expdir = '/Users/ysi/MITgcm_shear_convec/exps_topo4'
+    expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat/'
+    % expdir = '/Users/ysi/MITgcm_shear_convec/exps_topo4/'
 
 
     EXPNAME = {...
@@ -38,7 +38,7 @@
 'lores_topo0_s0.0007_dz3dx15n-20'
 'lores_topo0_s0.0008_dz3dx15n-20'
 'lores_topo0_s0.0009_dz3dx15n-20'
-'lores_topo0_s0.001_dz3dx15n-20' %%% No grow
+'lores_topo0_s0.001_dz3dx15n-20rand_lfac1' %%% No grow
 'lores_topo0_s0.0011_dz3dx15n-20'%%%
 'lores_topo0_s0.0012_dz3dx15n-20'%%%
 'lores_topo0_s0.0013_dz3dx15n-20'%%%

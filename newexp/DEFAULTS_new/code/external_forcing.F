@@ -57,12 +57,12 @@ C     kSurface  :: index of surface level
 CEOP
 
 C=== Yidongfang Si =====
-C      INTEGER Nshear_smooth_half
-C      INTEGER NsmoothStart
-C      INTEGER NsmoothEnd
-C      REAL*8 shearProfile(Nr)
+      INTEGER Nshear_smooth_half
+      INTEGER NsmoothStart
+      INTEGER NsmoothEnd
+      REAL*8 shearProfile(Nr)
       REAL*8 shearRatio
-C      REAL*8 Ndivide
+      REAL*8 Ndivide
 
       REAL*8 tauTop
       REAL*8 tauProfile
@@ -208,10 +208,50 @@ C      if((rC(kLev)-rC(Nr)).gt.900.) then
 C      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
 C      end if
 
-      if((rC(kLev)-rC(Nr)).lt.h_shear) then
-      shearRatio=(rC(kLev)-rC(Nr))/h_shear
+C      if((rC(kLev)-rC(Nr)).lt.h_shear) then
+C      shearRatio=(rC(kLev)-rC(Nr))/h_shear
+C      else
+C      shearRatio=1.
+C      end if
+
+      DO i=1,Nr
+       if((rC(i)-rC(Nr)).lt.h_shear) then
+       shearProfile(i)=(rC(i)-rC(Nr))/h_shear
+       else
+       shearProfile(i)=1.
+       end if
+      END DO
+
+      Nshear_smooth_half = 15
+
+      if(kLev.gt.Nshear_smooth_half) then
+      if((Nr-kLev).ge.Nshear_smooth_half) then
+      NsmoothStart = kLev-Nshear_smooth_half
+      NsmoothEnd = kLev+Nshear_smooth_half
+      end if
+      end if
+
+      if((Nr-kLev).lt.Nshear_smooth_half) then
+      NsmoothStart = kLev-(Nr-kLev)
+      NsmoothEnd = Nr
+      end if
+
+      if(kLev.le.Nshear_smooth_half) then
+      NsmoothStart = 1
+      NsmoothEnd = kLev+(kLev-1)
+      end if
+
+      shearRatio = 0.
+      Ndivide = 0.
+
+      if(NsmoothEnd.gt.NsmoothStart) then
+      DO i=NsmoothStart,NsmoothEnd
+       shearRatio = shearRatio + shearProfile(i)
+       Ndivide = Ndivide + 1.
+      END DO
+      shearRatio = shearRatio/Ndivide
       else
-      shearRatio=1.
+      shearRatio = shearProfile(kLev)
       end if
 
       DO j=0,sNy+1
