@@ -4,15 +4,15 @@
 %%% Replicate Fig. 2 of Xiaozhou's manuscript
 
 clear;
-% close all;
-for ne =7
+close all;
+for ne =1
 
 load_all
 
 % xx = xx-xx(1);
 No = nDumps;
-% No = 200
-% No =  round(74057/514)-1;
+% No = 120
+% No =  round(172286/514)-20;
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
 vv_timeseries = zeros(No,Nr);
@@ -126,7 +126,7 @@ title('$\theta^\prime \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter
 ylabel('HAB (m)','interpreter','latex')
 % clim([-0.1 0.8]);
 % clim([-0.04 0.25]/2);
-clim([-0.1 0.1]);
+clim([-0.1 0.1]/100);
 colormap(redblue)
 ylim(YLIM)
 xlim(XLIM)
@@ -144,7 +144,7 @@ set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('$N^2\ (s^{-2})$','Fontsize',fontsize+4,'interpreter','latex')
 % clim([-3 3]/1e6)
-clim(([-1 1]+1)/1e6)
+clim(([-1 1]/10+1)/1e6)
 % clim(([-3 3])/1e6)
  % clim([0.98 1.02]/1e6)
 ylim(YLIM)
@@ -161,7 +161,7 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
 shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('w (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-0.3 0.3]/100)
+clim([-0.3 0.3]/20000)
 ylim(YLIM)
 xlim(XLIM)
 

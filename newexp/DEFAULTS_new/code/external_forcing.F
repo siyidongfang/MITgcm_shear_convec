@@ -73,6 +73,7 @@ C=== Yidongfang Si =====
 
       REAL*8 u_shear
       REAL*8 h_shear
+      REAL*8 Hmax
       REAL*8 Nsquare_const
       REAL*8 gravity_const
       REAL*8 temp_Alpha
@@ -175,19 +176,20 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 1.0e-03
-      h_shear = 250.5
+      u_shear = 2.0e-03
+      h_shear = 250.0
       Nsquare_const = 1.0e-06
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
       gravity_const = 9.81e+00
       temp_Alpha = 2.0e-4
       Tref_const = 0.d0
+      Hmax = 950.0
 
       amp_tide = u_shear * h_shear
 
@@ -216,13 +218,13 @@ C      end if
 
       DO i=1,Nr
        if((rC(i)-rC(Nr)).lt.h_shear) then
-       shearProfile(i)=(rC(i)-rC(Nr))/h_shear
+       shearProfile(i)=(rC(i)+Hmax)/h_shear
        else
        shearProfile(i)=1.
        end if
       END DO
 
-      Nshear_smooth_half = 15
+      Nshear_smooth_half = 50
 
       if(kLev.gt.Nshear_smooth_half) then
       if((Nr-kLev).ge.Nshear_smooth_half) then
@@ -448,8 +450,8 @@ C      u_shear = 1.5e-03
 C      h_shear = 250.5
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
@@ -857,8 +859,8 @@ C=== Yidongfang Si =====
       temp_Alpha = 2.0e-04
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)

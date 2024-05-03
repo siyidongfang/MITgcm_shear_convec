@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = true;
+  FigureIsVisible = false;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 20*t1day;
+  simTime = 30*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -174,7 +174,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % diffKrS = 2e-5; %%% Vertical salt diffusion 
 
   %------ xruan's viscosity and diffusivity
-  lfac = 1; 
+  lfac = 0.5; 
   viscAh = 1e-4*lfac; %%% Horizontal viscosity         %-- from Xiaozhou
   viscAr = 2e-4*lfac; %%% Vertical viscosity           %-- from Xiaozhou
   diffKhT = 1e-4*lfac; %%% Horizontal temp diffusion   %-- from Xiaozhou
@@ -349,10 +349,11 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   [Y,X] = meshgrid(yy,xx);
   
   % dz = [1*ones(1,250) [1:3/99:4] 4*ones(1,100)];
-  % dz = flipud(dz')';
+  dz = [1*ones(1,300) [1:3/99:4] 4*ones(1,100)];
+  dz = flipud(dz')';
 
-  dz_const = 3;
-  dz = dz_const*ones(1,Nr);
+  % dz_const = 3;
+  % dz = dz_const*ones(1,Nr);
 
   % % %%% Varied dz with depth  %  -- from Xiaozhou
   % % % Hsurface = 1002;
@@ -372,7 +373,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
   %%%%%% Flat bottom -- start
-  Hmax = 900;
+  Hmax = 950;
   h = -Hmax*ones(Nx,Ny);
   %%%%%% Flat bottom -- end
 
@@ -1032,7 +1033,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
   % Shear and Hshear must be changed together with external_forcing.F
-  h_shear = 250.5;
+  h_shear = 250;
   % Hshear = Hmax-h_shear; 
   % [a Nshear] = min(abs(abs(zz)-Hshear));
   % for k = Nshear:Nr
@@ -1043,7 +1044,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   % Nshear_smooth_half = round(15*3/dz_const);
-  Nshear_smooth_half = 15;
+  Nshear_smooth_half = 50;
   % Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);
@@ -1053,7 +1054,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % shearProfile = zeros(1,Nr); 
   for i=1:Nr
        if((zz(i)-zz(Nr))<h_shear) 
-           shearProfile(i)=(zz(i)-zz(Nr))/h_shear;
+           shearProfile(i)=(zz(i)+Hmax)/h_shear;
        else
            shearProfile(i)=1.;
        end 
