@@ -5,14 +5,13 @@
 
 clear;
 close all;
-for ne =1
+for ne =14
 
 load_all
 
 % xx = xx-xx(1);
-No = nDumps;
-% No = 120
-% No =  round(172286/514)-20;
+% No = nDumps;
+No = 324;
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
 vv_timeseries = zeros(No,Nr);
@@ -93,7 +92,7 @@ botZ =zz(end);
 
 YLIM = [0 350];
 % YLIM = [0 1500];
-XLIM = [0 40];
+XLIM = [0 60];
 % XLIM = [15 40];
 
 figure()
@@ -126,7 +125,7 @@ title('$\theta^\prime \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter
 ylabel('HAB (m)','interpreter','latex')
 % clim([-0.1 0.8]);
 % clim([-0.04 0.25]/2);
-clim([-0.1 0.1]/100);
+clim([-0.1 0.1]/10);
 colormap(redblue)
 ylim(YLIM)
 xlim(XLIM)
@@ -144,7 +143,7 @@ set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('$N^2\ (s^{-2})$','Fontsize',fontsize+4,'interpreter','latex')
 % clim([-3 3]/1e6)
-clim(([-1 1]/10+1)/1e6)
+clim(([-1 1]+1)/1e6)
 % clim(([-3 3])/1e6)
  % clim([0.98 1.02]/1e6)
 ylim(YLIM)
@@ -161,7 +160,7 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
 shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('w (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-0.3 0.3]/20000)
+clim([-1 1]/500)
 ylim(YLIM)
 xlim(XLIM)
 
@@ -197,6 +196,9 @@ xlim(XLIM)
 
 
 %%% Calculate the mean flow
+
+% figure()
+% clf;plot(shear_timeseries(240-11:240,:),zz);ylim([-960 -600])
 
  % set(gcf, 'InvertHardcopy', 'off')
 end

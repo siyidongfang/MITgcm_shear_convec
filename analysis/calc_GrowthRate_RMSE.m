@@ -4,16 +4,17 @@
 %%% Calculate the instability growth rate of the MITgcm simulations
 
 
-clear;
+% clear;
 % close all
 
-for  ne = 1
+for  ne = 3:21
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
-No = nDumps;
-% No =  round(172286/514)-20;
+% No = nDumps;
+% No =  round(403200/1200)-12
+No = 324
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -140,16 +141,16 @@ pe = Pr*div_tt2_zavg/2;
 energy =ke+pe;
 
 
-% %%% Calculate the growth rate
-% fit_span = 12*1+1:6*12;
-% if(max(energy)<=1e-5)
-%     fit_span = 12*20+1:40*12;
-% end
-% xxplot = time_h;
-% yyplot = log(energy)/2;
-% [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-% grow(ne) = pp(1)
-% [y_fit,delta_fit] = polyval(pp,xxplot,S);
+%%% Calculate the growth rate
+fit_span = 12*1+1:6*12;
+if(max(energy)<=1e-5)
+    fit_span = 12*10+1:No;
+end
+xxplot = time_h;
+yyplot = log(energy)/2;
+[pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+grow(ne) = pp(1)
+[y_fit,delta_fit] = polyval(pp,xxplot,S);
 
 figure()
 clf;set(gcf,'Color','w','Position',[211 289 852 394])
@@ -157,7 +158,7 @@ plot(time_h/12,log(pe)/2,'LineWidth',2);
 hold on;
 plot(time_h/12,log(ke)/2,'LineWidth',2);
 plot(time_h/12,log(energy)/2,'LineWidth',2);
-% plot(xxplot(fit_span)/12, y_fit(fit_span),'--','LineWidth',2);
+plot(xxplot(fit_span)/12, y_fit(fit_span),'--','LineWidth',2);
 set(gca,'Fontsize',fontsize)
 xlabel('Time (tidal cycles)')
 % xlabel('Time (days)')

@@ -37,7 +37,7 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 
 Shear = 2.0e-03
 exp_name = ['hires_topo4_s' num2str(Shear) '_dz1dx6n-20'];
-% exp_name = ['s' num2str(Shear) '_test3']
+% exp_name = ['test']
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)
 
