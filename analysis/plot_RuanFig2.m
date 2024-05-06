@@ -5,13 +5,13 @@
 
 clear;
 close all;
-for ne =12
+for ne =16
 
 load_all
 
 % xx = xx-xx(1);
 % No = nDumps;
-No = 52*12
+No = 30*12
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
 vv_timeseries = zeros(No,Nr);
@@ -92,7 +92,7 @@ botZ =zz(end);
 
 YLIM = [0 350];
 % YLIM = [0 1500];
-XLIM = [0 60];
+XLIM = [0 30];
 % XLIM = [15 40];
 
 figure()
@@ -125,7 +125,7 @@ title('$\theta^\prime \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter
 ylabel('HAB (m)','interpreter','latex')
 % clim([-0.1 0.8]);
 % clim([-0.04 0.25]/2);
-clim([-0.1 0.1]/10);
+clim([-0.1 0.1]);
 colormap(redblue)
 ylim(YLIM)
 xlim(XLIM)
@@ -160,7 +160,7 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
 shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('w (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-1 1]/500)
+clim([-1 1]/100)
 ylim(YLIM)
 xlim(XLIM)
 
