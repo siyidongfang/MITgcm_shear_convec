@@ -1,15 +1,15 @@
 
     clear;close all;
-    ne=1;
+    ne=16;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
 
 
-    % o2 = nDumps;
-    o2 = round(74057/514)-1;
+    o2 = nDumps;
+    % o2 = round(74057/514)-1;
 
-    o1 = 20;
+    o1 = nDumps-150;
 
     YLIM = [-zz(end)-900 -zz(end)];XLIM = [-Lx/2/1000 Lx/2/1000];
     [ZZ,XX] = meshgrid(zz,xx);
@@ -64,8 +64,8 @@ for o=o1:o2
     shading flat;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    % clim([-0.1 0.8])
-    clim([-0.06 0.2])
+    clim([-0.1 0.4])
+    % clim([-0.06 0.2])
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,2)

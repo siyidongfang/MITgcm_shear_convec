@@ -2,13 +2,13 @@
 clear;
 close all;
 
-expdir = 'exps_test/';
+expdir = 'exps_flat/';
 shear_all = [0:0.1e-4:1.8e-3];
 rw_all= 10.^([-2:0.1:-1.1 -1.05 -1:0.0025:-0.7 -0.6:0.1:1]);
 growth = zeros(length(shear_all),length(rw_all));
 for i=1:length(shear_all)
     shear = shear_all(i);
-    load([expdir '/growth_shear' num2str(shear*1e3,3) '.mat'],'grow','topo','omega')
+    load([expdir '/growth_shear' num2str(shear*1e3,3) '_m01.mat'],'grow','topo','omega')
     growth(i,:)=grow;
     [max_growth(i) rw_idx]=max(grow);
     rw_mg(i) = rw_all(rw_idx);
@@ -42,6 +42,10 @@ plot(shear_all,max_growth,'LineWidth',2);grid on;grid minor;set(gca,'fontsize',2
 xlabel('Shear (1/s)')
 title('Maximum growth rate (1/hour)')
 ylabel('(1/hour)')
+
+shear_km = shear_all;
+growth_km = max_growth;
+save('GrowthRate_km_topo4.mat','shear_km','growth_km','rw_mg')
 
 
 figure(2)

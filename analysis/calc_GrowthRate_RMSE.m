@@ -7,13 +7,13 @@
 clear;
 % close all
 
-for  ne = 8
+for  ne = 3
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps;
-No = 52*12
+No = 20*12
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -85,10 +85,9 @@ grow(ne) = pp(1)
 [y_fit,delta_fit] = polyval(pp,xxplot,S);
 
 
-filename = [expdir expname '/RMSE.mat'];
-
-save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
-    'energy','ke','pe','div_uu2_zavg','div_vv2_zavg','div_ww2_zavg','div_tt2_zavg','grow')
+% filename = [expdir expname '/RMSE.mat'];
+% save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
+%     'energy','ke','pe','div_uu2_zavg','div_vv2_zavg','div_ww2_zavg','div_tt2_zavg','grow')
 
 
 figure()
@@ -111,7 +110,7 @@ hold on;
 % ylim([1e-9 1e-1])
 % ylim([min(min([div_tt_zavg div_uu_zavg])) max(max([div_tt_zavg div_uu_zavg]))])
 
-print('-dpng','-r150',[expdir expname '_rmse.png']);
+% print('-dpng','-r150',[expdir expname '_rmse.png']);
 
 
 
