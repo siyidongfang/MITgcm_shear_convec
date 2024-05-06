@@ -5,13 +5,13 @@
 
 clear;
 close all;
-for ne =14
+for ne =12
 
 load_all
 
 % xx = xx-xx(1);
 % No = nDumps;
-No = 324;
+No = 52*12
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
 vv_timeseries = zeros(No,Nr);

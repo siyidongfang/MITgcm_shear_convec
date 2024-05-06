@@ -4,17 +4,16 @@
 %%% Calculate the instability growth rate of the MITgcm simulations
 
 
-% clear;
-% close all
+clear;
+close all
 
-for  ne = 3:21
+for  ne = 6
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps;
-% No =  round(403200/1200)-12
-No = 324
+No = 52*12
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -127,30 +126,29 @@ div_uu2_zavg = mean(div_uu.^2,2);
 div_vv2_zavg = mean(div_vv.^2,2);
 div_ww2_zavg = mean(div_ww.^2,2);
 
-% div_tt_norm = div_tt_zavg/div_tt_zavg(1);
-% div_uu_norm = div_uu_zavg/div_uu_zavg(1);
-% div_vv_norm = div_vv_zavg/div_vv_zavg(1);
-% div_ww_norm = div_ww_zavg/div_ww_zavg(1);
-
-
 Pr = 2;
 ke = div_uu2_zavg/2+div_vv2_zavg/2+div_ww2_zavg/2;
 pe = Pr*div_tt2_zavg/2;
-% pe(1:12)=NaN;
-% ke(1:12)=NaN;
 energy =ke+pe;
 
-
 %%% Calculate the growth rate
-fit_span = 12*1+1:6*12;
+fit_span = 12*4+1:9*12;
 if(max(energy)<=1e-5)
-    fit_span = 12*10+1:No;
+    % fit_span = 12*10+1:No;
+    fit_span = 12*35+1:No;
 end
 xxplot = time_h;
 yyplot = log(energy)/2;
 [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
 grow(ne) = pp(1)
 [y_fit,delta_fit] = polyval(pp,xxplot,S);
+
+
+filename = [expdir expname '/RMSE.mat'];
+
+save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
+    'energy','ke','pe','div_uu2_zavg','div_vv2_zavg','div_ww2_zavg','div_tt2_zavg','grow')
+
 
 figure()
 clf;set(gcf,'Color','w','Position',[211 289 852 394])
@@ -166,7 +164,7 @@ title('Normalized temperature RMSE')
 title('RMSE of T and u averaged over the bottom shear layer')
 % title('Vertically averaged RMSE of T and u')
 % ylabel('(degC)')
-legend('RMSE of PE','RMSE of KE','RMSE of PE+KE','Linear fit')
+legend('RMSE of PE','RMSE of KE','RMSE of PE+KE','Linear fit','Position',[0.6972 0.1497 0.1890 0.2069])
 grid on;grid minor;
 hold on;
 % ylim([1e-9 1e-1])
@@ -178,15 +176,6 @@ hold on;
 print('-dpng','-r150',[expdir expname '_rmse.png']);
 
 
-% filename = [expdir expname '/RMSE_mean.mat'];
-
-% save(filename,'time_h','hab_shear','div_tt_zavg','div_uu_zavg','div_vv_zavg','div_ww_zavg',...
-%     'div_tt_norm','div_vv_norm','div_ww_norm','div_uu_norm',...
-%     'div_tt','div_uu','div_vv','div_ww')
-
-% save(filename,'time_h','hab_shear','div_tt_zavg','div_uu_zavg','div_ww_zavg',...
-%     'div_tt_norm','div_ww_norm','div_uu_norm',...
-%     'div_tt','div_uu','div_ww')
 
 
 end
