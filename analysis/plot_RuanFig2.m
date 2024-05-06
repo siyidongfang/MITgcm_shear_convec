@@ -5,13 +5,13 @@
 
 clear;
 close all;
-for ne =16
+for ne =3
 
 load_all
 
 % xx = xx-xx(1);
 % No = nDumps;
-No = 30*12
+No = 40*12
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
 vv_timeseries = zeros(No,Nr);
@@ -92,7 +92,7 @@ botZ =zz(end);
 
 YLIM = [0 350];
 % YLIM = [0 1500];
-XLIM = [0 30];
+XLIM = [0 40];
 % XLIM = [15 40];
 
 figure()
@@ -104,7 +104,7 @@ hold on;
 contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.1:1],'color',darkgray)
 contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
 contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
-shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+shading flat;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 % xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('u (m/s)','Fontsize',fontsize+4,'interpreter','latex')
 clim([-0.6 0.6])
@@ -115,7 +115,7 @@ xlim(XLIM)
 subplot(3,1,2)
 pcolor(time_tidal,zz-botZ,tt_timeseries')
 hold on;
-shading interp;colorbar;
+shading flat;colorbar;
 contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.1:1],'color',darkgray)
 contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
 contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
@@ -137,13 +137,13 @@ contour(time_tidal,zz-botZ,(N2_timeseries)',[0 0],'Color','c','LineWidth',2);
 contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.1:1],'color',darkgray)
 contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
 contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
-shading interp;colorbar;
+shading flat;colorbar;
 % colormap(cmocean('delta'));
 set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('$N^2\ (s^{-2})$','Fontsize',fontsize+4,'interpreter','latex')
 % clim([-3 3]/1e6)
-clim(([-1 1]+1)/1e6)
+clim(([-1 1]/1000+1)/1e6)
 % clim(([-3 3])/1e6)
  % clim([0.98 1.02]/1e6)
 ylim(YLIM)
@@ -157,7 +157,7 @@ hold on;
 contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.1:1],'color',darkgray)
 contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
 contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
-shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+shading flat;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('w (m/s)','Fontsize',fontsize+4,'interpreter','latex')
 clim([-1 1]/100)

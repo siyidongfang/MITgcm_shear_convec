@@ -2,8 +2,16 @@
 clear; close all;
 fontsize = 20;
 load_colors;
-
+addpath products/
 load('GrowthRate-exps_test_Nr100.mat')
+% load('GrowthRate_RK4_Nr200.mat')
+% load('GrowthRate.mat')
+% load('GrowthRate_new.mat')
+% GrowthRate = squeeze(max(max(GrowthRate)))';
+GrowthRate = max(GrowthRate_b2);
+figure(1)
+clf;
+plot(Shear_parm,GrowthRate)
 
 kx = 2*pi./lambda_parm;
 

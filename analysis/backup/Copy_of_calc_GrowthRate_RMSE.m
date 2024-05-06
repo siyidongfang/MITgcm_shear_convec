@@ -7,16 +7,16 @@
 clear;
 % close all
 
-for  ne = 8
+for  ne = 1
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps;
-No = 52*12
+No = 40*12
 tidx = 1:No;
 Nt = length(tidx);
-Hshear = 250;
+Hshear = 30;
 dz = delR(end);
 Nshear = round(Hshear/dz);
 zidx = Nr-Nshear:Nr-1;
@@ -29,6 +29,22 @@ div_tt = zeros(Nt,Nshear);
 div_uu = zeros(Nt,Nshear);
 div_vv = zeros(Nt,Nshear);
 div_ww = zeros(Nt,Nshear);
+
+% for o=1:12
+%     nIter = dumpIters(o);
+%     tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
+%     uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
+%     vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
+%     ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
+%     tt_shear = tt(:,zidx);
+%     uu_shear = uu(:,zidx);
+%     vv_shear = vv(:,zidx);
+%     ww_shear = ww(:,zidx);
+%     mean_tt_shear12(o,:) = mean(tt(:,zidx));
+%     mean_uu_shear12(o,:) = mean(uu(:,zidx));
+%     mean_vv_shear12(o,:) = mean(vv(:,zidx));
+%     mean_ww_shear12(o,:) = mean(ww(:,zidx));
+% end
 
 for o = tidx
     nIter = dumpIters(o);
@@ -49,6 +65,15 @@ for o = tidx
     mean_vv_shear = mean(vv(:,zidx));
     mean_ww_shear = mean(ww(:,zidx));
 
+    % Nrem = rem(o,12);
+    % if(Nrem==0)
+    %     Nrem = 12;
+    % end
+    % mean_tt_shear = mean_tt_shear12(Nrem,:);
+    % mean_uu_shear = mean_uu_shear12(Nrem,:);
+    % mean_vv_shear = mean_vv_shear12(Nrem,:);
+    % mean_ww_shear = mean_ww_shear12(Nrem,:);
+
     mean_tt_shear_2d = repmat(mean_tt_shear,[Nx 1]);
     mean_uu_shear_2d = repmat(mean_uu_shear,[Nx 1]);
     mean_vv_shear_2d = repmat(mean_vv_shear,[Nx 1]);
@@ -61,12 +86,46 @@ for o = tidx
 
 end
 
+%%
+
+% CLIM = [0 1]*1e-18;
+% 
+% figure(1)
+% clf;set(gcf,'Color','w','Position', [75 224 1362 647])
+% subplot(2,2,1)
+% pcolor(time_h,hab_shear,div_tt');shading flat;colorbar
+% ylabel('HAB (m)');xlabel('Time (hours)');
+% title('RMSE of potential temperature (degC)')
+% set(gca,'Fontsize',fontsize)
+% clim(CLIM)
+% subplot(2,2,2)
+% pcolor(time_h,hab_shear,div_uu');shading flat;colorbar
+% ylabel('HAB (m)');xlabel('Time (hours)');
+% set(gca,'Fontsize',fontsize)
+% title('RMSE of cross-isobath velocity u RMSE (m/s)')
+% clim(CLIM)
+% subplot(2,2,3)
+% pcolor(time_h,hab_shear,div_vv');shading flat;colorbar
+% ylabel('HAB (m)');xlabel('Time (hours)');
+% set(gca,'Fontsize',fontsize)
+% title('RMSE of along-isobath velocity v (m/s)')
+% clim(CLIM)
+% subplot(2,2,4)
+% pcolor(time_h,hab_shear,div_ww');shading flat;colorbar
+% ylabel('HAB (m)');xlabel('Time (hours)');
+% set(gca,'Fontsize',fontsize)
+% title('RMSE of vertical velocity w (m/s)')
+% colormap(WhiteBlueGreenYellowRed(0))
+% clim(CLIM)
+
+% % % % % % print('-dpng','-r150',[expname '_rmse.png']);
+
+%%
 div_tt2_zavg = mean(div_tt.^2,2);
 div_uu2_zavg = mean(div_uu.^2,2);
 div_vv2_zavg = mean(div_vv.^2,2);
 div_ww2_zavg = mean(div_ww.^2,2);
 
-%%
 Pr = 2;
 ke = div_uu2_zavg/2+div_vv2_zavg/2+div_ww2_zavg/2;
 pe = Pr*div_tt2_zavg/2;
@@ -76,7 +135,7 @@ energy =ke+pe;
 fit_span = 12*4+1:9*12;
 if(max(energy)<=1e-5)
     % fit_span = 12*10+1:No;
-    fit_span = 12*45+1:No;
+    fit_span = 12*35+1:No;
 end
 xxplot = time_h;
 yyplot = log(energy)/2;
@@ -85,10 +144,10 @@ grow(ne) = pp(1)
 [y_fit,delta_fit] = polyval(pp,xxplot,S);
 
 
-filename = [expdir expname '/RMSE.mat'];
+% filename = [expdir expname '/RMSE.mat'];
 
-save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
-    'energy','ke','pe','div_uu2_zavg','div_vv2_zavg','div_ww2_zavg','div_tt2_zavg','grow')
+% save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
+    % 'energy','ke','pe','div_uu2_zavg','div_vv2_zavg','div_ww2_zavg','div_tt2_zavg','grow')
 
 
 figure()
@@ -111,7 +170,10 @@ hold on;
 % ylim([1e-9 1e-1])
 % ylim([min(min([div_tt_zavg div_uu_zavg])) max(max([div_tt_zavg div_uu_zavg]))])
 
-print('-dpng','-r150',[expdir expname '_rmse.png']);
+% plot(div_uu_norm);
+% plot(div_vv_norm);
+% plot(div_ww_norm);
+% print('-dpng','-r150',[expdir expname '_rmse.png']);
 
 
 

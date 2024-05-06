@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = false;
+  FigureIsVisible = true;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 30*t1day;
+  simTime = 20*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -174,7 +174,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % diffKrS = 2e-5; %%% Vertical salt diffusion 
 
   %------ xruan's viscosity and diffusivity
-  lfac = 0.5; 
+  lfac = 2; 
   viscAh = 1e-4*lfac; %%% Horizontal viscosity         %-- from Xiaozhou
   viscAr = 2e-4*lfac; %%% Vertical viscosity           %-- from Xiaozhou
   diffKhT = 1e-4*lfac; %%% Horizontal temp diffusion   %-- from Xiaozhou
@@ -348,12 +348,12 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Plotting mesh
   [Y,X] = meshgrid(yy,xx);
   
-  % dz = [1*ones(1,250) [1:3/99:4] 4*ones(1,100)];
-  dz = [1*ones(1,300) [1:3/99:4] 4*ones(1,100)];
-  dz = flipud(dz')';
+  % % dz = [1*ones(1,250) [1:3/99:4] 4*ones(1,100)];
+  % dz = [1*ones(1,300) [1:3/99:4] 4*ones(1,100)];
+  % dz = flipud(dz')';
 
-  % dz_const = 3;
-  % dz = dz_const*ones(1,Nr);
+  dz_const = 3;
+  dz = dz_const*ones(1,Nr);
 
   % % %%% Varied dz with depth  %  -- from Xiaozhou
   % % % Hsurface = 1002;
@@ -373,7 +373,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
   %%%%%% Flat bottom -- start
-  Hmax = 950;
+  % Hmax = 950;
+  Hmax = 1500;
   h = -Hmax*ones(Nx,Ny);
   %%%%%% Flat bottom -- end
 
@@ -1044,7 +1045,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   % Nshear_smooth_half = round(15*3/dz_const);
-  Nshear_smooth_half = 50;
+  % Nshear_smooth_half = 50;
+  Nshear_smooth_half = 40;
   % Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);

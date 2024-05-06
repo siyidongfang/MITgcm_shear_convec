@@ -12,7 +12,7 @@
     addpath /Users/ysi/MITgcm_shear_convec/analysis/colormaps/cmocean/;
     addpath /Users/ysi/MITgcm_shear_convec/analysis/colormaps/customcolormap/;
 
-    list_exps_topo4;
+    list_exps;
     LinearEOS = true;
     expname = EXPNAME{ne}
     loadexp;
