@@ -372,7 +372,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   end
 
 
-  %%%%%% Flat bottom -- start
+  %%%%% Flat bottom -- start
   % Hmax = 950;
   Hmax = 1500;
   h = -Hmax*ones(Nx,Ny);
@@ -514,6 +514,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %    dz = frac_h2zz.*dz;
   %    zz = -cumsum((dz+[0 dz(1:end-1)])/2);
   % end
+
+
 
 
 
@@ -927,7 +929,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-20;  
+  tNoise = 1e-12;  
   % tNoise = 0;
   sNoise = 0;
 
@@ -1055,12 +1057,13 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%
   % shearProfile = zeros(1,Nr); 
   for i=1:Nr
-       if((zz(i)-zz(Nr))<h_shear) 
+       if((zz(i)+Hmax)<h_shear) 
            shearProfile(i)=(zz(i)+Hmax)/h_shear;
        else
            shearProfile(i)=1.;
        end 
    end 
+
 
   vrelax2 = Shear*h_shear*shearProfile;
   

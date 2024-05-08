@@ -217,7 +217,7 @@ C      shearRatio=1.
 C      end if
 
       DO i=1,Nr
-       if((rC(i)-rC(Nr)).lt.h_shear) then
+       if((rC(i)+Hmax).lt.h_shear) then
        shearProfile(i)=(rC(i)+Hmax)/h_shear
        else
        shearProfile(i)=1.
@@ -864,8 +864,6 @@ C      topog_slope = 4.d0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
-
-
 
 C     Advection by true vertical velocity (cross-slope component)
       DO j=0,sNy+1

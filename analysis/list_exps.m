@@ -1,15 +1,18 @@
 
 
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
-    % expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat/';
+    expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat/';
     % expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat_hires/';
-    expdir = '/Users/ysi/MITgcm_shear_convec/exps_topo4_hires/';
+    % expdir = '/Users/ysi/MITgcm_shear_convec/exps_topo4_hires/';
+    % expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_backup_2024/backup_wrongshear/';
 
-
-    EXPNAME = {...
-        % 'H1500_lfac2_smoohalf120m_lores_topo0_s0.0006_dz3dx20n-20'
-        % 'H1500_lores_topo0_s0.0006_dz3dx20n-20'
-        % 'H1500_smoohalf120m_lores_topo0_s0.0006_dz3dx20n-20'
+    EXPNAME = { ...    
+        'H1500_lores_topo0_s0.0006_dz3dx20n-9'
+        'H1500_NOsmooth_topo0_s0.0006_dz3dx20n-12'
+        ...
+        'H1500_lfac2_smoohalf120m_lores_topo0_s0.0006_dz3dx20n-20'
+        'H1500_lores_topo0_s0.0006_dz3dx20n-20'
+        'H1500_smoohalf120m_lores_topo0_s0.0006_dz3dx20n-20'
         % ...
         % 'lores_topo0_s0.0005_dz3dx15n-20'
         % 'lores_topo0_s0.0006_dz3dx15n-20rand_lfac1_smooth'

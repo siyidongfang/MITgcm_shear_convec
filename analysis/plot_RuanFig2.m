@@ -5,16 +5,16 @@
 
 clear;
 close all;
-for ne =10
+for ne =3
 
 load_all
 
 % xx = xx-xx(1);
-% No = nDumps;
-No = 10*12
+No = nDumps-1;
+% No = 96
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
-vv_timeseries = zeros(No,Nr);
+% vv_timeseries = zeros(No,Nr);
 ww_timeseries = zeros(No,Nr);
 tt_timeseries = zeros(No,Nr);
 N2_timeseries = zeros(No,Nr);
@@ -49,7 +49,7 @@ for o=1:No
     tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
     uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
     ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
-    vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
+    % vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
     % ss = squeeze(rdmds([exppath,'/results/SALT'],nIter));
     % n2 = -gravity/rhoConst*squeeze(rdmds([exppath,'/results/DRHODR'],nIter));
 
@@ -61,7 +61,7 @@ for o=1:No
     % ss(ss==0)=NaN;
     uu(uu==0)=NaN;
     ww(ww==0)=NaN;
-    vv(vv==0)=NaN;
+    % vv(vv==0)=NaN;
     % n2(n2==0)=NaN;
 
     % LC = 0.75*Ly;
@@ -73,7 +73,7 @@ for o=1:No
     % ssC = tt(nC,:);
     uu_timeseries(o,:) = uu(nC,:);
     shear_timeseries(o,2:Nr) = (uu(nC,1:end-1)-uu(nC,2:end))./delR(2:end);
-    vv_timeseries(o,:) = vv(nC,:);
+    % vv_timeseries(o,:) = vv(nC,:);
     ww_timeseries(o,:) = ww(nC,:);
     tt_timeseries(o,:) = tt(nC,:);
     rhoC = rhoConst.*(1-(ttC-tRef)*tAlpha);
@@ -125,7 +125,7 @@ title('$\theta^\prime \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter
 ylabel('HAB (m)','interpreter','latex')
 % clim([-0.1 0.8]);
 % clim([-0.04 0.25]/2);
-clim([-0.1 0.1]);
+clim([-0.1 0.1]/100);
 colormap(redblue)
 ylim(YLIM)
 xlim(XLIM)
@@ -143,7 +143,7 @@ set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('$N^2\ (s^{-2})$','Fontsize',fontsize+4,'interpreter','latex')
 % clim([-3 3]/1e6)
-clim(([-1 1]/1000+1)/1e6)
+clim(([-1 1]/1e8+1)/1e6)
 % clim(([-3 3])/1e6)
  % clim([0.98 1.02]/1e6)
 ylim(YLIM)
@@ -165,19 +165,19 @@ ylim(YLIM)
 xlim(XLIM)
 
 
-figure()
-clf;set(gcf,'color','w');
-pcolor(time_tidal,zz-botZ,vv_timeseries');
-hold on;
-contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.1:1],'color',darkgray)
-contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
-contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
-shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
-title('v (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-0.3 0.3])
-ylim(YLIM)
-xlim(XLIM)
+% figure()
+% clf;set(gcf,'color','w');
+% pcolor(time_tidal,zz-botZ,vv_timeseries');
+% hold on;
+% contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.1:1],'color',darkgray)
+% contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
+% contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
+% shading interp;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+% xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
+% title('v (m/s)','Fontsize',fontsize+4,'interpreter','latex')
+% clim([-0.3 0.3])
+% ylim(YLIM)
+% xlim(XLIM)
 
 
 figure()

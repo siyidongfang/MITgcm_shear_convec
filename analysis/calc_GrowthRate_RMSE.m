@@ -7,13 +7,13 @@
 clear;
 % close all
 
-for  ne = 3
+for  ne = 1
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps;
-No = 20*12
+No = 43200/360-1
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -37,52 +37,53 @@ for o = tidx
 
     tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
     uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
-    vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
+    % vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
     ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
     tt_shear = tt(:,zidx);
     uu_shear = uu(:,zidx);
-    vv_shear = vv(:,zidx);
+    % vv_shear = vv(:,zidx);
     ww_shear = ww(:,zidx);
     
     mean_tt_shear = mean(tt(:,zidx));
     mean_uu_shear = mean(uu(:,zidx));
-    mean_vv_shear = mean(vv(:,zidx));
+    % mean_vv_shear = mean(vv(:,zidx));
     mean_ww_shear = mean(ww(:,zidx));
 
     mean_tt_shear_2d = repmat(mean_tt_shear,[Nx 1]);
     mean_uu_shear_2d = repmat(mean_uu_shear,[Nx 1]);
-    mean_vv_shear_2d = repmat(mean_vv_shear,[Nx 1]);
+    % mean_vv_shear_2d = repmat(mean_vv_shear,[Nx 1]);
     mean_ww_shear_2d = repmat(mean_ww_shear,[Nx 1]);
 
     div_tt(o,:) = rmse(tt_shear,mean_tt_shear_2d,1);
     div_uu(o,:) = rmse(uu_shear,mean_uu_shear_2d,1);
-    div_vv(o,:) = rmse(vv_shear,mean_vv_shear_2d,1);
+    % div_vv(o,:) = rmse(vv_shear,mean_vv_shear_2d,1);
     div_ww(o,:) = rmse(ww_shear,mean_ww_shear_2d,1);
 
 end
 
 div_tt2_zavg = mean(div_tt.^2,2);
 div_uu2_zavg = mean(div_uu.^2,2);
-div_vv2_zavg = mean(div_vv.^2,2);
+% div_vv2_zavg = mean(div_vv.^2,2);
 div_ww2_zavg = mean(div_ww.^2,2);
 
 %%
 Pr = 2;
-ke = div_uu2_zavg/2+div_vv2_zavg/2+div_ww2_zavg/2;
+% ke = div_uu2_zavg/2+div_vv2_zavg/2+div_ww2_zavg/2;
+ke = div_uu2_zavg/2+div_ww2_zavg/2;
 pe = Pr*div_tt2_zavg/2;
 energy =ke+pe;
 
-%%% Calculate the growth rate
-fit_span = 12*4+1:9*12;
-if(max(energy)<=1e-5)
-    % fit_span = 12*10+1:No;
-    fit_span = 12*45+1:No;
-end
-xxplot = time_h;
-yyplot = log(energy)/2;
-[pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-grow(ne) = pp(1)
-[y_fit,delta_fit] = polyval(pp,xxplot,S);
+% %%% Calculate the growth rate
+% fit_span = 12*4+1:9*12;
+% if(max(energy)<=1e-5)
+%     % fit_span = 12*10+1:No;
+%     fit_span = 12*45+1:No;
+% end
+% xxplot = time_h;
+% yyplot = log(energy)/2;
+% [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+% grow(ne) = pp(1)
+% [y_fit,delta_fit] = polyval(pp,xxplot,S);
 
 
 % filename = [expdir expname '/RMSE.mat'];
@@ -96,7 +97,7 @@ plot(time_h/12,log(pe)/2,'LineWidth',2);
 hold on;
 plot(time_h/12,log(ke)/2,'LineWidth',2);
 plot(time_h/12,log(energy)/2,'LineWidth',2);
-plot(xxplot(fit_span)/12, y_fit(fit_span),'--','LineWidth',2);
+% plot(xxplot(fit_span)/12, y_fit(fit_span),'--','LineWidth',2);
 set(gca,'Fontsize',fontsize)
 xlabel('Time (tidal cycles)')
 % xlabel('Time (days)')

@@ -5,18 +5,20 @@ dt = Ptide/nt_percycle;
 Nt = round(Lt/dt);
 tt = dt:dt:Nt*dt;
 
-
 if(omega==0)
     Nt = 1e3;
     dt = NTtide*Ptide/Nt;
     tt = dt:dt:Nt*dt;
 end
 
-b00 = 1e-9;
+b00 = 1e-20;
 b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
-kappa_const = 1e-7;
-nu_const = 1e-6;
+kappa_const = 2e-6;
+nu_const = 2e-6;
+
+% kappa_const = 1e-7;
+% nu_const = 1e-6;
 
 % kappa_const = 1e-6;
 % nu_const = 1e-5;
