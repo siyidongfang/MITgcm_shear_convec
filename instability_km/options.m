@@ -14,8 +14,8 @@ Ptide = 43200;
 omega = 2*pi/Ptide;
 shear_Ri0_25 = 0.0018;
 shear_Ri1 = 0.97e-3;
-% shear_all = [0:1e-4:shear_Ri0_25];
-shear_all = [0:2e-4:shear_Ri0_25];
+shear_all = [0:1e-4:shear_Ri0_25];
+% shear_all = [0:2e-4:shear_Ri0_25];
 m0_all = [0:0.1:10];
 kx_all = [-0.5:0.0025*4:0.5];
 
@@ -94,8 +94,7 @@ kx_all = [-0.5:0.0025*4:0.5];
 
 mkdir(expdir);
 
-% for ns =1:length(shear_all)
-for ns =5:10
+for ns =16:length(shear_all)
     ns
     % rw_all = rw_mg(ns)
     shear = shear_all(ns)
@@ -107,6 +106,7 @@ for ns =5:10
         rs = 0;
     end
    
+    % for m=1:length(m0_all)
     for m=1:length(m0_all)
             m
 	    m0 = m0_all(m);

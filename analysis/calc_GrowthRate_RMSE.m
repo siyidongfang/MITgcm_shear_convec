@@ -7,13 +7,13 @@
 clear;
 % close all
 
-for  ne = 1
+for  ne = 2
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
-% No = nDumps;
-No = 43200/360-1
+No = nDumps;
+% No = 43200/360-1
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -37,39 +37,38 @@ for o = tidx
 
     tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
     uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
-    % vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
+    vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
     ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
     tt_shear = tt(:,zidx);
     uu_shear = uu(:,zidx);
-    % vv_shear = vv(:,zidx);
+    vv_shear = vv(:,zidx);
     ww_shear = ww(:,zidx);
     
     mean_tt_shear = mean(tt(:,zidx));
     mean_uu_shear = mean(uu(:,zidx));
-    % mean_vv_shear = mean(vv(:,zidx));
+    mean_vv_shear = mean(vv(:,zidx));
     mean_ww_shear = mean(ww(:,zidx));
 
     mean_tt_shear_2d = repmat(mean_tt_shear,[Nx 1]);
     mean_uu_shear_2d = repmat(mean_uu_shear,[Nx 1]);
-    % mean_vv_shear_2d = repmat(mean_vv_shear,[Nx 1]);
+    mean_vv_shear_2d = repmat(mean_vv_shear,[Nx 1]);
     mean_ww_shear_2d = repmat(mean_ww_shear,[Nx 1]);
 
     div_tt(o,:) = rmse(tt_shear,mean_tt_shear_2d,1);
     div_uu(o,:) = rmse(uu_shear,mean_uu_shear_2d,1);
-    % div_vv(o,:) = rmse(vv_shear,mean_vv_shear_2d,1);
+    div_vv(o,:) = rmse(vv_shear,mean_vv_shear_2d,1);
     div_ww(o,:) = rmse(ww_shear,mean_ww_shear_2d,1);
 
 end
 
 div_tt2_zavg = mean(div_tt.^2,2);
 div_uu2_zavg = mean(div_uu.^2,2);
-% div_vv2_zavg = mean(div_vv.^2,2);
+div_vv2_zavg = mean(div_vv.^2,2);
 div_ww2_zavg = mean(div_ww.^2,2);
 
 %%
 Pr = 2;
-% ke = div_uu2_zavg/2+div_vv2_zavg/2+div_ww2_zavg/2;
-ke = div_uu2_zavg/2+div_ww2_zavg/2;
+ke = div_uu2_zavg/2+div_vv2_zavg/2+div_ww2_zavg/2;
 pe = Pr*div_tt2_zavg/2;
 energy =ke+pe;
 
