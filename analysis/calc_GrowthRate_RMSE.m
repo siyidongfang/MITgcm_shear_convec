@@ -7,7 +7,7 @@
 clear;
 % close all
 
-for  ne = 2
+for  ne = 1
 load_all
 
 % Ntide = 20;
@@ -19,7 +19,7 @@ Nt = length(tidx);
 Hshear = 250;
 dz = delR(end);
 Nshear = round(Hshear/dz);
-zidx = Nr-Nshear:Nr-1;
+zidx = Nr-Nshear:Nr;
 % zidx = Nr-Nshear+20:Nr-1-20;
 % zidx = 1:Nr;
 Nshear = length(zidx);

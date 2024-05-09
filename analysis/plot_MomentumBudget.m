@@ -21,7 +21,7 @@ rho0 = rhoConst;
 % load([prodir expname '_tavg_5days.mat'])
 
 o1 = 1;
-o2 = 24;
+o2 = 48;
 figdir = [expdir expname '/'];
 
 for o=o1:o2
@@ -122,7 +122,7 @@ pcolor(YY/1000,-ZZ/1000,Vm_dPhiY); shading interp;axis ij;set(gca,'color',gray);
 ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 handle=colorbar;set(handle,'FontSize',fontsize);
 set(gca,'FontSize',fontsize);colormap redblue;
-clim(CLIM/1e20/10);ylim([1.1 -min(bathy)/1000]);
+clim(CLIM/1e20/10/1e4);ylim([1.1 -min(bathy)/1000]);
 title('Along-isobath V: Pressure gradient force','interpreter','latex','FontSize',fontsize+4);
 
 
@@ -140,7 +140,7 @@ pcolor(YY/1000,-ZZ/1000,Vm_Diss); shading interp;axis ij;set(gca,'color',gray);
 ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 handle=colorbar;set(handle,'FontSize',fontsize);
 set(gca,'FontSize',fontsize);colormap redblue;
-clim(CLIM/100000/10);ylim([1.1 -min(bathy)/1000]);
+clim(CLIM/100000/10/1e4);ylim([1.1 -min(bathy)/1000]);
 title('Along-isobath V: Dissipation (Explicit)','interpreter','latex','FontSize',fontsize+4);
 
 subplot(4,2,5)
@@ -181,7 +181,7 @@ clim(CLIM/2/1e7/1e7);ylim([1.1 -min(bathy)/1000]);
 title('Along-isobath V: Residual','interpreter','latex','FontSize',fontsize+4);
 
 set(gcf, 'InvertHardcopy', 'off')
-print('-djpeg','-r150',[figdir 'evo_V_momentum' num2str(o) '.jpeg']);
+print('-djpeg','-r150',[figdir 'evo2_V_momentum' num2str(o) '.jpeg']);
 
 %%
 
@@ -204,7 +204,7 @@ pcolor(YY/1000,-ZZ/1000,Um_dPhiX); shading interp;axis ij;set(gca,'color',gray);
 ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 handle=colorbar;set(handle,'FontSize',fontsize);
 set(gca,'FontSize',fontsize);colormap redblue;
-clim(CLIM/5e3/10);ylim([1.1 -min(bathy)/1000]);
+clim(CLIM/5e3/10/300);ylim([1.1 -min(bathy)/1000]);
 title('Cross-isobath U: Pressure gradient force','interpreter','latex','FontSize',fontsize+4);
 
 
@@ -222,7 +222,7 @@ pcolor(YY/1000,-ZZ/1000,Um_Diss); shading interp;axis ij;set(gca,'color',gray);
 ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 handle=colorbar;set(handle,'FontSize',fontsize);
 set(gca,'FontSize',fontsize);colormap redblue;
-clim(CLIM/1e5/10);ylim([1.1 -min(bathy)/1000]);
+clim(CLIM/1e5/10/1e4);ylim([1.1 -min(bathy)/1000]);
 title('Cross-isobath U: Dissipation (Explicit)','interpreter','latex','FontSize',fontsize+4);
 
 subplot(4,2,5)
@@ -264,7 +264,7 @@ title('Cross-isobath U: Residual','interpreter','latex','FontSize',fontsize+4);
 
 
 set(gcf, 'InvertHardcopy', 'off')
-print('-djpeg','-r150',[figdir 'evo_U_momentum' num2str(o) '.jpeg']);
+print('-djpeg','-r150',[figdir 'evo2_U_momentum' num2str(o) '.jpeg']);
 
 
 figure(3)
@@ -275,7 +275,7 @@ pcolor(YY/1000,-ZZ/1000,Wm_Advec); shading interp;axis ij;set(gca,'color',gray);
 ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 handle=colorbar;set(handle,'FontSize',fontsize);
 set(gca,'FontSize',fontsize);colormap redblue;
-clim(CLIM/500/10);ylim([1.1 -min(bathy)/1000]);
+clim(CLIM/500/10/1e4);ylim([1.1 -min(bathy)/1000]);
 title('Vertical: Advection','interpreter','latex','FontSize',fontsize+2);
 
 subplot(2,2,2)
@@ -283,7 +283,7 @@ pcolor(YY/1000,-ZZ/1000,Wm_Diss); shading interp;axis ij;set(gca,'color',gray);
 ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 handle=colorbar;set(handle,'FontSize',fontsize);
 set(gca,'FontSize',fontsize);colormap redblue;
-clim(CLIM/100000/10);ylim([1.1 -min(bathy)/1000]);
+clim(CLIM/100000/10/1e4);ylim([1.1 -min(bathy)/1000]);
 title('Vertical: Dissipation','interpreter','latex','FontSize',fontsize+2);
 
 subplot(2,2,3)
@@ -292,7 +292,7 @@ xlabel('x (km)','interpreter','latex','FontSize',fontsize);
 ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 handle=colorbar;set(handle,'FontSize',fontsize);
 set(gca,'FontSize',fontsize);colormap redblue;
-clim(CLIM/1e4/10);ylim([1.1 -min(bathy)/1000]);
+clim(CLIM/1e4/10/1e4);ylim([1.1 -min(bathy)/1000]);
 title('Vertical: Adams-Bashforth','interpreter','latex','FontSize',fontsize+4);
 
 subplot(2,2,4)
@@ -301,11 +301,11 @@ xlabel('x (km)','interpreter','latex','FontSize',fontsize);
 ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 handle=colorbar;set(handle,'FontSize',fontsize);
 set(gca,'FontSize',fontsize);colormap redblue;
-clim(CLIM/500/10);ylim([1.1 -min(bathy)/1000]);
+clim(CLIM/500/10/1e4);ylim([1.1 -min(bathy)/1000]);
 title('Vertical: Residual (==tendency?)','interpreter','latex','FontSize',fontsize+2);
 
 set(gcf, 'InvertHardcopy', 'off')
-print('-djpeg','-r150',[figdir 'evo_W_momentum' num2str(o) '.jpeg']);
+print('-djpeg','-r150',[figdir 'evo2_W_momentum' num2str(o) '.jpeg']);
 
 
 end

@@ -929,7 +929,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-12;  
+  tNoise = 1e-9;  
   % tNoise = 0;
   sNoise = 0;
 
