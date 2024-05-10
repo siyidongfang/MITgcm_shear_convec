@@ -13,7 +13,7 @@ load_all
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 No = nDumps;
-No = 101160/360-1;
+No = 2400/120-1;
 tidx = 1:No;
 Nt = length(tidx);
 % Hshear = 500;
