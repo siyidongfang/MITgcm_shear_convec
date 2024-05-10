@@ -10,8 +10,8 @@
 %%% default value of 1/8 * the wavenumber corresponding to lambda will be
 %%% used.
 %%% 
-function F = genRandField_xz (lambda,W,Frms,Nx,Nr,Lx,H) 
- 
+function F = genRandField_xz (lambda_noise,Wk,Frms,Nx,Nr,Lx,H) 
+
   %%% Spectral grids  
   k = [0:1:Nx/2-1,-Nx/2:1:-1]; %%% Zonal wavenumber
   K_xk = 2*pi.*(k)./Lx;
@@ -20,18 +20,18 @@ function F = genRandField_xz (lambda,W,Frms,Nx,Nr,Lx,H)
   [K_zkm,K_xkm] = meshgrid(K_zm, K_xk);   
   
   %%% Most energetic wavenumber
-  K_0 = 2*pi/lambda; 
+  K_0 = 2*pi/lambda_noise; 
   
   %%% Exponential width of energy band in wavenumber space
-  if (isempty(W))
-    W = K_0/8; 
+  if (isempty(Wk))
+    Wk = K_0/8; 
   end
 
   %%% Amplitude is exponential about K0, and phases are random. N.B. here
   %%% we only define the amplitude up to a constant - below we constrain it.  
   K = sqrt(K_xkm.^2 + K_zkm.^2);
   theta = 2 .* pi .* rand(Nx,Nr);
-  psi_fft = K.^(-1).*exp(-((K-K_0)/W).^2) .* exp(1i*theta);
+  psi_fft = K.^(-1).*exp(-((K-K_0)/Wk).^2) .* exp(1i*theta);
 
   %%% Avoids infinite mode-0 amplitude 
   psi_fft(1,1) = 0;

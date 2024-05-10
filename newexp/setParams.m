@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = true;
+  FigureIsVisible = false;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -79,8 +79,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
   
   
-  Ly = 1.5*m1km;
-  Lx = 1.5*m1km; 
+  Ly = 3*m1km;
+  Lx = 3*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -301,8 +301,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
       % seaice work only with this).
   parm03.addParm('nIter0',nIter0,PARM_INT);
   parm03.addParm('abEps',0.1,PARM_REAL);
-  parm03.addParm('chkptFreq',24*t1hour,PARM_REAL); % rolling 
-  parm03.addParm('pChkptFreq',24*t1hour,PARM_REAL); % permanent
+  parm03.addParm('chkptFreq',6*t1hour,PARM_REAL); % rolling 
+  parm03.addParm('pChkptFreq',6*t1hour,PARM_REAL); % permanent
   parm03.addParm('taveFreq',0,PARM_REAL); % it only works properly, if taveFreq is a multiple of the time step deltaT (or deltaTclock).
   parm03.addParm('dumpFreq',24*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
   parm03.addParm('monitorFreq',24*t1hour,PARM_REAL); % interval to write monitor output (s)
@@ -348,11 +348,12 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Plotting mesh
   [Y,X] = meshgrid(yy,xx);
   
-  % % % dz = [1*ones(1,250) [1:3/99:4] 4*ones(1,100)];
-  % dz = [1*ones(1,300) [1:3/99:4] 4*ones(1,100)];
+  % % % % dz = [1*ones(1,250) [1:3/99:4] 4*ones(1,100)];
+  % % dz = [1*ones(1,300) [1:3/99:4] 4*ones(1,100)];
+  % dz = [1*ones(1,300) [1:2/99:3] 3*ones(1,100)];
   % dz = flipud(dz')';
 
-  dz_const = 3;
+  dz_const = 1;
   dz = dz_const*ones(1,Nr);
 
   % % %%% Varied dz with depth  %  -- from Xiaozhou
@@ -373,7 +374,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
   %%%%% Flat bottom -- start
-  Hmax = 900;
+  Hmax = 500;
   % Hmax = 950;
   % Hmax = 1500;
   h = -Hmax*ones(Nx,Ny);
@@ -543,7 +544,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   set(gca,'fontsize',fontsize);grid on;grid minor;
   PLOT = gcf;
   PLOT.Position = [263 149 567 336];
-  ylim([-2030 0])
+  ylim([min(h)-50 0])
   %%% Save the figure
   savefig([imgpath '/bathymetry.fig']);
   saveas(gcf,[imgpath '/bathymetry.png']);
@@ -844,8 +845,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % %   end
   
 
-  
-  
+
+  % Shear and Hshear must be changed together with external_forcing.F
+  h_shear = 250;
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% CALCULATE TIME STEP %%%%%
@@ -861,7 +863,10 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   %%% Upper bound for absolute horizontal fluid velocity (m/s)
   %%% At the moment this is just an estimate
-  Umax = 1
+  Umax = Shear*h_shear*2;
+  if(Shear==0)
+      Umax = 0.01;
+  end
   %%% Max gravity wave speed
   cmax = max(Cig)
   %%% Max gravity wave speed using total ocean depth
@@ -890,9 +895,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
  
   %%% Time step size  
   deltaT = min([deltaT_fgw deltaT_gw deltaT_adv deltaT_itl deltaT_Ah deltaT_Ar deltaT_KhT deltaT_KrT deltaT_A4]);
-  deltaT = floor(deltaT) 
-  % deltaT = floor(deltaT*2/3) 
-
+  deltaT
+  % deltaT  = 1.5
+  deltaT = round(deltaT) 
 
   % deltaT = 1
   % if(deltaT<5)
@@ -923,14 +928,13 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % parm01.addParm('diffK4S',diffK4S,PARM_REAL); %-- from Xiaozhou
 
 
-
   
   %%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% INITIAL DATA %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-7;  
+  tNoise = 1e-20;  
   % tNoise = 0;
   sNoise = 0;
 
@@ -939,17 +943,17 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % Flinear = tNoise*(flip(-zz)); 
 
   %---- Add random noise with a certain wavelength to the initial temperature field
-  noise_length = 400;
-  noise_amp = 1;
-  Nx_noise = Lx;
-  Nr_noise = Hmax;
+  lambda_noise = 200;
+  Frms = 1;
+  % Nx_noise = Lx;
+  % Nr_noise = Hmax;
 
-  Fnoise = genRandField_xz(noise_length,[],noise_amp,Nx_noise,Nr_noise,Lx,Hmax);
+  Fnoise = genRandField_xz(lambda_noise,[],Frms,Nx,Nr,Lx,Hmax);
   Fnoise = tNoise*Fnoise/max(max(abs(Fnoise)));
-  [zzz1,xxx1] = meshgrid(-1*(1:Hmax),1:Lx);
-  [zzz2,xxx2] = meshgrid(zz,xx);
-
-  Fnoise = interp2(zzz1,xxx1,Fnoise,zzz2,xxx2);
+  % [zzz1,xxx1] = meshgrid(-1*(1:Hmax),1:Lx);
+  % [zzz2,xxx2] = meshgrid(zz,xx);
+  % 
+  % Fnoise = interp2(zzz1,xxx1,Fnoise,zzz2,xxx2);
   %----------------
 
   %%% Align initial temp with background
@@ -974,7 +978,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
           end
       end
   end
-
 
   % %%% Titled isotherms
   % theta_slope = 4; %%% 4 degree slope
@@ -1020,12 +1023,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   savefig([imgpath '/hydroTh.fig']);
   saveas(gcf,[imgpath '/hydroTh.png']);
   
-  %%% Add some random noise
-  if (~isBarotropic)
-    hydroTh = hydroTh + tNoise*(2*rand(Nx,Ny,Nr)-1);
-    hydroSa = hydroSa + sNoise*(2*rand(Nx,Ny,Nr)-1);
-  end
-  
   %%% Write to data files
   writeDataset(hydroTh,fullfile(inputpath,'hydrogThetaFile.bin'),ieee,prec); 
   parm05.addParm('hydrogThetaFile','hydrogThetaFile.bin',PARM_STR);
@@ -1036,8 +1033,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
-  % Shear and Hshear must be changed together with external_forcing.F
-  h_shear = 250;
+
   % Hshear = Hmax-h_shear; 
   % [a Nshear] = min(abs(abs(zz)-Hshear));
   % for k = Nshear:Nr
@@ -1048,8 +1044,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   % Nshear_smooth_half = round(15*3/dz_const);
-  % Nshear_smooth_half = 50;
-  % Nshear_smooth_half = 40;
   Nshear_smooth_half = 100;
   % Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;

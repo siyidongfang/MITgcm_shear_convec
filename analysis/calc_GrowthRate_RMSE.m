@@ -7,23 +7,23 @@
 clear;
 % close all
 
-for  ne = 4
+for  ne = 1
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 No = nDumps;
-No = 42120/360;
+No = 101160/360-1;
 tidx = 1:No;
 Nt = length(tidx);
-Hshear = 250;
+% Hshear = 500;
 dz = delR(end);
-Nshear = round(Hshear/dz);
+% Nshear = round(Hshear/dz);
+Nshear = 250
+% zidx = Nr-200:Nr-40;
 zidx = Nr-Nshear:Nr;
-% zidx = Nr-Nshear+20:Nr-1-20;
 % zidx = 1:Nr;
 Nshear = length(zidx);
-hab_shear = zz(zidx)-min(zz);
 
 div_tt = zeros(Nt,Nshear);
 div_uu = zeros(Nt,Nshear);

@@ -9,9 +9,7 @@ addpath /Users/ysi/MITgcm_shear_convec/analysis/functions/;
 addpath /Users/ysi/MITgcm_shear_convec/analysis/colormaps/;
 close all;clear;
 
-% batch_name = 'exps_topo4_hires';
-batch_name = 'exps_flat'
-% batch_name = 'exps_shear_convec/spin_down';
+batch_name = 'exps_topo4'
 
 %%% Input parametersd
 Atide = 0;
@@ -19,11 +17,7 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-
-% Nx = 150
-% Nr = 300;
-
-Nx = 500;
+Nx = 1000;
 Nr = 500;
 
 % Hmax = 950;
@@ -38,9 +32,8 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 %%% Name of the simulation
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
-Shear = 0.6e-03
-exp_name = ['H900_smooth120m_topo0_s' num2str(Shear) '_dz3dx20n-7'];
-% exp_name = ['test']
+Shear =1.8e-03
+exp_name = ['topo4_H500_smo100m_s' num2str(Shear) '_dz1dx3ln200n-20'];
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)
 

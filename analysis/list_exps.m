@@ -7,19 +7,20 @@
     % expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_backup_2024/backup_wrongshear/';
 
     EXPNAME = { ... 
-        'H900_smooth120m_topo0_s0.0006_dz3dx20n-5'
-        'H900_smooth120m_topo0_s0.0006_dz3dx20n-6'
-        'H900_smooth120m_topo0_s0.0006_dz3dx20n-7'
+        'topo0_H900_smo90m_s0.0006_dz3dx20ln400n-7'
+        % 'H900_smooth120m_topo0_s0.0006_dz3dx20n-5'
+        % 'H900_smooth120m_topo0_s0.0006_dz3dx20n-6'
+        % 'H900_smooth120m_topo0_s0.0006_dz3dx20n-7'
         'H950_whitenoise_fixSNX_smooth100m_topo0_s0.0006_dz1dx3n-7'
-        'H1500_whitenoise_fixSNX_smooth120m_topo0_s0.0006_dz3dx20n-4'
-        'H1500_whitenoise_fixSNX_smooth120m_topo0_s0.0006_dz3dx20n-9'
-        'H1500_fixSNX_smooth120m_topo0_s0.0006_dz3dx20n-9'
-        'H1500_lores_topo0_s0.0006_dz3dx20n-9'
-        'H1500_lores_topo0_s0.0006_dz3dx20n-9_lessDiag' %%% smooth120m
-        'H1500_lfac2_smoohalf120m_lores_topo0_s0.0006_dz3dx20n-20'
-        'H1500_smoohalf120m_lores_topo0_s0.0006_dz3dx20n-20'
-        'H1500_NOsmooth_topo0_s0.0006_dz3dx20n-12'
-        'H1500_lores_topo0_s0.0006_dz3dx20n-20' %%% smooth45m
+        % 'H1500_whitenoise_fixSNX_smooth120m_topo0_s0.0006_dz3dx20n-4'
+        % 'H1500_whitenoise_fixSNX_smooth120m_topo0_s0.0006_dz3dx20n-9'
+        % 'H1500_fixSNX_smooth120m_topo0_s0.0006_dz3dx20n-9'
+        % 'H1500_lores_topo0_s0.0006_dz3dx20n-9'
+        % 'H1500_lores_topo0_s0.0006_dz3dx20n-9_lessDiag' %%% smooth120m
+        % 'H1500_lfac2_smoohalf120m_lores_topo0_s0.0006_dz3dx20n-20'
+        % 'H1500_smoohalf120m_lores_topo0_s0.0006_dz3dx20n-20'
+        % 'H1500_NOsmooth_topo0_s0.0006_dz3dx20n-12'
+        % 'H1500_lores_topo0_s0.0006_dz3dx20n-20' %%% smooth45m
         ...
         % 'lores_topo0_s0.0005_dz3dx15n-20'
         % 'lores_topo0_s0.0006_dz3dx15n-20rand_lfac1_smooth'
