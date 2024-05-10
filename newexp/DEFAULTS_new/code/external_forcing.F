@@ -189,7 +189,7 @@ C      topog_slope = 4.d0
       gravity_const = 9.81e+00
       temp_Alpha = 2.0e-4
       Tref_const = 0.d0
-      Hmax = 1500.0
+      Hmax = 900.0
 
       amp_tide = u_shear * h_shear
 

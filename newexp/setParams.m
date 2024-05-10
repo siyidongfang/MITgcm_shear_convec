@@ -79,8 +79,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
   
   
-  Ly = 3*m1km;
-  Lx = 3*m1km; 
+  Ly = 1.5*m1km;
+  Lx = 1.5*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -301,11 +301,11 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
       % seaice work only with this).
   parm03.addParm('nIter0',nIter0,PARM_INT);
   parm03.addParm('abEps',0.1,PARM_REAL);
-  parm03.addParm('chkptFreq',60*t1hour,PARM_REAL); % rolling 
-  parm03.addParm('pChkptFreq',60*t1hour,PARM_REAL); % permanent
+  parm03.addParm('chkptFreq',24*t1hour,PARM_REAL); % rolling 
+  parm03.addParm('pChkptFreq',24*t1hour,PARM_REAL); % permanent
   parm03.addParm('taveFreq',0,PARM_REAL); % it only works properly, if taveFreq is a multiple of the time step deltaT (or deltaTclock).
-  parm03.addParm('dumpFreq',60*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
-  parm03.addParm('monitorFreq',60*t1hour,PARM_REAL); % interval to write monitor output (s)
+  parm03.addParm('dumpFreq',24*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
+  parm03.addParm('monitorFreq',24*t1hour,PARM_REAL); % interval to write monitor output (s)
   parm03.addParm('dumpInitAndLast',true,PARM_BOOL);
   parm03.addParm('pickupStrictlyMatch',false,PARM_BOOL); 
   parm03.addParm('cAdjFreq',0,PARM_REAL); %%% set to -1, frequency of convective adj. scheme == deltaT
@@ -348,7 +348,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Plotting mesh
   [Y,X] = meshgrid(yy,xx);
   
-  % % dz = [1*ones(1,250) [1:3/99:4] 4*ones(1,100)];
+  % % % dz = [1*ones(1,250) [1:3/99:4] 4*ones(1,100)];
   % dz = [1*ones(1,300) [1:3/99:4] 4*ones(1,100)];
   % dz = flipud(dz')';
 
@@ -373,8 +373,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
   %%%%% Flat bottom -- start
+  Hmax = 900;
   % Hmax = 950;
-  Hmax = 1500;
+  % Hmax = 1500;
   h = -Hmax*ones(Nx,Ny);
   %%%%%% Flat bottom -- end
 
@@ -929,7 +930,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-9;  
+  tNoise = 1e-7;  
   % tNoise = 0;
   sNoise = 0;
 
@@ -1048,7 +1049,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   % Nshear_smooth_half = round(15*3/dz_const);
   % Nshear_smooth_half = 50;
-  Nshear_smooth_half = 40;
+  % Nshear_smooth_half = 40;
+  Nshear_smooth_half = 100;
   % Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);

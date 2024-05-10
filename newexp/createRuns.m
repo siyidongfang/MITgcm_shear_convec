@@ -19,13 +19,14 @@ Atide = 0;
 randtopog_height = 0; %%% 10
 randtopog_length = 0; %%% 1000
 
-% Nx = 200;
+
+% Nx = 150
 % Nr = 300;
-% Nx = 500;
-Nx = 150;
+
+Nx = 500;
 Nr = 500;
 
-% Hmax = 900;
+% Hmax = 950;
 % dz_const = 3;
 % Hsurface = 1002; 
 % Ntop = 120;
@@ -38,7 +39,7 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
 Shear = 0.6e-03
-exp_name = ['H1500_fixSNX_smooth120m_topo0_s' num2str(Shear) '_dz3dx20n-9'];
+exp_name = ['H900_smooth120m_topo0_s' num2str(Shear) '_dz3dx20n-7'];
 % exp_name = ['test']
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)
