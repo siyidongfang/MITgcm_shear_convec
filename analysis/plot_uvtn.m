@@ -1,15 +1,14 @@
 
     clear;close all;
-    ne=8;
+    ne=14;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
 
 
     o2 = nDumps;
-    o2 = 60;
-    % o1 = o2-12;
-    o1 = 1;
+    o2 = 328;
+    o1 = o2-12;
 
     YLIM = [-zz(end)-max(-bathy) -zz(end)];XLIM = [-Lx/2/1000 Lx/2/1000];
     [ZZ,XX] = meshgrid(zz,xx);
@@ -55,9 +54,9 @@ for o=o1:o2
 
 
     %%
-    figure(1)
-    set(gcf,'Position',  [-407 32 1247 942])
-    clf;set(gcf,'color','w');
+    h_figure = figure(1);
+    % set(h_figure,'Visible',false);
+    clf;set(gcf,'color','w');set(gcf,'Position',  [-407 32 1247 942])
     subplot(3,2,1)
     pcolor(xx/1000,-zz,tt');hold on;
     % contour(XX/1000,-ZZ,tt,[0:0.01:1],'k')

@@ -5,7 +5,7 @@ clf;
 set(gcf,'Color','w','Position',[55 396 956 404])
 plot(shear_MITgcm,growth_MITgcm,'LineWidth',2)
 hold on;
-plot(shear_MITgcm(4:13),growth_MITgcm2(4:13),'--','LineWidth',2)
+% plot(shear_MITgcm(4:13),growth_MITgcm2(4:13),'--','LineWidth',2)
 set(gca,'Fontsize',20)
 grid on;grid minor;
 xlabel('Shear (1/s)')
@@ -18,6 +18,6 @@ plot(shear_Floquet,growth_Floquet,':','LineWidth',3)
 load('../instability_km/GrowthRate_km_topo4.mat')
 plot(shear_km,growth_km,'-.','LineWidth',3)
 
-legend('MITgcm (\nu=1\times10^{-4}, \kappa=5\times10^{-5} m^2/s)','MITgcm: transient growth','Floquet: finite shear layer (\nu=\kappa=2\times10^{-6}m^2/s)','Floquet: infinite shear layer (\nu=\kappa=0)','Position', [0.1437 0.6645 0.4174 0.2438])
+legend('MITgcm (\nu=1\times10^{-4}, \kappa=5\times10^{-5} m^2/s)','Floquet: finite shear layer (\nu=\kappa=2\times10^{-6}m^2/s)','Floquet: infinite shear layer (\nu=\kappa=0)','Position', [0.1437 0.6645 0.4174 0.2438])
 
 xlim([0 2.2]*1e-3)
