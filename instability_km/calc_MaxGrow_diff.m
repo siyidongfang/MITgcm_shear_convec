@@ -18,11 +18,15 @@ for s = 1:length(shear_all)
         grow_smk(s,m,:) = grow;
     end
     figure(1)
+    set(gcf,'Color','w')
     pcolor(kx_all,m0_all,squeeze(grow_smk(s,:,:)));shading flat;colorbar;colormap(redblue);clim([-0.3 0.3])
     max_grow(s) = max(grow_smk(s,:,:),[],'all');
+    set(gca,'FontSize',20);xlabel('k (1/m)');ylabel('m (1/m)')
+    title('Growth rate (1/hour)')
 end
 
-figure(2)
-plot(shear_all,max_grow);
+% figure(2)
+% set(gcf,'Color','w')
+% plot(shear_all,max_grow);
 
 

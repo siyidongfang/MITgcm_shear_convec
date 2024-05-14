@@ -6,6 +6,7 @@ Diffusion = true;
 ConvectiveAdjustment = false;
 nt_percycle = 72*2; 
 
+
 %%%%%% exps_topo4_diff %%%%%%
 expdir = 'exps_topo4_diff/'; 
 topo=4;
@@ -15,9 +16,21 @@ omega = 2*pi/Ptide;
 shear_Ri0_25 = 0.0018;
 shear_Ri1 = 0.97e-3;
 shear_all = [0:1e-4:shear_Ri0_25];
-% shear_all = [0:2e-4:shear_Ri0_25];
-m0_all = [0:0.1:10];
+m0_all = 1;
 kx_all = [-0.5:0.0025*4:0.5];
+
+
+% %%%%%% exps_topo4_diff %%%%%%
+% expdir = 'exps_topo4_diff/'; 
+% topo=4;
+% N = sqrt(1)*1e-3;
+% Ptide = 43200;
+% omega = 2*pi/Ptide;
+% shear_Ri0_25 = 0.0018;
+% shear_Ri1 = 0.97e-3;
+% shear_all = [0:1e-4:shear_Ri0_25];
+% m0_all = [0:0.1:10];
+% kx_all = [-0.5:0.0025*4:0.5];
 
 % %%%%%% exps_flat_diff %%%%%%
 % expdir = 'exps_flat_diff/'; %%% Flat bottom with diffusion/viscous dissipation
