@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = false;
+  FigureIsVisible = true;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -58,7 +58,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 20*t1day;
+  simTime = 15*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -165,28 +165,21 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % parm01.addParm('implicSurfPress',0.6,PARM_REAL); %%% test20231027
   % parm01.addParm('implicDiv2DFlow',0.6,PARM_REAL); %%% test20231027
 
-  %------ ysi's configuration
-  % viscAh = 1e-4; %%% Horizontal viscosity 
-  % viscAr = 2e-4; %%% Vertical viscosity 
-  % diffKhT = 1e-5; %%% Horizontal temp diffusion
-  % diffKhS = 1e-5; %%% Horizontal salt diffusion
-  % diffKrT = 2e-5; %%% Vertical temp diffusion   
-  % diffKrS = 2e-5; %%% Vertical salt diffusion 
-
-  %------ xruan's viscosity and diffusivity
-  lfac = 1; 
-  viscAh = 1e-4*lfac; %%% Horizontal viscosity         %-- from Xiaozhou
-  viscAr = 2e-4*lfac; %%% Vertical viscosity           %-- from Xiaozhou
-  diffKhT = 1e-4*lfac; %%% Horizontal temp diffusion   %-- from Xiaozhou
-  diffKhS = 1e-4*lfac; %%% Horizontal salt diffusion   %-- from Xiaozhou
-  diffKrT = 2e-4*lfac; %%% Vertical temp diffusion     %-- from Xiaozhou
-  diffKrS = 2e-4*lfac; %%% Vertical salt diffusion     %-- from Xiaozhou
+  %------ viscosity and diffusivity
+  diffKhT = 2e-4; %%% Horizontal temp diffusion  
+  diffKrT = 2e-4; %%% Vertical temp diffusion    
+  Prandtl = 1;
+  viscAh = diffKhT*Prandtl; %%% Horizontal viscosity        
+  viscAr = diffKrT*Prandtl; %%% Vertical viscosity          
+  diffKhS = diffKhT; %%% Horizontal salt diffusion  
+  diffKrS = diffKrT; %%% Vertical salt diffusion  
   %------ xruan's viscosity and diffusivity
 
   viscA4 = 0; %%% Biharmonic viscosity
   viscAhGrid = 0; %%% Grid-dependent viscosity
   viscA4Grid = 0;   
   viscC4smag = 4;  
+  % viscC4smag = 0;  
   diffK4Tgrid = 0; 
   diffK4Sgrid = 0; 
   parm01.addParm('viscA4',viscA4,PARM_REAL);
@@ -247,7 +240,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % parm01.addParm('fPrime',0,PARM_REAL);  %-- from xiaozhou
   % parm01.addParm('rhoConst',rhoConst,PARM_REAL); %-- from xiaozhou
   %%% implicit diffusion and convective adjustment  
-  parm01.addParm('ivdc_kappa',0,PARM_REAL); %%% reference value, 1.0 implicit vertical diffusivity for convection (m2/s)
+  parm01.addParm('ivdc_kappa',0,PARM_REAL); %%% reference value, 1.0 implicit vertical diffusivity for convection (m2/s), turn on for convective adjustment
   parm01.addParm('implicitDiffusion',true,PARM_BOOL);
   parm01.addParm('implicitViscosity',true,PARM_BOOL);
   %%% exact volume conservation
@@ -353,7 +346,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % dz = [1*ones(1,300) [1:2/99:3] 3*ones(1,100)];
   % dz = flipud(dz')';
 
-  dz_const = 1;
+  dz_const = 3;
   dz = dz_const*ones(1,Nr);
 
   % % %%% Varied dz with depth  %  -- from Xiaozhou
@@ -374,7 +367,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
   %%%%% Flat bottom -- start
-  Hmax = 500;
+  Hmax = 900;
   % Hmax = 950;
   % Hmax = 1500;
   h = -Hmax*ones(Nx,Ny);
@@ -934,8 +927,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-20;  
-  % tNoise = 0;
+  tNoise = 1e-7; 
+  % tNoise = 1e-20;
   sNoise = 0;
 
   %---- Add an infinitesimal linear stratification 
@@ -1044,7 +1037,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   % Nshear_smooth_half = round(15*3/dz_const);
-  Nshear_smooth_half = 100;
+  Nshear_smooth_half = 30;
   % Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);
