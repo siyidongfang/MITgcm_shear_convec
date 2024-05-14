@@ -176,7 +176,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 0.6e-03
+      u_shear = 2.0e-03
       h_shear = 250.0
       Nsquare_const = 1.0e-06
 
@@ -189,7 +189,7 @@ C      topog_slope = 4.d0
       gravity_const = 9.81e+00
       temp_Alpha = 2.0e-4
       Tref_const = 0.d0
-      Hmax = 900.0
+      Hmax = 500.0
 
       amp_tide = u_shear * h_shear
 
@@ -224,7 +224,7 @@ C      end if
        end if
       END DO
 
-      Nshear_smooth_half = 30
+      Nshear_smooth_half = 100
 
       if(kLev.gt.Nshear_smooth_half) then
       if((Nr-kLev).ge.Nshear_smooth_half) then

@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = true;
+  FigureIsVisible = false;
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -178,8 +178,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   viscA4 = 0; %%% Biharmonic viscosity
   viscAhGrid = 0; %%% Grid-dependent viscosity
   viscA4Grid = 0;   
-  viscC4smag = 4;  
-  % viscC4smag = 0;  
+  % viscC4smag = 4;  
+  viscC4smag = 0;  
   diffK4Tgrid = 0; 
   diffK4Sgrid = 0; 
   parm01.addParm('viscA4',viscA4,PARM_REAL);
@@ -188,16 +188,15 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm01.addParm('viscA4GridMax',0.5,PARM_REAL);
   parm01.addParm('viscAhGridMax',1,PARM_REAL);
   parm01.addParm('useAreaViscLength',false,PARM_BOOL);
-  parm01.addParm('useFullLeith',true,PARM_BOOL);
+  parm01.addParm('useFullLeith',false,PARM_BOOL);
   parm01.addParm('viscC4smag',viscC4smag,PARM_REAL);  
-  % parm01.addParm('useSmag3D',true,PARM_BOOL);     %%% 2023-08-10
-  % parm01.addParm('smag3D_coeff',1.0e-2,PARM_REAL);%%% 2023-08-10, MITgcm default value: 1.0e-2
+  parm01.addParm('useSmag3D',false,PARM_BOOL);     %%% 2023-08-10
+  % parm01.addParm('smag3D_coeff',1.0e-4,PARM_REAL);%%% 2023-08-10, MITgcm default value: 1.0e-2
   parm01.addParm('viscC4leith',0,PARM_REAL);
   parm01.addParm('viscC4leithD',0,PARM_REAL);  
   parm01.addParm('viscC2leith',0,PARM_REAL);
   parm01.addParm('viscC2leithD',0,PARM_REAL);  
   %------ ysi's configuration
-
 
   parm01.addParm('viscAr',viscAr,PARM_REAL);      
   parm01.addParm('viscAh',viscAh,PARM_REAL);
@@ -297,8 +296,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm03.addParm('chkptFreq',6*t1hour,PARM_REAL); % rolling 
   parm03.addParm('pChkptFreq',6*t1hour,PARM_REAL); % permanent
   parm03.addParm('taveFreq',0,PARM_REAL); % it only works properly, if taveFreq is a multiple of the time step deltaT (or deltaTclock).
-  parm03.addParm('dumpFreq',24*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
-  parm03.addParm('monitorFreq',24*t1hour,PARM_REAL); % interval to write monitor output (s)
+  parm03.addParm('dumpFreq',60*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
+  parm03.addParm('monitorFreq',60*t1hour,PARM_REAL); % interval to write monitor output (s)
   parm03.addParm('dumpInitAndLast',true,PARM_BOOL);
   parm03.addParm('pickupStrictlyMatch',false,PARM_BOOL); 
   parm03.addParm('cAdjFreq',0,PARM_REAL); %%% set to -1, frequency of convective adj. scheme == deltaT
@@ -346,7 +345,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % dz = [1*ones(1,300) [1:2/99:3] 3*ones(1,100)];
   % dz = flipud(dz')';
 
-  dz_const = 3;
+  dz_const = 1;
   dz = dz_const*ones(1,Nr);
 
   % % %%% Varied dz with depth  %  -- from Xiaozhou
@@ -367,9 +366,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
   %%%%% Flat bottom -- start
-  Hmax = 900;
-  % Hmax = 950;
-  % Hmax = 1500;
+  Hmax = 500;
   h = -Hmax*ones(Nx,Ny);
   %%%%%% Flat bottom -- end
 
@@ -890,7 +887,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   deltaT = min([deltaT_fgw deltaT_gw deltaT_adv deltaT_itl deltaT_Ah deltaT_Ar deltaT_KhT deltaT_KrT deltaT_A4]);
   deltaT
   % deltaT  = 1.5
-  deltaT = round(deltaT) 
+  % deltaT = round(deltaT) 
 
   % deltaT = 1
   % if(deltaT<5)
@@ -927,8 +924,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-7; 
-  % tNoise = 1e-20;
+  tNoise = 1e-20; 
   sNoise = 0;
 
   %---- Add an infinitesimal linear stratification 
@@ -1037,7 +1033,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
 
   % Nshear_smooth_half = round(15*3/dz_const);
-  Nshear_smooth_half = 30;
+  Nshear_smooth_half = 100;
   % Nshear_smooth_half = 0;
   % Nsmooth_span = Nshear_smooth_half*2+1;
   % vrelax = smooth(vrelax,Nsmooth_span);

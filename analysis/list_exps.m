@@ -1,24 +1,13 @@
 
 
     prodir = '/Users/ysi/MITgcm_shear_convec/products/';
-    expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat_lores/';
+    expdir = '/Users/ysi/MITgcm_shear_convec/experiments/';
+    % expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat_lores/';
     % expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat/';
     % expdir = '/Users/ysi/MITgcm_shear_convec/exps_topo4/';
 
 
-    EXPNAME = { ... 
-'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_smag_h1e-4v2e-4'
-'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_smag_h1e-4v5e-4'
-'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_smag_h1e-4v1e-3'
-'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_smag_h5e-4v2e-4'
-...
-'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_h1e-4v2e-4'
-'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_hv2e-4'
-'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_h2e-4v1e-4'
-'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_h4e-4v2e-4'
-'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_h6e-4v3e-4'
-'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_h1e-3v1e-4'
-
+    EXPNAME = { ...
 % 'topo0_H500_smo100m_s0_dz1dx3ln200n-20'
 % 'topo0_H500_smo100m_s0.0001_dz1dx3ln200n-20'
 % 'topo0_H500_smo100m_s0.0002_dz1dx3ln200n-20'
@@ -64,12 +53,48 @@
     nEXP = length(EXPNAME);
 
 
+    % ...
+% 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_h1e-4v2e-4'
+% 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_hv2e-4'
+% 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_h4e-4v2e-4'
+% % 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_h2e-4v1e-4'
+% % 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_h6e-4v3e-4'
+% % 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_nosmag_h1e-3v1e-4'
+% ... 
+% 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_smag_h1e-4v2e-4'
+% 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_smag_h1e-4v5e-4'
+% % 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_smag_h1e-4v1e-3'
+% 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_smag_h5e-4v2e-4'
+% ...
+% 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_hv1e-5_3DSmag1e-2'
+% 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_hv1e-5_3DSmag1e-3'
+% 'topo0_H900_smo90m_s0.0006_dz3dx20_no1e-7ln200_hv1e-5_3DSmag1e-4' %%% Too small     
+% ...
+% 'topo0_H900_smo90m_s0.0015_dz3dx20_no1e-7ln200_hv1e-5_3DSmag1e-2' %%% Significantly reduce the growth rate
+% 'topo0_H900_smo90m_s0.0015_dz3dx20_no1e-7ln200_hv1e-5_3DSmag1e-3'
+% 'topo0_H900_smo90m_s0.0015_dz3dx20_no1e-7ln200_hv1e-5_3DSmag1e-4'
+% ...
+% 'topo0_H900_smo90m_s0.0012_dz3dx20_no1e-7ln200_NOsmag_h1e-4v2e-4'
+% 'topo0_H900_smo90m_s0.0012_dz3dx20_no1e-7ln200_NOsmag_h1e-4v5e-4'
+% 'topo0_H900_smo90m_s0.0012_dz3dx20_no1e-7ln200_NOsmag_h2e-4v2e-4'
+% 'topo0_H900_smo90m_s0.0012_dz3dx20_no1e-7ln200_smag_h1e-4v2e-4'
+% 'topo0_H900_smo90m_s0.0012_dz3dx20_no1e-7ln200_smag_h1e-4v5e-4'
+% 'topo0_H900_smo90m_s0.0012_dz3dx20_no1e-7ln200_smag_h2e-4v2e-4'
+% ...
+% 'topo0_H900_smo90m_s0.0015_dz3dx20_no1e-7ln200_NOsmag_h1e-4v2e-4'
+% 'topo0_H900_smo90m_s0.0015_dz3dx20_no1e-7ln200_NOsmag_h1e-4v5e-4'
+% 'topo0_H900_smo90m_s0.0015_dz3dx20_no1e-7ln200_NOsmag_h2e-4v2e-4'
+% 'topo0_H900_smo90m_s0.0015_dz3dx20_no1e-7ln200_smag_h1e-4v2e-4'
+% 'topo0_H900_smo90m_s0.0015_dz3dx20_no1e-7ln200_smag_h1e-4v5e-4'
+% 'topo0_H900_smo90m_s0.0015_dz3dx20_no1e-7ln200_smag_h2e-4v2e-4'
+
 
     % expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat_hires/';
     % expdir = '/Users/ysi/MITgcm_shear_convec/exps_topo4_hires/';
     % expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_backup_2024/backup_wrongshear/';
 
 
+    
         % 'topo0_H900_smo90m_s0.0006_dz3dx20ln400n-7'
         % 'H900_smooth120m_topo0_s0.0006_dz3dx20n-5'
         % 'H900_smooth120m_topo0_s0.0006_dz3dx20n-6'
