@@ -7,14 +7,14 @@
 clear;
 % close all
 
-for  ne = 18
+for  ne = 3
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 % No = nDumps
 % No = 9*12;
-No = 41
+No = 78
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -22,7 +22,8 @@ dz = delR(end);
 Nshear = round(Hshear/dz);
 % Nshear = 250;
 % zidx = Nr-200:Nr-40;
-zidx = Nr-Nshear:Nr;
+% zidx = Nr-Nshear:Nr;
+zidx = 300:500
 % zidx = 1:Nr;
 Nshear = length(zidx);
 

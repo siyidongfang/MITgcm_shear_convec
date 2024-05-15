@@ -8,7 +8,7 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = true;
+  FigureIsVisible = false;
   useLinearShear = false;
   useTanhShear = true;
 
@@ -1103,7 +1103,8 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Plot velocity shear
   h_figure=figure(fignum);
   fignum = fignum + 1;
-  set(h_figure,'Visible', FigureIsVisible);clf;
+  % set(h_figure,'Visible', FigureIsVisible);
+  clf;
   set(gcf,'Color','w');
   subplot(1,2,1)
   if(useLinearShear)

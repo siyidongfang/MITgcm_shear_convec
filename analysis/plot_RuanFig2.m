@@ -5,13 +5,13 @@
 
 clear;
 close all;
-for ne =9
+for ne =3
 
 load_all
 
 % xx = xx-xx(1);
 % No = nDumps;
-No = 180;
+No = 78;
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
 vv_timeseries = zeros(No,Nr);
@@ -90,8 +90,8 @@ botZ =zz(end);
 
 %%
 
-YLIM = [0 350];
-% YLIM = [0 1500];
+% YLIM = [0 350];
+YLIM = [0 800];
 XLIM = [0 40];
 % XLIM = [15 40];
 
@@ -107,7 +107,7 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
 shading flat;colorbar;colormap(redblue);set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 % xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('u (m/s)','Fontsize',fontsize+4,'interpreter','latex')
-clim([-0.6 0.6]/2)
+clim([-0.6 0.6])
 ylabel('HAB (m)','interpreter','latex')
 ylim(YLIM)
 xlim(XLIM)

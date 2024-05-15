@@ -205,14 +205,14 @@ C      topog_slope = 4.d0
      &                       / (omega_tide*omega_tide)
 
 C----------begin if useTanhShear----------
-      if(useTanhShear)
+      if(useTanhShear) then
       Hmax = 800.0
       shearRatio=(1+tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
       end if
 C----------end if useTanhShear------------
 
 C----------begin if useLinearShear----------
-      if(useLinearShear)
+      if(useLinearShear) then
       Hmax = 500.0
 
 C      if((rC(kLev)-rC(Nr)).lt.h_shear) then
