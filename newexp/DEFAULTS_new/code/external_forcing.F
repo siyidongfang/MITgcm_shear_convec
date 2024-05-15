@@ -57,6 +57,9 @@ C     kSurface  :: index of surface level
 CEOP
 
 C=== Yidongfang Si =====
+      LOGICAL useLinearShear
+      LOGICAL useTanhShear
+
       INTEGER Nshear_smooth_half
       INTEGER NsmoothStart
       INTEGER NsmoothEnd
@@ -189,14 +192,11 @@ C      topog_slope = 4.d0
       gravity_const = 9.81e+00
       temp_Alpha = 2.0e-4
       Tref_const = 0.d0
-      Hmax = 500.0
+
+      useLinearShear = .FALSE.
+      useTanhShear = .TRUE.
 
       amp_tide = u_shear * h_shear
-
-C      amp_force   = amp_tide *
-C     &     (-omega_tide*omega_tide
-C     &      +f0*f0*cos_slope*cos_slope)
-C     &      / (omega_tide*omega_tide)
 
       amp_force   = amp_tide *
      &     (f0*f0*cos_slope*cos_slope
@@ -204,11 +204,16 @@ C     &      / (omega_tide*omega_tide)
      &      +Nsquare_const*sin_slope*sin_slope)
      &                       / (omega_tide*omega_tide)
 
-C      tauTop = 1./3600./100.
-C      tauProfile = 0.
-C      if((rC(kLev)-rC(Nr)).gt.900.) then
-C      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
-C      end if
+C----------begin if useTanhShear----------
+      if(useTanhShear)
+      Hmax = 800.0
+      shearRatio=(1+tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
+      end if
+C----------end if useTanhShear------------
+
+C----------begin if useLinearShear----------
+      if(useLinearShear)
+      Hmax = 500.0
 
 C      if((rC(kLev)-rC(Nr)).lt.h_shear) then
 C      shearRatio=(rC(kLev)-rC(Nr))/h_shear
@@ -255,6 +260,15 @@ C      end if
       else
       shearRatio = shearProfile(kLev)
       end if
+
+      end if
+C----------end if useLinearShear------------
+
+C      tauTop = 1./3600./100.
+C      tauProfile = 0.
+C      if((rC(kLev)-rC(Nr)).gt.900.) then
+C      tauProfile=tauTop*((rC(kLev)-rC(Nr))-900.)/((rC(1)-rC(Nr))-900.)
+C      end if
 
       DO j=0,sNy+1
        DO i=1,sNx+1

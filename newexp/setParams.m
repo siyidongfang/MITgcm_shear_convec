@@ -1038,9 +1038,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 %%
   if(useTanhShear)
-      vrelax = h_shear*Shear/2 ...
-          *(1+ tanh( (zz+Hmax/2) / (h_shear/2) ));
-      vrelax = vrelax-min(vrelax);
+      vrelax = h_shear*Shear *(1+ tanh( (zz    +Hmax/2) / (h_shear/2) )) /2;
   end
 
 %%
