@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH -J calcGrowth
+#SBATCH -o exps_RK4/output_%j.txt                # output and error file name (%j expands to jobID)
+#SBATCH -n 1          # total number of mpi tasks requested
+#SBATCH --nodes=1     # total number of nodes requested
+#SBATCH -p sched_mit_raffaele          # queue (partition) -- sched_mit_raffaele, newnodes, etc. use sinfo to check
+#SBATCH -t 48:00:00  # run time (hh:mm:ss)
+#SBATCH --mail-user=y_si@mit.edu
+#SBATCH --mail-type=begin               # email me when the job starts
+#SBATCH --mail-type=end                 # email me when the job finishes
+
+cd ../.
+module load mit/matlab/2019a
+matlab -nodisplay -nosplash -r calc_GrowthRate_energy
