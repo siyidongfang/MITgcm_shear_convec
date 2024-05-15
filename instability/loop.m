@@ -15,7 +15,7 @@
         % solinit.y(2,end)=(p0_guess(end)-p0_guess(end-1))/dz;
     xmesh = zz_wgrid;
     solinit = bvpinit(xmesh, [0 0]);
-    options = bvpset('NMax', 10000);
+    options = bvpset('NMax', 1000);
     if(~hydrostatic)
         %%% non-hydrostctic
         sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit,options);
@@ -32,8 +32,6 @@
         p0 = psi0;
     end
 
-    %     p0 = cumsum(cumsum(z0*dz)*dz);
-
 
     %%%%%%%%%%%% B.C.-7 %%%%%%%%%%%%
     %%% Impermeable (w=0) At the ocean bottom
@@ -42,12 +40,9 @@
     p0(Nr+1) = 0;
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    U = cos(t0)*Atide/U0;
-    U_wgrid = cos(t0)*Atide_wgrid/U0;
-    if(U0==0)
-        U=zeros(1,Nr);
-        U_wgrid = zeros(1,Nr+1);
-    end
+    U = cos(omega*t0)*Atide;
+    U_wgrid = cos(omega*t0)*Atide_wgrid;
+
     % dUdz = (U_wgrid(2:Nr+1)-U_wgrid(1:Nr))/dz;
 
     dbdz(2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz; %%% on w-grid
@@ -76,12 +71,12 @@
     p0_ugrid = 0.5*(p0(1:Nr)+p0(2:Nr+1));
     dpsidz = (p0(2:Nr+1)-p0(1:Nr))/dz;
 
-    bq1(o,:) = -1i*kx*C1*U.*b0;
-    bq2(o,:) = -1i*kx*cotd(topo).*p0_ugrid;
-    bq3(o,:) = dpsidz;
-    bq4(o,:) = +1i*kx*C1.*sin(t0).*p0_ugrid;
-    bq5(o,:) = +C4*d2bdz2-C4*kx^2.*b0;
-    
+    bq1(o,:) = -1i*kx*U.*b0;
+    bq2(o,:) = -1i*kx*p0_ugrid*N^2*cosd(topo);
+    bq3(o,:) = dpsidz*N^2*sind(topo);
+    bq4(o,:) = 1i*kx*p0_ugrid*Shear/omega*N^2*sind(topo)*sin(omega*t0);
+    bq5(o,:) = kappa*(d2bdz2-kx^2.*b0);
+
     if(noBQ2)
         bq2(o,:) = 0;
     end
@@ -104,10 +99,10 @@
     d2zetadz2 = interp1(zz_wgrid(2:Nr),d2zetadz2(2:Nr),zz_wgrid,'linear','extrap');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    zq1(o,:) = -1i*kx*C1*U_wgrid.*z0;
-    zq2(o,:) = +C2^2*(1i*kx*cotd(topo)*b0_wgrid);
-    zq3(o,:) = +C2^2*(-dbdz);
-    zq4(o,:) = +C3*d2zetadz2-C3*kx^2.*z0;
+    zq1(o,:) = -1i*kx*U_wgrid.*z0;
+    zq2(o,:) = 1i*kx*b0_wgrid*cosd(topo);
+    zq3(o,:) = -dbdz*sind(topo);
+    zq4(o,:) = nu*(d2zetadz2-kx^2.*z0);
 
     if(noZQ2)
         zq2(o,:) = 0;

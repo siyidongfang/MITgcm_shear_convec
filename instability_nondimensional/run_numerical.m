@@ -131,7 +131,7 @@ Utide = repmat(cos(tt)',[1 length(Atide)])...
 
 dUtidedz = zeros(Nt,Nr);
 for m = 2:Nr-1
-    dUtidedz(:,m) = (Utide(:,m+1)-Utide(:,m-1))/2/dz;
+    dUtidedz(:,m) = (Utide(:,m+1)-Utide(:,m-1))/dz;
 end
 
 h=figure(1);
@@ -244,7 +244,7 @@ re_buoyd = re_buoy*N^2*U1*sind(topo)/omega;
 
 dbuoydz = zeros(Nt,Nr);
 for m = 2:Nr-1
-    dbuoydz(:,m) = (re_buoyd(:,m+1)-re_buoyd(:,m-1))/2/dz/delta;
+    dbuoydz(:,m) = (re_buoyd(:,m+1)-re_buoyd(:,m-1))/dz/delta;
 end
 
 
