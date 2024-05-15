@@ -7,14 +7,14 @@
 clear;
 % close all
 
-for  ne = 7:9
+for  ne = 18
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
-No = nDumps
-% No = 6*12;
-% No  = 330
+% No = nDumps
+% No = 9*12;
+No = 41
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -69,28 +69,29 @@ div_ww2_zavg = mean(div_ww.^2,2);
 
 %%
 Pr = 2;
-% ke = div_uu2_zavg/2+div_vv2_zavg/2+div_ww2_zavg/2;
-ke = 0;
+ke = div_uu2_zavg/2+div_vv2_zavg/2+div_ww2_zavg/2;
+% ke = 0;
 pe = Pr*div_tt2_zavg/2;
 energy =ke+pe;
 % 
-% %%% Calculate the growth rate
-% fit_span = 4*12+1:10*12;
-% 
-% % if(max(energy)<=1e-5)
-% %     % fit_span = 12*10+1:No;
-% %     fit_span = 12*45+1:No;
-% % end
-% xxplot = time_h;
-% yyplot = log(energy)/2;
-% [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-% grow(ne) = pp(1)
-% [y_fit,delta_fit] = polyval(pp,xxplot,S);
+%%% Calculate the growth rate
+% fit_span = 10*12+1:40*12;
+fit_span = 5*12+1:No;
+
+% if(max(energy)<=1e-5)
+%     % fit_span = 12*10+1:No;
+%     fit_span = 12*45+1:No;
+% end
+xxplot = time_h;
+yyplot = log(energy)/2;
+[pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+grow(ne) = pp(1)
+[y_fit,delta_fit] = polyval(pp,xxplot,S);
 
 
-% filename = [expdir expname '/RMSE_tt.mat'];
-% % save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
-% %     'energy','ke','pe','div_uu2_zavg','div_vv2_zavg','div_ww2_zavg','div_tt2_zavg','grow')
+filename = [expdir expname '/RMSE.mat'];
+save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
+    'energy','ke','pe','div_uu2_zavg','div_vv2_zavg','div_ww2_zavg','div_tt2_zavg','grow')
 % save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
 %     'energy','ke','pe','div_tt2_zavg','grow')
 
@@ -98,13 +99,13 @@ energy =ke+pe;
 
 h_figure = figure(1);
 % set(h_figure,'Visible',false);
-% clf;
+clf;
 set(gcf,'Color','w','Position',[211 289 852 394])
-% plot(time_h/12,log(pe)/2,'LineWidth',2);
+plot(time_h/12,log(pe)/2,'LineWidth',2);
 hold on;
-% plot(time_h/12,log(ke)/2,'LineWidth',2);
+plot(time_h/12,log(ke)/2,'LineWidth',2);
 plot(time_h/12,log(energy)/2,'LineWidth',2);
-% plot(xxplot(fit_span)/12, y_fit(fit_span),'--','LineWidth',2);
+plot(xxplot(fit_span)/12, y_fit(fit_span),'--','LineWidth',2);
 set(gca,'Fontsize',fontsize)
 xlabel('Time (tidal cycles)')
 % xlabel('Time (days)')
@@ -113,30 +114,29 @@ title('Turbulent energy averaged over the bottom shear layer')
 % title('RMSE of T and u averaged over the bottom shear layer')
 % title('Vertically averaged RMSE of T and u')
 % ylabel('(degC)')
-% legend('RMSE of PE','RMSE of KE','RMSE of PE+KE','Linear fit','Position',[0.6972 0.1497 0.1890 0.2069])
+legend('RMSE of PE','RMSE of KE','RMSE of PE+KE','Linear fit','Position',[0.6972 0.1497 0.1890 0.2069])
 grid on;grid minor;
 hold on;
 % ylim([1e-9 1e-1])
 % ylim([min(min([div_tt_zavg div_uu_zavg])) max(max([div_tt_zavg div_uu_zavg]))])
 
-% print('-dpng','-r150',[expdir expname '_rmse_tt.png']);
+print('-dpng','-r150',[expdir expname '_rmse_tt.png']);
 
 
 
 
 end
 
-legend(...
-    's0.0006, NOsmag, h1e-4v2e-4',...
-    's0.0006, NOsmag, h1e-4v5e-4',...
-    's0.0006, NOsmag, h4e-4v2e-4',...
-    's0.0006, smag4C, h1e-4v2e-4',...
-    's0.0006, smag4C, h1e-4v5e-4',...
-    's0.0006, smag4C, h5e-4v2e-4',...
-    's0.0006, 3DSmag1e-2, hv1e-5',...
-    's0.0006, 3Dsmag1e-3, hv1e-5',...
-    's0.0006, 3Dsmag1e-4, hv1e-5')
-
+% legend(...
+%     's0.0006, NOsmag, h1e-4v2e-4',...
+%     's0.0006, NOsmag, h1e-4v5e-4',...
+%     's0.0006, NOsmag, h4e-4v2e-4',...
+%     's0.0006, smag4C, h1e-4v2e-4',...
+%     's0.0006, smag4C, h1e-4v5e-4',...
+%     's0.0006, smag4C, h5e-4v2e-4',...
+%     's0.0006, 3DSmag1e-2, hv1e-5',...
+%     's0.0006, 3Dsmag1e-3, hv1e-5',...
+%     's0.0006, 3Dsmag1e-4, hv1e-5')
 
 % legend('smag, hori=1e-4,vert=2e-4','smag, hori=1e-4,vert=5e-4',...
 %     'smag, hori=1e-4,vert=1e-3','smag, hori=5e-4,vert=2e-4','Fontsize',fontsize+3)

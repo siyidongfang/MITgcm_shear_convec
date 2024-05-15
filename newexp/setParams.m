@@ -8,7 +8,10 @@
 function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = false;
+  FigureIsVisible = true;
+  useLinearShear = false;
+  useTanhShear = true;
+
   addpath ../utils/;
   addpath ../newexp_utils/;
   addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/;
@@ -21,7 +24,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
   %%% If set true, plots of prescribed variables will be shown
   showplots = true; 
-  fontsize = 16;
+  fontsize = 18;
   fignum = 1;
   
   %%% Data format parameters
@@ -79,6 +82,9 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
   
   
+  % Ly = 3*m1km;
+  % Lx = 3*m1km; 
+
   Ly = 3*m1km;
   Lx = 3*m1km; 
 
@@ -366,7 +372,7 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
   %%%%% Flat bottom -- start
-  Hmax = 500;
+  Hmax = -zz(end)+dz(end)/2;
   h = -Hmax*ones(Nx,Ny);
   %%%%%% Flat bottom -- end
 
@@ -526,7 +532,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   h_figure=figure(fignum);
   fignum = fignum + 1;
   set(h_figure,'Visible', FigureIsVisible);clf;
-  fontsize = 15;
   plot(xx/m1km,h,'LineWidth',2)
   xlabel('Latitude, y (km)')
   ylabel('z (m)')
@@ -1018,7 +1023,6 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   writeDataset(hydroSa,fullfile(inputpath,'hydrogSaltFile.bin'),ieee,prec); 
   parm05.addParm('hydrogSaltFile','hydrogSaltFile.bin',PARM_STR); 
 
-
   %%% Restore temperature and velocity shear at the horizontal boundaries
   HoriSpongeIdx = [1:spongeThickness Ny-spongeThickness+1:Ny];
   vrelax = zeros(1,Nr);
@@ -1032,77 +1036,89 @@ function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %     vrelax(k) = vrelax(Nshear);
   % end
 
-  % Nshear_smooth_half = round(15*3/dz_const);
-  Nshear_smooth_half = 100;
-  % Nshear_smooth_half = 0;
-  % Nsmooth_span = Nshear_smooth_half*2+1;
-  % vrelax = smooth(vrelax,Nsmooth_span);
-
-
-  %%
-  % shearProfile = zeros(1,Nr); 
-  for i=1:Nr
-       if((zz(i)+Hmax)<h_shear) 
-           shearProfile(i)=(zz(i)+Hmax)/h_shear;
-       else
-           shearProfile(i)=1.;
-       end 
-   end 
-
-
-  vrelax2 = Shear*h_shear*shearProfile;
-  
-
-  %--- smooth the velocity shear
-  for kLev = 1:Nr
-      if(kLev>Nshear_smooth_half) 
-          if((Nr-kLev)>=Nshear_smooth_half) 
-              NsmoothStart = kLev-Nshear_smooth_half;
-              NsmoothEnd = kLev+Nshear_smooth_half;
-          end 
-      end 
-
-      if((Nr-kLev)<Nshear_smooth_half) 
-          NsmoothStart = kLev-(Nr-kLev);
-          NsmoothEnd = Nr;
-      end 
-
-      if(kLev<=Nshear_smooth_half) 
-          NsmoothStart = 1;
-          NsmoothEnd = kLev+(kLev-1);
-      end 
-
-      shearRatio(kLev) = 0.;
-      Ndivide(kLev) = 0.;
-
-      if(NsmoothEnd>NsmoothStart) 
-          for i= NsmoothStart:NsmoothEnd
-               shearRatio(kLev) = shearRatio(kLev) + shearProfile(i);
-               Ndivide(kLev) = Ndivide(kLev) + 1;
-          end 
-          shearRatio(kLev) = shearRatio(kLev)/Ndivide(kLev);
-      else
-          shearRatio(kLev) = shearProfile(kLev);
-      end 
+%%
+  if(useTanhShear)
+      vrelax = h_shear*Shear/2 ...
+          *(1+ tanh( (zz+Hmax/2) / (h_shear/2) ));
+      vrelax = vrelax-min(vrelax);
   end
 
-  vrelax = Shear*h_shear*shearRatio;
+%%
+ 
 
-  % vrelax = vrelax2;
+
+  if(useLinearShear)
+
+      % Nshear_smooth_half = round(15*3/dz_const);
+      Nshear_smooth_half = 100;
+      % Nsmooth_span = Nshear_smooth_half*2+1;
+      % vrelax = smooth(vrelax,Nsmooth_span);
+    
+      % shearProfile = zeros(1,Nr); 
+      for i=1:Nr
+           if((zz(i)+Hmax)<h_shear) 
+               shearProfile(i)=(zz(i)+Hmax)/h_shear;
+           else
+               shearProfile(i)=1.;
+           end 
+       end 
+    
+      vrelax2 = Shear*h_shear*shearProfile; %%% un-smoothed shear
+    
+      %--- smooth the velocity shear
+      for kLev = 1:Nr
+          if(kLev>Nshear_smooth_half) 
+              if((Nr-kLev)>=Nshear_smooth_half) 
+                  NsmoothStart = kLev-Nshear_smooth_half;
+                  NsmoothEnd = kLev+Nshear_smooth_half;
+              end 
+          end 
+    
+          if((Nr-kLev)<Nshear_smooth_half) 
+              NsmoothStart = kLev-(Nr-kLev);
+              NsmoothEnd = Nr;
+          end 
+    
+          if(kLev<=Nshear_smooth_half) 
+              NsmoothStart = 1;
+              NsmoothEnd = kLev+(kLev-1);
+          end 
+    
+          shearRatio(kLev) = 0.;
+          Ndivide(kLev) = 0.;
+    
+          if(NsmoothEnd>NsmoothStart) 
+              for i= NsmoothStart:NsmoothEnd
+                   shearRatio(kLev) = shearRatio(kLev) + shearProfile(i);
+                   Ndivide(kLev) = Ndivide(kLev) + 1;
+              end 
+              shearRatio(kLev) = shearRatio(kLev)/Ndivide(kLev);
+          else
+              shearRatio(kLev) = shearProfile(kLev);
+          end 
+      end
+    
+      vrelax = Shear*h_shear*shearRatio;
+
+  end
 
   %%% Plot velocity shear
   h_figure=figure(fignum);
   fignum = fignum + 1;
   set(h_figure,'Visible', FigureIsVisible);clf;
-  fontsize = 15;
-  plot(vrelax2,-zz,'LineWidth',2);hold on;
-  plot(vrelax,-zz,'LineWidth',2);axis ij;
-  xlabel('v (m/s)')
-  ylabel('Depth (m)')
-  title('Velocity')
-  set(gca,'fontsize',fontsize);grid on;grid minor;
+  set(gcf,'Color','w');
+  subplot(1,2,1)
+  if(useLinearShear)
+  plot(vrelax2,-zz,'LineWidth',2);
+  end
+  hold on;
+  plot(vrelax,-zz,'LineWidth',2);axis ij;ylabel('Depth (m)');title('Initial velocity (m/s)')
+  set(gca,'fontsize',fontsize);grid on;grid minor;box on;
+  subplot(1,2,2)
+  plot(-diff(vrelax),-0.5*(zz(1:Nr-1)+zz(2:Nr)),'LineWidth',2);axis ij;ylabel('Depth (m)');title('Shear (1/s)')
+  grid on;grid minor;set(gca,'Fontsize',fontsize)
   PLOT = gcf;
-  PLOT.Position = [263 149 380 552];
+  PLOT.Position = [263 149 380*2 552];
   %%% Save the figure
   savefig([imgpath '/vrelax.fig']);
   saveas(gcf,[imgpath '/vrelax.png']);
