@@ -1,8 +1,6 @@
 
 
-%%% check CLF condition:
-CFLz = Umax*dt/dz
-CFLx = Umax*dt/lambda
+
 
 %%% Background tidal velocity
 Atide = Shear*zz;
@@ -25,11 +23,11 @@ title('Shear (1/s)');set(gca,'Fontsize',fontsize)
 grid on;grid minor;
 saveas(h,[expdir 'fig2.png'])
 
-% h=figure(3);
-% set(h,'Visible', FigureIsVisible);clf;
-% pcolor(tt/3600,zz,Utide');shading flat;colormap redblue; colorbar;
-% title('Atide (m/s)');xlabel('Time (hours)');set(gca,'Fontsize',fontsize)
-% saveas(h,[expdir 'fig3.png'])
+h=figure(3);
+set(h,'Visible', FigureIsVisible);clf;
+pcolor(tt/3600,zz,Utide');shading flat;colormap redblue; colorbar;
+title('Atide (m/s)');xlabel('Time (hours)');set(gca,'Fontsize',fontsize)
+saveas(h,[expdir 'fig3.png'])
 
 close all;
 
@@ -46,7 +44,7 @@ zeta(1,1) = 0; zeta(1,Nr+1) = 0;
 
 for o=1:Nt-1
 
-    if(rem(o,round(Nt/1000))==0)
+    if(rem(o,round(Nt/100))==0)
         Progress = o/Nt
     end
 
@@ -106,7 +104,7 @@ re_zq4 = real(zq4);
 
 dbuoydz = zeros(Nt,Nr);
 for m = 2:Nr-1
-    dbuoydz(:,m) = (re_buoyd(:,m+1)-re_buoyd(:,m-1))/dz;
+    dbuoydz(:,m) = (re_buoy(:,m+1)-re_buoy(:,m-1))/dz;
 end
 
 
@@ -183,7 +181,7 @@ saveas(h,[expdir 'fig5.png'])
 decompose;
 close all
 
-fit_span = round(Nt/NTtide*3):Nt-1;
+fit_span = round(Nt/NTtide*2)+1:Nt-1;
 
 % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
 TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
@@ -211,11 +209,11 @@ set(h,'color','w','Visible', FigureIsVisible,'Position',[85 222 979 420]);
 plot(xxplot/12,yyplot,'LineWidth',2)
 hold on
 plot(xxplot/12,yyplot_b2,'LineWidth',2)
-plot(xxplot(fit_span)/12,y_fit(fit_span),':','LineWidth',1.5)
-plot(xxplot(fit_span)/12,y_fit_b2(fit_span),':','LineWidth',1.5)
+plot(xxplot(fit_span)/12,y_fit(fit_span),':','LineWidth',2)
+plot(xxplot(fit_span)/12,y_fit_b2(fit_span),':','LineWidth',2)
 grid on;grid minor;
 set(gca,'Fontsize',20);
-ylim([pKE(2)-3 pKE(2)+pKE(1)*max(xxplot)+2])
+% ylim([pKE(2)-3 pKE(2)+pKE(1)*max(xxplot)+2])
 xlabel('$t$ (tidal cycle)','Interpreter','Latex')
 ylabel('$\ln(e)/2$','Interpreter','Latex')
 hold off;axis tight
@@ -230,6 +228,7 @@ saveas(h,[expdir 'KE.png'])
 %     buoy re_zq1 re_zq2 re_zq3 re_zq4 re_bq1 re_bq2 re_bq3 re_bq4 re_bq5 Utide ...
 %     uuu re_psid re_zetad re_buoyd re_dbdz re_d2bdz2 re_d2zetadz2 
 
+close all;
 save(outputname)
 
 
