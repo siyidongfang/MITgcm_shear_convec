@@ -1,10 +1,10 @@
 
 
-    prodir = '/Users/ysi/MITgcm_shear_convec/products/';
-    expdir = '/Users/ysi/MITgcm_shear_convec/experiments/';
-    % expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat_lores/';
-    % expdir = '/Users/ysi/MITgcm_shear_convec/exps_flat/';
-    % expdir = '/Users/ysi/MITgcm_shear_convec/exps_topo4/';
+    prodir = '../../MITgcm_shear_convec/products/';
+    expdir = '../../MITgcm_shear_convec/experiments/';
+    % expdir = '../../MITgcm_shear_convec/exps_flat_lores/';
+    % expdir = '../../MITgcm_shear_convec/exps_flat/';
+    % expdir = '../../MITgcm_shear_convec/exps_topo4/';
 
 
     EXPNAME = {...

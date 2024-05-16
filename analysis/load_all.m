@@ -6,11 +6,11 @@
 
 
     %%% Add path
-    addpath /Users/ysi/MITgcm_shear_convec/analysis/;
-    addpath /Users/ysi/MITgcm_shear_convec/analysis/functions;
-    addpath /Users/ysi/MITgcm_shear_convec/analysis/colormaps;
-    addpath /Users/ysi/MITgcm_shear_convec/analysis/colormaps/cmocean/;
-    addpath /Users/ysi/MITgcm_shear_convec/analysis/colormaps/customcolormap/;
+    addpath ../../MITgcm_shear_convec/analysis/;
+    addpath ../../MITgcm_shear_convec/analysis/functions;
+    addpath ../../MITgcm_shear_convec/analysis/colormaps;
+    addpath ../../MITgcm_shear_convec/analysis/colormaps/cmocean/;
+    addpath ../../MITgcm_shear_convec/analysis/colormaps/customcolormap/;
 
     list_exps;
     LinearEOS = true;
@@ -21,7 +21,7 @@
 
     fontsize = 18;
     figdir = [exppath '/img/']; 
-    prodir = '/Users/ysi/MITgcm_shear_convec/products/';
+    prodir = '../../MITgcm_shear_convec/products/';
     
     %%% Frequency of diagnostic output
     dumpFreq = abs(diag_frequency(1)); 
