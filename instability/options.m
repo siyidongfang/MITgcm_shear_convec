@@ -21,7 +21,8 @@ for Nexp_lambda =1:length(lambda_parm)
 
     lambda = lambda_parm(Nexp_lambda);
     expfolder = [exppath 'lambda' num2str(lambda) '/']
-    mkdir(expfolder);
+    mkdir(expfolder); 
+
     % for Nexp_shear =1:length(Shear_parm)
     for Nexp_shear =1
 

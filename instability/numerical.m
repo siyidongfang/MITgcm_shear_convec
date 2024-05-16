@@ -44,7 +44,7 @@ zeta(1,1) = 0; zeta(1,Nr+1) = 0;
 
 for o=1:Nt-1
 
-    if(rem(o,round(Nt/100))==0)
+    if(rem(o,round(Nt/10))==0)
         Progress = o/Nt
     end
 
