@@ -17,9 +17,9 @@ inputpath = fullfile(exppath,'input');
 resultspath = fullfile(exppath,'results');
 
 
-addpath /Users/ysi/MITgcm_BLT/newexp_utils/;
-addpath /Users/ysi/MITgcm_BLT/utils/;
-addpath /Users/ysi/MITgcm_BLT/utils/matlab/;
+addpath ../../MITgcm_shear_convec/newexp_utils/;
+addpath ../../MITgcm_shear_convec/utils/;
+addpath ../../MITgcm_shear_convec/utils/matlab/;
 
 %%% Load parameters used for this experiment
 run(fullfile(inputpath,'params.m'));

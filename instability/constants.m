@@ -21,17 +21,6 @@ Nr = round(Hmax/dz);
 zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   
 zz_wgrid = 0:dz:((Nr)*dz);
 
-CFLx = 0.5;
-if(Umax~=0)
-    dt_cfl = CFLx/Umax*lambda;    % The time step required to satisfy the CFL consition
-else
-    dt_cfl = CFLx/0.0001*lambda;
-end
-dt_tide = Ptide/(12*2);       % The time step required to resolve tides
-dt = min([dt_tide dt_cfl]);
-Nt = round(Lt/dt);
-tt = dt:dt:Nt*dt;
-
 if(USEdiffusion)
     % nu = 2e-6; 
     % kappa = 2e-6;
@@ -42,6 +31,28 @@ else
     kappa = 0;
 end
 Pr = nu/kappa;
+
+
+CFLx = 0.5;
+if(Umax~=0)
+    dt_cfl = CFLx/Umax*lambda;    % The time step required to satisfy the CFL consition
+else
+    dt_cfl = CFLx/0.0001*lambda;
+end
+
+dt_tide = Ptide/(12*2);       % The time step required to resolve tides
+dt = min([dt_tide dt_cfl]);
+
+if(USEdiffusion)
+    %%% Time step constraint based on horizontal diffusion 
+    deltaT_Ah = 0.5*(lambda/4)^2/(4*nu);    
+    %%% Time step constraint based on vertical diffusion
+    deltaT_Ar = 0.5*dz^2 / (4*nu); 
+    dt = min([dt_tide dt_cfl deltaT_Ah deltaT_Ar]);
+end
+
+Nt = round(Lt/dt);
+tt = dt:dt:Nt*dt;
 
 
 %%%% Define variables
