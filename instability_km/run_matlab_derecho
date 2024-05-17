@@ -1,14 +1,13 @@
 #!/bin/bash
-#PBS -N Ri5_4
 #PBS -A UMIT0054 
 #PBS -m abe
 #PBS -M y_si@mit.edu
 #PBS -q main
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=1
-#PBS -o exps_Radko/Ri5_out4.txt
-#PBS -e exps_Radko/Ri5_error4.txt 
+#PBS -N                             ns16
+#PBS -o     experiments_flat_nu2e-4/ns16.txt
+#PBS -e     experiments_flat_nu2e-4/ns16_e.txt 
 
 module load matlab
-
-matlab -nodisplay -nosplash -r options 
+matlab -nodisplay -nosplash -r options16

@@ -5,9 +5,9 @@
 #PBS -q main
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=1
-#PBS -N ne1
-#PBS -o exps_linear_nu2e-6/ne1.txt
-#PBS -e exps_linear_nu2e-6/ne1_e.txt 
+#PBS -N ne21
+#PBS -o exps_linear_nu2e-6/ne21.txt
+#PBS -e exps_linear_nu2e-6/ne21_e.txt 
 
 module load matlab
-matlab -nodisplay -nosplash -r options1
+matlab -nodisplay -nosplash -r options21

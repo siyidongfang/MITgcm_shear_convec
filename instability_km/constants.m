@@ -1,5 +1,5 @@
 
-Lt = NTtide*Ptide; 
+Lt = NTtide*Ptide;
 dt = Ptide/nt_percycle;
 
 Nt = round(Lt/dt);

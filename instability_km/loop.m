@@ -109,9 +109,9 @@
     % yyplot = log(ke)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
     grow(i) = pp(1);
-    if(isnan(grow(i)))
-        warning('NaN in growth rate!')
-    end
+    % if(isnan(grow(i)))
+    %     warning('NaN in growth rate!')
+    % end
 
     % [y_fit,delta_fit] = polyval(pp,xxplot,S);
     % figure(20)

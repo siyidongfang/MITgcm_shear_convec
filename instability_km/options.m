@@ -19,7 +19,7 @@ nt_percycle = 72*2;
 % kx_all = [-0.5:0.0025*4:0.5];
 
 %%%%%% exps_flat_diff %%%%%%
-expdir = 'exps_flat_diff/'; %%% Flat bottom with diffusion/viscous dissipation
+expdir = 'experiments_flat_nu2e-4/'; %%% Flat bottom with diffusion/viscous dissipation
 topo=0;
 N = sqrt(1)*1e-3;
 Ptide = 43200;
@@ -98,7 +98,8 @@ lam_x_all = 2*pi./kx_all;
 
 mkdir(expdir);
 
-for ns =1:length(shear_all)
+% for ns =1:length(shear_all)
+for ns =16
     ns
     % rw_all = rw_mg(ns)
     shear = shear_all(ns)
@@ -110,15 +111,15 @@ for ns =1:length(shear_all)
         rs = 0;
     end
    
-    for m=1:length(m0_all)
+    for m=172:length(m0_all)
         m
 	    m0 = m0_all(m);
 
     for i=1:length(kx_all)
         kx=kx_all(i);
-        if(rem(i,30)==0)
-        i
-        end
+        % if(rem(i,30)==0)
+        % i
+        % end
 
     % for i=1:length(rw_all)
         % rw = rw_all(i);
