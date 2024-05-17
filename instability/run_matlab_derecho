@@ -1,14 +1,13 @@
 #!/bin/bash
-#PBS -N data_processing
 #PBS -A UMIT0054 
 #PBS -m abe
 #PBS -M y_si@mit.edu
 #PBS -q main
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=1
-#PBS -o exps_linear/data.txt
-#PBS -e exps_linear/data_error.txt 
+#PBS -N ne1
+#PBS -o exps_linear_nu2e-6/ne1.txt
+#PBS -e exps_linear_nu2e-6/ne1_e.txt 
 
 module load matlab
-
-matlab -nodisplay -nosplash -r data_processing
+matlab -nodisplay -nosplash -r options1

@@ -6,20 +6,6 @@ Diffusion = true;
 ConvectiveAdjustment = false;
 nt_percycle = 72*2; 
 
-
-%%%%%% exps_topo4_diff %%%%%%
-expdir = 'exps_topo4_diff/'; 
-topo=4;
-N = sqrt(1)*1e-3;
-Ptide = 43200;
-omega = 2*pi/Ptide;
-shear_Ri0_25 = 0.0018;
-shear_Ri1 = 0.97e-3;
-shear_all = [0:1e-4:shear_Ri0_25];
-m0_all = 1;
-kx_all = [-0.5:0.0025*4:0.5];
-
-
 % %%%%%% exps_topo4_diff %%%%%%
 % expdir = 'exps_topo4_diff/'; 
 % topo=4;
@@ -32,18 +18,23 @@ kx_all = [-0.5:0.0025*4:0.5];
 % m0_all = [0:0.1:10];
 % kx_all = [-0.5:0.0025*4:0.5];
 
-% %%%%%% exps_flat_diff %%%%%%
-% expdir = 'exps_flat_diff/'; %%% Flat bottom with diffusion/viscous dissipation
-% topo=0;
-% N = sqrt(1)*1e-3;
-% Ptide = 43200;
-% omega = 2*pi/Ptide;
-% shear_Ri0_25 = 2*N;
-% shear_Ri1 = N;
-% % shear_all = [0:0.5e-5:shear_Ri0_25];
-% shear_all = [0:1e-4:shear_Ri0_25];
-% m0_all = [0:0.1:10];
-% kx_all = [0:0.0025*4:0.5];
+%%%%%% exps_flat_diff %%%%%%
+expdir = 'exps_flat_diff/'; %%% Flat bottom with diffusion/viscous dissipation
+topo=0;
+N = sqrt(1)*1e-3;
+Ptide = 43200;
+omega = 2*pi/Ptide;
+shear_Ri0_25 = 2*N;
+shear_Ri1 = N;
+shear_all = [0:1e-4:shear_Ri0_25];
+m0max = 2*pi/1;
+m0min = 2*pi/4000;
+k0max = 2*pi/3;
+k0min = 2*pi/100000;
+m0_all = [0 m0min m0min*2 m0min*3 m0min*4 0.01:0.01:5 m0max/4 m0max/2 m0max/4*3 m0max];
+kx_all = [0 k0min k0min*2 k0min*3 k0min*4 0.001:0.001:0.5 k0max/4 k0max/2 k0max/4*3 k0max];
+lam_z_all = 2*pi./m0_all;
+lam_x_all = 2*pi./kx_all;
 
 % %%%%%% exps_KH %%%%%%
 % expdir = 'exps_KH/';
@@ -107,7 +98,7 @@ kx_all = [-0.5:0.0025*4:0.5];
 
 mkdir(expdir);
 
-for ns =16:length(shear_all)
+for ns =1:length(shear_all)
     ns
     % rw_all = rw_mg(ns)
     shear = shear_all(ns)
@@ -119,9 +110,8 @@ for ns =16:length(shear_all)
         rs = 0;
     end
    
-    % for m=1:length(m0_all)
     for m=1:length(m0_all)
-            m
+        m
 	    m0 = m0_all(m);
 
     for i=1:length(kx_all)
@@ -215,14 +205,12 @@ end
 % save(['output_topo0/growth_topo' num2str(topo) '_mz' num2str(mz) 'kx' num2str(kx) '_NOdiff.mat'])
 
 
-
 % rw_all= 10.^([-2:0.1:-1 -0.95:0.01:-0.5 0.6:0.1:1]);
 % rw_all= 10.^([-2:0.1:-1.1 -1:0.005:-0.7 -0.6:0.1:1]);
 % rw_all = 10.^([-1.2:0.01:-0.5]);
 % rw_all = 10.^([-1.2:0.1:-0.3]);
 % rw_all = [0.140:0.001:0.146];
 % rw_all = 0.143;
-
 
 % shear_all = [0:1e-4:shear_Ri0_25]; % Ri=1, shear = 0.97e-3;
 % rw_all= 10.^([-2:0.1:-1.1 -1.05 -1:0.0025:-0.7 -0.6:0.1:1]);

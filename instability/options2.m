@@ -14,7 +14,7 @@ lambda_parm = flip(lambda_parm);
 lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
 Ptide_parm = [0.5:0.5:5 10000]*43200;
 
-exppath = 'exps_linear/';
+exppath = 'exps_linear_nu2e-6/';
 
 for Nexp_lambda =1:length(lambda_parm)
 % for Nexp_lambda =4

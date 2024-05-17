@@ -22,10 +22,10 @@ zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography
 zz_wgrid = 0:dz:((Nr)*dz);
 
 if(USEdiffusion)
-    % nu = 2e-6; 
-    % kappa = 2e-6;
-    nu = 2e-4; 
-    kappa = 2e-4;
+    nu = 2e-6; 
+    kappa = 2e-6;
+    % nu = 2e-4; 
+    % kappa = 2e-4;
 else
     nu = 0;
     kappa = 0;

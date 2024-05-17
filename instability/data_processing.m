@@ -14,11 +14,12 @@ topo = 0;
 Hmax = 250;
 N = 1e-3;
 
-for Nexp_lambda =13:length(lambda_parm)
+for Nexp_lambda =40:length(lambda_parm)
     lambda = lambda_parm(Nexp_lambda)
     expfolder = [exppath 'lambda' num2str(lambda) '/'];
 
     for Nexp_shear =1:length(Shear_parm)
+	Nexp_shear
         Shear = Shear_parm(Nexp_shear);
         expdir = [expfolder 'topo' num2str(topo) '_H' num2str(Hmax) ...
             '_N' num2str(N) '_S' num2str(Shear) ...
