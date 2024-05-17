@@ -25,13 +25,14 @@ title('Growth rate (1/hour)')
 
 growth_MITgcm = growth;
 
-save('MITgcm_growth_hires_flat.mat','growth_MITgcm','shear_MITgcm')
+save('MITgcm_growth_linearShear.mat','growth_MITgcm','shear_MITgcm')
 
 
 %%
 
-load('MITgcm_growth_hires_flat.mat')
+% load('MITgcm_growth_hires_flat.mat')
 figure(1)
+clf
 set(gcf,'Color','w')
 plot(shear_MITgcm,growth_MITgcm,'LineWidth',2)
 hold on;
@@ -41,8 +42,8 @@ xlabel('Shear (1/s)')
 ylabel('(1/hour)')
 title('Growth rate (1/hour)')
 
-load('MITgcm_growth_hires_topo4.mat')
-plot(shear_MITgcm,growth_MITgcm,'--','LineWidth',2)
-
-legend('Flat bottom', 'topography = 4 degrees')
+% load('MITgcm_growth_hires_topo4.mat')
+% plot(shear_MITgcm,growth_MITgcm,'--','LineWidth',2)
+% 
+% legend('Flat bottom', 'topography = 4 degrees')
 

@@ -5,9 +5,9 @@
 #PBS -q main
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=1
-#PBS -N                             ns16
-#PBS -o     experiments_flat_nu2e-4/ns16.txt
-#PBS -e     experiments_flat_nu2e-4/ns16_e.txt 
+#PBS -N                             ns2
+#PBS -o     experiments_flat_nu2e-4_new/ns2.txt
+#PBS -e     experiments_flat_nu2e-4_new/ns2_e.txt 
 
 module load matlab
-matlab -nodisplay -nosplash -r options16
+matlab -nodisplay -nosplash -r options2

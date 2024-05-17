@@ -4,7 +4,7 @@
 clear; close all;
 Diffusion = true;
 ConvectiveAdjustment = false;
-nt_percycle = 72*2; 
+nt_percycle = 72*10; 
 
 % %%%%%% exps_topo4_diff %%%%%%
 % expdir = 'exps_topo4_diff/'; 
@@ -19,7 +19,7 @@ nt_percycle = 72*2;
 % kx_all = [-0.5:0.0025*4:0.5];
 
 %%%%%% exps_flat_diff %%%%%%
-expdir = 'experiments_flat_nu2e-4/'; %%% Flat bottom with diffusion/viscous dissipation
+expdir = 'experiments_flat_nu2e-4_new/'; %%% Flat bottom with diffusion/viscous dissipation
 topo=0;
 N = sqrt(1)*1e-3;
 Ptide = 43200;
@@ -31,8 +31,10 @@ m0max = 2*pi/1;
 m0min = 2*pi/4000;
 k0max = 2*pi/3;
 k0min = 2*pi/100000;
-m0_all = [0 m0min m0min*2 m0min*3 m0min*4 0.01:0.01:5 m0max/4 m0max/2 m0max/4*3 m0max];
-kx_all = [0 k0min k0min*2 k0min*3 k0min*4 0.001:0.001:0.5 k0max/4 k0max/2 k0max/4*3 k0max];
+% m0_all = [0 m0min m0min*2 m0min*3 m0min*4 0.01:0.01:5 m0max/4 m0max/2 m0max/4*3 m0max];
+% kx_all = [0 k0min k0min*2 k0min*3 k0min*4 0.001:0.001:0.5 k0max/4 k0max/2 k0max/4*3 k0max];
+m0_all = [0 m0min m0min*2 m0min*3 m0min*4 0.01:0.01:2];
+kx_all = [0 k0min k0min*2 k0min*3 k0min*4 0.001:0.001:0.2];
 lam_z_all = 2*pi./m0_all;
 lam_x_all = 2*pi./kx_all;
 
@@ -99,7 +101,7 @@ lam_x_all = 2*pi./kx_all;
 mkdir(expdir);
 
 % for ns =1:length(shear_all)
-for ns =16
+for ns =2
     ns
     % rw_all = rw_mg(ns)
     shear = shear_all(ns)
@@ -111,7 +113,7 @@ for ns =16
         rs = 0;
     end
    
-    for m=172:length(m0_all)
+    for m=1:length(m0_all)
         m
 	    m0 = m0_all(m);
 
@@ -125,32 +127,22 @@ for ns =16
         % rw = rw_all(i);
         % kx = m0*rw;
 
-        NTtide = 30;
+        NTtide = 15;
         if(omega==0)
             NTtide = 1/rw/shear/Ptide*10;
         end
         constants;
         loop;
-        % if(grow(i)>0)
-        %     NTtide = 100;
-        %     constants;
-        %     loop;
-        % end
-        % if(grow(i)>0 && grow(i)<1e-2)
-        %     NTtide = 100;
-        %     constants;
-        %     loop;
-        % end
-        % if(grow(i)>0 && grow(i)<1e-3)
-        %     NTtide = 400;
-        %     constants;
-        %     loop;
-        % end
-        % if(grow(i)>0 && grow(i)<1e-4)
-        %     NTtide = 800;
-        %     constants;
-        %     loop;
-        % end
+        if(grow(i)>0)
+            NTtide = 100;
+            constants;
+            loop;
+        end
+        if(grow(i)>0 && grow(i)<0.1)
+            NTtide = 400;
+            constants;
+            loop;
+        end
     end
 
     %%% Save the data
