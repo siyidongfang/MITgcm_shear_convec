@@ -47,3 +47,8 @@ title('Growth rate (1/hour)')
 % 
 % legend('Flat bottom', 'topography = 4 degrees')
 
+
+
+
+%%
+

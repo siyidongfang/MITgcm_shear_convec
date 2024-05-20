@@ -8,10 +8,10 @@ m0max = 2*pi/1;
 m0min = 2*pi/4000;
 k0max = 2*pi/3;
 k0min = 2*pi/100000;
-% m0_all = [0 m0min m0min*2 m0min*3 m0min*4 0.01:0.01:1];
-% kx_all = [0 k0min k0min*2 k0min*3 k0min*4 0.001:0.001:0.1];
-m0_all = [0 m0min m0min*2 m0min*3 m0min*4 0.01:0.01:5 m0max/4 m0max/2 m0max/4*3 m0max];
-kx_all = [0 k0min k0min*2 k0min*3 k0min*4 0.001:0.001:0.5 k0max/4 k0max/2 k0max/4*3 k0max];
+m0_all = [0 m0min m0min*2 m0min*3 m0min*4 0.01:0.01:1];
+kx_all = [0 k0min k0min*2 k0min*3 k0min*4 0.001:0.001:0.1];
+% m0_all = [0 m0min m0min*2 m0min*3 m0min*4 0.01:0.01:5 m0max/4 m0max/2 m0max/4*3 m0max];
+% kx_all = [0 k0min k0min*2 k0min*3 k0min*4 0.001:0.001:0.5 k0max/4 k0max/2 k0max/4*3 k0max];
 
 lam_z_all = 2*pi./m0_all;
 lam_x_all = 2*pi./kx_all;
@@ -33,20 +33,28 @@ for s = 1:length(shear_all)
     end
     figure(1)
     set(gcf,'Color','w')
-    pcolor(kx_all(kkidx),m0_all(mmidx),squeeze(grow_smk(s,mmidx,kkidx)));shading flat;colorbar;colormap(redblue);clim([-0.3 0.3])
+    pcolor(kx_all(kkidx),m0_all(mmidx),squeeze(grow_smk(s,mmidx,kkidx)));shading flat;colorbar;colormap(redblue);
+    clim([-0.4 0.4])
     max_grow(s) = max(grow_smk(s,mmidx,kkidx),[],'all');
     set(gca,'FontSize',20);xlabel('k (1/m)');ylabel('m (1/m)')
     title('Growth rate (1/hour)')
     % ylim([0 1]);xlim([0 0.3]);
 end
 
-figure(2)
-set(gcf,'Color','w')
-hold on;
-plot(shear_all,max_grow);
+% figure(2)
+% set(gcf,'Color','w')
+% hold on;
+% plot(shear_all,max_grow);
 
 shear_km = shear_all;
 growth_km = max_grow;
-% save('growth_experiments_flat_nu2e-4.mat','shear_km','growth_km')
+% save('growth_experiments_flat_nu2e-4.mat','shear_km','growth_km','kx_all','m0_all','grow_smk')
+
+%%
+for s = 1:length(shear_km)
+   [a(s) I(s)] = max(grow_smk(s,:),[],'all');
+   [max_mm(s), max_kk(s)] = ind2sub(size(grow_smk(s,:)),I(s));
+end
+
 
 

@@ -16,8 +16,8 @@ Ptide_parm = [0.5:0.5:5 10000]*43200;
 
 exppath = 'exps_linear/';
 
-for Nexp_lambda =1:length(lambda_parm)
-% for Nexp_lambda =4
+% for Nexp_lambda =1:length(lambda_parm)
+for Nexp_lambda =4
 
     lambda = lambda_parm(Nexp_lambda);
     expfolder = [exppath 'lambda' num2str(lambda) '/']

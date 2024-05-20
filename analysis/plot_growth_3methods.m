@@ -12,14 +12,14 @@ xlabel('Shear (1/s)')
 ylabel('(1/hour)')
 title('Growth rate (1/hour)')
 
-% load('../instability/GrowthRate_Floquet_topo4.mat')
-% plot(shear_Floquet,growth_Floquet,':','LineWidth',3)
+load('../instability/GrowthRate_exps_linear.mat')
+plot(shear_Floquet,growth_Floquet,':','LineWidth',3)
 
 load('../instability_km/growth_experiments_flat_nu2e-4.mat')
 plot(shear_km,growth_km,'-.','LineWidth',3)
 
 legend('MITgcm, linear shear(\nu=\kappa=2\times10^{-4} m^2/s)',...
-    ... % 'Floquet: finite shear layer (\nu=\kappa=2\times10^{-4s}m^2/s)',...
+    'Floquet: periodic in x (\nu=\kappa=2\times10^{-4}m^2/s)',...
     'Floquet: double periodic (\nu=\kappa=2\times10^{-4} m^2/s)','Position', [0.1437 0.6645 0.4174 0.2438])
 
 xlim([0 2.2]*1e-3)

@@ -3,7 +3,7 @@ close all;
 clear;
 fontsize = 22;
 
-expdir = 'exps_linear_nu2e-6/lambda'
+expdir = 'exps_linear_old/lambda'
 Shear_parm = ([0:0.1:2.0])*1e-3;
 lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
 lambda_parm = flip(lambda_parm);
@@ -85,16 +85,27 @@ figure(3)
 set(gcf,'color','w')
 plot(Shear_parm,growth_Floquet,'LineWidth',2);
 grid on;grid minor;set(gca,'Fontsize',fontsize);
-xlabel('Shear (m/s)')
+xlabel('Shear (1/s)')
 ylabel('Growth rate (1/hour)')
 
 figure(4)
-pcolor(GrowthRate);shading flat;colorbar;
+set(gcf,'color','w')
+pcolor(shear_Floquet,log10(lambda_Floquet),GrowthRate_Floquet);shading flat;colorbar;
 clim([-0.3 0.3]);colormap(redblue)
+grid on;grid minor;set(gca,'Fontsize',fontsize);
+xlabel('Shear (1/s)')
+title('Growth rate (1/hour)')
+ylabel('log_{10}(\lambda_x) (m)')
 
-% % save('GrowthRate_exps_linear.mat','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
+save('GrowthRate_exps_linear_old.mat','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
 
-            
+
+
+GrowthRate_Floquet(isnan(GrowthRate_Floquet)) = 0;
+for ns = 1:21
+    [a(ns) b(ns)] = max(GrowthRate_Floquet(:,ns));
+end
+
 % %%% Option 2
 % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
 % TKE = 0.25* ( (uuu/U0).^2+(0.5*(www(:,1:Nr)+www(:,2:Nr+1))/U0).^2 );
