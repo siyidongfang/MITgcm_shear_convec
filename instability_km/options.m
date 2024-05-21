@@ -4,7 +4,7 @@
 clear; close all;
 Diffusion = true;
 ConvectiveAdjustment = false;
-nt_percycle = 72*10; 
+nt_percycle = 72*30; 
 
 % %%%%%% exps_topo4_diff %%%%%%
 % expdir = 'exps_topo4_diff/'; 
@@ -19,7 +19,8 @@ nt_percycle = 72*10;
 % kx_all = [-0.5:0.0025*4:0.5];
 
 %%%%%% exps_flat_diff %%%%%%
-expdir = 'experiments_flat_nu2e-4_new/'; %%% Flat bottom with diffusion/viscous dissipation
+expdir = 'test/';
+% expdir = 'experiments_flat_nu2e-4_new/'; %%% Flat bottom with diffusion/viscous dissipation
 topo=0;
 N = sqrt(1)*1e-3;
 Ptide = 43200;
@@ -37,6 +38,8 @@ m0_all = [0 m0min m0min*2 m0min*3 m0min*4 0.01:0.01:2];
 kx_all = [0 k0min k0min*2 k0min*3 k0min*4 0.001:0.001:0.2];
 lam_z_all = 2*pi./m0_all;
 lam_x_all = 2*pi./kx_all;
+
+load('growth_experiments_flat_nu2e-4.mat','max_m0','max_kx')
 
 % %%%%%% exps_KH %%%%%%
 % expdir = 'exps_KH/';
@@ -100,11 +103,10 @@ lam_x_all = 2*pi./kx_all;
 
 mkdir(expdir);
 
-% for ns =1:length(shear_all)
-for ns =2
-    ns
+for ns =1:length(shear_all)
+% for ns =2
     % rw_all = rw_mg(ns)
-    shear = shear_all(ns)
+    shear = shear_all(ns);
     
     mkdir([expdir 'shear_' num2str(shear*1e3,3)]);
 
@@ -113,41 +115,47 @@ for ns =2
         rs = 0;
     end
    
-    for m=1:length(m0_all)
-        m
-	    m0 = m0_all(m);
+    % % % for m=1:length(m0_all)
+    % % %     m
+	% % %     m0 = m0_all(m);
+    % % % 
+    % % % for i=1:length(kx_all)
+    % % %     kx=kx_all(i);
+    % % %     % if(rem(i,30)==0)
+    % % %     % i
+    % % %     % end
+    % % % 
+    % % % % for i=1:length(rw_all)
+    % % %     % rw = rw_all(i);
+    % % %     % kx = m0*rw;
 
-    for i=1:length(kx_all)
-        kx=kx_all(i);
-        % if(rem(i,30)==0)
-        % i
-        % end
 
-    % for i=1:length(rw_all)
-        % rw = rw_all(i);
-        % kx = m0*rw;
+    m0 =max_m0(ns);
+    kx =max_kx(ns);
+    i=ns;
 
-        NTtide = 15;
+        NTtide = 30;
         if(omega==0)
             NTtide = 1/rw/shear/Ptide*10;
         end
         constants;
         loop;
-        if(grow(i)>0)
-            NTtide = 100;
-            constants;
-            loop;
-        end
-        if(grow(i)>0 && grow(i)<0.1)
-            NTtide = 400;
-            constants;
-            loop;
-        end
-    end
+        % if(grow(i)>0)
+        %     NTtide = 100;
+        %     constants;
+        %     loop;
+        % end
+        % if(grow(i)>0 && grow(i)<0.1)
+        %     NTtide = 400;
+        %     constants;
+        %     loop;
+        % end
+    % % % end
 
     %%% Save the data
     clear fig a1_t angle_front ct fit_span mz_t pe st tt xx_plot yy_plot buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta ke_nond ps_nond
-    save([[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '.mat'])
+    % save([[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '.mat'])
+    save([[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '.mat'])
 
     % maxgrow = max(grow)
     % 
@@ -166,7 +174,7 @@ for ns =2
     % set(gcf, 'InvertHardcopy', 'off')
     % saveas(fig,[[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '.jpeg']);
 
-    end
+    % % % end
 
     % plot_timeseires
     % saveas(fig,[expdir '/figs/timeseriesN' num2str(ns) '.jpeg']);

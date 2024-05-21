@@ -2,6 +2,18 @@
 
 clear;close all;
 
+dz = 1;   
+Hmax = 250;
+Nr = round(Hmax/dz);
+zz_wgrid = 0:dz:((Nr)*dz);
+t1hour = 3600;
+DIV = 1;
+FigureIsVisible = true;
+fontsize = 20;
+load_colors;
+XLIM = [0 120];
+NTtide = 50;
+
 %%% Calculate the growth rate
 Shear_parm = ([0:0.1:2.0])*1e-3;
 lambda_max_all = [
@@ -27,32 +39,19 @@ lambda_max_all = [
 560
 560]';
 
-for s = 1:21
+for s = 2:21
     Shear = Shear_parm(s)
     lambda_max = lambda_max_all(s);
     expdir =  ['/Users/ysi/MITgcm_shear_convec/instability/exps_linear/lambda' ...
         num2str(lambda_max) '/topo0_H250_N0.001_S' num2str(Shear) ...
         '_lambda' num2str(lambda_max) '/'];
 
-    load([expdir 'output_2.mat'],'uuu','www','re_buoy','tt')
+    % load([expdir 'output_2.mat'],'uuu','www','re_buoy','tt')
+    load([expdir 'output_2.mat'])
 
-    dz = 1;   
-    Hmax = 250;
-    Nr = round(Hmax/dz);
-    zz_wgrid = 0:dz:((Nr)*dz);
-    
-    t1hour = 3600;
     Nt = length(uuu);
-    plot_tidx = 1:10:Nt;
-    DIV = 1;
-    
-    FigureIsVisible = true;
-    fontsize = 20;
-    
-    load_colors;
-    
-    XLIM = [0 120];
-    NTtide = 50;
+    plot_tidx = 1:50:Nt;
+
     fit_span = round(Nt/NTtide*4)+1:round(Nt/NTtide*10);
     
     
@@ -92,10 +91,6 @@ for s = 1:21
     legend('TKE','(b^\prime)^2','Position',[0.8141 0.1988 0.0684 0.1393])
     saveas(h,[expdir 'KE.png'])
 
-end
-
-%% Make plots
-load([expdir 'output_2.mat'])
 
 h=figure(5);
 set(h,'color','w','Visible', FigureIsVisible,'Position',[67 346 1015 619]);
@@ -165,3 +160,13 @@ set(gca,'color',gray);
 xlim(XLIM)
 
 saveas(h,[expdir 'fig5.png'])
+
+end
+
+shear_Floquet = Shear_parm;
+save('GrowthRate_exps_linear.mat','shear_Floquet','GrowthRate_b2','GrowthRate_KE')
+
+figure(2)
+plot(shear_Floquet,GrowthRate_b2)
+hold on;
+plot(shear_Floquet,GrowthRate_KE)
