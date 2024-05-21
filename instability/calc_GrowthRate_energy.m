@@ -3,7 +3,7 @@ close all;
 clear;
 fontsize = 22;
 
-expdir = 'exps_linear_old/lambda'
+expdir = 'exps_linear_old2/lambda'
 Shear_parm = ([0:0.1:2.0])*1e-3;
 lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
 lambda_parm = flip(lambda_parm);
@@ -97,7 +97,7 @@ xlabel('Shear (1/s)')
 title('Growth rate (1/hour)')
 ylabel('log_{10}(\lambda_x) (m)')
 
-save('GrowthRate_exps_linear_old.mat','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
+save('GrowthRate_exps_linear_old2.mat','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
 
 
 

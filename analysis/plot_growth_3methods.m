@@ -12,11 +12,19 @@ xlabel('Shear (1/s)')
 ylabel('(1/hour)')
 title('Growth rate (1/hour)')
 
-load('../instability/GrowthRate_exps_linear.mat')
+load('../instability/GrowthRate_exps_linear_old4.mat')
+% growth_crop = max(GrowthRate_Floquet(7:end,:));
 plot(shear_Floquet,growth_Floquet,':','LineWidth',3)
+% plot(shear_Floquet,growth_crop,'--','LineWidth',3)
 
 load('../instability_km/growth_experiments_flat_nu2e-4.mat')
+lam_x = 2*pi./kx_all;lam_z = 2*pi./m0_all;
+xstart = 7;zstart = 8;
+for s=1:length(shear_km)
+    growth_crop_km(s) = max(grow_smk(s,zstart:end,xstart:end),[],"all");
+end
 plot(shear_km,growth_km,'-.','LineWidth',3)
+plot(shear_km,growth_crop_km,'*','LineWidth',3)
 
 legend('MITgcm, linear shear(\nu=\kappa=2\times10^{-4} m^2/s)',...
     'Floquet: periodic in x (\nu=\kappa=2\times10^{-4}m^2/s)',...

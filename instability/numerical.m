@@ -1,7 +1,5 @@
 
 
-
-
 %%% Background tidal velocity
 Atide = Shear*zz;
 Atide_wgrid = Shear*zz_wgrid;
@@ -44,10 +42,6 @@ zeta(1,1) = 0; zeta(1,Nr+1) = 0;
 
 for o=1:Nt-1
 
-    if(rem(o,round(Nt/10))==0)
-        Progress = o/Nt
-    end
-
     t0 = tt(o);
     b0 = buoy(o,:);
     z0 = zeta(o,:);
@@ -82,6 +76,18 @@ for o=1:Nt-1
     %%% No total stress at the ocean bottom
     % zeta(o,1) = cos(t0*omega);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    if(rem(o,round(Nt/10))==0)
+        Progress = o/Nt
+        outputname_mid = [expdir 'output_' num2str(round(Progress*10)) '.mat'];
+        re_psi = real(psi);  
+        re_zeta = real(zeta);
+        re_buoy = real(buoy); 
+        uuu = -real((psi(:,2:Nr+1)-psi(:,1:Nr))/dz);
+        www = real(1i*kx*psi);
+        save(outputname_mid,'re_psi','re_zeta','re_buoy','uuu','www','zz','tt')
+        clear re_psi re_zeta re_buoy uuu www
+    end
 
 end
 
@@ -232,7 +238,6 @@ clear b0 b_wgrid b0_wgrid b_2 b_3 b_4 p0 p0_ugrid psi psi0 sol1 solinit ...
     buoy re_zq1 re_zq2 re_zq3 re_zq4 re_bq1 re_bq2 re_bq3 re_bq4 re_bq5 Utide ...
     uuu  re_dbdz re_d2bdz2 re_d2zetadz2 
 
-outputname2 = [expdir 'output2.mat'];
-save(outputname2)
+save(outputname)
 
 

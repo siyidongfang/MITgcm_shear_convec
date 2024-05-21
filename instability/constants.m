@@ -10,13 +10,13 @@ N = 1e-3;
 topo = 0;
 Ptide = 43200;
 omega = 2*pi/Ptide;
-NTtide = 20;
+NTtide = 50;
 Lt = NTtide*Ptide; 
 
 Hmax = 250;
 Umax = Hmax * Shear;
 
-dz = 2.5;      
+dz = 1;      
 Nr = round(Hmax/dz);
 zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   
 zz_wgrid = 0:dz:((Nr)*dz);
@@ -39,7 +39,7 @@ else
     dt_cfl = CFLx/0.0001*lambda;
 end
 
-dt_tide = Ptide/(72*10)/2;       % The time step required to resolve tides
+dt_tide = Ptide/(72*10)/12;       % The time step required to resolve tides
 dt = min([dt_tide dt_cfl]);
 
 if(USEdiffusion)

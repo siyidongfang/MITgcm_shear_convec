@@ -15,7 +15,7 @@
         % solinit.y(2,end)=(p0_guess(end)-p0_guess(end-1))/dz;
     xmesh = zz_wgrid;
     solinit = bvpinit(xmesh, [0 0]);
-    options = bvpset('NMax', 10000);
+    options = bvpset('NMax', 100000);
     if(~hydrostatic)
         %%% non-hydrostctic
         sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit,options);
