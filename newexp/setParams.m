@@ -5,7 +5,7 @@
 %%% writes out the appropriate input files.
 %%%
 
-function [nTimeSteps,h,tNorth,sNorth,rho_north,N]...
+function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
   FigureIsVisible = false;
