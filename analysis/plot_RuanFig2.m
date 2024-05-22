@@ -5,13 +5,13 @@
 
 clear;
 close all;
-for ne =21
+for ne =17
 
 load_all
 
 % xx = xx-xx(1);
 % No = nDumps;
-No = 10*12;
+No = 20*12;
 
 uu_timeseries= zeros(No,Nr);
 shear_timeseries = zeros(No,Nr);
@@ -73,7 +73,7 @@ botZ =zz(end);
 
 %%
 
-YLIM = [0 800];
+YLIM = [0 500];
 XLIM = [0 40];
 
 figure()
@@ -83,9 +83,9 @@ subplot(3,1,2)
 pcolor(time_tidal,zz-botZ,tt_timeseries')
 hold on;
 shading flat;colorbar;
-contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.1:1],'color',darkgray)
-contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
-contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
+% contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.1:1],'color',darkgray)
+% contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
+% contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
 set(gca,'Fontsize',fontsize);set(gca,'color',gray);
 % xlabel('Tidal cycles','interpreter','latex');ylabel('HAB (m)','interpreter','latex')
 title('$\theta^\prime \ (^\circ \mathrm{C})$','Fontsize',fontsize+4,'interpreter','latex')
@@ -99,9 +99,9 @@ subplot(3,1,3)
 pcolor(time_tidal,zz-botZ,(N2_timeseries)')
 hold on;
 contour(time_tidal,zz-botZ,(N2_timeseries)',[0 0],'Color','c','LineWidth',2);
-contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.1:1],'color',darkgray)
-contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
-contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
+% contour(time_tidal,zz-botZ,uu_timeseries',[0.05:0.1:1],'color',darkgray)
+% contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1.5)
+% contour(time_tidal,zz-botZ,uu_timeseries',[-1:0.1:-0.05],'--','color',darkgray)
 shading flat;colorbar;
 % colormap(cmocean('delta'));
 set(gca,'Fontsize',fontsize);set(gca,'color',gray);
