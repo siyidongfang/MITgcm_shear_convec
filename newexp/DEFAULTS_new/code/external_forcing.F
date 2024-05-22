@@ -193,8 +193,8 @@ C      topog_slope = 4.d0
       temp_Alpha = 2.0e-4
       Tref_const = 0.d0
 
-      useLinearShear = .FALSE.
-      useTanhShear = .TRUE.
+      useLinearShear = .TRUE.
+      useTanhShear = .FALSE.
 
       amp_tide = u_shear * h_shear
 
@@ -589,6 +589,9 @@ C=== Yidongfang Si ========
       REAL*8 sin_slope
       REAL*8 topog_slope
       REAL*8 pi_const
+
+      REAL*8 tauTop
+      REAL*8 tauProfile
 C==========================
 
 #ifdef SHORTWAVE_HEATING
@@ -894,8 +897,8 @@ C     &  *Nsquare_const*sin_slope/gravity_const/temp_Alpha
 
 C     Advection by true vertical velocity (slope-normal component)
       IF ( kLev.LT.Nr ) THEN
-       DO j=1,sNy+1
-        DO i=0,sNx+1
+       DO j=0,sNy+1
+        DO i=1,sNx+1
          gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
      &  - 0.5*(wVel(i,j,kLev,bi,bj)+wVel(i,j,kLev+1,bi,bj))
      &  *Nsquare_const*cos_slope/gravity_const/temp_Alpha
@@ -904,8 +907,8 @@ C     Advection by true vertical velocity (slope-normal component)
       ENDIF
 C     Bottom boundary grid cell
       IF ( kLev.EQ.Nr ) THEN
-       DO j=1,sNy+1
-        DO i=0,sNx+1
+       DO j=0,sNy+1
+        DO i=1,sNx+1
          gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
      &  - 0.5*(0.+wVel(i,j,kLev,bi,bj))
      &  *Nsquare_const*cos_slope/gravity_const/temp_Alpha
@@ -913,6 +916,18 @@ C     Bottom boundary grid cell
        ENDDO
       ENDIF
 
+      tauTop = 1./3600.
+      tauProfile = 0.
+      if(rC(kLev).ge.-100.) then
+      tauProfile=tauTop*(rC(kLev)+100.)/(rC(1)+100.)
+      end if
+
+      DO j=0,sNy+1
+       DO i=1,sNx+1
+        gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
+     & + ( 0. - theta(i,j,kLev,bi,bj) ) * tauProfile
+       ENDDO
+      ENDDO
 
 C==========================
 

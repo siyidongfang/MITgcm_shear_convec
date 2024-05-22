@@ -11,6 +11,13 @@ for ne = 1:21
     growth(ne) = pp(1);
 end
 
+for ne = 13:15
+    expname = EXPNAME{ne};
+    loadexp;
+    load([expdir expname '/RMSE_all.mat'])
+    growth(ne) = pp(1);
+end
+
 shear_MITgcm = [0:0.1:2.0]*1e-3;
 figure(1)
 % clf;
@@ -25,7 +32,7 @@ title('Growth rate (1/hour)')
 
 growth_MITgcm = growth;
 
-save('MITgcm_growth_linearShear.mat','growth_MITgcm','shear_MITgcm')
+save('MITgcm_growth_linearShear_all.mat','growth_MITgcm','shear_MITgcm')
 
 
 %%

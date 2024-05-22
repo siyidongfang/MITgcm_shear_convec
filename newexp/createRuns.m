@@ -20,7 +20,7 @@ randtopog_length = 0; %%% 1000
 
 % Nx = 150;
 Nx = 1000;
-Nr = 800;
+Nr = 500;
 
 % Hmax = 950;
 % dz_const = 3;
@@ -35,7 +35,8 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 % exp_name = createRunName (Atide,randtopog_height,randtopog_length,Nr,Nx,run_type)
 
 Shear =2.0e-03
-exp_name = ['topo0_tanhH800_s' num2str(Shear) 'dz1dx3ln200n-20_kv2e-4'];
+exp_name = ['Lx10kmRestoreT_topo0_H500_s' num2str(Shear) 'dz1dx10ln200n-20_kv2e-4'];
+% exp_name = 'test'
 
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)
 

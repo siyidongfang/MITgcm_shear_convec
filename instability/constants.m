@@ -10,7 +10,7 @@ N = 1e-3;
 topo = 0;
 Ptide = 43200;
 omega = 2*pi/Ptide;
-NTtide = 50;
+NTtide = 25;
 Lt = NTtide*Ptide; 
 
 Hmax = 250;

@@ -258,7 +258,7 @@ function newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,N
   end   
 
 
-  [vrelax,snTimeSteps,h,tNorth,sNorth,rho_north,N]...
+  [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear);
 
 

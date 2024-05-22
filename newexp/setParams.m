@@ -9,8 +9,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
   FigureIsVisible = false;
-  useLinearShear = false;
-  useTanhShear = true;
+  useLinearShear = true;
+  useTanhShear = false;
 
   addpath ../utils/;
   addpath ../newexp_utils/;
@@ -61,7 +61,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 15*t1day;
+  simTime = 20*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -85,8 +85,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % Ly = 3*m1km;
   % Lx = 3*m1km; 
 
-  Ly = 3*m1km;
-  Lx = 3*m1km; 
+  Ly = 10*m1km;
+  Lx = 10*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -302,8 +302,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm03.addParm('chkptFreq',6*t1hour,PARM_REAL); % rolling 
   parm03.addParm('pChkptFreq',6*t1hour,PARM_REAL); % permanent
   parm03.addParm('taveFreq',0,PARM_REAL); % it only works properly, if taveFreq is a multiple of the time step deltaT (or deltaTclock).
-  parm03.addParm('dumpFreq',60*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
-  parm03.addParm('monitorFreq',60*t1hour,PARM_REAL); % interval to write monitor output (s)
+  parm03.addParm('dumpFreq',120*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
+  parm03.addParm('monitorFreq',120*t1hour,PARM_REAL); % interval to write monitor output (s)
   parm03.addParm('dumpInitAndLast',true,PARM_BOOL);
   parm03.addParm('pickupStrictlyMatch',false,PARM_BOOL); 
   parm03.addParm('cAdjFreq',0,PARM_REAL); %%% set to -1, frequency of convective adj. scheme == deltaT

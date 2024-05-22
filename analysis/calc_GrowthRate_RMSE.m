@@ -7,13 +7,13 @@
 clear;
 % close all
 
-for  ne = 14
+for  ne = 13
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 No = nDumps;
-No = 26*12;
+No = 40*12;
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -70,7 +70,7 @@ pe = Pr*div_tt2_zavg/2;
 energy =ke+pe;
 % 
 %%% Calculate the growth rate
-fit_span = 20*12+1:26*12;
+fit_span = 20*12+1:40*12;
 % fit_span = 10*12+1:No;
 
 % if(max(energy)<=1e-5)
@@ -84,9 +84,9 @@ grow(ne) = pp(1)
 [y_fit,delta_fit] = polyval(pp,xxplot,S);
 
 
-% filename = [expdir expname '/RMSE.mat'];
-% save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
-%     'energy','ke','pe','div_uu2_zavg','div_vv2_zavg','div_ww2_zavg','div_tt2_zavg','grow')
+filename = [expdir expname '/RMSE_all.mat'];
+save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
+    'energy','ke','pe','div_uu2_zavg','div_vv2_zavg','div_ww2_zavg','div_tt2_zavg','grow')
 % % save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
 % %     'energy','ke','pe','div_tt2_zavg','grow')
 
@@ -115,7 +115,7 @@ hold on;
 % ylim([1e-9 1e-1])
 % ylim([min(min([div_tt_zavg div_uu_zavg])) max(max([div_tt_zavg div_uu_zavg]))])
 
-% print('-dpng','-r150',[expdir expname '_rmse.png']);
+print('-dpng','-r150',[expdir expname '_rmse_all.png']);
 
 
 

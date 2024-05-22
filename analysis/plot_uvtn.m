@@ -1,14 +1,14 @@
 
     clear;close all;
-    ne=14;
+    ne=15;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
 
 
     o2 = nDumps;
-    o2 = 328;
-    o1 = o2-12;
+    o2 = 35*12;
+    o1 = 20*12;
 
     YLIM = [-zz(end)-max(-bathy) -zz(end)];XLIM = [-Lx/2/1000 Lx/2/1000];
     [ZZ,XX] = meshgrid(zz,xx);
@@ -83,7 +83,7 @@ for o=o1:o2
     % title(['$\log(N^2)\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     title(['$N^2\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
     % clim([-2 2]/1e6)
-    clim(([-1 1]/1e8+1)/1e6)
+    clim(([-1 1]/1e5+1)/1e6)
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,4)
@@ -108,7 +108,7 @@ for o=o1:o2
     shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
     title(['w (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-2 2]/100/1e12)
+    clim([-2 2]/100/1e7)
     ylim(YLIM);xlim(XLIM);
 
     subplot(3,2,6)

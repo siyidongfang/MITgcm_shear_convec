@@ -4,7 +4,7 @@
 clear; close all;
 Diffusion = true;
 ConvectiveAdjustment = false;
-nt_percycle = 72*30; 
+nt_percycle = 72*10; 
 
 % %%%%%% exps_topo4_diff %%%%%%
 % expdir = 'exps_topo4_diff/'; 

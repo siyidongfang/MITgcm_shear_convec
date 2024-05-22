@@ -9,14 +9,14 @@ useTanhShear = false;
 useLinearShear = true;
 shear_all = (0:0.1:2)*1e-3;
 
-for  ne = 17
+for  ne = 15
 load_all
 
 Shear = shear_all(ne);
 
 No = nDumps;
 % No = 31*12;
-No = 20*12;
+No = 35*12;
 tidx = 1:No;
 Nt = length(tidx);
 h_shear = 250;
