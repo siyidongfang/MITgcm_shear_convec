@@ -14,7 +14,8 @@ lambda_parm = flip(lambda_parm);
 lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
 Ptide_parm = [0.5:0.5:5 10000]*43200;
 
-exppath = 'exps_linear/';
+% exppath = 'exps_linear/';
+exppath = 'exps_tanh_lores/';
 
 % for Nexp_lambda =1:length(lambda_parm)
 for Nexp_lambda =1
@@ -24,7 +25,7 @@ for Nexp_lambda =1
     mkdir(expfolder); 
 
     % for Nexp_shear =1:length(Shear_parm)
-    for Nexp_shear =1
+    for Nexp_shear =10
 
         Shear = Shear_parm(Nexp_shear)
         USEdiffusion = true;  %%% Add diffusion/dissipation

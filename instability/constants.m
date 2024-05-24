@@ -13,13 +13,45 @@ omega = 2*pi/Ptide;
 NTtide = 25;
 Lt = NTtide*Ptide; 
 
-Hmax = 250;
-Umax = Hmax * Shear;
+useLinearShear = false;
+useTanhShear = true;
 
+h_shear = 250;
 dz = 1;      
-Nr = round(Hmax/dz);
-zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   
-zz_wgrid = 0:dz:((Nr)*dz);
+
+if(useLinearShear)
+    Hmax = h_shear;
+    Nr = round(Hmax/dz);
+    zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   
+    zz_wgrid = 0:dz:((Nr)*dz);
+    Atide = Shear*zz;
+    Atide_wgrid = Shear*zz_wgrid;
+    Umax = h_shear * Shear;
+end
+
+if(useTanhShear)
+    Hmax = h_shear+250;
+    Nr = round(Hmax/dz);
+    zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   
+    zz_wgrid = 0:dz:((Nr)*dz);
+    
+    %%% Zero velocity at sea floor
+    % Atide = h_shear*Shear *(1+ tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
+    % Atide_wgrid = h_shear*Shear *(1+ tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
+    % Umax = h_shear * Shear;
+
+    %%% Zero velocity at center
+    Atide = h_shear*Shear *(tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
+    Atide_wgrid = h_shear*Shear *(tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
+    Umax = h_shear * Shear /2;
+
+    figure(1)
+    plot(Atide,zz)
+    hold on;
+    plot(Atide_wgrid,zz_wgrid)
+
+end
+
 
 if(USEdiffusion)
     % nu = 2e-6; 
