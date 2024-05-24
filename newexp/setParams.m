@@ -841,7 +841,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   
 
 
-  % Shear and Hshear must be changed together with external_forcing.F
+  % Shear and h_shear must be changed together with external_forcing.F
   h_shear = 250;
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

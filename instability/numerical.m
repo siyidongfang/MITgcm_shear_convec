@@ -77,14 +77,14 @@ for o=1:Nt-1
 
     if(rem(o,round(Nt/10))==0)
         Progress = o/Nt
-        outputname_mid = [expdir 'output_' num2str(round(Progress*10)) '.mat'];
-        re_psi = real(psi);  
-        re_zeta = real(zeta);
-        re_buoy = real(buoy); 
-        uuu = -real((psi(:,2:Nr+1)-psi(:,1:Nr))/dz);
-        www = real(1i*kx*psi);
-        save(outputname_mid,'re_psi','re_zeta','re_buoy','uuu','www','zz','tt')
-        clear re_psi re_zeta re_buoy uuu www
+        % outputname_mid = [expdir 'output_' num2str(round(Progress*10)) '.mat'];
+        % re_psi = real(psi);  
+        % re_zeta = real(zeta);
+        % re_buoy = real(buoy); 
+        % uuu = -real((psi(:,2:Nr+1)-psi(:,1:Nr))/dz);
+        % www = real(1i*kx*psi);
+        % save(outputname_mid,'re_psi','re_zeta','re_buoy','uuu','www','zz','tt')
+        % clear re_psi re_zeta re_buoy uuu www
     end
 
 end

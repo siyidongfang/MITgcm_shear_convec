@@ -10,14 +10,14 @@ N = 1e-3;
 topo = 0;
 Ptide = 43200;
 omega = 2*pi/Ptide;
-NTtide = 25;
+NTtide = 13;
 Lt = NTtide*Ptide; 
 
 useLinearShear = false;
 useTanhShear = true;
 
 h_shear = 250;
-dz = 1;      
+dz = 2;      
 
 if(useLinearShear)
     Hmax = h_shear;
@@ -36,14 +36,14 @@ if(useTanhShear)
     zz_wgrid = 0:dz:((Nr)*dz);
     
     %%% Zero velocity at sea floor
-    % Atide = h_shear*Shear *(1+ tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
-    % Atide_wgrid = h_shear*Shear *(1+ tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
-    % Umax = h_shear * Shear;
+    Atide = h_shear*Shear *(1+ tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
+    Atide_wgrid = h_shear*Shear *(1+ tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
+    Umax = h_shear * Shear;
 
     %%% Zero velocity at center
-    Atide = h_shear*Shear *(tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
-    Atide_wgrid = h_shear*Shear *(tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
-    Umax = h_shear * Shear /2;
+    % Atide = h_shear*Shear *(tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
+    % Atide_wgrid = h_shear*Shear *(tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
+    % Umax = h_shear * Shear /2;
 
     figure(1)
     plot(Atide,zz)
@@ -71,7 +71,7 @@ else
     dt_cfl = CFLx/0.0001*lambda;
 end
 
-dt_tide = Ptide/(72*10)/12;       % The time step required to resolve tides
+dt_tide = Ptide/(72*2);       % The time step required to resolve tides
 dt = min([dt_tide dt_cfl]);
 
 if(USEdiffusion)

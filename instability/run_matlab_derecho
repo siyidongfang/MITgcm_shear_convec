@@ -6,8 +6,8 @@
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=1
 #PBS -N                             ne2
-#PBS -o                 exps_linear/ne2.txt
-#PBS -e                 exps_linear/ne2_e.txt 
+#PBS -o                 exps_tanh_ZeroBottom_dz2/ne2.txt
+#PBS -e                 exps_tanh_ZeroBottom_dz2/ne2_e.txt 
 
 module load matlab
 matlab -nodisplay -nosplash -r options2

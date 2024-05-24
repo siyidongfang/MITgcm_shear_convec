@@ -14,10 +14,11 @@ lambda_parm = flip(lambda_parm);
 lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
 Ptide_parm = [0.5:0.5:5 10000]*43200;
 
-exppath = 'exps_linear/';
+% exppath = 'exps_linear/';
+exppath = 'exps_tanh_ZeroBottom_dz2/';
 
-% for Nexp_lambda =1:length(lambda_parm)
-for Nexp_lambda =11
+for Nexp_lambda =1:length(lambda_parm)
+% for Nexp_lambda =1
 
     lambda = lambda_parm(Nexp_lambda);
     expfolder = [exppath 'lambda' num2str(lambda) '/']
@@ -28,14 +29,14 @@ for Nexp_lambda =11
 
         Shear = Shear_parm(Nexp_shear)
         USEdiffusion = true;  %%% Add diffusion/dissipation
-        constants;
+        constants
 
         expdir = [expfolder 'topo' num2str(topo) '_H' num2str(Hmax) ...
             '_N' num2str(N) '_S' num2str(Shear) ...
             '_lambda' num2str(lambda) '/'];
         outputname = [expdir 'output.mat'];
         mkdir(expdir);
-        
+
         useRK4 = true;        %%% Use Tourth-order Runge-Kutta method
         useAB3 = false;       %%% Use Third-order Adams-Bashforth method
 
