@@ -1,8 +1,17 @@
 
+useLinearShear = false;
+useTanhShear = true;
 
 %%% Background tidal velocity
-Atide = Shear*zz;
-Atide_wgrid = Shear*zz_wgrid;
+if(useLinearShear)
+    Atide = Shear*zz;
+    Atide_wgrid = Shear*zz_wgrid;
+end
+if(useTanhShear)
+
+end
+
+
 Utide =cos(tt*omega)'.*Atide;
 % Utide = repmat(cos(tt*omega)',[1 length(Atide)])...
 %     .*repmat(Atide,[length(tt) 1])/U0;

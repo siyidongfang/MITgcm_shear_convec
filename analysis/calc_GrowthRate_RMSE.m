@@ -7,13 +7,13 @@
 clear;
 % close all
 
-for  ne = 21
+for  ne = 1:4
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 No = nDumps;
-No = 26*12;
+% No = 26*12;
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;

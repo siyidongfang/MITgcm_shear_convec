@@ -85,8 +85,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % Ly = 3*m1km;
   % Lx = 3*m1km; 
 
-  Ly = 10*m1km;
-  Lx = 10*m1km; 
+  Ly = 5*m1km;
+  Lx = 5*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -929,7 +929,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-20; 
+  tNoise = 1e-10; 
   sNoise = 0;
 
   %---- Add an infinitesimal linear stratification 
