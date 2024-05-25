@@ -74,7 +74,7 @@
     bq1(o,:) = -1i*kx*U.*b0;
     bq2(o,:) = -1i*kx*p0_ugrid*N^2*cosd(topo);
     bq3(o,:) = dpsidz*N^2*sind(topo);
-    bq4(o,:) = 1i*kx*p0_ugrid*Shear/omega*N^2*sind(topo)*sin(omega*t0);
+    bq4(o,:) = 1i*kx*p0_ugrid*dAdz/omega*N^2*sind(topo)*sin(omega*t0);
     bq5(o,:) = kappa*(d2bdz2-kx^2.*b0);
 
     if(noBQ2)

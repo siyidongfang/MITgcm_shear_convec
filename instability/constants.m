@@ -45,12 +45,9 @@ if(useTanhShear)
     % Atide_wgrid = h_shear*Shear *(tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
     % Umax = h_shear * Shear /2;
 
-    figure(1)
-    plot(Atide,zz)
-    hold on;
-    plot(Atide_wgrid,zz_wgrid)
-
 end
+
+    dAdz = diff(Atide_wgrid)/dz;
 
 
 if(USEdiffusion)

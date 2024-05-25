@@ -2,8 +2,8 @@
 #PBS -A UMIT0054 
 #PBS -m abe
 #PBS -M y_si@mit.edu
-#PBS -q main
-#PBS -l walltime=12:00:00
+#PBS -q casper
+#PBS -l walltime=24:00:00
 #PBS -l select=1:ncpus=1
 #PBS -N                             ne2
 #PBS -o                 exps_tanh_ZeroBottom_dz2/ne2.txt
