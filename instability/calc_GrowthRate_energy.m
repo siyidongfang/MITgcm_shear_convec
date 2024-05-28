@@ -3,35 +3,40 @@ close all;
 clear;
 fontsize = 22;
 
-expdir = 'exps_tanh_ZeroBottom_dz2_wrongShear/lambda'
+expdir = 'exps_tanh_ZeroCenter_dz2/lambda'
 Shear_parm = ([0:0.1:2.0])*1e-3;
 lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
 lambda_parm = flip(lambda_parm);
 lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
 
 GrowthRate = NaN.*zeros(length(lambda_parm),length(Shear_parm));
+grow =  NaN.*zeros(1,length(Shear_parm));
 
-for Nexp_lambda = 1:length(lambda_parm)
+parfor Nexp_lambda = 1:length(lambda_parm)
     Nexp_lambda
     lambda = lambda_parm(Nexp_lambda);
+    grow = zeros(1,length(Shear_parm));
 
     for Nexp_shear =1:length(Shear_parm)
         % Nexp_shear
         Shear = Shear_parm(Nexp_shear);
 
-        expname = ['topo0_H500_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
+        expname = ['topo0_H250_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
         exppath = [expdir num2str(lambda) '/' expname];
-        clear uuu www psi NTtide tt Nr Nt Utide tt t1hour zz fit_span
+        % clear uuu www psi NTtide tt Nr Nt Utide tt t1hour zz fit_span
 
-        if(isfile([exppath 'output.mat']))
-            load([exppath 'output.mat'],...
-            'www','re_psi','NTtide','Nr','Nt',...
-            'tt','t1hour','zz','dz','re_buoy','nu','kappa')
+        fname = [exppath 'output2.mat'];
+        if(isfile(fname))
+            
+            % load([exppath 'output.mat'],...
+            % 'www','re_psi','NTtide','Nr','Nt',...
+            % 'tt','t1hour','zz','dz','re_buoy','nu','kappa')
+            [www re_psi NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(fname);
             uuu = (re_psi(:,2:Nr+1)-re_psi(:,1:Nr))/dz;
             
             fit_span = round(Nt/NTtide*3):Nt-1;
 
-            clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 pp S 
+            % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 pp S 
             TKE = 1/4*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
             Pr = nu/kappa;
             TPE = Pr*re_buoy.^2/4;
@@ -41,8 +46,10 @@ for Nexp_lambda = 1:length(lambda_parm)
             xxplot = tt/t1hour;
             yyplot = log(KE_PE_zavg)/2;
             [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-            GrowthRate(Nexp_lambda,Nexp_shear) = pp(1);
+            grow(Nexp_shear) = pp(1);
         end
+
+
             % % % pp(1);
             % % % [y_fit,delta_fit] = polyval(pp,xxplot,S);
             % % % 
@@ -72,10 +79,14 @@ for Nexp_lambda = 1:length(lambda_parm)
             % % % saveas(h,[exppath 'energy.png'])
 
     end
-    
+
+    GrowthRate(Nexp_lambda,:) = grow;
+
 end
 
 
+%%
+GrowthRate (GrowthRate==0)=NaN;
 GrowthRate_Floquet = GrowthRate;
 growth_Floquet = max(GrowthRate);
 shear_Floquet = Shear_parm;
@@ -97,14 +108,17 @@ xlabel('Shear (1/s)')
 title('Growth rate (1/hour)')
 ylabel('log_{10}(\lambda_x) (m)')
 
-save('GrowthRate_wrong_bot.mat','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
-
-
-
 GrowthRate_Floquet(isnan(GrowthRate_Floquet)) = 0;
 for ns = 1:21
     [a(ns) b(ns)] = max(GrowthRate_Floquet(:,ns));
 end
+
+GrowthRate_Floquet(GrowthRate_Floquet==0)=NaN;
+
+save('GrowthRate_exps_tanh_ZeroCenter_dz2.mat','a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
+
+
+
 
 % %%% Option 2
 % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
@@ -159,3 +173,18 @@ end
 % GrowthRate(5,Nexp_lambda,Nexp_shear) = p(1);
 
 
+function [www re_psi NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(file)
+        S = load( file );
+        www = S.www;
+        re_psi = S.re_psi;
+        NTtide = S.NTtide;
+        Nr = S.Nr;
+        Nt = S.Nt;
+        tt = S.tt;
+        t1hour = S.t1hour;
+        zz = S.zz;
+        dz = S.dz;
+        re_buoy = S.re_buoy;
+        nu = S.nu;
+        kappa = S.kappa;
+end
