@@ -14,8 +14,7 @@ lambda_parm = flip(lambda_parm);
 lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
 Ptide_parm = [0.5:0.5:5 10000]*43200;
 
-exppath = 'exps_tanh_ZeroCenter_dz2/';
-
+exppath = 'exps_linear_dz0.5/';
 
 
 parfor Nexp_lambda =1:length(lambda_parm)
@@ -40,14 +39,14 @@ parfor Nexp_lambda =1:length(lambda_parm)
                 topo = 0;
                 Ptide = 43200;
                 omega = 2*pi/Ptide;
-                NTtide = 20;
+                NTtide = 10;
                 Lt = NTtide*Ptide; 
                 
-                useLinearShear = false;
-                useTanhShear = true;
+                useLinearShear = true;
+                useTanhShear = false;
                 
                 h_shear = 250;
-                dz = 2;      
+                dz = 0.5;      
                 
                 if(useLinearShear)
                     Hmax = h_shear;
@@ -65,15 +64,15 @@ parfor Nexp_lambda =1:length(lambda_parm)
                     zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   
                     zz_wgrid = 0:dz:((Nr)*dz);
                     
-                    % %%% Zero velocity at sea floor
-                    % Atide = h_shear*Shear *(1+ tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
-                    % Atide_wgrid = h_shear*Shear *(1+ tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
-                    % Umax = h_shear * Shear;
+                    %%% Zero velocity at sea floor
+                    Atide = h_shear*Shear *(1+ tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
+                    Atide_wgrid = h_shear*Shear *(1+ tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
+                    Umax = h_shear * Shear;
                 
-                    %%% Zero velocity at center
-                    Atide = h_shear*Shear *(tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
-                    Atide_wgrid = h_shear*Shear *(tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
-                    Umax = h_shear * Shear /2;
+                    % %%% Zero velocity at center
+                    % Atide = h_shear*Shear *(tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
+                    % Atide_wgrid = h_shear*Shear *(tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
+                    % Umax = h_shear * Shear /2;
                 
                 end
                 
@@ -875,8 +874,10 @@ www = real(1i*kx*psi);
 % s = struct('h',h);
 % save(sprintf([expdir 'fig5.png']),"-fromstruct",h);
 
-% zidx = 1:Nr;
-zidx = 63:Nr-62;
+zidx = 1:Nr;
+% zidx = 63:Nr-62;
+% zidx = 125:Nr;
+% zidx = 250:Nr;
 
 bq1_int = real((sum(bq1(:,zidx),2)))';
 bq2_int = real((sum(bq2(:,zidx),2)))';
@@ -911,14 +912,14 @@ KE_PE_zavg = mean(KE_PE,2)';
 xxplot = tt/t1hour;
 yyplot = log(KE_PE_zavg)/2;
 [pKE,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-GrowthRate_KE(Nexp_lambda,Nexp_shear) = pKE(1);
+% GrowthRate_KE(Nexp_lambda,Nexp_shear) = pKE(1);
 pKE(1);
 [y_fit,delta_fit] = polyval(pKE,xxplot,S);
 
 b2 = mean(re_buoy.^2,2)';
 yyplot_b2 = log(b2)/2;
 [pb2,S_b2] = polyfit(xxplot(fit_span),yyplot_b2(fit_span),1); 
-GrowthRate(Nexp_lambda,Nexp_shear) = pb2(1);
+% GrowthRate(Nexp_lambda,Nexp_shear) = pb2(1);
 [y_fit_b2,delta_fit_b2] = polyval(pb2,xxplot,S_b2);
 
 
