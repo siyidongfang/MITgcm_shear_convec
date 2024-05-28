@@ -3,7 +3,7 @@ close all;
 clear;
 fontsize = 22;
 
-expdir = 'exps_linear_old2/lambda'
+expdir = 'exps_tanh_ZeroBottom_dz2_wrongShear/lambda'
 Shear_parm = ([0:0.1:2.0])*1e-3;
 lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
 lambda_parm = flip(lambda_parm);
@@ -19,12 +19,12 @@ for Nexp_lambda = 1:length(lambda_parm)
         % Nexp_shear
         Shear = Shear_parm(Nexp_shear);
 
-        expname = ['topo0_H250_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
+        expname = ['topo0_H500_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
         exppath = [expdir num2str(lambda) '/' expname];
         clear uuu www psi NTtide tt Nr Nt Utide tt t1hour zz fit_span
 
-        if(isfile([exppath 'output2.mat']))
-            load([exppath 'output2.mat'],...
+        if(isfile([exppath 'output.mat']))
+            load([exppath 'output.mat'],...
             'www','re_psi','NTtide','Nr','Nt',...
             'tt','t1hour','zz','dz','re_buoy','nu','kappa')
             uuu = (re_psi(:,2:Nr+1)-re_psi(:,1:Nr))/dz;
@@ -97,7 +97,7 @@ xlabel('Shear (1/s)')
 title('Growth rate (1/hour)')
 ylabel('log_{10}(\lambda_x) (m)')
 
-save('GrowthRate_exps_linear_old2.mat','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
+save('GrowthRate_wrong_bot.mat','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
 
 
 

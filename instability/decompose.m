@@ -128,8 +128,6 @@ legend(legend_zeta,'Interpreter','Latex','Fontsize',fontsize+3,'Position',zlegen
 grid on;grid minor;
 title('Horizontal vorticity budget (absolute value, log axis)')
 
-
-
 saveas(h,[expdir 'fig7.png'])
 
 % 

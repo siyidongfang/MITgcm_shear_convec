@@ -2,7 +2,6 @@
 fontsize = 16;
 
 kx = 2*pi/lambda;
-
 t1hour = 3600;
 m1km = 1000;
 
@@ -10,7 +9,7 @@ N = 1e-3;
 topo = 0;
 Ptide = 43200;
 omega = 2*pi/Ptide;
-NTtide = 13;
+NTtide = 13/100;
 Lt = NTtide*Ptide; 
 
 useLinearShear = false;
@@ -47,7 +46,7 @@ if(useTanhShear)
 
 end
 
-    dAdz = diff(Atide_wgrid)/dz;
+dAdz = diff(Atide_wgrid)/dz;
 
 
 if(USEdiffusion)

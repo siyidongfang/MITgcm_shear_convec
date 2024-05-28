@@ -10,22 +10,22 @@ set(h,'Visible', FigureIsVisible);clf;
 plot(Atide,zz,'LineWidth',2);
 title('Atide (m/s)');set(gca,'Fontsize',fontsize)
 grid on;grid minor;
-saveas(h,[expdir 'fig1.png'])
+% saveas(h,[expdir 'fig1.png'])
 
 h=figure(2);
 set(h,'Visible', FigureIsVisible);clf;
 plot(diff(Atide)./diff(zz),0.5*(zz(1:end-1)+zz(2:end)),'LineWidth',2);
 title('Shear (1/s)');set(gca,'Fontsize',fontsize)
 grid on;grid minor;
-saveas(h,[expdir 'fig2.png'])
+% saveas(h,[expdir 'fig2.png'])
 
 h=figure(3);
 set(h,'Visible', FigureIsVisible);clf;
 pcolor(tt/3600,zz,Utide');shading flat;colormap redblue; colorbar;
 title('Atide (m/s)');xlabel('Time (hours)');set(gca,'Fontsize',fontsize)
-saveas(h,[expdir 'fig3.png'])
+% saveas(h,[expdir 'fig3.png'])
 
-close all;
+% close all;
 
 %%%% Integrate non-dimensionalized b and zeta with time
 %%%% 1st-order and 2nd-order centered difference
@@ -180,10 +180,10 @@ if(kx~=0)
     caxis([-1 1]*max(max((abs(www))))/DIV)
 end
 
-saveas(h,[expdir 'fig5.png'])
+% saveas(h,[expdir 'fig5.png'])
 
 decompose;
-close all
+% close all
 
 fit_span = round(Nt/NTtide*2)+1:Nt-1;
 
@@ -222,20 +222,20 @@ xlabel('$t$ (tidal cycle)','Interpreter','Latex')
 ylabel('$\ln(e)/2$','Interpreter','Latex')
 hold off;axis tight
 legend('TKE','(b^\prime)^2','Position',[0.8141 0.1988 0.0684 0.1393])
-saveas(h,[expdir 'KE.png'])
+% saveas(h,[expdir 'KE.png'])
 
 
-close all;
+% close all;
 % save(outputname)
 
-clear b0 b_wgrid b0_wgrid b_2 b_3 b_4 p0 p0_ugrid psi psi0 sol1 solinit ...
-    z0 z_2 z_3 z_4 zeta dbdz ...
-    d2bdz2 d2psidz2 d2zetadz2  dpsidz dUtidedz dzetadt ...
-    bq1 bq2 bq3 bq4 bq5 zq1 zq2 zq3 zq4 ...
-    k_1b k_1z k_2b k_2z k_3b k_3z k_4b k_4z h ...
-    buoy re_zq1 re_zq2 re_zq3 re_zq4 re_bq1 re_bq2 re_bq3 re_bq4 re_bq5 Utide ...
-    uuu  re_dbdz re_d2bdz2 re_d2zetadz2 
-
-save(outputname)
+% clear b0 b_wgrid b0_wgrid b_2 b_3 b_4 p0 p0_ugrid psi psi0 sol1 solinit ...
+%     z0 z_2 z_3 z_4 zeta dbdz ...
+%     d2bdz2 d2psidz2 d2zetadz2  dpsidz dUtidedz dzetadt ...
+%     bq1 bq2 bq3 bq4 bq5 zq1 zq2 zq3 zq4 ...
+%     k_1b k_1z k_2b k_2z k_3b k_3z k_4b k_4z h ...
+%     buoy re_zq1 re_zq2 re_zq3 re_zq4 re_bq1 re_bq2 re_bq3 re_bq4 re_bq5 Utide ...
+%     uuu  re_dbdz re_d2bdz2 re_d2zetadz2 
+% 
+% save(outputname)
 
 

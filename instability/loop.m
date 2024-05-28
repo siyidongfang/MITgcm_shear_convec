@@ -74,7 +74,7 @@
     bq1(o,:) = -1i*kx*U.*b0;
     bq2(o,:) = -1i*kx*p0_ugrid*N^2*cosd(topo);
     bq3(o,:) = dpsidz*N^2*sind(topo);
-    bq4(o,:) = 1i*kx*p0_ugrid*dAdz/omega*N^2*sind(topo)*sin(omega*t0);
+    bq4(o,:) = 1i*kx*p0_ugrid.*dAdz/omega*N^2*sind(topo)*sin(omega*t0);
     bq5(o,:) = kappa*(d2bdz2-kx^2.*b0);
 
     if(noBQ2)
@@ -90,9 +90,10 @@
     dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) ...
               + bq4(o,:) + bq5(o,:);
 
-    for m = 2:Nr
-        d2zetadz2(m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
-    end
+    % for m = 2:Nr
+    %     d2zetadz2(m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
+    % end
+    d2zetadz2(2:Nr) = (z0(1:Nr-1)-2*z0(2:Nr)+z0(3:Nr+1))/dz^2;
 
     %%%%%%%%%%%% B.C.-11 %%%%%%%%%%%%
     %%% Linear extrapolation

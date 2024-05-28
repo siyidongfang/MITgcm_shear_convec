@@ -2,12 +2,12 @@
 #PBS -A UMIT0054 
 #PBS -m abe
 #PBS -M y_si@mit.edu
-#PBS -q casper
-#PBS -l walltime=24:00:00
+#PBS -q main
+#PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=1
-#PBS -N                             ne2
-#PBS -o                 exps_tanh_ZeroBottom_dz2/ne2.txt
-#PBS -e                 exps_tanh_ZeroBottom_dz2/ne2_e.txt 
+#PBS -N                             ne
+#PBS -o    exps_tanh_ZeroCenter_dz2/ne.txt
+#PBS -e    exps_tanh_ZeroCenter_dz2/ne_e.txt 
 
 module load matlab
-matlab -nodisplay -nosplash -r options2
+matlab -nodisplay -nosplash -r options_Parallel
