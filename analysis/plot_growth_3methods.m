@@ -20,10 +20,10 @@ grid on;grid minor;
 ylabel('(1/hour)')
 title('Growth rate (1/hour)')
 
-load('../instability/GrowthRate_exps_tanh_BottomCenter_dz2.mat')
+load('../instability/GrowthRate_exps_tanh_BottomCenter_dz1.mat')
 % plot(xaxisvalue,growth_Floquet,':','LineWidth',3)
 
-growth_crop = max(GrowthRate_Floquet(4:end,:));
+growth_crop = max(GrowthRate_Floquet(18:end,:));
 plot(shear_Floquet,growth_crop,'--','LineWidth',3)
 
 % load('../instability_km/growth_experiments_flat_nu2e-4.mat')
