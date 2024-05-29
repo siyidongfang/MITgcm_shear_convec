@@ -1,25 +1,12 @@
+%%%% Integrate b and zeta with time
+%%%% 1st-order and 2nd-order centered difference
+%%%% Fourth-order Runge-Kutta or Third-order Adams-Bashforth
+%%%% or Euler forward scheme for time advancement
 
 clear all;
 close all;
-addpath ../analysis/colormaps/
-
-FigureIsVisible = 'off';
-
-topo_parm = [1e-20 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20];
-N_parm = [1e-20 0.01 0.05 0.1 0.25 0.5 0.75 1 2 3 4 5 6 7 8 9 10]*1e-3;
-Shear_parm = ([0:0.1:2.0])*1e-3;
-% lambda_parm = [5 10 50:50:350 400:50:1000 1200:200:5000 6000:1000:20000 30000:10000:100000];
-lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
-lambda_parm = flip(lambda_parm);
-lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
-Ptide_parm = [0.5:0.5:5 10000]*43200;
 
 exppath = 'exps_tanh_ZeroBottom_dz2/';
-
-useLinearShear = false;
-useTanhShear = true;
-USEdiffusion = true;  %%% Add diffusion/dissipation
- 
 constants;
 
 % for Nexp_lambda =1:length(lambda_parm)
@@ -75,12 +62,6 @@ parfor Nexp_lambda =10:11
         % Utide = repmat(cos(tt*omega)',[1 length(Atide)])...
         %     .*repmat(Atide,[length(tt) 1])/U0;
         
-        %%%% Integrate non-dimensionalized b and zeta with time
-        %%%% 1st-order and 2nd-order centered difference
-        %%%% Fourth-order Runge-Kutta or Third-order Adams-Bashforth
-        %%%% or Euler forward scheme for time advancement
-        
-        zspan = [0 Hmax];
         
         %%%%%%%%%%%% B.C.-1 %%%%%%%%%%%%
         zeta(1,1) = 0; zeta(1,Nr+1) = 0; 
@@ -156,8 +137,6 @@ parfor Nexp_lambda =10:11
         uuu = -real((psi(:,2:Nr+1)-psi(:,1:Nr))/dz);
         www = real(1i*kx*psi);
 
-        
-
         zidx_b = 1:Nr;
         zidx_q = 1:Nr+1;
 
@@ -184,17 +163,30 @@ parfor Nexp_lambda =10:11
         xxplot = tt/t1hour;
         yyplot = log(KE_PE_zavg)/2;
         [pKE,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-        GrowthRate_KE(Nexp_lambda,Nexp_shear) = pKE(1);
+        % GrowthRate_KE(Nexp_lambda,Nexp_shear) = pKE(1);
         pKE(1);
         [y_fit,delta_fit] = polyval(pKE,xxplot,S);
         
         b2 = mean(re_buoy.^2,2)';
         yyplot_b2 = log(b2)/2;
         [pb2,S_b2] = polyfit(xxplot(fit_span),yyplot_b2(fit_span),1); 
-        GrowthRate(Nexp_lambda,Nexp_shear) = pb2(1);
+        % GrowthRate(Nexp_lambda,Nexp_shear) = pb2(1);
         [y_fit_b2,delta_fit_b2] = polyval(pb2,xxplot,S_b2);
+
+        %%% Save outputs
+        s = struct('buoy',buoy,'zeta',zeta,'psi',psi, ...
+            're_buoy',re_buoy,'re_psi',re_psi,'pKE',pKE,'pb2',pb2,...
+            'uuu',uuu,'www',www,'NTtide',NTtide,'Nr',Nr,'Nt',Nt,'Utide',Utide,...
+            'tt',tt,'t1hour',t1hour,'zz',zz,'dz',dz,'nu',nu,'kappa',kappa,'fit_span',fit_span,...
+            'zidx_b',zidx_b,'bq1_int',bq1_int,'bq2_int',bq2_int,'bq3_int',bq3_int,'bq4_int',bq4_int,'bq5_int',bq5_int,...
+            'zidx_q',zidx_q,'zq1_int',zq1_int,'zq2_int',zq2_int,'zq3_int',zq3_int,'zq4_int',zq4_int,...
+            'Shear',Shear,'lambda',lambda,'topo',topo,'Atide',Atide,'dAdz',dAdz...
+            );  
+        save(sprintf(outputname),"-fromstruct",s);
         
 
     end
     
 end
+
+
