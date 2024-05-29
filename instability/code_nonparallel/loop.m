@@ -1,5 +1,4 @@
-
-function [dzetadt,] = loop(o,dt,Nr,tt,buoy,zeta,dbdt,dzetadt,z0,p0,b0)
+    
 
     %%%%%%%%%%%% B.C.-6 %%%%%%%%%%%%
     z0(1) = 0; z0(Nr+1) = 0; 
@@ -114,9 +113,6 @@ function [dzetadt,] = loop(o,dt,Nr,tt,buoy,zeta,dbdt,dzetadt,z0,p0,b0)
     end
 
     dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) + zq4(o,:);
-
-end
-
 
     %%% Code equations: see https://www.mathworks.com/help/matlab/math/solve-bvp-with-two-solutions.html
     function dydz = bvpfun(z,y,kx,zeta)

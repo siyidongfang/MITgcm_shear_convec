@@ -1,5 +1,4 @@
 
-function [t0,b0,z0,buoy,zeta] = RK4(o,dt,Nr,tt,buoy,zeta,dbdt,dzetadt)
 
     %%% Fourth-order Runge-Kutta method %%%
         k_1b = dbdt(o,:);
@@ -50,4 +49,3 @@ function [t0,b0,z0,buoy,zeta] = RK4(o,dt,Nr,tt,buoy,zeta,dbdt,dzetadt)
         buoy(o+1,:) = buoy(o,:) + (1/6)*(k_1b+2*k_2b+2*k_3b+k_4b)*dt;
         zeta(o+1,:) = zeta(o,:) + (1/6)*(k_1z+2*k_2z+2*k_3z+k_4z)*dt;
 
-end
