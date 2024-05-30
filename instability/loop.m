@@ -1,7 +1,7 @@
 
-function [dzetadt_o,dbdt_o,bq1_o,bq2_o,bq3_o,bq4_o,bq5_o,zq1_o,zq2_o,zq3_o,zq4_o] ...
-        = loop(Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,...
-               kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3)
+function [p0,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
+            = loop(o,Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4,...
+                   kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3,hydrostatic)
 
     %%%%%%%%%%%% B.C.-6 %%%%%%%%%%%%
     z0(1) = 0; z0(Nr+1) = 0; 
@@ -74,23 +74,24 @@ function [dzetadt_o,dbdt_o,bq1_o,bq2_o,bq3_o,bq4_o,bq5_o,zq1_o,zq2_o,zq3_o,zq4_o
     p0_ugrid = 0.5*(p0(1:Nr)+p0(2:Nr+1));
     dpsidz = (p0(2:Nr+1)-p0(1:Nr))/dz;
 
-    bq1_o = -1i*kx*U.*b0;
-    bq2_o = -1i*kx*p0_ugrid*N^2*cosd(topo);
-    bq3_o = dpsidz*N^2*sind(topo);
-    bq4_o = 1i*kx*p0_ugrid.*dAdz/omega*N^2*sind(topo)*sin(omega*t0);
-    bq5_o = kappa*(d2bdz2-kx^2.*b0);
-
+    bq1(o,:) = -1i*kx*U.*b0;
+    bq2(o,:) = -1i*kx*p0_ugrid*N^2*cosd(topo);
+    bq3(o,:) = dpsidz*N^2*sind(topo);
+    bq4(o,:) = 1i*kx*p0_ugrid.*dAdz/omega*N^2*sind(topo)*sin(omega*t0);
+    bq5(o,:) = kappa*(d2bdz2-kx^2.*b0);
+ 
     if(noBQ2)
-        bq2_o = 0;
+        bq2(o,:) = 0;
     end
     if(noBQ3)
-        bq3_o = 0;
+        bq3(o,:) = 0;
     end
     if(noBQ4)
-        bq4_o = 0;
+        bq4(o,:) = 0;
     end
 
-    dbdt_o = bq1_o + bq2_o + bq3_o + bq4_o + bq5_o;
+    dbdt(o,:) = bq1(o,:) + bq2(o,:) + bq3(o,:) + bq4(o,:) + bq5(o,:);
+
 
     % for m = 2:Nr
     %     d2zetadz2(m) = (z0(m-1)-2*z0(m)+z0(m+1))/dz^2;
@@ -102,19 +103,19 @@ function [dzetadt_o,dbdt_o,bq1_o,bq2_o,bq3_o,bq4_o,bq5_o,zq1_o,zq2_o,zq3_o,zq4_o
     d2zetadz2 = interp1(zz_wgrid(2:Nr),d2zetadz2(2:Nr),zz_wgrid,'linear','extrap');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    zq1_o = -1i*kx*U_wgrid.*z0;
-    zq2_o = 1i*kx*b0_wgrid*cosd(topo);
-    zq3_o = -dbdz*sind(topo);
-    zq4_o = nu*(d2zetadz2-kx^2.*z0);
+    zq1(o,:) = -1i*kx*U_wgrid.*z0;
+    zq2(o,:) = 1i*kx*b0_wgrid*cosd(topo);
+    zq3(o,:) = -dbdz*sind(topo);
+    zq4(o,:) = nu*(d2zetadz2-kx^2.*z0);
 
     if(noZQ2)
-        zq2_o = 0;
+        zq2(o,:) = 0;
     end
     if(noZQ3)
-        zq3_o = 0;
+        zq3(o,:) = 0;
     end
 
-    dzetadt_o = zq1_o + zq2_o + zq3_o + zq4_o;
+    dzetadt(o,:) = zq1(o,:) + zq2(o,:) + zq3(o,:) + zq4(o,:);
 
 end
 

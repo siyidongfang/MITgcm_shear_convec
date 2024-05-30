@@ -24,7 +24,7 @@
     topo = 0;
     Ptide = 43200;
     omega = 2*pi/Ptide;
-    NTtide = 13/100;
+    NTtide = 40/100;
     Lt = NTtide*Ptide; 
     
     h_shear = 250;

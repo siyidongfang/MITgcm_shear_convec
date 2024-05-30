@@ -6,7 +6,8 @@
 clear all;
 close all;
 
-exppath = 'exps_tanh_ZeroBottom_dz2/';
+% exppath = 'exps_tanh_ZeroBottom_dz1/';
+exppath = 'exps_test/';
 constants;
 
 % for Nexp_lambda =1:length(lambda_parm)
@@ -76,18 +77,25 @@ parfor Nexp_lambda =10:11
             b0 = buoy(o,:);
             z0 = zeta(o,:);
             
-            [dzetadt_o,dbdt_o,bq1_o,bq2_o,bq3_o,bq4_o,bq5_o,zq1_o,zq2_o,zq3_o,zq4_o] ...
-                = loop(Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,...
-                   kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3);
+            [p0,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
+                = loop(o,Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,...
+                      dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4,...
+                      kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3,hydrostatic);
             psi(o,:) = p0;
         
             if(useRK4)
-                RK4;
+            [buoy,zeta,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
+              = RK4(dt,tt,o,Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,...
+                    buoy,zeta,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4,...
+                    kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3,hydrostatic);
             elseif(useAB3)
                 %%% Third-order Adams-Bashforth method %%%
                 if (o <= 2)
                     %%% Use RK4 for the first 2 time steps
-                    RK4;
+                    [buoy,zeta,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
+                      = RK4(dt,tt,o,Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,...
+                            buoy,zeta,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4,...
+                            kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3,hydrostatic);
                     %%% Use Euler-forward for the first 2 time steps
                     % buoy(o+1,:) = buoy(o,:) + dbdt(o,:)*dt;
                     % zeta(o+1,:) = zeta(o,:) + dzetadt(o,:)*dt;
