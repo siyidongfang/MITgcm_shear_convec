@@ -6,20 +6,19 @@
 clear all;
 close all;
 
-% exppath = 'exps_tanh_ZeroBottom_dz1/';
-exppath = 'exps_test/';
+% exppath = 'exps_tanh_ZeroBot_dz0.5/';
+exppath = 'exps_linear_dz0.25/';
 constants;
 
-% for Nexp_lambda =1:length(lambda_parm)
-parfor Nexp_lambda =10:11
-
+parfor Nexp_lambda =1:length(lambda_parm)
+% parfor Nexp_lambda =10:11
     lambda = lambda_parm(Nexp_lambda);
     kx = 2*pi/lambda;
     expfolder = [exppath 'lambda' num2str(lambda) '/']
     mkdir(expfolder); 
 
-    % for Nexp_shear =1:length(Shear_parm)
-    for Nexp_shear =10
+    for Nexp_shear =1:length(Shear_parm)
+    % for Nexp_shear =10
 
         Shear = Shear_parm(Nexp_shear)
         
@@ -147,8 +146,14 @@ parfor Nexp_lambda =10:11
         uuu = -real((psi(:,2:Nr+1)-psi(:,1:Nr))/dz);
         www = real(1i*kx*psi);
 
-        zidx_b = 1:Nr;
-        zidx_q = 1:Nr+1;
+        if(useLinearShear)
+            zidx_b = 1:Nr;
+            zidx_q = 1:Nr+1;
+        end
+        if(useTanhShear)
+            zidx_b = 1:round(h_shear/dz);
+            zidx_q = zidx_b;
+        end
 
         bq1_int = real((sum(bq1(:,zidx_b),2)))';
         bq2_int = real((sum(bq2(:,zidx_b),2)))';
@@ -161,8 +166,7 @@ parfor Nexp_lambda =10:11
         zq3_int = real((sum(zq3(:,zidx_q),2)))';
         zq4_int = real((sum(zq4(:,zidx_q),2)))';
 
-
-        fit_span = round(Nt/NTtide*2)+1:Nt-1;
+        fit_span = round(Nt/NTtide*10)+1:Nt-1;
         
         % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
         TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);

@@ -1,7 +1,8 @@
 fontsize = 20;
+addpath products/
 % load('GrowthRate_exps_tanh_ZeroCenter_dz2.mat')
-load('GrowthRate_exps_tanh_BottomCenter_dz1.mat')
-% load('GrowthRate_exps_linear_dz0.5.mat')
+% load('GrowthRate_exps_tanh_BottomCenter_dz1.mat')
+load('GrowthRate_exps_linear_dz0.5.mat')
 
 figure(3)
 set(gcf,'color','w')

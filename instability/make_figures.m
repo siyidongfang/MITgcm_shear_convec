@@ -1,5 +1,5 @@
 
-FigureIsVisible = false;
+FigureIsVisible = true;
 fontsize = 20;
 plot_tidx = 1:10:Nt;        
 DIV = 1;

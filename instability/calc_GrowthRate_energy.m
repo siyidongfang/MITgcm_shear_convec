@@ -3,7 +3,8 @@ close all;
 clear;
 fontsize = 22;
 
-expdir = 'exps_tanh_ZeroCenter_dz2/lambda'
+dirname = 'exps_tanh_ZeroCenter_dz2';
+expdir = [dirname '/lambda'];
 Shear_parm = ([0:0.1:2.0])*1e-3;
 lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
 lambda_parm = flip(lambda_parm);
@@ -34,7 +35,7 @@ parfor Nexp_lambda = 1:length(lambda_parm)
             [www re_psi NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(fname);
             uuu = (re_psi(:,2:Nr+1)-re_psi(:,1:Nr))/dz;
             
-            fit_span = round(Nt/NTtide*3):Nt-1;
+            fit_span = round(Nt/NTtide*5):Nt-1;
 
             % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 pp S 
             TKE = 1/4*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
@@ -115,7 +116,7 @@ end
 
 GrowthRate_Floquet(GrowthRate_Floquet==0)=NaN;
 
-save('GrowthRate_exps_tanh_ZeroCenter_dz2.mat','a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
+save(['GrowthRate_' dirname '.mat'],'a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
 
 
 
