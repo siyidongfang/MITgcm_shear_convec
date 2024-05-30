@@ -1,5 +1,7 @@
 
-function [t0,b0,z0,buoy,zeta] = RK4(o,dt,Nr,tt,buoy,zeta,dbdt,dzetadt)
+function [buoy,zeta] = RK4(o,dt,tt,dbdt,dzetadt,...
+               Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,...
+               kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3)
 
     %%% Fourth-order Runge-Kutta method %%%
         k_1b = dbdt(o,:);
@@ -14,9 +16,11 @@ function [t0,b0,z0,buoy,zeta] = RK4(o,dt,Nr,tt,buoy,zeta,dbdt,dzetadt)
         t0 = tt(o)+dt/2;
         b0 = b_2;
         z0 = z_2;
-        loop;
-        k_2b = dbdt(o,:);
-        k_2z = dzetadt(o,:);
+        [dzetadt_o,dbdt_o,bq1_o,bq2_o,bq3_o,bq4_o,bq5_o,zq1_o,zq2_o,zq3_o,zq4_o] ...
+        = loop(Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,...
+               kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3);
+        k_2b = dbdt_o;
+        k_2z = dzetadt_o;
 
         % Euler backward corrector advancing dt/2:
         b_3 = buoy(o,:)+0.5*dt*k_2b;
@@ -28,9 +32,11 @@ function [t0,b0,z0,buoy,zeta] = RK4(o,dt,Nr,tt,buoy,zeta,dbdt,dzetadt)
         t0 = tt(o)+dt/2;
         b0 = b_3;
         z0 = z_3;
-        loop;
-        k_3b = dbdt(o,:);
-        k_3z = dzetadt(o,:);
+        [dzetadt_o,dbdt_o,bq1_o,bq2_o,bq3_o,bq4_o,bq5_o,zq1_o,zq2_o,zq3_o,zq4_o] ...
+        = loop(Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,...
+               kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3);
+        k_3b = dbdt_o;
+        k_3z = dzetadt_o;
 
 
         % Mid-point predictor advancing dt:
@@ -43,9 +49,11 @@ function [t0,b0,z0,buoy,zeta] = RK4(o,dt,Nr,tt,buoy,zeta,dbdt,dzetadt)
         t0 = tt(o)+dt;
         b0 = b_4;
         z0 = z_4;
-        loop;
-        k_4b = dbdt(o,:);
-        k_4z = dzetadt(o,:);
+        [dzetadt_o,dbdt_o,bq1_o,bq2_o,bq3_o,bq4_o,bq5_o,zq1_o,zq2_o,zq3_o,zq4_o] ...
+        = loop(Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,...
+               kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3);
+        k_4b = dbdt_o;
+        k_4z = dzetadt_o;
         % Simpson rule corrector advancing dt:
         buoy(o+1,:) = buoy(o,:) + (1/6)*(k_1b+2*k_2b+2*k_3b+k_4b)*dt;
         zeta(o+1,:) = zeta(o,:) + (1/6)*(k_1z+2*k_2z+2*k_3z+k_4z)*dt;
