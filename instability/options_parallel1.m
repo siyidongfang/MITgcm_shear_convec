@@ -17,8 +17,8 @@ parfor Nexp_lambda =1:length(lambda_parm)
     expfolder = [exppath 'lambda' num2str(lambda) '/']
     mkdir(expfolder); 
 
-    for Nexp_shear =1:length(Shear_parm)
-    % for Nexp_shear =10
+    % for Nexp_shear =1:length(Shear_parm)
+    for Nexp_shear =1:4
 
         Shear = Shear_parm(Nexp_shear)
         
@@ -166,7 +166,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
         zq3_int = real((sum(zq3(:,zidx_q),2)))';
         zq4_int = real((sum(zq4(:,zidx_q),2)))';
 
-        fit_span = round(Nt/NTtide*10)+1:Nt-1;
+        fit_span = round(Nt/NTtide*15)+1:Nt-1;
         
         % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
         TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);

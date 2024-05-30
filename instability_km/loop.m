@@ -5,7 +5,7 @@
         t0 = tt(o);
         b0 = buoy(o);
         z0 = zeta(o);
-        tendency;
+        [dbdt,dzetadt]=tendency(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);
         k_1b = dbdt(o);
         k_1z = dzetadt(o);
         % Euler forward predictor advancing dt/2:
@@ -14,7 +14,7 @@
         t0 = tt(o)+dt/2;
         b0 = b_2;
         z0 = z_2;
-        tendency;
+        [dbdt,dzetadt]=tendency(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);
         k_2b = dbdt(o);
         k_2z = dzetadt(o);
         % Euler backward corrector advancing dt/2:
@@ -23,7 +23,7 @@
         t0 = tt(o)+dt/2;
         b0 = b_3;
         z0 = z_3;
-        tendency;
+        [dbdt,dzetadt]=tendency(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);
         k_3b = dbdt(o);
         k_3z = dzetadt(o);
         % Mid-point predictor advancing dt:
@@ -32,8 +32,7 @@
         t0 = tt(o)+dt;
         b0 = b_4;
         z0 = z_4;
-        tendency;
-        k_4b = dbdt(o);
+        [dbdt,dzetadt]=tendency(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);        k_4b = dbdt(o);
         k_4z = dzetadt(o);
     
         % Simpson rule corrector advancing dt:
@@ -114,14 +113,14 @@
     end
 
     [y_fit,delta_fit] = polyval(pp,xxplot,S);
-    fig = figure(20);
-    clf;set(gcf,'Color','w')
-    plot(xxplot/24,yyplot,'LineWidth',2)
-    hold on;grid on;grid minor;
-    plot(xxplot(fit_span)/24, y_fit(fit_span));
-    hold off;
-    xlabel('Time (days)')
-    set(gca,'Fontsize',20)
+    % fig = figure(20);
+    % clf;set(gcf,'Color','w')
+    % plot(xxplot/24,yyplot,'LineWidth',2)
+    % hold on;grid on;grid minor;
+    % plot(xxplot(fit_span)/24, y_fit(fit_span));
+    % hold off;
+    % xlabel('Time (days)')
+    % set(gca,'Fontsize',20)
 
-    saveas(fig,[[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
+    % saveas(fig,[[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
 
