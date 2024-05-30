@@ -144,9 +144,6 @@ parfor Nexp_lambda =10:11
             dbuoydz(:,m) = (re_buoy(:,m+1)-re_buoy(:,m-1))/dz;
         end
         
-        plot_tidx = 1:10:Nt;
-                
-        DIV = 1;
         uuu = -real((psi(:,2:Nr+1)-psi(:,1:Nr))/dz);
         www = real(1i*kx*psi);
 
@@ -169,35 +166,31 @@ parfor Nexp_lambda =10:11
         
         % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
         TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
-        TPE = 0;
-        KE_PE = TKE+TPE;
-        
-        KE_PE_zavg = mean(KE_PE,2)';
+        KE_zavg = mean(TKE,2)';
         xxplot = tt/t1hour;
-        yyplot = log(KE_PE_zavg)/2;
+        yyplot = log(KE_zavg)/2;
         [pKE,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
         % GrowthRate_KE(Nexp_lambda,Nexp_shear) = pKE(1);
         pKE(1);
         [y_fit,delta_fit] = polyval(pKE,xxplot,S);
         
-        b2 = mean(re_buoy.^2,2)';
-        yyplot_b2 = log(b2)/2;
+        b2_zavg= mean(re_buoy.^2,2)';
+        yyplot_b2 = log(b2_zavg)/2;
         [pb2,S_b2] = polyfit(xxplot(fit_span),yyplot_b2(fit_span),1); 
         % GrowthRate(Nexp_lambda,Nexp_shear) = pb2(1);
         [y_fit_b2,delta_fit_b2] = polyval(pb2,xxplot,S_b2);
 
         %%% Save outputs
-        s = struct('buoy',buoy,'zeta',zeta,'psi',psi, ...
-            're_buoy',re_buoy,'re_psi',re_psi,'pKE',pKE,'pb2',pb2,...
+        s = struct( ...
+            're_zeta',re_zeta,'re_buoy',re_buoy,'re_psi',re_psi,'pKE',pKE,'pb2',pb2,...
             'uuu',uuu,'www',www,'NTtide',NTtide,'Nr',Nr,'Nt',Nt,'Utide',Utide,...
-            'tt',tt,'t1hour',t1hour,'zz',zz,'dz',dz,'nu',nu,'kappa',kappa,'fit_span',fit_span,...
+            'tt',tt,'t1hour',t1hour,'zz',zz,'zz_wgrid',zz_wgrid,'dz',dz,'nu',nu,'kappa',kappa,'fit_span',fit_span,...
             'zidx_b',zidx_b,'bq1_int',bq1_int,'bq2_int',bq2_int,'bq3_int',bq3_int,'bq4_int',bq4_int,'bq5_int',bq5_int,...
             'zidx_q',zidx_q,'zq1_int',zq1_int,'zq2_int',zq2_int,'zq3_int',zq3_int,'zq4_int',zq4_int,...
-            'Shear',Shear,'lambda',lambda,'topo',topo,'Atide',Atide,'dAdz',dAdz...
-            );  
+            'Shear',Shear,'lambda',lambda,'kx',kx,'topo',topo,'Atide',Atide,'dAdz',dAdz,'expdir',expdir,...
+            'KE_zavg',KE_zavg,'b2_zavg',b2_zavg,'y_fit',y_fit,'y_fit_b2',y_fit_b2);  
         save(sprintf(outputname),"-fromstruct",s);
         
-
     end
     
 end
