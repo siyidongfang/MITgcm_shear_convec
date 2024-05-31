@@ -7,7 +7,7 @@ clear all;
 close all;
 
 % exppath = 'exps_tanh_ZeroBot_dz0.5/';
-exppath = 'exps_linear_dz0.25/';
+exppath = 'exps_linear_dz0.5/';
 constants;
 
 parfor Nexp_lambda =1:length(lambda_parm)
