@@ -55,7 +55,7 @@ for s = 1:length(shear_all)
 
     figure(1)
     set(gcf,'Color','w')
-    pcolor(kx_all(kkidx),m0_all(mmidx),squeeze(grow_smk_limit(s,mmidx,kkidx)));shading flat;colorbar;colormap(redblue);
+    pcolor(kx_all(kkidx),m0_all(mmidx),squeeze(grow_smk(s,mmidx,kkidx)));shading flat;colorbar;colormap(redblue);
     clim([-0.4 0.4])
     set(gca,'FontSize',20);xlabel('k (1/m)');ylabel('m (1/m)')
     title('Growth rate (1/hour)')

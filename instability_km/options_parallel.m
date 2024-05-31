@@ -16,11 +16,11 @@ shear_Ri0_25 = 2*N;
 shear_Ri1 = N;
 shear_all = [0:1e-4:shear_Ri0_25];
 m0max = 2*pi/1;
-m0min = 2*pi/4000;
+m0min = 2*pi/5000;
 k0max = 2*pi/3;
 k0min = 2*pi/100000;
-m0_all = [0 m0min m0min*2 m0min*3 m0min*4 0.01:0.01:1];
-kx_all = [0 k0min k0min*2 k0min*3 k0min*4 0.001:0.001:0.1];
+m0_all = [0 m0min*[1:1/2:7.5] 0.01:0.01/10:0.6 0.61:0.01/2:1];
+kx_all = [0 k0min*[1:1/2:15] 0.001:0.001/10:0.06 0.061:0.001/2:0.1];
 lam_z_all = 2*pi./m0_all;
 lam_x_all = 2*pi./kx_all;
 
@@ -62,11 +62,11 @@ parfor ns =11:12
             constants;
             loop;
         end
-        % if(grow(i)>0 && grow(i)<0.1)
-        %     NTtide = 400;
-        %     constants;
-        %     loop;
-        % end
+        if(grow(i)>0 && grow(i)<0.1)
+            NTtide = 400;
+            constants;
+            loop;
+        end
     end
 
     %%% Save the data
