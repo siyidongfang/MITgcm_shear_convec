@@ -1,6 +1,6 @@
     %%% Start the loop
 function [grow,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_front,a1_t,ke_nond,grav,pe_nond,fit_span,xxplot,yyplot,pp,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert]...
-        =loop(grow,i,NTtide,kappa_const,dt,Nt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,tt,buoy,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert)
+        =loop(grow,j,NTtide,kappa_const,dt,Nt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,tt,buoy,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert)
 
 
     for o=1:Nt-1
@@ -115,7 +115,7 @@ function [grow,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_fron
     % yyplot = log(pe)/2;
     % yyplot = log(ke)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-    grow(i)=pp(1);
+    grow(j)=pp(1);
     if(isnan(pp(1)))
         warning('NaN in growth rate!')
     end
