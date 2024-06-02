@@ -1,4 +1,6 @@
     %%% Start the loop
+function []=loop(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu,...
+                  o,)
 
     for o=1:Nt-1
         %%% Fourth-order Runge-Kutta method %%%
@@ -93,7 +95,7 @@
     grav = 10;
     pe_nond = Pr*(abs(buoy)/grav).^2/4; %%% Non-dimensionalized KE and PE
 
-    fit_span = Nt/NTtide*7+1:Nt;
+    fit_span = Nt/NTtide*20+1:Nt;
     if(ConvectiveAdjustment)
         fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
     end
@@ -112,7 +114,7 @@
         warning('NaN in growth rate!')
     end
 
-    [y_fit,delta_fit] = polyval(pp,xxplot,S);
+    % [y_fit,delta_fit] = polyval(pp,xxplot,S);
     % fig = figure(20);
     % clf;set(gcf,'Color','w')
     % plot(xxplot/24,yyplot,'LineWidth',2)
@@ -124,3 +126,5 @@
 
     % saveas(fig,[[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
 
+
+end

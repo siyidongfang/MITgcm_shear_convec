@@ -25,10 +25,30 @@ lam_z_all = 2*pi./m0_all;
 lam_x_all = 2*pi./kx_all;
 
 
+%--- constants
+cs = cosd(topo);
+ss = sind(topo);
+    
+b00 = 2.0e-23;
+b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
+
+kappa_const = 2e-4;
+nu_const = 2e-4;
+
+if(Diffusion)
+    kappa = kappa_const;
+    nu = nu_const;
+else 
+    kappa = 0;
+    nu = 0;
+end
+%--- constants
+ 
+
 mkdir(expdir);
 
 % for ns =1:length(shear_all)
-parfor ns =11:12
+for ns =1:3
     ns
     % rw_all = rw_mg(ns)
     shear = shear_all(ns)
@@ -40,7 +60,7 @@ parfor ns =11:12
         rs = 0;
     end
    
-    for m=1:length(m0_all)
+    parfor m=1:length(m0_all)
         m
 	    m0 = m0_all(m);
 
