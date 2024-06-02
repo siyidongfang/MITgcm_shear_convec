@@ -101,7 +101,7 @@ function [grow,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_fron
     grav = 10;
     pe_nond = Pr*(abs(buoy)/grav).^2/4; %%% Non-dimensionalized KE and PE
 
-    fit_span = Nt/NTtide*20+1:Nt;
+    fit_span = Nt/NTtide*5+1:Nt;
     if(ConvectiveAdjustment)
         fit_span = Nt/NTtide*3+1:Nt/NTtide*10;
     end

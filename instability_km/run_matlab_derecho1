@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -A UMIT0054 
+#PBS -m abe
+#PBS -M y_si@mit.edu
+#PBS -q main
+#PBS -l walltime=12:00:00
+#PBS -l select=2:ncpus=128:mpiprocs=128:ompthreads=1
+#PBS -N options_parallel1
+#PBS -o parallel_flat_nu2e-4/ns1.txt
+#PBS -e parallel_flat_nu2e-4/ns1_e.txt 
+
+module load matlab
+matlab -nodisplay -nosplash -r options_parallel1
