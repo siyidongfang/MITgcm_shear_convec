@@ -1,13 +1,14 @@
     %%% Start the loop
-function []=loop(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu,...
-                  o,)
+function [grow,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_front,a1_t,ke_nond,grav,pe_nond,fit_span,xxplot,yyplot,pp,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert]...
+        =loop(grow,i,NTtide,kappa_const,dt,Nt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,tt,buoy,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert)
+
 
     for o=1:Nt-1
         %%% Fourth-order Runge-Kutta method %%%
         t0 = tt(o);
         b0 = buoy(o);
         z0 = zeta(o);
-        [dbdt,dzetadt]=tendency(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);
+        [dbdt,dzetadt]=tendency(o,dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);
         k_1b = dbdt(o);
         k_1z = dzetadt(o);
         % Euler forward predictor advancing dt/2:
@@ -16,7 +17,7 @@ function []=loop(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu,...
         t0 = tt(o)+dt/2;
         b0 = b_2;
         z0 = z_2;
-        [dbdt,dzetadt]=tendency(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);
+        [dbdt,dzetadt]=tendency(o,dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);
         k_2b = dbdt(o);
         k_2z = dzetadt(o);
         % Euler backward corrector advancing dt/2:
@@ -25,7 +26,7 @@ function []=loop(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu,...
         t0 = tt(o)+dt/2;
         b0 = b_3;
         z0 = z_3;
-        [dbdt,dzetadt]=tendency(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);
+        [dbdt,dzetadt]=tendency(o,dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);
         k_3b = dbdt(o);
         k_3z = dzetadt(o);
         % Mid-point predictor advancing dt:
@@ -34,7 +35,7 @@ function []=loop(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu,...
         t0 = tt(o)+dt;
         b0 = b_4;
         z0 = z_4;
-        [dbdt,dzetadt]=tendency(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);        k_4b = dbdt(o);
+        [dbdt,dzetadt]=tendency(o,dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);        k_4b = dbdt(o);
         k_4z = dzetadt(o);
     
         % Simpson rule corrector advancing dt:
@@ -61,6 +62,11 @@ function []=loop(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu,...
                     nu = 0;
                 end
             end
+        else
+            dbdz_vert = [];
+            dBdz_vert = [];
+            dB0dz_vert=[];
+            dbtotaldz_vert=[];
         end
 
     end
@@ -109,8 +115,8 @@ function []=loop(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu,...
     % yyplot = log(pe)/2;
     % yyplot = log(ke)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-    grow(i) = pp(1);
-    if(isnan(grow(i)))
+    grow(i)=pp(1);
+    if(isnan(pp(1)))
         warning('NaN in growth rate!')
     end
 

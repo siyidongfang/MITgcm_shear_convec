@@ -7,7 +7,7 @@ nt_percycle = 72*10;
 
 
 %%%%%% exps_flat_diff %%%%%%
-expdir = 'experiments_flat_nu2e-4_new/'; %%% Flat bottom with diffusion/viscous dissipation
+expdir = 'parallel_flat_nu2e-4/'; %%% Flat bottom with diffusion/viscous dissipation
 topo=0;
 N = sqrt(1)*1e-3;
 Ptide = 43200;
@@ -48,7 +48,7 @@ end
 mkdir(expdir);
 
 % for ns =1:length(shear_all)
-for ns =1:3
+for ns =2:3
     ns
     % rw_all = rw_mg(ns)
     shear = shear_all(ns)
@@ -63,42 +63,54 @@ for ns =1:3
     parfor m=1:length(m0_all)
         m
 	    m0 = m0_all(m);
+        grow = NaN.*zeros(1,length(kx_all));
 
     for i=1:length(kx_all)
         kx=kx_all(i);
-
-    % for i=1:length(rw_all)
-        % rw = rw_all(i);
-        % kx = m0*rw;
-
-        NTtide = 15;
+        
+        NTtide = 30;
         if(omega==0)
             NTtide = 1/rw/shear/Ptide*10;
         end
-        constants;
-        loop;
+        [dt,Nt,tt,psi,zeta,buoy,dbdt,dzetadt,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert] = ...
+            initialize(NTtide,Ptide,nt_percycle,omega,ConvectiveAdjustment,b0);
+
+        [grow,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_front,a1_t,ke_nond,grav,pe_nond,fit_span,xxplot,yyplot,pp,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert]...
+        =loop(grow,i,NTtide,kappa_const,dt,Nt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,tt,buoy,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert);
+
         if(grow(i)>0)
             NTtide = 100;
-            constants;
-            loop;
+
+            [dt,Nt,tt,psi,zeta,buoy,dbdt,dzetadt,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert] = ...
+            initialize(NTtide,Ptide,nt_percycle,omega,ConvectiveAdjustment,b0);
+
+            [grow,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_front,a1_t,ke_nond,grav,pe_nond,fit_span,xxplot,yyplot,pp,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert]...
+            =loop(grow,i,NTtide,kappa_const,dt,Nt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,tt,buoy,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert);
         end
+
         if(grow(i)>0 && grow(i)<0.1)
             NTtide = 400;
-            constants;
-            loop;
+            
+            [dt,Nt,tt,psi,zeta,buoy,dbdt,dzetadt,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert] = ...
+            initialize(NTtide,Ptide,nt_percycle,omega,ConvectiveAdjustment,b0);
+
+            [grow,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_front,a1_t,ke_nond,grav,pe_nond,fit_span,xxplot,yyplot,pp,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert]...
+            =loop(grow,i,NTtide,kappa_const,dt,Nt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,tt,buoy,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert);
         end
-    end
-
-    %%% Save the data
-    clear fig a1_t angle_front ct fit_span mz_t pe st tt xx_plot yy_plot buoy dbdt dzetadt ke kew psi re_buoy re_uuu re_www uuu www zeta ke_nond ps_nond
-    save([[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m0) '.mat'])
 
     end
 
-    % plot_timeseires
-    % saveas(fig,[expdir '/figs/timeseriesN' num2str(ns) '.jpeg']);
+     %%% Save the data
+     outputname=[[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '_m0' num2str(m) '.mat'];
+
+     %%% Save outputs
+     s = struct('grow',grow,'shear',shear,'kx_all',kx_all,'m0_all',m0_all, ...
+         'm0',m0,'dt',dt,'nu',nu,'kappa',kappa);  
+     save(sprintf(outputname),"-fromstruct",s);
+
+    end
+
     
-
 end
 
 

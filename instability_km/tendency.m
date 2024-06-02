@@ -1,5 +1,5 @@
 
-function [dbdt,dzetadt]=tendency(dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu)
+function [dbdt,dzetadt]=tendency(o,dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu)
 
     st = sin(omega*t0);
     mz = m0-rs*st*kx;

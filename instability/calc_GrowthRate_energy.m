@@ -3,39 +3,40 @@ close all;
 clear;
 fontsize = 22;
 
-dirname = 'exps_tanh_ZeroCenter_dz2';
-expdir = [dirname '/lambda'];
+dirname = 'exps_linear_dz0.5';
+expfolder = [dirname '/lambda'];
 Shear_parm = ([0:0.1:2.0])*1e-3;
-lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
+lambda_parm = [50 75:25:1000 1050:50:2000 2200:200:3000 3500 4000 4500 5000 7500 10000]; 
+% lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
 lambda_parm = flip(lambda_parm);
 lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
 
 GrowthRate = NaN.*zeros(length(lambda_parm),length(Shear_parm));
 grow =  NaN.*zeros(1,length(Shear_parm));
 
-parfor Nexp_lambda = 1:length(lambda_parm)
+% for Nexp_lambda = 8:length(lambda_parm)
+for Nexp_lambda=47:60
     Nexp_lambda
     lambda = lambda_parm(Nexp_lambda);
     grow = zeros(1,length(Shear_parm));
 
     for Nexp_shear =1:length(Shear_parm)
-        % Nexp_shear
+        Nexp_shear
         Shear = Shear_parm(Nexp_shear);
 
         expname = ['topo0_H250_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
-        exppath = [expdir num2str(lambda) '/' expname];
+        expdir = [expfolder num2str(lambda) '/' expname];
         % clear uuu www psi NTtide tt Nr Nt Utide tt t1hour zz fit_span
 
-        fname = [exppath 'output2.mat'];
+        fname = [expdir 'output.mat'];
         if(isfile(fname))
             
-            % load([exppath 'output.mat'],...
-            % 'www','re_psi','NTtide','Nr','Nt',...
-            % 'tt','t1hour','zz','dz','re_buoy','nu','kappa')
-            [www re_psi NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(fname);
+            load([expdir 'output.mat'])
+            make_figures
+            % [www re_psi NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(fname);
             uuu = (re_psi(:,2:Nr+1)-re_psi(:,1:Nr))/dz;
             
-            fit_span = round(Nt/NTtide*5):Nt-1;
+            fit_span = round(Nt/NTtide*20):Nt-1;
 
             % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 pp S 
             TKE = 1/4*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);

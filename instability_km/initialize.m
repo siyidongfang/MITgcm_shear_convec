@@ -1,5 +1,5 @@
 
-function [Nt,tt,psi,zeta,buoy,dbdt,dzetadt,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert] = initialize(NTtide,Ptide,nt_percycle,omega,ConvectiveAdjustment,b0)
+function [dt,Nt,tt,psi,zeta,buoy,dbdt,dzetadt,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert] = initialize(NTtide,Ptide,nt_percycle,omega,ConvectiveAdjustment,b0)
 
     Lt = NTtide*Ptide;
     dt = Ptide/nt_percycle;
