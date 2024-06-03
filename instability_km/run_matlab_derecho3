@@ -2,12 +2,12 @@
 #PBS -A UMIT0054 
 #PBS -m abe
 #PBS -M y_si@mit.edu
-#PBS -q main
+#PBS -q casper
 #PBS -l walltime=12:00:00
-#PBS -l select=2:ncpus=128:mpiprocs=128:ompthreads=1
+#PBS -l select=1:ncpus=128:mpiprocs=128:ompthreads=1:mem=360GB
 #PBS -N options_parallel3
-#PBS -o parallel_flat_nu2e-4/ns3.txt
-#PBS -e parallel_flat_nu2e-4/ns3_e.txt 
+#PBS -o parallel_flat_nu2e-8/ns3.txt
+#PBS -e parallel_flat_nu2e-8/ns3_e.txt 
 
 module load matlab
 matlab -nodisplay -nosplash -r options_parallel3

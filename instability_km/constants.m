@@ -1,10 +1,10 @@
 
 
-kappa_const = 2e-6;
-nu_const = 2e-6;
-NT1 = 30;
-NT2 = 100;
-expdir = 'parallel_flat_nu2e-6/'; %%% Flat bottom with diffusion/viscous dissipation
+kappa_const = 2e-8;
+nu_const = 2e-8;
+NT1 = 25;
+NT2 = 80;
+expdir = 'parallel_flat_nu2e-8/'; %%% Flat bottom with diffusion/viscous dissipation
 
 Diffusion = true;
 ConvectiveAdjustment = false;
@@ -18,13 +18,13 @@ shear_Ri0_25 = 2*N;
 shear_Ri1 = N;
 shear_all = [0:1e-4:shear_Ri0_25];
 
-h_shear = 250;
+h_shear = 1000;
 m0_limit = 2*pi/h_shear;
 
 m0max = 2*pi/1;
 m0min = m0_limit;
 k0max = 2*pi/3;
-k0min = 2*pi/10000;
+k0min = 2*pi/30000;
 
 % m0_all = [0 m0min*[1:1/2:7.5] 0.01:0.01/10:0.6 0.61:0.01/2:1];
 m0_all = [m0min:0.01/10:0.6 0.61:0.01/2:1];
