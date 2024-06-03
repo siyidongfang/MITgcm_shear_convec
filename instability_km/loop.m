@@ -116,19 +116,20 @@ function [grow,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_fron
     % yyplot = log(ke)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
     grow(j)=pp(1);
+    pp(1)
     if(isnan(pp(1)))
         warning('NaN in growth rate!')
     end
 
-    % [y_fit,delta_fit] = polyval(pp,xxplot,S);
-    % fig = figure(20);
-    % clf;set(gcf,'Color','w')
-    % plot(xxplot/24,yyplot,'LineWidth',2)
-    % hold on;grid on;grid minor;
-    % plot(xxplot(fit_span)/24, y_fit(fit_span));
-    % hold off;
-    % xlabel('Time (days)')
-    % set(gca,'Fontsize',20)
+    [y_fit,delta_fit] = polyval(pp,xxplot,S);
+    fig = figure(20);
+    clf;set(gcf,'Color','w')
+    plot(xxplot/24,yyplot,'LineWidth',2)
+    hold on;grid on;grid minor;
+    plot(xxplot(fit_span)/24, y_fit(fit_span));
+    hold off;
+    xlabel('Time (days)')
+    set(gca,'Fontsize',20)
 
     % saveas(fig,[[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '.jpeg']);
 

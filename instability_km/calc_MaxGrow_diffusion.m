@@ -22,7 +22,8 @@ omega = 2*pi/43200;
 
 
 grow_smk = NaN*zeros(length(shear_all),length(m0_all),length(kx_all));
-grow_smk_limit = NaN*zeros(length(shear_all),length(m0_all),length(kx_all));
+grow_smk_limit = NaN*zeros(length ...
+    (shear_all),length(m0_all),length(kx_all));
 
 h_shear = 250;
 m0_limit = 2*pi/h_shear;
