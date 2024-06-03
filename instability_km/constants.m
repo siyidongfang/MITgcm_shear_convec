@@ -1,12 +1,10 @@
 
 
-kappa_const = 2e-8;
-nu_const = 2e-8;
-NT1 = 25;
-NT2 = 80;
-expdir = 'parallel_flat_nu2e-8/'; %%% Flat bottom with diffusion/viscous dissipation
+NT1 = 30;
+NT2 = 100;
+expdir = 'parallel_flat_rw/'; %%% Flat bottom with diffusion/viscous dissipation
 
-Diffusion = true;
+Diffusion = false;
 ConvectiveAdjustment = false;
 nt_percycle = 72*10; 
 
@@ -26,19 +24,27 @@ m0min = m0_limit;
 k0max = 2*pi/3;
 k0min = 2*pi/30000;
 
-% m0_all = [0 m0min*[1:1/2:7.5] 0.01:0.01/10:0.6 0.61:0.01/2:1];
 m0_all = [m0min:0.01/10:0.6 0.61:0.01/2:1];
 kx_all = [k0min:0.001/10:0.06 0.061:0.001/2:0.1];
 lam_z_all = 2*pi./m0_all;
 lam_x_all = 2*pi./kx_all;
 
-%--- constants
+Nk = length(kx_all);
+Nm = length(m0_all);
+
+rw_all= 10.^([-3:0.1:-1 -0.95:0.01:0 0.1:0.1:2.1]);
+rw_all = rw_all(40:end);
+lam_x_real = 2*pi./(2*pi/250.*rw_all);
+Nrw = length(rw_all);
+
 cs = cosd(topo);
 ss = sind(topo);
     
 b00 = 2.0e-23;
 b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
+kappa_const = 2e-8;
+nu_const = 2e-8;
 
 if(Diffusion)
     kappa = kappa_const;
@@ -48,5 +54,4 @@ else
     nu = 0;
 end
 
-%--- constants
  
