@@ -37,15 +37,15 @@ title('Growth rate (1/hour)')
 % plot(xaxisvalue,growth_km,'-.','LineWidth',3)
 % plot(xaxisvalue,growth_crop_km,'*','LineWidth',3)
 
-% load('../instability_km/grow_rw_diffusion.mat')
-% plot(xaxisvalue,max_grow,'-*','LineWidth',3)
+load('../instability_km/grow_rw_diffusion.mat')
+plot(xaxisvalue,max_grow,'-*','LineWidth',3)
 
-load('../instability_km/grow_rw.mat')
-plot(xaxisvalue,max_grow,'-.','LineWidth',3)
+% load('../instability_km/grow_rw.mat')
+% plot(xaxisvalue,max_grow,'-.','LineWidth',3)
 
 
-legend('MITgcm, linear shear(\nu=\kappa=2\times10^{-4} m^2/s)',...
-    'Floquet: periodic in x (\nu=\kappa=2\times10^{-4}m^2/s)',...
-    'Floquet: double periodic (\nu=\kappa=2\times10^{-4} m^2/s)','Position', [0.1437 0.6645 0.4174 0.2438])
+% legend('MITgcm, linear shear(\nu=\kappa=2\times10^{-4} m^2/s)',...
+%     'Floquet: periodic in x (\nu=\kappa=2\times10^{-4}m^2/s)',...
+%     'Floquet: double periodic (\nu=\kappa=2\times10^{-4} m^2/s)','Position', [0.1437 0.6645 0.4174 0.2438])
 
 % xlim([0 2.2]*1e-3)

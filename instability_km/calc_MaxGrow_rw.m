@@ -2,13 +2,11 @@
 clear;close all
 
 constants;
-% load_colors;
 
-expdir = 'parallel_flat_rw_diffusion/';
+expdir = 'parallel_flat_rw/';
 shear_all = (0:0.1:2.0)/1e3;
 
 grow_sr = NaN*zeros(length(shear_all),length(rw_all));
-
 
 for s = 1:length(shear_all)
     shear = shear_all(s)
@@ -19,12 +17,15 @@ for s = 1:length(shear_all)
     end
 end
 
+rw_idx = 40:133;
 figure(1)
-pcolor(shear_all,(lam_x_real),grow_sr');shading flat;colormap(WhiteBlueGreenYellowRed(0))
+pcolor(shear_all,(lam_x_real(rw_idx)),grow_sr(:,rw_idx)');shading flat;colormap(WhiteBlueGreenYellowRed(0))
 colorbar;clim([0 0.3])
 
-max_grow = max(grow_sr,[],2);
+[max_grow,I]= max(grow_sr(:,rw_idx),[],2);
 figure(2)
 plot(shear_all,max_grow)
 
-save('grow_rw_diffusion.mat','max_grow')
+rw_crop = rw_all(rw_idx);
+rw_max = rw_crop(I);
+save('grow_rw.mat','max_grow','rw_max')
