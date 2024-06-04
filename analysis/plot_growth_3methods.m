@@ -1,6 +1,6 @@
 
-% load('MITgcm_growth_linearShear.mat')
-load('MITgcm_growth_tanhShear.mat')
+load('MITgcm_growth_linearShear.mat')
+% load('MITgcm_growth_tanhShear.mat')
 figure(1)
 clf;set(gcf,'Color','w','Position',[55 396 956 404])
 
@@ -20,11 +20,13 @@ grid on;grid minor;
 ylabel('(1/hour)')
 title('Growth rate (1/hour)')
 
-load('../instability/GrowthRate_exps_tanh_BottomCenter_dz1.mat')
-% plot(xaxisvalue,growth_Floquet,':','LineWidth',3)
+% load('../instability/products/GrowthRate_exps_linear_dz0.5.mat')
 
-growth_crop = max(GrowthRate_Floquet(18:end,:));
-plot(shear_Floquet,growth_crop,'--','LineWidth',3)
+% load('../instability/products/GrowthRate_exps_tanh_BottomCenter_dz1.mat')
+% % plot(xaxisvalue,growth_Floquet,':','LineWidth',3)
+% 
+% growth_crop = max(GrowthRate_Floquet(4:end,:));
+% plot(shear_Floquet,growth_crop,'--','LineWidth',3)
 
 % load('../instability_km/growth_experiments_flat_nu2e-4.mat')
 % lam_x = 2*pi./kx_all;lam_z = 2*pi./m0_all;
@@ -34,6 +36,13 @@ plot(shear_Floquet,growth_crop,'--','LineWidth',3)
 % end
 % plot(xaxisvalue,growth_km,'-.','LineWidth',3)
 % plot(xaxisvalue,growth_crop_km,'*','LineWidth',3)
+
+% load('../instability_km/grow_rw_diffusion.mat')
+% plot(xaxisvalue,max_grow,'-*','LineWidth',3)
+
+load('../instability_km/grow_rw.mat')
+plot(xaxisvalue,max_grow,'-.','LineWidth',3)
+
 
 legend('MITgcm, linear shear(\nu=\kappa=2\times10^{-4} m^2/s)',...
     'Floquet: periodic in x (\nu=\kappa=2\times10^{-4}m^2/s)',...

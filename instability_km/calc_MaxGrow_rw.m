@@ -4,7 +4,7 @@ clear;close all
 constants;
 % load_colors;
 
-expdir = 'parallel_flat_rw/';
+expdir = 'parallel_flat_rw_diffusion/';
 shear_all = (0:0.1:2.0)/1e3;
 
 grow_sr = NaN*zeros(length(shear_all),length(rw_all));
@@ -21,7 +21,10 @@ end
 
 figure(1)
 pcolor(shear_all,(lam_x_real),grow_sr');shading flat;colormap(WhiteBlueGreenYellowRed(0))
+colorbar;clim([0 0.3])
 
 max_grow = max(grow_sr,[],2);
 figure(2)
 plot(shear_all,max_grow)
+
+save('grow_rw_diffusion.mat','max_grow')

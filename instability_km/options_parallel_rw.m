@@ -6,7 +6,7 @@ constants;
 
 mkdir(expdir);
 
-m0 = 2*pi/250;
+m0 = 2*pi/500;
 
 for ns =1:length(shear_all)
     ns
