@@ -51,7 +51,7 @@ for ns =1:length(shear_all)
         end
 
         if(grow(j)>0 && grow(j)<0.1)
-            NTtide = NT2*3;
+            NTtide = NT2*2;
 
             [dt,Nt,tt,psi,zeta,buoy,dbdt,dzetadt,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert] = ...
             initialize(NTtide,Ptide,nt_percycle,omega,ConvectiveAdjustment,b0);
