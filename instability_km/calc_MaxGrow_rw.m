@@ -17,7 +17,8 @@ for s = 1:length(shear_all)
     end
 end
 
-rw_idx = 40:133;
+% rw_idx = 75:Nrw;
+rw_idx = 100:Nrw;
 figure(1)
 pcolor(shear_all,(lam_x_real(rw_idx)),grow_sr(:,rw_idx)');shading flat;colormap(WhiteBlueGreenYellowRed(0))
 colorbar;clim([0 0.3])

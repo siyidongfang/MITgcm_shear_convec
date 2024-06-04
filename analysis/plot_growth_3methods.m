@@ -7,15 +7,15 @@ clf;set(gcf,'Color','w','Position',[55 396 956 404])
 Shear_all = (0:0.1:2)*1e-3;
 N2 = 1e-6;
 Ri_all = 1./(N2./(Shear_all).^2);
-% xaxisvalue = Ri_all;
-xaxisvalue = Shear_all;
+xaxisvalue = Ri_all;
+% xaxisvalue = Shear_all;
 
-plot(xaxisvalue,growth_MITgcm,'LineWidth',2)
+plot(xaxisvalue,growth_MITgcm,'LineWidth',3)
 hold on;
-xlabel('Shear (1/s)')
- % xlabel('Ri^{-1}')
+% xlabel('Shear (1/s)')
+ xlabel('Ri^{-1}')
 
-set(gca,'Fontsize',20)
+set(gca,'Fontsize',30)
 grid on;grid minor;
 ylabel('(1/hour)')
 title('Growth rate (1/hour)')
@@ -37,13 +37,14 @@ title('Growth rate (1/hour)')
 % plot(xaxisvalue,growth_km,'-.','LineWidth',3)
 % plot(xaxisvalue,growth_crop_km,'*','LineWidth',3)
 
-load('../instability_km/grow_rw_diffusion.mat')
-plot(xaxisvalue,max_grow,'-*','LineWidth',3)
+% load('../instability_km/grow_rw_diffusion.mat')
+% plot(xaxisvalue,max_grow,'-*','LineWidth',3)
 
-% load('../instability_km/grow_rw.mat')
-% plot(xaxisvalue,max_grow,'-.','LineWidth',3)
+load('../instability_km/grow_rw.mat')
+plot(xaxisvalue,max_grow,'*','LineWidth',4)
 
 
+legend('MITgcm','Therory (invicid)')
 % legend('MITgcm, linear shear(\nu=\kappa=2\times10^{-4} m^2/s)',...
 %     'Floquet: periodic in x (\nu=\kappa=2\times10^{-4}m^2/s)',...
 %     'Floquet: double periodic (\nu=\kappa=2\times10^{-4} m^2/s)','Position', [0.1437 0.6645 0.4174 0.2438])

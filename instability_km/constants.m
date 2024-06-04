@@ -2,9 +2,9 @@
 
 NT1 = 40;
 NT2 = 80;
-expdir = 'parallel_flat_rw_diffusion/'; %%% Flat bottom with diffusion/viscous dissipation
+expdir = 'parallel_flat_rw/'; %%% Flat bottom with diffusion/viscous dissipation
 
-Diffusion = true;
+Diffusion = false;
 ConvectiveAdjustment = false;
 nt_percycle = 72*50; 
 
