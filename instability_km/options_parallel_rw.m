@@ -6,7 +6,7 @@ constants;
 
 mkdir(expdir);
 
-m0 = 2*pi/500;
+m0 = m0_rw;
 
 for ns =1:length(shear_all)
 % for ns =6

@@ -2,13 +2,13 @@
 
 NT1 = 40;
 NT2 = 80;
-expdir = 'parallel_flat_rw_new/'; %%% Flat bottom with diffusion/viscous dissipation
+expdir = 'parallel_topo4_rw/'; %%% Flat bottom with diffusion/viscous dissipation
 
 Diffusion = false;
 ConvectiveAdjustment = false;
 nt_percycle = 72*30; 
 
-topo=0;
+topo=4;
 N = sqrt(1)*1e-3;
 Ptide = 43200;
 omega = 2*pi/Ptide;
@@ -16,7 +16,7 @@ shear_Ri0_25 = 2*N;
 shear_Ri1 = N;
 shear_all = [0:1e-4/5:shear_Ri0_25];
 
-h_shear = 1000;
+h_shear = 250;
 m0_limit = 2*pi/h_shear;
 
 m0max = 2*pi/1;
@@ -29,7 +29,7 @@ m0_all = [m0min:0.01/10:0.6 0.61:0.01/2:1];
 lam_z_all = 2*pi./m0_all;
 % lam_x_all = 2*pi./kx_all;
 
-m0_rw = 2*pi/4000;
+m0_rw = m0_limit;
 lam_x_all = [10:10:100 125:25:1000 1100:100:5000 5200:200:10000 10000:500:40000 40000:1000:100000];
 lam_x_all = flip(lam_x_all);
 % rw_all= 10.^([-3:0.1/2:-1 -0.95:0.01/2:0 0.1:0.1/2:2.1]);
