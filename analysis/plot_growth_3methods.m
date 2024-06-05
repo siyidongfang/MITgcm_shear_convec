@@ -2,7 +2,7 @@
 load('MITgcm_growth_linearShear.mat')
 % load('MITgcm_growth_tanhShear.mat')
 figure(1)
-clf;set(gcf,'Color','w','Position',[55 401 837 399])
+clf;set(gcf,'Color','w','Position',[55 362 778 438])
 
 Shear_all = (0:0.1/5:2)*1e-3;
 N2 = 1e-6;
@@ -10,7 +10,7 @@ Ri_all = 1./(N2./(Shear_all).^2);
 xaxisvalue = Ri_all;
 % xaxisvalue = Shear_all;
 
-l1 = plot(xaxisvalue(1:5:end),growth_MITgcm,'LineWidth',3);
+l1 = plot(xaxisvalue(1:5:end),growth_MITgcm,'LineWidth',4);
 hold on;
 % xlabel('Shear (1/s)')
  xlabel('Ri^{-1}')
@@ -18,7 +18,7 @@ hold on;
 set(gca,'Fontsize',30)
 grid on;grid minor;
 ylabel('(1/hour)')
-title('Growth rate (1/hour)')
+title('Maximum growth rate')
 
 % load('../instability/products/GrowthRate_exps_linear_dz0.5.mat')
 
@@ -42,14 +42,14 @@ title('Growth rate (1/hour)')
 
 
 % xaxisvalue =  (0:0.1/5:2)*1e-3;
-load('../instability_km/grow_rw_new_5.6km.mat')
-l3 = plot(xaxisvalue,max_grow,'-.','LineWidth',4);
+load('../instability_km/grow_rw_new_5km.mat')
+l3 = plot(xaxisvalue,max_grow,'-.','LineWidth',3);
 
-% load('../instability_km/grow_rw_new.mat')
+% load('../instability_km/grow_rw_new_3km.mat')
 % l2 = plot(xaxisvalue,max_grow,':','LineWidth',4);
 
 
-legend([l1 l3],'MITgcm','Therory (invicid), cut off at L_x = 3 km')
+legend([l1 l3],'MITgcm','Theory (inviscid), cut off at L_x = 5 km','box','off','Position',[0.1445 0.6852 0.6234 0.1838])
 
 % legend('MITgcm, linear shear(\nu=\kappa=2\times10^{-4} m^2/s)',...
 %     'Floquet: periodic in x (\nu=\kappa=2\times10^{-4}m^2/s)',...

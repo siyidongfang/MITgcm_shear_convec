@@ -2,7 +2,7 @@
 
 NT1 = 40;
 NT2 = 80;
-expdir = 'parallel_topo4_rw/'; %%% Flat bottom with diffusion/viscous dissipation
+expdir = 'parallel_flat_rw_new/'; %%% Flat bottom with diffusion/viscous dissipation
 
 Diffusion = false;
 ConvectiveAdjustment = false;
