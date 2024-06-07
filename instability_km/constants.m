@@ -2,9 +2,9 @@
 
 NT1 = 40;
 NT2 = 80;
-expdir = 'parallel_flat_rw_new/'; %%% Flat bottom with diffusion/viscous dissipation
+expdir = 'parallel_flat_rw_new_diffusion_h2000/'; %%% Flat bottom with diffusion/viscous dissipation
 
-Diffusion = false;
+Diffusion = true;
 ConvectiveAdjustment = false;
 nt_percycle = 72*30; 
 
@@ -16,7 +16,7 @@ shear_Ri0_25 = 2*N;
 shear_Ri1 = N;
 shear_all = [0:1e-4/5:shear_Ri0_25];
 
-h_shear = 250;
+h_shear = 2000;
 m0_limit = 2*pi/h_shear;
 
 m0max = 2*pi/1;
