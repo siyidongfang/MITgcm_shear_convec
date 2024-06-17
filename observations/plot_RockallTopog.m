@@ -4,8 +4,8 @@
 %%% Plot the Rockall Trough topography, and calculate and plot the topographic slope
 %%% Determine whether the slope is critical slope for local tides
 
-addpath /Users/ysi/MITgcm_BLT/analysis/observations/topography
-addpath /Users/ysi/MITgcm_BLT/analysis/functions/
+addpath /Users/ysi/MITgcm_shear_convec/observations/topography
+addpath /Users/ysi/MITgcm_shear_convec/analysis/functions/
 
 load Rockall_gebco.mat
 load_colors;

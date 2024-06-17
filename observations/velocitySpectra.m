@@ -1,4 +1,4 @@
-%%%
+c%%%
 %%% velocitySpectra.m
 %%%
 %%% Plot temporal spectra of velocity and shear of the mooring data

@@ -40,6 +40,12 @@ title('Depth-averaged velocity shear at MAVS2')
 
 figure(4);
 clf;set(gcf,'Color','w');set(gcf,'Position', [56 352 600 305]);
+figure(4);
+clf;set(gcf,'Color','w');set(gcf,'Position', [56 352 600 305]);
+pcolor(time_uw,depth_uw,uselect');shading flat;colorbar;colormap(redblue)
+xlabel('Time (hours)');ylabel('Depth (m)')
+set(gca,'Fontsize',fontsize);axis ij;clim([-0.5 0.5])
+title('u (m/s)')
 pcolor(time_uw,depth_uw,uselect');shading flat;colorbar;colormap(redblue)
 xlabel('Time (hours)');ylabel('Depth (m)')
 set(gca,'Fontsize',fontsize);axis ij;clim([-0.5 0.5])

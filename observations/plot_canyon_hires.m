@@ -159,9 +159,14 @@ set(gca,'FontSize',fontsize);
 title('Canyon bathymetry (m)','FontSize',fontsize+5);
 xlabel('Longitude'); ylabel('Latitude')
 xlim([-12.13 -11.8])
-hold on;scatter(lonn,latn,150,".",'LineWidth',1);
-scatter(lon_CTD(8:15),lat_CTD(8:15),150,"x",'LineWidth',4);
-scatter(lon_CTD(1:7),lat_CTD(1:7),150,"o",'LineWidth',4);
+hold on;scatter(lonn,latn,100,".",'LineWidth',1);
+scatter(lon_CTD(1:15),lat_CTD(1:15),150,"x",'LineWidth',4);
+scatter([-11.861534 -11.843511],[54.198556 54.183718],150,"o",'LineWidth',6); %%% MAVS 1&2
+scatter([-11-56.923/60 -11-52.268/60],[54+14.312/60 54+12.167/60],150,"^",'LineWidth',4); %%% MP 1&2
+ylim([ 54.14 54.33])
+xlim([-12.06 -11.8])
+% scatter(lon_CTD(8:15),lat_CTD(8:15),150,"x",'LineWidth',4);
+% scatter(lon_CTD(1:7),lat_CTD(1:7),150,"o",'LineWidth',4);
 box on;grid on;grid minor;
 % clim([500 2500])
 % figdir = '/Users/csi/MITgcm_BLT/analysis/NCAR_proposal/';
