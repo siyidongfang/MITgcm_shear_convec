@@ -1,6 +1,6 @@
 
-addpath ../colormaps/
-addpath ../observations/
+addpath ../analysis/colormaps/
+addpath ../observations/topography/
 
 load_colors;
 
