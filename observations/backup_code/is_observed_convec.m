@@ -6,7 +6,6 @@ addpath /Users/ysi/Software/gsw_matlab_v3_06_11/
 addpath /Users/ysi/Software/gsw_matlab_v3_06_11/library/
 addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/
 
-
 load_colors;
 showplot = true;
 fontsize = 20;
@@ -20,14 +19,14 @@ Time_adcp = datetime(2021,7,7) + hours(round(time_adcp/1e6/3600)+6);
 Time_adcp.Format = 'yyyy-MM-dd';
 
 % Find time indices in the ADCP data of two tidal cycles:
-nStart = 1031-1;
-nEnd = nStart+24*2*4+3;
-% nStart = 263-1;
+% nStart = 1031-1;
 % nEnd = nStart+24*2*4+3;
+nStart = 263-1;
+nEnd = nStart+24*2*4+3;
 tidx = nStart:nEnd;
 zidx = 4:18;
-uselect = u_reconstruct(zidx,tidx)';
-% uselect = uu(zidx,tidx)';
+% uselect = u_reconstruct(zidx,tidx)';
+uselect = uu(zidx,tidx)';
 % wselect = ww_tilde(zidx,tidx)';
 
 depth_u = depth(zidx);
@@ -54,21 +53,21 @@ set(gcf,'Color','w')
 ylabel('Depth (m)')
 title('Mean flow (m/s)')
 
-% uselect = uselect-mean(uselect);
+uselect = uselect-mean(uselect);
 
 
 
 
 %%
 % Temperature data of two tidal cycles:
-temp = ncread('mavs2_20210718_level1.nc','__xarray_dataarray_variable__');
-depth_temp = ncread('mavs2_20210718_level1.nc','depth');
-time_temp = double(ncread('mavs2_20210718_level1.nc','time'));
+% temp = ncread('mavs2_20210718_level1.nc','__xarray_dataarray_variable__');
+% depth_temp = ncread('mavs2_20210718_level1.nc','depth');
+% time_temp = double(ncread('mavs2_20210718_level1.nc','time'));
 
-% addpath moorings_gridded_thermistors/level1/mavs2/
-% temp = ncread('mavs2_20210710.nc','__xarray_dataarray_variable__');
-% depth_temp = ncread('mavs2_20210710.nc','depth');
-% time_temp = double(ncread('mavs2_20210710.nc','time'));
+addpath moorings_gridded_thermistors/level1/mavs2/
+temp = ncread('mavs2_20210710.nc','__xarray_dataarray_variable__');
+depth_temp = ncread('mavs2_20210710.nc','depth');
+time_temp = double(ncread('mavs2_20210710.nc','time'));
 
 
 time_temp = time_temp'/3600;%%% in hours
@@ -102,16 +101,13 @@ depth_n2 = depth_n2';
 N2_zavg = mean(N2,'omitnan');
 meanN2 = mean(N2_zavg);
 
-
 %%% Interpolate low-resolution velocity data onto the grid of high-res
 %%% N2 grid
 [DD_u,TT_u] = meshgrid(depth_u,time_u);
 [DD_n2,TT_n2] = meshgrid(depth_n2,time_temp);
 
 uselect_n2grid = interp2(DD_u,TT_u,uselect,DD_n2,TT_n2,'linear');
-
 % wselect_n2grid = interp2(DD_u,TT_u,wselect,DD_n2,TT_n2,'linear');
-
 
 %%% time-mean, depth-averaged N^2 + re-constructed velocity
 % adv1 = wselect_n2grid*meanN2+uselect_n2grid*meanN2*sind(topo);
@@ -152,7 +148,7 @@ avgN = 60;
 % buoy2 = smoothdata(buoy2,2,"gaussian");
 % buoy3 = smoothdata(buoy3,2,"gaussian");
 
-n2_1 = meanN2 + diff(buoy1,1,2)./diff(-depth_n2);
+n2_1 = meanN2*cosd(topo) + diff(buoy1,1,2)./diff(-depth_n2);
 % n2_2 = n20 + diff(buoy2,1,2)./diff(-depth_n2);
 % n2_3 = n20tz + diff(buoy3,1,2)./diff(-depth_n2);
 

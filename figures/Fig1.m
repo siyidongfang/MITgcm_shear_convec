@@ -5,7 +5,18 @@ addpath freezeColors/
 fontsize = 16;
 load_colors;
 
-calc_Fig1;
+
+%%%------ Data for plotting bathymetry
+addpath ../observations/topography/
+ncfname = 'blt_canyon_mb_qc.nc';
+lat = ncread(ncfname,'lat')';
+lon = ncread(ncfname,'lon')';
+z = ncread(ncfname,'z');
+load Rockall_gebco.mat
+
+load('../observations/fig1.mat')
+plot_tidx = 1:10:length(time_temp);
+
 
 figure(1)
 clf;   
@@ -15,7 +26,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1400 700]);
 
 %%% Canyon bathymetry
 ax2 = subplot('position',[0.04 0.53 0.27 0.25]);
-annotation('textbox',[0.025 0.99 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0.025 0.995 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
 surf(lon,lat,z'/1000,'EdgeColor','None');
 shading flat;
 set(gca, 'ZDir','reverse')
@@ -82,92 +93,108 @@ annotation('ellipse',[0.22 0.875 0.021 0.01],'Color',orange,'LineWidth',2,'rotat
 freezeColors;
 
 
-%%% Temperature
+%% Temperature
 ax3 = subplot('position',[0.045 0.07 0.25 0.38]);
-annotation('textbox',[0.025 0.482 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
-pcolor(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)');shading flat;
+annotation('textbox',[0.025 0.488 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+pcolor(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)');shading flat;
 hold on;
-contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 hold off;
 xlabel('Time (hours)')
 ylabel('Depth (km)')
 set(gca,'Fontsize',fontsize);
 axis ij;
-clim([meanT-1 meanT+2])
+clim([meanT-1 meanT+2]);xlim([0 48])
 colormap(cmocean('balance'))
 title('Conservative temperature','Fontsize',fontsize+3);
 xticks([0:6:48])
 h3=colorbar(ax3);
-set(h3,'Position',[0.3 0.12 0.007 0.3]);
+set(h3,'Position',[0.3 0.135 0.007 0.28]);
 set(get(h3,'Title'),'String','   (^oC)');
-
-%%
-
 
 %%% Observed velocity
 ax4 = subplot('position',[0.38 0.58 0.25 0.38]);
-annotation('textbox',[0.375 0.99 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
-pcolor(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)');shading flat;
+annotation('textbox',[0.375 0.995 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+pcolor(time_u*24,depth_u,uobs');
+hold on;
+contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+hold off;
+shading interp;
 xlabel('Time (hours)')
 ylabel('Depth (km)')
 set(gca,'Fontsize',fontsize);
 axis ij;
-clim([meanT-1 meanT+2])
+clim([-0.4 0.4])
 colormap(cmocean('balance'))
 title('Observed velocity','Fontsize',fontsize+3);
 xticks([0:6:48])
 h4=colorbar(ax4);
-set(h4,'Position',[0.635  0.63 0.007 0.3]);
+ylim([min(depth_temp) max(depth_temp)]);xlim([0 48])
+set(h4,'Position',[0.635  0.645 0.007 0.28]);
 set(get(h4,'Title'),'String','   (m/s)');
-
+grid on;
 
 %%% Linear-fit velocity
 ax5 = subplot('position',[0.715 0.58 0.25 0.38]);
-annotation('textbox',[0.71 0.99 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
-pcolor(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)');shading flat;
+annotation('textbox',[0.71 0.995 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+pcolor(time_u*24,depth_u,ufit');
+hold on;
+contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+hold off;
+shading interp;
 xlabel('Time (hours)')
 ylabel('Depth (km)')
 set(gca,'Fontsize',fontsize);
 axis ij;
-clim([meanT-1 meanT+2])
+clim([-0.4 0.4])
 colormap(cmocean('balance'))
 title('Linear-fit velocity','Fontsize',fontsize+3);
 xticks([0:6:48])
+ylim([min(depth_temp) max(depth_temp)]);xlim([0 48])
 h5=colorbar(ax5);
-set(h5,'Position',[0.97  0.63 0.007 0.3]);
+set(h5,'Position',[0.97  0.645 0.007 0.28]);
 set(get(h5,'Title'),'String','   (m/s)');
-
+grid on;
 
 
 %%% Reconstructed dbdz using the observed velocity
 ax6 = subplot('position',[0.38 0.07 0.25 0.38]);
-annotation('textbox',[0.375 0.482 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
-pcolor(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)');shading flat;
+annotation('textbox',[0.375 0.488 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)');
+shading interp;
+hold on;
+contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+hold off;
 xlabel('Time (hours)')
 ylabel('Depth (km)')
 set(gca,'Fontsize',fontsize);
 axis ij;
-clim([meanT-1 meanT+2])
+clim([-1.5 1.5]/1e5)
 colormap(cmocean('balance'))
 title('Reconstructed \partial b/\partial z (observed)','Fontsize',fontsize+3);
 xticks([0:6:48])
 h6=colorbar(ax6);
-set(h6,'Position',[0.635 0.12 0.007 0.3]);
-set(get(h6,'Title'),'String','   (^oC)');
+set(h6,'Position',[0.635 0.135 0.007 0.28]);
+set(get(h6,'Title'),'String',{'   (1/s^2)',''});
+grid on;xlim([0 48])
 
 
 %%% Reconstructed dbdz using the linear-fit velocity
 ax7 = subplot('position',[0.715 0.07 0.25 0.38]);
-annotation('textbox',[0.71 0.482 0.15 0.01],'String','G','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
-pcolor(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)');shading flat;
+annotation('textbox',[0.71 0.488 0.15 0.01],'String','G','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)');shading interp;
+hold on;
+contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+hold off;
 xlabel('Time (hours)')
 ylabel('Depth (km)')
 set(gca,'Fontsize',fontsize);
 axis ij;
-clim([meanT-1 meanT+2])
+clim([-1.5 1.5]/1e5)
 colormap(cmocean('balance'))
 title('Reconstructed \partial b/\partial z (linear-fit)','Fontsize',fontsize+3);
 xticks([0:6:48])
 h7=colorbar(ax7);
-set(h7,'Position',[0.97 0.12 0.007 0.3]);
-set(get(h7,'Title'),'String','   (m/s)');
+set(h7,'Position',[0.97 0.135 0.007 0.28]);
+set(get(h7,'Title'),'String',{'   (1/s^2)',''});
+grid on;xlim([0 48])
