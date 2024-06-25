@@ -99,8 +99,13 @@ CT = gsw_CT_from_pt(SA,temp);
 Nt_temp = length(time_temp);
 Nz_temp = length(depth_temp);
 N2 = NaN*zeros(length(time_temp),Nz_temp-1);
+
+smooth_SA = smoothdata2(SA,'gaussian',{900,1});
+smooth_CT = smoothdata2(CT,'gaussian',{900,1});
+
 for ii = 1:Nt_temp
     [N2(ii,:), depth_n2] = gsw_Nsquared(SA(ii,:)',CT(ii,:)',depth_temp,lat_MAVS2);
+    [smooth_N2(ii,:), depth_n2] = gsw_Nsquared(smooth_SA(ii,:)',smooth_CT(ii,:)',depth_temp,lat_MAVS2);
 end
 
 depth_n2 = depth_n2';
@@ -132,12 +137,12 @@ n2_1obs = meanN2*cosd(topo) + diff(buoy1obs,1,2)./diff(-depth_n2);
 n2_1fit = meanN2*cosd(topo) + diff(buoy1fit,1,2)./diff(-depth_n2);
 
 
+
 %% Save data
 save('fig1.mat','T_tavg','N2_zavg',...
-'temp','N2','time_u','time_temp',...
+'temp','N2','smooth_N2','time_u','time_temp',...
 'depth_temp','depth_n2','depth_u','depth_reconst_n',...
 'uobs','ufit','n2_1obs','n2_1fit','meanT')
-
 
 
 %% Make figures
@@ -282,8 +287,8 @@ clim([-1 1]/1e4/4)
 
 
 figure(1);
-clf;set(gcf,'Color','w','Position',[114 662 1188*1.5 289]);
-subplot(1,3,1)
+clf;set(gcf,'Color','w','Position', [114 64 1174 887]);
+subplot(3,2,1)
 pcolor(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)');shading flat;colorbar;
 hold on;
 contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
@@ -295,22 +300,49 @@ axis ij;
 clim([meanT-1 meanT+2])
 title('Temperature (^oC)')
 
-subplot(1,3,2)
+subplot(3,2,2)
 pcolor(time_temp(plot_tidx),depth_temp,salt(plot_tidx,:)');shading flat;colorbar;
 hold on;
 contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 hold off;
-xlabel('Time (days)')
+% xlabel('Time (days)')
 ylabel('Depth (m)')
 set(gca,'Fontsize',fontsize);
 axis ij;
 clim([meanS-0.1 meanS+0.15])
 title('Estimated salinity (psu)')
 
-subplot(1,3,3)
+subplot(3,2,3)
 pcolor(time_temp(plot_tidx),depth_n2,N2(plot_tidx,:)');shading flat;colorbar;
 hold on;
 contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+hold off;
+% xlabel('Time (days)')
+ylabel('Depth (m)')
+set(gca,'Fontsize',fontsize);
+axis ij;
+title('N^2 (1/s^2)')
+clim([-1 1]/1e5)
+colormap(cmocean('balance'));
+
+subplot(3,2,4)
+pcolor(time_temp(plot_tidx),depth_n2,smooth_N2(plot_tidx,:)');shading flat;colorbar;
+hold on;
+contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+hold off;
+% xlabel('Time (days)')
+ylabel('Depth (m)')
+set(gca,'Fontsize',fontsize);
+axis ij;
+title('N^2 (1/s^2)')
+clim([-1 1]/1e5)
+colormap(cmocean('balance'));
+
+subplot(3,2,5)
+pcolor(time_temp(plot_tidx),depth_n2,N2(plot_tidx,:)');shading flat;colorbar;
+hold on;
+contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+contour(time_temp(plot_tidx),depth_n2,N2(plot_tidx,:)',[0 0],'Color',cyan,'LineWidth',0.5);
 hold off;
 xlabel('Time (days)')
 ylabel('Depth (m)')
@@ -319,4 +351,20 @@ axis ij;
 title('N^2 (1/s^2)')
 clim([-1 1]/1e5)
 colormap(cmocean('balance'));
+
+subplot(3,2,6)
+pcolor(time_temp(plot_tidx),depth_n2,smooth_N2(plot_tidx,:)');shading flat;colorbar;
+hold on;
+contour(time_temp(plot_tidx),depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+contour(time_temp(plot_tidx),depth_n2,smooth_N2(plot_tidx,:)',[0 0],'Color',cyan,'LineWidth',0.5);
+hold off;
+xlabel('Time (days)')
+ylabel('Depth (m)')
+set(gca,'Fontsize',fontsize);
+axis ij;
+title('N^2 (1/s^2)')
+clim([-1 1]/1e5)
+colormap(cmocean('balance'));
+
+
 
