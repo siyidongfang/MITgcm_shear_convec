@@ -47,14 +47,15 @@ box off
 xticks([-12.2:0.1:-11.8]);
 % ylim([54.1 54.38])
 % colormap([[0.1 0.1 0.1]*2;cmocean('rain')]);
-mycolor=cmocean('tarn');
-% mycolor=mycolor([80:3:128 129:1:end],:);
+mycolor=flip(cmocean('diff'));
+% mycolor=cmocean('topo','negative');
+mycolor=mycolor([53:5:128 129:1:end],:);
 colormap(mycolor);
-% clim([-0.5 4])
 % colormap(cmocean('topo','negative'));
-clim([-3.5 3.5])
+% clim([-3.5 3.5])
+clim([-0.5 4])
 freezeColors;
-
+%%
 %%% Rockall Trough
 ax1 = subplot('position',[0.028 0.8 0.28 0.17]);
 annotation('textbox',[0.025 0.76 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
@@ -67,8 +68,8 @@ set(gca, 'ZDir','reverse')
 shading flat;
 % colormap(flip(cmocean('topo')));
 % colormap(cmocean('topo','negative'));
-clim([-3.5 3.5])
-% clim([-0.5 4])
+% clim([-3.5 3.5])
+clim([-0.5 4])
 % colormap(flip(haxby))
 % colormap([[0.1 0.1 0.1]*2;cmocean('tarn')]);
 colormap(mycolor);
@@ -86,9 +87,9 @@ axis tight;box off;
 set(gca,'FontSize',fontsize,'TickDir', 'in','TickLength',[0.1, 0.014]);
 title('Rockall Trough','FontSize',fontsize+3,'Position',[-5.5 57.5 -0.4]);
 xticks([-19:3:-6]);
-annotation('line','LineStyle','--','Color',black,'LineWidth',0.75,'Position', [0.04 0.543 0.178 0.337]);
-annotation('line','LineStyle','--','Color',black,'LineWidth',0.75,'Position', [0.31 0.765 -0.086 0.152]);
-annotation('ellipse',[0.22 0.875 0.021 0.01],'Color',orange,'LineWidth',2,'rotation',70);
+annotation('line','LineStyle','--','Color',black,'LineWidth',0.75,'Position', [0.04 0.543 0.179 0.332]);
+annotation('line','LineStyle','--','Color',black,'LineWidth',0.75,'Position', [0.31 0.765 -0.084 0.152]);
+annotation('ellipse',[0.22 0.875 0.021 0.006],'Color',yellow,'LineWidth',2,'rotation',70);
 % ylim([min(ele_lat) 59.2])
 freezeColors;
 
@@ -202,4 +203,4 @@ set(h7,'Position',[0.964 0.135 0.007 0.28]);
 set(get(h7,'Title'),'String',{'   (1/s^2)',''});
 xlim([0 48])
 
-print('-djpeg','-r300','fig1/fig1_matlab.png');
+print('-djpeg','-r300','fig1/fig1.png');
