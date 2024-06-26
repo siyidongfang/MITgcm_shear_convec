@@ -1,7 +1,6 @@
 
 clear;close all;
 addpath ../analysis/colormaps/
-addpath freezeColors/
 fontsize = 16;
 load_colors;
 
@@ -31,11 +30,11 @@ surf(lon,lat,z'/1000,'EdgeColor','None');
 shading flat;
 set(gca, 'ZDir','reverse')
 clim([min(min(z))/1000-max(max(z))/1000 max(max(z))/1000])
+xlabel('Longitude','interpreter','latex','Position',[-12.1 54.065 4.2]);
+ylabel('Latitude','interpreter','latex','Position',[-12.1 54.2286 3.55])
+zlabel('Depth (km)','interpreter','latex');
 set(gca,'FontSize',fontsize,'TickDir', 'in','TickLength',[0.1, 0.014]);
-xlabel('Longitude','Position',[-12.1 54.065 4]);
-ylabel('Latitude','Position',[-12.1 54.2286 3.45])
-zlabel('Depth (km)');
-title('Canyon','FontSize',fontsize+3,'Position',[-12.24 54.22 -1.4]);
+title('Canyon','FontSize',fontsize+5,'interpreter','latex','Position',[-12.24 54.22 -1.4]);
 % view([-78 58]);
 view([-84.98 52.81]);
 set(get(gca,'xlabel'),'rotation',77);
@@ -77,15 +76,14 @@ colormap(mycolor);
 set(gca, 'ZDir','reverse')
 % view([-78 58]);
 view([-84.98   52.81]);
-zlabel('(km)')
-xlabel('Longitude','Position',[-18.3013 49.6 6]);
-ylabel('Latitude','Position',[-22 54.7165 1]);
-zlabel('Depth (km)')
+xlabel('Longitude','interpreter','latex','Position',[-18.3013 49.6 7]);
+ylabel('Latitude','interpreter','latex','Position',[-22 54.7165 1.5]);
+zlabel('Depth (km)','interpreter','latex');
 set(get(gca,'xlabel'),'rotation',67);
 set(get(gca,'ylabel'),'rotation',-1.5);
 axis tight;box off;
 set(gca,'FontSize',fontsize,'TickDir', 'in','TickLength',[0.1, 0.014]);
-title('Rockall Trough','FontSize',fontsize+3,'Position',[-5.5 57.5 -0.4]);
+title('Rockall Trough','FontSize',fontsize+5,'interpreter','latex','Position',[-5.5 57.5 -0.4]);
 xticks([-19:3:-6]);
 annotation('line','LineStyle','--','Color',black,'LineWidth',0.75,'Position', [0.04 0.543 0.179 0.332]);
 annotation('line','LineStyle','--','Color',black,'LineWidth',0.75,'Position', [0.31 0.765 -0.084 0.152]);
@@ -96,26 +94,26 @@ freezeColors;
 
 %% Temperature
 
-ax3 = subplot('position',[0.045 0.07 0.25 0.38]);
-annotation('textbox',[0.025 0.482 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+ax3 = subplot('position',[0.048 0.07 0.25 0.38]);
+annotation('textbox',[0.028 0.482 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)');shading flat;
 hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 contour(time_temp(plot_tidx)*24,depth_n2,smooth_N2(plot_tidx,:)',[0 0],'Color',cyan,'LineWidth',0.75);
 hold off;
-xlabel('Time (hours)')
-ylabel('Depth (km)')
+xlabel('Time (hours)','interpreter','latex');
+ylabel('Depth (km)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
 axis ij;
 % clim([meanT-1 meanT+2]);
 clim([3.85 6.5]);
 xlim([0 48])
 colormap(cmocean('balance'))
-title('Conservative temperature','Fontsize',fontsize+3);
+title('Conservative temperature','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 h3=colorbar(ax3);
-set(h3,'Position',[0.3 0.135 0.007 0.28]);
-set(get(h3,'Title'),'String','   (^oC)');
+set(h3,'Position',[0.303 0.135 0.007 0.28]);
+set(get(h3,'Title'),'String','$\ \ \ \ (^\circ \mathrm{C})$','Fontsize',fontsize,'interpreter','latex');
 %%
 
 %%% Observed velocity
@@ -126,18 +124,18 @@ hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 hold off;
 shading interp;
-xlabel('Time (hours)')
-ylabel('Depth (km)')
+xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
+ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-0.4 0.4])
 colormap(cmocean('balance'))
-title('Observed velocity','Fontsize',fontsize+3);
+title('Observed velocity $u_\mathrm{obs}$','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 h4=colorbar(ax4);
 ylim([min(depth_temp) max(depth_temp)]);xlim([0 48])
 set(h4,'Position',[0.635  0.645 0.007 0.28]);
-set(get(h4,'Title'),'String','   (m/s)');
+set(get(h4,'Title'),'String','$\ \ \ \ (\mathrm{m/s})$','Fontsize',fontsize,'interpreter','latex');
 
 %%% Linear-fit velocity
 ax5 = subplot('position',[0.709 0.58 0.25 0.38]);
@@ -147,18 +145,18 @@ hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 hold off;
 shading interp;
-xlabel('Time (hours)')
-% ylabel('Depth (km)')
+xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
+% ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-0.4 0.4])
 colormap(cmocean('balance'))
-title('Linear-fit velocity','Fontsize',fontsize+3);
+title('Linear-fit velocity $u_\mathrm{fit}$','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 ylim([min(depth_temp) max(depth_temp)]);xlim([0 48])
 h5=colorbar(ax5);
 set(h5,'Position',[0.964  0.645 0.007 0.28]);
-set(get(h5,'Title'),'String','   (m/s)');
+set(get(h5,'Title'),'String','$\ \ \ \ (\mathrm{m/s})$','Fontsize',fontsize,'interpreter','latex');
 
 
 %%% Reconstructed dbdz using the observed velocity
@@ -169,17 +167,17 @@ shading interp;
 hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 hold off;
-xlabel('Time (hours)')
-% ylabel('Depth (km)')
+xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
+% ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-1.75 1.75]/1e5)
 colormap(cmocean('balance'))
-title('Reconstructed \partial b/\partial z (observed)','Fontsize',fontsize+3);
+title('Reconstructed $\partial_z b$ (observed)','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 h6=colorbar(ax6);
 set(h6,'Position',[0.635 0.135 0.007 0.28]);
-set(get(h6,'Title'),'String',{'   (1/s^2)',''});
+set(get(h6,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsize,'interpreter','latex');
 xlim([0 48])
 
 
@@ -190,17 +188,17 @@ pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)');shading in
 hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 hold off;
-xlabel('Time (hours)')
-% ylabel('Depth (km)')
+xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
+% ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
 set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-1.75 1.75]/1e5)
 colormap(cmocean('balance'))
-title('Reconstructed \partial b/\partial z (linear-fit)','Fontsize',fontsize+3);
+title('Reconstructed $\partial_z b$ (linear-fit)','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 h7=colorbar(ax7);
 set(h7,'Position',[0.964 0.135 0.007 0.28]);
-set(get(h7,'Title'),'String',{'   (1/s^2)',''});
+set(get(h7,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsize,'interpreter','latex');
 xlim([0 48])
 
-print('-djpeg','-r300','fig1/fig1.png');
+print('-djpeg','-r300','fig1.png');
