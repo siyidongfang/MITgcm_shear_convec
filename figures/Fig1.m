@@ -83,7 +83,7 @@ set(get(gca,'xlabel'),'rotation',67);
 set(get(gca,'ylabel'),'rotation',-1.5);
 axis tight;box off;
 set(gca,'FontSize',fontsize,'TickDir', 'in','TickLength',[0.1, 0.014]);
-title('Rockall Trough','FontSize',fontsize+5,'interpreter','latex','Position',[-5.5 57.5 -0.4]);
+title('Rockall Trough','FontSize',fontsize+5,'interpreter','latex','Position',[-5.5 57.5 0]);
 xticks([-19:3:-6]);
 annotation('line','LineStyle','--','Color',black,'LineWidth',0.75,'Position', [0.04 0.543 0.179 0.332]);
 annotation('line','LineStyle','--','Color',black,'LineWidth',0.75,'Position', [0.31 0.765 -0.084 0.152]);
@@ -102,7 +102,7 @@ contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+
 contour(time_temp(plot_tidx)*24,depth_n2,smooth_N2(plot_tidx,:)',[0 0],'Color',cyan,'LineWidth',0.75);
 hold off;
 xlabel('Time (hours)','interpreter','latex');
-ylabel('Depth (km)','interpreter','latex');
+ylabel('Depth (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
 axis ij;
 % clim([meanT-1 meanT+2]);
@@ -125,7 +125,7 @@ contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+
 hold off;
 shading interp;
 xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
-ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
+ylabel('Depth (m)','interpreter','latex','FontSize',fontsize);
 set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-0.4 0.4])
@@ -146,7 +146,7 @@ contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+
 hold off;
 shading interp;
 xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
-% ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
+% ylabel('Depth (m)','interpreter','latex','FontSize',fontsize);
 set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-0.4 0.4])
@@ -168,12 +168,12 @@ hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 hold off;
 xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
-% ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
+% ylabel('Depth (m)','interpreter','latex','FontSize',fontsize);
 set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-1.75 1.75]/1e5)
 colormap(cmocean('balance'))
-title('Reconstructed $\partial_z b$ (observed)','Fontsize',fontsize+5,'interpreter','latex');
+title('Reconstruct $\partial_{\tilde z} b$ using $u_\mathrm{obs}$','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 h6=colorbar(ax6);
 set(h6,'Position',[0.635 0.135 0.007 0.28]);
@@ -189,12 +189,12 @@ hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 hold off;
 xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
-% ylabel('Depth (km)','interpreter','latex','FontSize',fontsize);
+% ylabel('Depth (m)','interpreter','latex','FontSize',fontsize);
 set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-1.75 1.75]/1e5)
 colormap(cmocean('balance'))
-title('Reconstructed $\partial_z b$ (linear-fit)','Fontsize',fontsize+5,'interpreter','latex');
+title('Reconstruct $\partial_{\tilde z} b$ using $u_\mathrm{fit}$','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 h7=colorbar(ax7);
 set(h7,'Position',[0.964 0.135 0.007 0.28]);
