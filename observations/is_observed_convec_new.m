@@ -64,7 +64,6 @@ uobs_detrend = uobs-mean(uobs);
 ufit_detrend = ufit-mean(ufit);
 
 
-%%
 
 % Temperature data of two tidal cycles:
 temp = ncread('mavs2_20210718_level1.nc','__xarray_dataarray_variable__');
@@ -98,16 +97,25 @@ CT = gsw_CT_from_pt(SA,temp);
 
 Nt_temp = length(time_temp);
 Nz_temp = length(depth_temp);
-N2 = NaN*zeros(length(time_temp),Nz_temp-1);
 
-smooth_SA = smoothdata2(SA,'gaussian',{900,1});
-smooth_CT = smoothdata2(CT,'gaussian',{900,1});
+smooth_SA = NaN*zeros(length(time_temp),Nz_temp);
+smooth_CT = NaN*zeros(length(time_temp),Nz_temp);
+N2 = NaN*zeros(length(time_temp),Nz_temp-1);
+smooth_N2 = NaN*zeros(length(time_temp),Nz_temp-1);
+uobs_n2grid = NaN*zeros(length(time_temp),Nz_temp-1);
+ufit_n2grid = NaN*zeros(length(time_temp),Nz_temp-1);
+
+for kk=1:width(SA)
+    smooth_SA(:,kk) = smoothdata(SA(:,kk),'gaussian',900);
+    smooth_CT(:,kk) = smoothdata(CT(:,kk),'gaussian',900);
+end
 
 for ii = 1:Nt_temp
     [N2(ii,:), depth_n2] = gsw_Nsquared(SA(ii,:)',CT(ii,:)',depth_temp,lat_MAVS2);
     [smooth_N2(ii,:), depth_n2] = gsw_Nsquared(smooth_SA(ii,:)',smooth_CT(ii,:)',depth_temp,lat_MAVS2);
 end
 
+depth_n2 = (depth_temp(1:end-1)+depth_temp(2:end))/2;
 depth_n2 = depth_n2';
 N2_zavg = mean(N2,'omitnan');
 meanN2 = mean(N2_zavg);
@@ -137,12 +145,12 @@ n2_1obs = meanN2*cosd(topo) + diff(buoy1obs,1,2)./diff(-depth_n2);
 n2_1fit = meanN2*cosd(topo) + diff(buoy1fit,1,2)./diff(-depth_n2);
 
 
-
 %% Save data
-save('fig1.mat','T_tavg','N2_zavg',...
-'temp','N2','smooth_N2','time_u','time_temp',...
-'depth_temp','depth_n2','depth_u','depth_reconst_n',...
-'uobs','ufit','n2_1obs','n2_1fit','meanT')
+save('../figures/fig1/fig1.mat','T_tavg','N2_zavg',...
+    'meanN2','topo',...
+    'temp','N2','smooth_N2','time_u','time_temp',...
+    'depth_temp','depth_n2','depth_u','depth_reconst_n',...
+    'uobs','ufit','n2_1obs','n2_1fit','meanT')
 
 
 %% Make figures

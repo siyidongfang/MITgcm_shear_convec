@@ -13,8 +13,14 @@ lon = ncread(ncfname,'lon')';
 z = ncread(ncfname,'z');
 load Rockall_gebco.mat
 
-load('../observations/fig1.mat')
+load('fig1/fig1.mat')
 plot_tidx = 1:length(time_temp);
+
+% n2_1obs = meanN2 + cosd(topo)*(n2_1obs-meanN2*cosd(topo));
+% n2_1fit = meanN2 + cosd(topo)*(n2_1fit-meanN2*cosd(topo));
+
+n2_1obs =  + cosd(topo)*(n2_1obs-meanN2*cosd(topo));
+n2_1fit =  + cosd(topo)*(n2_1fit-meanN2*cosd(topo));
 
 
 figure(1)
@@ -201,4 +207,5 @@ set(h7,'Position',[0.964 0.135 0.007 0.28]);
 set(get(h7,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsize,'interpreter','latex');
 xlim([0 48])
 
-print('-djpeg','-r300','fig1.png');
+print('-djpeg','-r300','fig1/fig1.png');
+% print('-djpeg','-r300','fig1/fig1_convec.png');

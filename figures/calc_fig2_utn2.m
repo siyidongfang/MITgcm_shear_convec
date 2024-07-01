@@ -78,7 +78,7 @@ end
 botN = Nr;
 botZ =zz(end);
 
-save('fig2.mat','time_tidal','zz','botZ','tt_timeseries','N2_timeseries','uu_timeseries')
+save('fig2/fig2.mat','time_tidal','zz','botZ','tt_timeseries','N2_timeseries','uu_timeseries')
 % %%
 % 
 % YLIM = [0 Hz];

@@ -55,7 +55,7 @@ imshow('coordinate.png')
 %--- Load MITgcm simulation
 filename = [expdir expname '/RMSE.mat'];
 load(filename)
-load('fig2.mat')
+load('fig2/fig2.mat')
 YLIM = [0 300];
 
 %%% TKE time series
@@ -185,4 +185,4 @@ set(get(h5,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','la
 
 %%% Save the figure
 
-print('-djpeg','-r300','fig2.png');
+print('-djpeg','-r300','fig2/fig2.png');
