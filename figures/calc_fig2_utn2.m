@@ -1,9 +1,9 @@
 addpath ../analysis/
 addpath ../analysis/functions/
-% expname = 'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4';
-% expdir = '../exps_hires/';
-expname = 'hires_topo4_s0.0013_dz1dx6n-20';
-expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
+expname = 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4';
+expdir = '../exps_hires/';
+% expname = 'hires_topo4_s0.0013_dz1dx6n-20';
+% expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
 loadexp;
 
 rhoConst = 999.8;
@@ -18,7 +18,8 @@ nDumps = length(dumpIters);
 
 % xx = xx-xx(1);
 % No = nDumps;
-No = 30*12;
+% No = 30*12;
+ No = 29*12;
 
 uu_timeseries= zeros(No,Nr);
 % shear_timeseries = zeros(No,Nr);
@@ -78,7 +79,7 @@ end
 botN = Nr;
 botZ =zz(end);
 
-save('fig2/fig2.mat','time_tidal','zz','botZ','tt_timeseries','N2_timeseries','uu_timeseries')
+save('fig2/figS2.mat','time_tidal','zz','botZ','tt_timeseries','N2_timeseries','uu_timeseries')
 % %%
 % 
 % YLIM = [0 Hz];

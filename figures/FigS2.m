@@ -6,10 +6,10 @@ load_colors;
 
 addpath ../analysis/
 addpath ../analysis/functions/
-% expname = 'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4';
-% expdir = '../exps_hires/';
-expname = 'hires_topo4_s0.0013_dz1dx6n-20';
-expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
+expname = 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4';
+expdir = '../exps_hires/';
+% expname = 'hires_topo4_s0.0013_dz1dx6n-20';
+% expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
 loadexp;
 rhoConst = 999.8;
 
@@ -47,15 +47,15 @@ scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 900 950]);
 
 %%% coordinate
-ax1 = subplot('position',[.03 .785 .3 .2]);
+ax1 = subplot('position',[.03 .795 .3 .2]);
 annotation('textbox',[0 0.993 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
-annotation('textbox',[0.07 0.993 0.3 0.01],'String','Slope-aligned coordinate','FontSize',fontsize+4,'interpreter','latex','LineStyle','None');
-imshow('fig2/coordinate.png')
+annotation('textbox',[0.07 0.993 0.3 0.01],'String','Flat-bottom simulation','FontSize',fontsize+4,'interpreter','latex','LineStyle','None');
+imshow('fig2/coordinate2.png')
 
 %--- Load MITgcm simulation
 filename = [expdir expname '/RMSE.mat'];
 load(filename)
-load('fig2/fig2.mat')
+load('fig2/figS2.mat')
 YLIM = [0 300];
 
 %%% TKE time series
@@ -126,7 +126,8 @@ ax6 = subplot('position',[0.07 0.05 0.37 0.18]);
 annotation('textbox',[0 0.24 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
 pcolor(xx/1000,zz-botZ,tt');hold on;
 shading interp;
-clim([-0.02 0.1])
+clim([0.03 0.18])
+% clim([-0.02 0.1])
 ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
 ylim(YLIM)
@@ -185,4 +186,4 @@ set(get(h5,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','la
 
 %%% Save the figure
 
-print('-djpeg','-r300','fig2/fig2.png');
+print('-djpeg','-r300',['fig2/figS2.png']);
