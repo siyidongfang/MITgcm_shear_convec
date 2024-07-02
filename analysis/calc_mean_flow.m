@@ -7,10 +7,10 @@ load_colors;
 %--- load the data
 addpath ../analysis/
 addpath ../analysis/functions/
-expname = 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4';
-expdir = '../exps_hires/';
-% expname = 'hires_topo4_s0.0013_dz1dx6n-20';
-% expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
+% expname = 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4';
+% expdir = '../exps_hires/';
+expname = 'hires_topo4_s0.0006_dz1dx6n-20';
+expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
 loadexp;
 rhoConst = 999.8;
 
@@ -46,6 +46,7 @@ end
 umean = mean(uu_mean(15:end,:));
 wmean = mean(ww_mean(15:end,:));
 
+YLIM = [0 500];
 fontsize=18;
 
 tt_tide =1:Ntide;
@@ -60,6 +61,7 @@ ylabel('HAB (m)','interpreter','latex')
 title({'Mean horizontal velocity everaged','over each tidal cycle (m/s)'})
 set(gca,'FontSize',fontsize)
 xlabel('Number of tidal cycles')
+ylim(YLIM)
 
 subplot(2,2,2)
 plot(umean,zz-botZ,'LineWidth',2)
@@ -70,15 +72,17 @@ title({'Mean horizontal velocity averaged','over multiple tidal cycles after con
 xlabel('(m/s)')
 grid on;
 set(gca,'FontSize',fontsize)
+ylim(YLIM)
 
 
 subplot(2,2,3)
 pcolor(tt_tide,zz-botZ,ww_mean');shading flat;colorbar;
-colormap(redblue);clim([-0.1 0.1]/1e20)
+colormap(redblue);clim([-0.1 0.1]/4e17*1e10)
 ylabel('HAB (m)','interpreter','latex')
 title({'Mean vertical velocity everaged','over each tidal cycle (m/s)'})
 set(gca,'FontSize',fontsize)
 xlabel('Number of tidal cycles')
+ylim(YLIM)
 
 subplot(2,2,4)
 plot(wmean,zz-botZ,'LineWidth',2)
@@ -89,5 +93,6 @@ title({'Mean vertical velocity averaged','over multiple tidal cycles after conve
 xlabel('(m/s)')
 grid on;
 set(gca,'FontSize',fontsize)
+ylim(YLIM)
 
 %--- save the data
