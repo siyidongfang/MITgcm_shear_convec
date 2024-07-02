@@ -112,7 +112,7 @@ axis ij;
 clim([3.85 6.5]);
 xlim([0 48])
 colormap(cmocean('balance'))
-title('Conservative temperature','Fontsize',fontsize+5,'interpreter','latex');
+title('Potential temperature','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 h3=colorbar(ax3);
 set(h3,'Position',[0.303 0.135 0.007 0.28]);

@@ -64,7 +64,6 @@ uobs_detrend = uobs-mean(uobs);
 ufit_detrend = ufit-mean(ufit);
 
 
-
 % Temperature data of two tidal cycles:
 temp = ncread('mavs2_20210718_level1.nc','__xarray_dataarray_variable__');
 depth_temp = ncread('mavs2_20210718_level1.nc','depth');

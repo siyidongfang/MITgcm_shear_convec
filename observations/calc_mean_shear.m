@@ -3,6 +3,8 @@
 %%%
 %%% Calculate the mean shear from observations
 
+clear; close all;
+
 load('MAVS2_velocity.mat')
 
 % nStart = 263;
@@ -10,7 +12,8 @@ load('MAVS2_velocity.mat')
 nStart = 1;
 nEnd = length(uu);
 tidx = nStart:nEnd;
-zidx = 4:18;
+% zidx = 5:18;%%% For MAVS1
+zidx = 4:18;%%% For MAVS2
 uselect = uu(zidx,tidx)';
 vselect = vv(zidx,tidx)';
 wselect = ww(zidx,tidx)';
@@ -23,17 +26,24 @@ fontsize = 20;
 shear = diff(uselect,1,2)./diff(-depth_uw);
 depth_shear = 0.5*(depth_uw(1:end-1)+depth_uw(2:end));
 
-shear_zavg = mean(shear,2);
+
+shear_zavg = (uselect(:,1)-uselect(:,end))./(-(depth_uw(1)-depth_uw(end)));
+
+shear_zavg2 = mean(shear,2);
 
 figure(1)
 clf;set(gcf,'Color','w');
 plot(time_uw/24,shear_zavg);
+hold on;
+plot(time_uw/24,shear_zavg2,'--');
+hold off;
 grid on;grid minor;
 set(gca,'Fontsize',fontsize);
 xlabel('Time (days)')
 ylabel('shear (1/s)')
 title('Depth-averaged velocity shear at MAVS2')
 
+save('MAVS2_shear.mat','time_uw','shear_zavg')
 
 
 %%

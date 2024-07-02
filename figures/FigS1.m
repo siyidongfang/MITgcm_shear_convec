@@ -57,8 +57,6 @@ CT_grid = gsw_CT_from_pt(SA_grid,PT_grid);
 pd = gsw_rho(SA_grid,CT_grid,p_ref) - 1000;
 
 
-
-
 load('fig1/fig1.mat')
 o1 = 0.078611022276845;
 o2 = 34.638914089176580;
@@ -170,51 +168,9 @@ set(get(h3,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsi
 
 
 %--- Time series of depth-averaged N2 and Ri of the large-scale flow
-ax4 = subplot('position',[0.048 0.07 0.25 0.38]);
+ax4 = subplot('position',[0.048 0.07 0.9 0.38]);
 annotation('textbox',[0.028 0.482 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
-title('Ri and $\tilde N^2$ of the large-scale flow','Fontsize',fontsize+5,'interpreter','latex');
+title('Richardson number, linear-fit shear, and depth-averaged buoyancy gradient of the large-scale flow','Fontsize',fontsize+5,'interpreter','latex');
+% xlabel('','interpreter','latex','FontSize',fontsize);
 
-%--- dbdz using observed u, without N2
-ax5 = subplot('position',[0.38 0.07 0.25 0.38]);
-annotation('textbox',[0.36 0.482 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
-pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)');
-shading interp;
-hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
-hold off;
-xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
-% ylabel('Depth (m)','interpreter','latex','FontSize',fontsize);
-set(gca,'Fontsize',fontsize);
-axis ij;
-clim([-1.75 1.75]/1e5)
-colormap(cmocean('balance'))
-title('Reconstruct $\partial_{\tilde z} b$ using $u_\mathrm{obs}$','Fontsize',fontsize+5,'interpreter','latex');
-xticks([0:6:48])
-h5=colorbar(ax5);
-set(h5,'Position',[0.635 0.135 0.007 0.28]);
-set(get(h5,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsize,'interpreter','latex');
-xlim([0 48])
-
-%--- dbdz using linear-fit u, without N2
-ax6 = subplot('position',[0.709 0.07 0.25 0.38]);
-annotation('textbox',[0.69 0.482 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
-pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)');shading interp;
-hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
-hold off;
-xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
-% ylabel('Depth (m)','interpreter','latex','FontSize',fontsize);
-set(gca,'Fontsize',fontsize);
-axis ij;
-clim([-1.75 1.75]/1e5)
-colormap(cmocean('balance'))
-title('Reconstruct $\partial_{\tilde z} b$ using $u_\mathrm{fit}$','Fontsize',fontsize+5,'interpreter','latex');
-xticks([0:6:48])
-h6=colorbar(ax6);
-set(h6,'Position',[0.964 0.135 0.007 0.28]);
-set(get(h6,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsize,'interpreter','latex');
-xlim([0 48])
-
-
-
-print('-djpeg','-r200','fig_supp/figS1.png');
+% print('-djpeg','-r200','fig_supp/figS1.png');

@@ -10,28 +10,28 @@ addpath /Users/ysi/MITgcm_shear_convec/observations/moorings_gridded_adcp_v2/
 %%% Calculate along-canyon velocity uu and cross-slope velocity vv
 load("topog1D_28km.mat",'lat9','lon9','depth9')
 
-ncfname = 'MAVS2_24606.nc';
-lat = 54.18229903565569; 
-lat1 = lat9(9);
-lon1 = lon9(9);
-lat2 = lat9(10);
-lon2 = lon9(10);
-t_idx = 32:8574;
-depth1 = depth9(9);
-depth2 = depth9(10);
-zidx = 4:18;
+% ncfname = 'MAVS2_24606.nc';
+% lat = 54.18229903565569; 
+% lat1 = lat9(9);
+% lon1 = lon9(9);
+% lat2 = lat9(10);
+% lon2 = lon9(10);
+% t_idx = 32:8574;
+% depth1 = depth9(9);
+% depth2 = depth9(10);
+% zidx = 4:18;
 
 
-% ncfname = 'MAVS1_24608.nc';
-% lat = 54.197478060955085; 
-% lat1 = lat9(8);
-% lon1 = lon9(8);
-% lat2 = lat9(9);
-% lon2 = lon9(9);
-% t_idx = 40:8756;
-% depth1 = depth9(8);
-% depth2 = depth9(9);
-% zidx = 5:18;
+ncfname = 'MAVS1_24608.nc';
+lat = 54.197478060955085; 
+lat1 = lat9(8);
+lon1 = lon9(8);
+lat2 = lat9(9);
+lon2 = lon9(9);
+t_idx = 40:8756;
+depth1 = depth9(8);
+depth2 = depth9(9);
+zidx = 5:18;
 
 
 % ncfname = 'MP1_24839.nc';
@@ -46,7 +46,7 @@ zidx = 4:18;
 % zidx = 3:36;
 
 distance12 = distance(lat2,lon2,lat1,lon1,referenceEllipsoid('GRS80','m'));
-topo = atand(-(depth2-depth1)./distance12);
+topo = atand(-(depth2-depth1)./distance12)
 
 tt = ncread(ncfname,'temperature')';
 u_meridional = ncread(ncfname,'u')';
@@ -81,7 +81,7 @@ dudz = diff(uu)./dz;
 % dvdz = diff(vv)./dz;
 % dwdz = diff(ww)./dz;
 
-save('MAVS2_velocity.mat',...
+save('MAVS1_velocity.mat',...
     'uu','vv','ww',...
     'uu_tilde','vv_tilde','ww_tilde',...
     'u_meridional','v_zonal',...
