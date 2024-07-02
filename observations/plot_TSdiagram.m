@@ -12,14 +12,15 @@ addpath ../analysis/colormaps/
 addpath CTD
 % load CTD.mat
 % 
-% lat_1to7 = mean(lat_all(1:7));
-% lon_1to7 = mean(lon_all(1:7));
+% tidx = 1:7;
+% lat_1to7 = mean(lat_all(tidx));
+% lon_1to7 = mean(lon_all(tidx));
 % 
-% pt_1to7 = pt_all(1:823,1:7);
-% CT_1to7 = CT_all(1:823,1:7);
-% psal_1to7 = psal_all(1:823,1:7);
-% SA_1to7 = SA_all(1:823,1:7);
-% pp_1to7 = P_all(1:823,1:7);
+% pt_1to7 = pt_all(1:823,tidx);
+% CT_1to7 = CT_all(1:823,tidx);
+% psal_1to7 = psal_all(1:823,tidx);
+% SA_1to7 = SA_all(1:823,tidx);
+% pp_1to7 = P_all(1:823,tidx);
 % 
 % psal_1to7 = psal_1to7(:)';
 % pt_1to7 = pt_1to7(:)';
@@ -29,6 +30,8 @@ addpath CTD
 % pot_dens_contours = 20;
 % make_TS_plot_gsw (psal_1to7,pt_1to7,pp_1to7,p_ref,pot_dens_contours,lat_1to7,lon_1to7)
 
+
+%%
 load CTD_stations.mat
 
 for nf = 1:15

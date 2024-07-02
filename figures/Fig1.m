@@ -16,11 +16,8 @@ load Rockall_gebco.mat
 load('fig1/fig1.mat')
 plot_tidx = 1:length(time_temp);
 
-% n2_1obs = meanN2 + cosd(topo)*(n2_1obs-meanN2*cosd(topo));
-% n2_1fit = meanN2 + cosd(topo)*(n2_1fit-meanN2*cosd(topo));
-
-n2_1obs =  + cosd(topo)*(n2_1obs-meanN2*cosd(topo));
-n2_1fit =  + cosd(topo)*(n2_1fit-meanN2*cosd(topo));
+n2_1obs = meanN2 + cosd(topo)*(n2_1obs-meanN2*cosd(topo));
+n2_1fit = meanN2 + cosd(topo)*(n2_1fit-meanN2*cosd(topo));
 
 
 figure(1)
