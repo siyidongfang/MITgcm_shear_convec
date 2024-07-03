@@ -21,6 +21,7 @@ uend = ustart+time_n2(end)*4+1;
 uidx = ustart:uend;
 
 N2_zavg = N2_zavg(n2idx)';
+smooth_N2_zavg = smooth_N2_zavg(n2idx)';
 time_n2 = time_n2(n2idx);
 time_n2 = time_n2 - time_n2(1);
 shear_zavg = shear_zavg(uidx)';
@@ -28,16 +29,26 @@ time_uw = time_uw(uidx);
 time_uw = time_uw-time_uw(1);
 
 n2 = N2_zavg;
+smooth_n2 = smooth_N2_zavg;
 shear = shear_zavg;
 time = time_n2;
 
 %%% Interpolate 
 shear_int = interp1(time_uw,shear,time_n2,'linear','extrap');
 
+Ri = n2./(shear_int.^2);
+smooth_Ri = smooth_n2./(shear_int.^2);
+
+save('MAVS1_Ri.mat')
+
+
 figure(1)
-clf;plot(time_n2,n2)
+clf;plot(time_n2,n2);
+hold on;
+plot(time_n2,smooth_n2,'--');
 grid on;grid minor
 axis tight
+
 
 figure(2)
 clf;plot(time_uw,shear)
@@ -46,16 +57,13 @@ plot(time_n2,shear_int)
 grid on;grid minor
 axis tight
 
-clear time_n2 time_uw shear time_temp n2start n2idx uidx N2_zavg N2_zavg shear_zavg
-
-Ri = n2./(shear_int.^2);
 
 figure(3)
 clf;
 plot(time, 1./Ri);grid on;
+hold on;
+plot(time, 1./smooth_Ri,'--');
 ylim([0 1])
-
-save('MAVS1_Ri.mat')
 
 figure(4)
 clf;
@@ -63,8 +71,10 @@ plot(time,n2./max(abs(n2)));
 hold on;
 plot(time,shear_int./max(abs(shear_int)));
 plot(time, 1./Ri);
-ylim([-10 10])
+plot(time, 1./smooth_Ri,'--');
+ylim([-4 4])
 grid on;grid minor
 hold off;
 
+% clear time_n2 time_uw shear time_temp n2start n2idx uidx N2_zavg shear_zavg
 
