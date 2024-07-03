@@ -5,7 +5,7 @@
 
 clear; close all;
 
-load('MAVS1_velocity.mat')
+load('MAVS2_velocity.mat')
 
 % nStart = 263;
 % nEnd = 454;
