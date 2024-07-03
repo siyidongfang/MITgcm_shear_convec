@@ -48,7 +48,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 900 950]);
 
 %%% coordinate
 ax1 = subplot('position',[.03 .795 .3 .2]);
-annotation('textbox',[0 0.993 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0 0.993 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 annotation('textbox',[0.07 0.993 0.3 0.01],'String','Flat-bottom simulation','FontSize',fontsize+4,'interpreter','latex','LineStyle','None');
 imshow('fig_supp/figS3_coordinate.png')
 
@@ -60,7 +60,7 @@ YLIM = [0 300];
 
 %%% TKE time series
 ax2 = subplot('position',[0.435 0.815 0.505 0.16]);
-annotation('textbox',[0.38 0.993 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0.38 0.993 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(time_h/12,log(pe)/2,'LineWidth',2);
 hold on;
 plot(time_h/12,log(ke)/2,'LineWidth',2);
@@ -82,7 +82,7 @@ mycolor=mycolor(20:end-20,:);
 
 %%% Velocity
 ax3 = subplot('position',[0.07 0.62 0.87 0.125]);
-annotation('textbox',[0 0.755 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0 0.755 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_tidal,zz-botZ,uu_timeseries');
 hold on;shading interp;
 contour(time_tidal,zz-botZ,uu_timeseries',[0.15:0.15:0.75],'color',darkgray)
@@ -103,7 +103,7 @@ freezeColors;
 
 %%% Temperature
 ax4 = subplot('position',[0.07 0.46 0.87 0.13]);
-annotation('textbox',[0 0.595 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0 0.595 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_tidal,zz-botZ,tt_timeseries');
 hold on;shading interp;
 contour(time_tidal,zz-botZ,uu_timeseries',[0.15:0.15:0.75],'color',darkgray)
@@ -123,7 +123,7 @@ freezeColors;
 
 %%% Temperature snapshot
 ax6 = subplot('position',[0.07 0.05 0.37 0.18]);
-annotation('textbox',[0 0.24 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0 0.24 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(xx/1000,zz-botZ,tt');hold on;
 shading interp;
 clim([0.03 0.18])
@@ -142,7 +142,7 @@ freezeColors;
 
 %%% N2 snapshot
 ax7 = subplot('position',[0.57 0.05 0.37 0.18]);
-annotation('textbox',[0.5 0.24 0.15 0.01],'String','G','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0.5 0.24 0.15 0.01],'String','g','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(xx/1000,zz-botZ,N2')
 hold on;
 contour(xx/1000,zz-botZ,N2',[0 0],'Color','c','LineWidth',1);
@@ -164,7 +164,7 @@ freezeColors;
 
 %%% N2
 ax5 = subplot('position',[0.07 0.3 0.87 0.13]);
-annotation('textbox',[0 0.435 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0 0.435 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_tidal,zz-botZ,(N2_timeseries)')
 hold on;
 contour(time_tidal,zz-botZ,(N2_timeseries)',[0 0],'Color','c','LineWidth',1);

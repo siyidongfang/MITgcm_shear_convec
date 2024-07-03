@@ -14,4 +14,4 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 800]);
 
 %%% coordinate
 ax1 = subplot('position',[.03 .785 .3 .2]);
-annotation('textbox',[0 0.993 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0 0.993 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');

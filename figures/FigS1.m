@@ -61,7 +61,7 @@ load('fig1/fig1.mat')
 o1 = 0.078611022276845;
 o2 = 34.638914089176580;
 salt = o1*temp+o2;
-plot_tidx = 1:10:length(time_temp);
+plot_tidx = 1:length(time_temp);
 meanS = mean(salt,'all','omitnan');
 
 n2_1obs =  + cosd(topo)*(n2_1obs-meanN2*cosd(topo));
@@ -76,7 +76,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1400 700]);
 
 %--- T/S diagram
 ax1 = subplot('position',[0.048 0.58 0.25 0.38]);
-annotation('textbox',[0.028 0.993 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0.028 0.993 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 
 for j=1:Ny
   scatter(ss(j,:),pt(j,:),4,depths/1000);
@@ -118,7 +118,7 @@ set(get(h1,'Title'),'String',{'$\ \ \ $Depth','$\ \ (\mathrm{km})$'},'Fontsize',
 
 %--- salinity
 ax2 = subplot('position',[0.38 0.58 0.25 0.38]);
-annotation('textbox',[0.36 0.993 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0.36 0.993 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_temp,salt(plot_tidx,:)');
 shading flat;
 hold on;
@@ -145,7 +145,7 @@ set(get(h2,'Title'),'String','$\ \ \ \ (\mathrm{psu})$','Fontsize',fontsize,'int
 
 %--- N2
 ax3 = subplot('position',[0.709 0.58 0.25 0.38]);
-annotation('textbox',[0.69 0.993 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0.69 0.993 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_n2,smooth_N2(plot_tidx,:)');
 hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
@@ -169,8 +169,8 @@ set(get(h3,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsi
 
 %--- Time series of depth-averaged N2 and Ri of the large-scale flow
 ax4 = subplot('position',[0.048 0.07 0.9 0.38]);
-annotation('textbox',[0.028 0.482 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0.028 0.482 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 title('Richardson number, linear-fit shear, and depth-averaged buoyancy gradient of the large-scale flow','Fontsize',fontsize+5,'interpreter','latex');
 % xlabel('','interpreter','latex','FontSize',fontsize);
 
-% print('-djpeg','-r200','fig_supp/figS1.png');
+print('-djpeg','-r300','fig_supp/figS1.png');

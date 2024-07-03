@@ -30,7 +30,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1400 700]);
 
 %--- dbdz using observed u, without N2
 ax5 = subplot('position',[0.38 0.07 0.25 0.38]);
-annotation('textbox',[0.36 0.482 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0.36 0.482 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)');
 shading interp;
 hold on;
@@ -51,7 +51,7 @@ xlim([0 48])
 
 %--- dbdz using linear-fit u, without N2
 ax6 = subplot('position',[0.709 0.07 0.25 0.38]);
-annotation('textbox',[0.69 0.482 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','normal','LineStyle','None');
+annotation('textbox',[0.69 0.482 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)');shading interp;
 hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
