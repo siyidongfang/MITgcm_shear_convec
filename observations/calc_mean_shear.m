@@ -5,20 +5,20 @@
 
 clear; close all;
 
-load('MAVS2_velocity.mat')
+load('MAVS1_velocity.mat')
 
 % nStart = 263;
 % nEnd = 454;
 nStart = 1;
 nEnd = length(uu);
 tidx = nStart:nEnd;
-% zidx = 5:18;%%% For MAVS1
-zidx = 4:18;%%% For MAVS2
+zidx = 5:18;%%% For MAVS1
+% zidx = 4:18;%%% For MAVS2
 uselect = uu(zidx,tidx)';
 vselect = vv(zidx,tidx)';
 wselect = ww(zidx,tidx)';
 time_uw = time(tidx)/3600; %%% in hours
-time_uw = time_uw-time_uw(1);
+% time_uw = time_uw-time_uw(1);
 depth_uw = depth(zidx);
 
 fontsize = 20;
@@ -43,7 +43,7 @@ xlabel('Time (days)')
 ylabel('shear (1/s)')
 title('Depth-averaged velocity shear at MAVS2')
 
-save('MAVS2_shear.mat','time_uw','shear_zavg')
+save('MAVS1_shear.mat','time_uw','shear_zavg')
 
 
 %%
