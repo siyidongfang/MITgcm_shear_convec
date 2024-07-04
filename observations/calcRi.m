@@ -39,7 +39,6 @@ shear_int = interp1(time_uw,shear,time_n2,'linear','extrap');
 Ri = n2./(shear_int.^2);
 smooth_Ri = smooth_n2./(shear_int.^2);
 
-save('MAVS2_Ri.mat')
 
 fontsize = 16;
 
@@ -92,5 +91,8 @@ hold off;
 axis tight
 
 
-% clear time_n2 time_uw shear time_temp n2start n2idx uidx N2_zavg shear_zavg
+clear ustart uend fontsize time_n2 time_uw shear time_temp n2start n2idx uidx N2_zavg shear_zavg smooth_N2_zavg
+
+save('MAVS2_Ri.mat')
+
 
