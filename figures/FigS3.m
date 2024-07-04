@@ -186,4 +186,4 @@ set(get(h5,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','la
 
 %%% Save the figure
 
-print('-djpeg','-r300',['fig_supp/figS3.png']);
+print('-dpng','-r300',['fig_supp/figS3.png']);

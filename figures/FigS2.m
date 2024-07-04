@@ -71,4 +71,4 @@ xlim([0 48])
 
 
 
-print('-djpeg','-r300','fig_supp/figS2.png');
+print('-dpng','-r300','fig_supp/figS2.png');

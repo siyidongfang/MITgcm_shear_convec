@@ -204,5 +204,5 @@ set(h7,'Position',[0.964 0.135 0.007 0.28]);
 set(get(h7,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsize,'interpreter','latex');
 xlim([0 48])
 
-print('-djpeg','-r300','fig1/fig1_matlab.png');
-% print('-djpeg','-r300','fig1/fig1_convec.png');
+print('-dpng','-r300','fig1/fig1_matlab.png');
+% print('-dpng','-r300','fig1/fig1_convec.png');
