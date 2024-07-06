@@ -7,12 +7,12 @@ clear
 
 dt = 600;
 NTtide = 100;
-omega = 1e-4;
-% omega = 2*pi/43200
+% omega = 1e-4;
+omega = 2*pi/43200
 Nt = NTtide/omega/dt;
 
-topo=0;
-N2 = 10e-6;
+topo=4;
+N2 = 1e-6;
 
 shear_convec = cosd(topo)/sind(topo)*omega;
 if(topo==0)
