@@ -8,7 +8,30 @@
     % expdir = '../../MITgcm_shear_convec/exps_flat/';
     expdir = '../../MITgcm_shear_convec/exps_topo4/';
 
-    EXPNAME = {...
+    EXPNAME = {
+                ...
+% 'topo0_H500_s0dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0001dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0002dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0003dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0004dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0005dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0006dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0007dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0008dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0009dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.001dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0011dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0012dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0013dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0014dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0015dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0018dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0019dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv2e-4'
+        ...
 % 'topo4_H500_smo100m_s0_dz1dx3ln200n-20'
 % 'topo4_H500_smo100m_s0.0001_dz1dx3ln200n-20'
 % 'topo4_H500_smo100m_s0.0002_dz1dx3ln200n-20'
@@ -80,28 +103,6 @@
         % 'Lx10kmRestoreT_topo0_H500_s0.0019dz1dx10ln200n-20_kv2e-4'
         % 'Lx10kmRestoreT_topo0_H500_s0.002dz1dx10ln200n-20_kv2e-4'
         ...
-        'topo0_H500_s0dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0001dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0002dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0003dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0004dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0005dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0006dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0007dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0008dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0009dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.001dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0011dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0012dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0013dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0014dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0015dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0018dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.0019dz1dx3ln200n-20sm100_kv2e-4'
-        'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv2e-4'
-        ...
         % 'topo0_tanhH800_s0dz1dx3ln200n-20_kv2e-4'
         % 'topo0_tanhH800_s0.0001dz1dx3ln200n-20_kv2e-4'
         % 'topo0_tanhH800_s0.0002dz1dx3ln200n-20_kv2e-4'
@@ -125,8 +126,6 @@
         % 'topo0_tanhH800_s0.002dz1dx3ln200n-20_kv2e-4'
        };
     nEXP = length(EXPNAME);
-
-
 %         'test_lores_topo0_tanhH800_s0.0003dz3dx20ln200n-20_kv2e-4'
 %         'test_lores_topo0_tanhH800_s0.0009dz3dx20ln200n-20_kv2e-4'
 %         'test_lores_topo0_tanhH800_s0.0018dz3dx20ln200n-20_kv2e-4'

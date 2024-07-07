@@ -1,24 +1,17 @@
 
 addpath functions/
 
-clear;
-% close all;
+clear;close all;
 list_exps;
+
 for ne = 1:20
     expname = EXPNAME{ne};
     loadexp;
-    load([expdir expname '/RMSE_tt.mat'])
+    load([expdir expname '/RMSE_all.mat'])
     growth(ne) = pp(1);
 end
 
-% for ne = 13:15
-%     expname = EXPNAME{ne};
-%     loadexp;
-%     load([expdir expname '/RMSE_all.mat'])
-%     growth(ne) = pp(1);
-% end
-
-shear_MITgcm = [0:0.1:1.9]*1e-3;
+shear_MITgcm = [0:0.1:2.0]*1e-3;
 figure(1)
 % clf;
 set(gcf,'Color','w')

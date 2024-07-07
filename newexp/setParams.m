@@ -8,7 +8,7 @@
 function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = false;
+  FigureIsVisible = true;
   useLinearShear = true;
   useTanhShear = false;
 
@@ -61,7 +61,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 20*t1day;
+  simTime = 6*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -82,11 +82,11 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
   
   
-  % Ly = 3*m1km;
-  % Lx = 3*m1km; 
+  Ly = 3*m1km;
+  Lx = 3*m1km; 
 
-  Ly = 5*m1km;
-  Lx = 5*m1km; 
+  % Ly = 5*m1km;
+  % Lx = 5*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -172,8 +172,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % parm01.addParm('implicDiv2DFlow',0.6,PARM_REAL); %%% test20231027
 
   %------ viscosity and diffusivity
-  diffKhT = 2e-4; %%% Horizontal temp diffusion  
-  diffKrT = 2e-4; %%% Vertical temp diffusion    
+  diffKhT = 1e-4; %%% Horizontal temp diffusion  
+  diffKrT = 1e-4; %%% Vertical temp diffusion    
   Prandtl = 1;
   viscAh = diffKhT*Prandtl; %%% Horizontal viscosity        
   viscAr = diffKrT*Prandtl; %%% Vertical viscosity          
@@ -929,7 +929,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%
     
   %%% Random noise amplitude
-  tNoise = 1e-10; 
+  tNoise = 1e-20; 
   sNoise = 0;
 
   %---- Add an infinitesimal linear stratification 
@@ -1125,7 +1125,6 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%% Save the figure
   savefig([imgpath '/vrelax.fig']);
   saveas(gcf,[imgpath '/vrelax.png']);
-
 
 
   %%%%%%%%%%%%%%%%
