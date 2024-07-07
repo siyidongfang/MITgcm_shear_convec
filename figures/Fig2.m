@@ -8,8 +8,9 @@ addpath ../analysis/
 addpath ../analysis/functions/
 % expname = 'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4';
 % expdir = '../exps_hires/';
-expname = 'hires_topo4_s0.0013_dz1dx6n-20';
-expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
+% expname = 'hires_topo4_s0.0013_dz1dx6n-20';
+expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
+expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4/';
 loadexp;
 rhoConst = 999.8;
 
@@ -55,7 +56,7 @@ imshow('fig2/coordinate.png')
 %--- Load MITgcm simulation
 filename = [expdir expname '/RMSE.mat'];
 load(filename)
-load('fig2/fig2.mat')
+load('fig2/fig2_new.mat')
 YLIM = [0 300];
 
 %%% TKE time series

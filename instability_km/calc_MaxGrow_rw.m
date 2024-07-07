@@ -15,9 +15,10 @@ for s = 1:length(shear_all)
     end
 end
 
-
 %%
-rw_idx=find(lam_x_real<=5000);
+
+crop_limit = 5000
+rw_idx=find(lam_x_real<=crop_limit);
 % rw_idx = 1:Nrw;
 lam_x_real(rw_idx(1))
 
@@ -42,4 +43,5 @@ rw_max = rw_crop(I);
 
 % save('grow_rw_new_3km.mat')
 save('../figures/fig3/topo4_kappa0.mat')
+% save('../figures/fig3/topo4_nu2e-4.mat')
 

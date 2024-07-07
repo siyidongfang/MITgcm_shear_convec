@@ -68,7 +68,6 @@ for ns =1:length(shear_all)
             
     end
 
-
 end
 
 save([expdir '.mat']);

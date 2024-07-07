@@ -2,9 +2,9 @@
 
 NT1 = 40;
 NT2 = 80;
-expdir = 'exps/topo4_kappa0/'; %%% Flat bottom with diffusion/viscous dissipation
+% expdir = 'exps/topo4_nu2e-4/'; %%% topo4 with diffusion/viscous dissipation
+expdir = 'exps/topo4_kappa0/'; %%% topo4 with diffusion/viscous dissipation
 % expdir = 'exps/parallel_flat_rw_new/'; %%% Flat bottom with diffusion/viscous dissipation
-% expdir = 'exps/parallel_flat_rw_new_diffusion_h2000/'; %%% Flat bottom with diffusion/viscous dissipation
 
 Diffusion = false;
 ConvectiveAdjustment = false;
@@ -13,7 +13,8 @@ nt_percycle = 72*30;
 N = sqrt(1)*1e-3;
 
 topo=4;
-shear_Ri0_25 = 0.0017525;
+% shear_Ri0_25 = 0.0017525;
+shear_Ri0_25 = 0.0018;
 shear_Ri1 = 9.7e-04;
 
 % topo=0;

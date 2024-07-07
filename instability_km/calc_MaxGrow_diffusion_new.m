@@ -1,7 +1,7 @@
 
 clear;close all
 
-expdir = 'parallel_flat_nu2e-8/';
+expdir = 'backup_exps/parallel_flat_nu2e-6/';
 shear_all = (0:0.1:2.0)/1e3;
 
 h_shear = 1000;

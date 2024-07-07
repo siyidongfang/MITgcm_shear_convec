@@ -1,26 +1,138 @@
 
 % clear;close all;
 addpath ../analysis/colormaps/
-fontsize = 18;
+fontsize = 17;
 load_colors;
-
-%--- make fig3
-load('fig3/MITgcm_growth_hires_topo4.mat')
-load('fig3/topo4_kappa0.mat')
 
 figure(1)
 clf;   
 set(gcf,'Color','w');
 scrsz = get(0,'ScreenSize');
-set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 900 900]);
+set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
+
+%--- flat bottom
+load('fig3/MITgcm_growth_hires_flat.mat')
+load('fig3/flat_kappa0.mat')
+load('fig3/Ri_flat.mat')
+for i=1:length(shear_MITgcm)
+    [a(i) b(i)] = min(abs(shear_MITgcm(i)-shear_calc_Ri));
+    Ri_gcm(i) = Ri_min(b(i));
+end
+
+for i=1:length(shear_all)
+    [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
+    Ri_km(i) = Ri_min(b(i));
+end
 
 %%% coordinate
-ax1 = subplot('position',[.048 .785 0.37 0.18]);
-annotation('textbox',[0.028 0.993 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-plot(shear_MITgcm,growth_MITgcm,'LineWidth',2);
-grid on;axis tight;
-hold on;
-plot(shear_all,max_grow,'LineWidth',2);
-ylabel('(hour$^{-1}$)','interpreter','latex');
+ax1 = subplot('position',[.065 .74 0.375 0.225]);
+annotation('textbox',[0.028 0.996 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+rw_idx = 1:Nrw;
+pcolor(1./Ri_km,(lam_x_real(rw_idx))/1000,grow_sr(:,rw_idx)');
 set(gca,'Fontsize',fontsize);
+shading flat;colormap(WhiteBlueGreenYellowRed(0))
+h1 = colorbar;
+set(h1,'Position',[0.45 0.7456+0.01   0.008    0.2]);
+set(get(h1,'Title'),'String',{'$\ \ \ \ (\mathrm{hour}^{-1})$'},'interpreter','latex','FontSize',fontsize);
+clim([0 0.35]);
+xlabel('Inverse Richardson number $R_i^{-1}$','interpreter','latex');
+ylabel('Horizontal wavelength (km)','interpreter','latex');
+title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
+ylim([0 100])
+xlim([0 4])
 
+
+ax2 = subplot('position',[.57 .74 0.4 0.225]);
+annotation('textbox',[0.538 0.996 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2);
+grid on;grid minor;
+hold on;
+plot(1./Ri_km,max_grow,'LineWidth',2);
+ylabel('(hour$^{-1}$)','interpreter','latex');
+xlabel('Inverse Richardson number $R_i^{-1}$','interpreter','latex');
+l1 = legend('MITgcm','Theory','Position',[0.58 0.9140 0.1010 0.0445],'interpreter','latex');
+set(gca,'Fontsize',fontsize);
+xlim([0 4])
+ylim([-1e-3 0.35])
+title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
+
+
+
+
+clear growth_MITgcm max_grow Ri_gcm Ri_km shear_MITgcm shear_all shear_calc_Ri
+%--- topo = 4 degrees
+load('fig3/MITgcm_growth_hires_topo4.mat')
+load('fig3/topo4_kappa0.mat')
+% load('fig3/topo4_nu2e-4.mat')
+load('fig3/Ri_topo4.mat')
+for i=1:length(shear_MITgcm)
+    [a(i) b(i)] = min(abs(shear_MITgcm(i)-shear_calc_Ri));
+    Ri_gcm(i) = Ri_min(b(i));
+end
+
+for i=1:length(shear_all)
+    [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
+    Ri_km(i) = Ri_min(b(i));
+end
+
+ax3 = subplot('position',[.06 .40 0.375 0.225]);
+annotation('textbox',[0.028 0.65 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+rw_idx = 1:Nrw;
+pcolor(1./Ri_km,(lam_x_real(rw_idx))/1000,grow_sr(:,rw_idx)');
+set(gca,'Fontsize',fontsize);
+shading flat;colormap(WhiteBlueGreenYellowRed(0))
+h2 = colorbar;
+set(h2,'Position',[0.45 0.4056+0.01   0.008    0.2]);
+set(get(h2,'Title'),'String',{'$\ \ \ \ (\mathrm{hour}^{-1})$'},'interpreter','latex','FontSize',fontsize);
+clim([0 0.35]);
+xlabel('Inverse Richardson number $R_i^{-1}$','interpreter','latex');
+ylabel('Horizontal wavelength (km)','interpreter','latex');
+title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
+ylim([0 25])
+xlim([0 4])
+
+
+ax4 = subplot('position',[.57 .40 0.4 0.225]);
+annotation('textbox',[0.538 0.65 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2);
+grid on;grid minor;
+hold on;
+plot(1./Ri_km,max_grow,'LineWidth',2);
+ylabel('(hour$^{-1}$)','interpreter','latex');
+xlabel('Inverse Richardson number $R_i^{-1}$','interpreter','latex');
+l4 = legend('MITgcm','Theory','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
+set(gca,'Fontsize',fontsize);
+xlim([0 4])
+ylim([-1e-3 0.35])
+title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
+
+
+
+%--- plot vertical velocity and buoyancy perturbation
+ax5 = subplot('position',[.06 .06 0.4 0.225]);
+annotation('textbox',[0.028 0.31 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+
+load('fig3/fig3_km.mat','re_buoy','re_www','tt','nt_percycle')
+tidx = nt_percycle*5+1:nt_percycle*10;
+plot(tt(tidx)/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2);
+hold on;
+plot(tt(tidx)/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2);
+grid on;grid minor;
+l5 = legend('Buoyancy perturbation','Vertical velocity','interpreter','latex','Position',[0.07 0.2265 0.2063 0.0458]);
+xlabel('Time (tidal cycles)','interpreter','latex')
+set(gca,'Fontsize',fontsize);
+title('Normalized perturbations','interpreter','latex','Fontsize',fontsize+5);
+
+
+ax6 = subplot('position',[.57 .06 0.4 0.225]);
+annotation('textbox',[0.538 0.31 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+% plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2);
+grid on;grid minor;
+hold on;
+% plot(1./Ri_km,max_grow,'LineWidth',2);
+xlabel('Time (tidal cycles)','interpreter','latex')
+set(gca,'Fontsize',fontsize);
+title('Normalized buoyancy budget','interpreter','latex','Fontsize',fontsize+5);
+
+
+% print('-dpng','-r200','fig3/fig3.png');

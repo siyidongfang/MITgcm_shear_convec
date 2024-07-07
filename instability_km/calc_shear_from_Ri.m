@@ -18,8 +18,8 @@ shear_convec = cosd(topo)/sind(topo)*omega;
 if(topo==0)
     shear_convec = 5e-3;
 end
-shear_all = 0:0.25e-5:shear_convec;
-ns = length(shear_all);
+shear_calc_Ri = 0:0.25e-5:shear_convec;
+ns = length(shear_calc_Ri);
 
 %%
 dt_ri = dt/1000;
@@ -27,7 +27,7 @@ tt_ri = dt_ri:dt_ri:Nt*dt;
 isConvec = zeros(1,ns);
 Ri_min = zeros(1,ns);
 for i=1:ns 
-    shear = shear_all(i);
+    shear = shear_calc_Ri(i);
     Ri_inverse = (shear*cos(omega*tt_ri)).^2./(N2*cosd(topo) - N2*sind(topo)/omega*shear*sin(omega*tt_ri));
     % figure(50)
     % plot(tt_ri,Ri_inverse)
@@ -43,15 +43,18 @@ end
 
 [a idx] = min(abs(Ri_min-5))
 Ri5 = Ri_min(idx);
-shear_Ri5 = shear_all(idx)
+shear_Ri5 = shear_calc_Ri(idx)
 
 
 [a idx] = min(abs(Ri_min-1))
 Ri1 = Ri_min(idx);
-shear_Ri1 = shear_all(idx)
+shear_Ri1 = shear_calc_Ri(idx)
 
 
 [a idx] = min(abs(Ri_min-0.25));
 Ri0_25 = Ri_min(idx);
-shear_Ri0_25 = shear_all(idx)
+shear_Ri0_25 = shear_calc_Ri(idx)
+
+clear Ri_inverse tt_ri
+save('../figures/fig3/Ri_topo4.mat')
 

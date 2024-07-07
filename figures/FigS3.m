@@ -7,6 +7,7 @@ load_colors;
 addpath ../analysis/
 addpath ../analysis/functions/
 expname = 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4';
+% expname = 'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4';
 expdir = '../exps_hires/';
 % expname = 'hires_topo4_s0.0013_dz1dx6n-20';
 % expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
@@ -186,4 +187,4 @@ set(get(h5,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','la
 
 %%% Save the figure
 
-print('-dpng','-r300',['fig_supp/figS3.png']);
+% print('-dpng','-r300',['fig_supp/figS3.png']);
