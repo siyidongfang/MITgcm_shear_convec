@@ -9,6 +9,10 @@
     expdir = '../../MITgcm_shear_convec/exps_topo4/';
 
     EXPNAME = {
+'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv1e-4'
+'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv1e-4_smag'
+'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv2e-4_restoreT'
+'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv2e-4_smag'
                 ...
 % 'topo0_H500_s0dz1dx3ln200n-20sm100_kv2e-4'
 % 'topo0_H500_s0.0001dz1dx3ln200n-20sm100_kv2e-4'
