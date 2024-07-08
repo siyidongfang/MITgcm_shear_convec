@@ -108,15 +108,31 @@ title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5
 
 
 
+
+load('fig3/fig3_km.mat')
+tidx = nt_percycle*5+1:nt_percycle*10;
+%- Calculate the buoyancy budget
+uB0x = -re_uuu(tidx)*N^2*ss;
+wB0z = -re_www(tidx)*N^2*cs;
+wBz  =  re_www(tidx)*shear/omega*N^2*ss.*st(tidx);
+% diffusion = 0*
+dbdt = [0 (re_buoy(3:end)-re_buoy(1:end-2))/dt/2 0];
+dbdt = dbdt(tidx);
+
+%- Normalization
+uB0x = uB0x/max(abs(dbdt));
+wB0z = wB0z/max(abs(dbdt));
+wBz = wBz/max(abs(dbdt));
+dbdt = dbdt/max(abs(dbdt));
+tt = tt(tidx);
+
+
 %--- plot vertical velocity and buoyancy perturbation
 ax5 = subplot('position',[.06 .06 0.4 0.225]);
 annotation('textbox',[0.028 0.31 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-
-load('fig3/fig3_km.mat','re_buoy','re_www','tt','nt_percycle')
-tidx = nt_percycle*5+1:nt_percycle*10;
-plot(tt(tidx)/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2);
+plot(tt/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2);
 hold on;
-plot(tt(tidx)/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2);
+plot(tt/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2);
 grid on;grid minor;
 l5 = legend('Buoyancy perturbation','Vertical velocity','interpreter','latex','Position',[0.07 0.2265 0.2063 0.0458]);
 xlabel('Time (tidal cycles)','interpreter','latex')
@@ -126,13 +142,26 @@ title('Normalized perturbations','interpreter','latex','Fontsize',fontsize+5);
 
 ax6 = subplot('position',[.57 .06 0.4 0.225]);
 annotation('textbox',[0.538 0.31 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-% plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2);
-grid on;grid minor;
+lres = plot(tt/43200,dbdt-uB0x-wB0z-wBz,'-','LineWidth',3,'Color',boxcolor);
 hold on;
-% plot(1./Ri_km,max_grow,'LineWidth',2);
+luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',[0.9290 0.6940 0.1250]);
+lwBz = plot(tt/43200,wBz,'LineWidth',2,'Color',[0.8500 0.3250 0.0980]);
+lwB0z = plot(tt/43200,wB0z,'LineWidth',2,'Color',[0 0.4470 0.7410]);
+ldbdt = plot(tt/43200,dbdt,':','LineWidth',2,'Color',black);
+grid on;grid minor;
 xlabel('Time (tidal cycles)','interpreter','latex')
 set(gca,'Fontsize',fontsize);
 title('Normalized buoyancy budget','interpreter','latex','Fontsize',fontsize+5);
+ylim([-1 1])
+l61 = legend([lwB0z,lwBz,luB0x], ...
+    '$w^\prime\partial_z B_0$','$w^\prime\partial_z B$','$u^\prime\partial_x B_0$',...
+    'interpreter','latex','Position',[0.58 0.2104 0.0889 0.0668]);
+ah=axes('position',get(ax6,'position'),'visible','off');
+set(gca,'Fontsize',fontsize);
+l62 = legend(ah,[ldbdt lres], ...
+    '$\partial_\tau b^\prime = \partial_t b^\prime + U\partial_x b^\prime$','Residual',...
+    'interpreter','latex','Position', [0.58 0.0825 0.1626 0.0458]');
+legend('boxoff') 
 
 
-% print('-dpng','-r200','fig3/fig3.png');
+print('-dpng','-r200','fig3/fig3.png');

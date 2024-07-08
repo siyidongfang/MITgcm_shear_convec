@@ -1,12 +1,12 @@
 
 
     prodir = '../../MITgcm_shear_convec/products/';
-    % expdir = '../../MITgcm_shear_convec/exps_hires/';
+    expdir = '../../MITgcm_shear_convec/exps_hires/';
     % expdir = '../../MITgcm_shear_convec/exps_SteadyShear/';
     % expdir = '../../MITgcm_shear_convec/experiments/';
     % expdir = '../../MITgcm_shear_convec/exps_flat_lores/';
     % expdir = '../../MITgcm_shear_convec/exps_flat/';
-    expdir = '../../MITgcm_shear_convec/exps_topo4/';
+    % expdir = '../../MITgcm_shear_convec/exps_topo4/';
 
     EXPNAME = {
 'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv1e-4'
@@ -34,7 +34,7 @@
 % 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4'
 % 'topo0_H500_s0.0018dz1dx3ln200n-20sm100_kv2e-4'
 % 'topo0_H500_s0.0019dz1dx3ln200n-20sm100_kv2e-4'
-% 'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv2e-4'
+'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv2e-4'
         ...
 % 'topo4_H500_smo100m_s0_dz1dx3ln200n-20'
 % 'topo4_H500_smo100m_s0.0001_dz1dx3ln200n-20'
