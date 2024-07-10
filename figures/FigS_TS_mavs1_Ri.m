@@ -36,7 +36,7 @@ hold on;
 % plot(time, meanN2*ones(1,length(time)),'Color',[0 0.4470 0.7410]);
 axis tight
 plot(time, smooth_n2,'-','LineWidth',1,'Color',black);
-ylabel('$\overline{\partial_{\tilde z}B}^{\tilde z}$ (s$^{-2}$)','interpreter','latex');
+ylabel('$\overline{\partial_{\tilde z}\mathcal B}^{\tilde z}$ (s$^{-2}$)','interpreter','latex');
 ylim([-5 10]*1e-6)
 xlim(XLIM)
 ax1.YAxis(1).Color = black;

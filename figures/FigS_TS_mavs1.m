@@ -158,7 +158,7 @@ set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-1.75 1.75]/1e5)
 colormap(cmocean('balance'))
-title('Observed $\partial_{\tilde z} B$','Fontsize',fontsize+5,'interpreter','latex');
+title('Observed $\partial_{\tilde z} \mathcal B$','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48]);
 h3=colorbar(ax3);
 ylim([min(depth_temp) max(depth_temp)]);xlim([0 48])
