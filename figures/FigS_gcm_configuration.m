@@ -24,7 +24,7 @@ iniT = squeeze(iniT);
 
 
 h_shear = 250;
-Shear = 1.7e-3;
+Shear = 1.4e-3;
 
 %-- Initial velocity
 
@@ -107,7 +107,8 @@ plot(ax22, shear_linear_smooth/1e-3, z_mid, '-', 'Color', brown, 'LineWidth', 2)
 set(ax22, 'YAxisLocation', 'right', 'XAxisLocation', 'top', 'Color', 'none', 'XColor', brown, 'FontSize', fontsize);
 xlabel(ax22, 'Shear (10$^{-3}\,$s$^{-1}$)', 'Color', brown, 'Interpreter', 'latex', 'Fontsize', fontsize+4);
 ylim(ax22, [-500 0])
-xlim(ax22, [-0.25 2.25])
+xlim(ax22, [-0.25 1.75])
+% xlim(ax22, [0 1.5])
 ax22.YTick = [];
 
 % Create a dummy axes to show bottom x-axis in black
@@ -115,7 +116,7 @@ ax23 = axes('Position', get(ax2, 'Position'), 'Color', 'none', 'XAxisLocation', 
 ax23.XTick = ax2.XTick;  % Match the ticks
 ax23.XTickLabel = [];    % Hide the labels
 set(ax23, 'FontSize', fontsize);
-xlim([0 0.5])
+xlim([0 0.4])
 
 % Link the axes
 linkaxes([ax2, ax22, ax23], 'y');
@@ -130,7 +131,7 @@ hold on;
 plot(u_tanh_center,zz_tanh,'k--','LineWidth',2)
 set(gca,'Fontsize',fontsize);
 grid on;grid minor;
-xlim([-0.25 0.45])
+xlim(ax3,[-0.2 0.4])
 xlabel('Tidal amplitude, tanh (m/s)','Fontsize',fontsize+4,'interpreter','latex')
 ylabel('$z$ (m)','interpreter','latex')
 
@@ -144,7 +145,9 @@ plot(ax32, shear_tanh_bot/1e-3, zz_tanh_mid, '-', 'Color', brown, 'LineWidth', 2
 set(ax32, 'YAxisLocation', 'right', 'XAxisLocation', 'top', 'Color', 'none', 'XColor', brown, 'FontSize', fontsize);
 xlabel(ax32, 'Shear (10$^{-3}\,$s$^{-1}$)', 'Color', brown, 'Interpreter', 'latex', 'Fontsize', fontsize+4);
 ylim(ax32, [-800 0])
-xlim(ax32, [-0.5 2])
+% xlim(ax32, [-0.5 2.5])
+xlim(ax32, [-0.35 1.75])
+ % xlim(ax32, [0 1.5])
 % ax32.XTick = [-0.5:0.5:2] * 1e-3;
 % ax32.XTickLabel = ['-0.5','0','-0.5','1','1.5','2'];
 ax32.YTick = [];
@@ -154,14 +157,12 @@ ax33 = axes('Position', get(ax3, 'Position'), 'Color', 'none', 'XAxisLocation', 
 ax33.XTick = ax3.XTick;  % Match the ticks
 ax33.XTickLabel = [];    % Hide the labels
 set(ax33, 'FontSize', fontsize);
-xlim([-0.25 0.45])
+xlim(ax33,[-0.2 0.4])
 
 % Link the axes
 linkaxes([ax3, ax32, ax33], 'y');
 
-% print('-dpng','-r300',['fig_supp/figS_gcm_configuration_matlab.png']);
-
-
+print('-dpng','-r300',['fig_supp/figS_gcm_configuration_matlab.png']);
 
 
 

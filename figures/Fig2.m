@@ -89,7 +89,7 @@ hold on;shading interp;
 contour(time_tidal,zz-botZ,uu_timeseries',[0.15:0.15:0.75],'color',darkgray)
 contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1)
 contour(time_tidal,zz-botZ,uu_timeseries',[-0.75:0.15:-0.15],'--','color',darkgray)
-clim([-0.4 0.4])
+clim([-0.401 0.401])
 ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
 title('Across-isobath tidal velocity $u$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295])

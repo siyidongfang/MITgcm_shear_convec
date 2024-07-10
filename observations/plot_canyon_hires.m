@@ -224,3 +224,8 @@ r_iw_obs = sqrt((omega_tides_obs^2-fobs^2)/(N_mean_obs^2-omega_tides_obs^2))
 %     'lat9','lon9','depth9')
 
 
+
+
+%----Save data for the figure
+save('../figures/fig_supp/FigS_obs_CTD.mat','lon','lat','z','lonn','latn',...
+    'lon_CTD','lat_CTD','along_canyonn','depthn','along_midn','s_topogn')
