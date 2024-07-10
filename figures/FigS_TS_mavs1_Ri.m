@@ -36,7 +36,7 @@ hold on;
 % plot(time, meanN2*ones(1,length(time)),'Color',[0 0.4470 0.7410]);
 axis tight
 plot(time, smooth_n2,'-','LineWidth',1,'Color',black);
-ylabel('$\overline{\partial_{\tilde z}b}^{\tilde z}$ (s$^{-2}$)','interpreter','latex');
+ylabel('$\overline{\partial_{\tilde z}B}^{\tilde z}$ (s$^{-2}$)','interpreter','latex');
 ylim([-5 10]*1e-6)
 xlim(XLIM)
 ax1.YAxis(1).Color = black;
@@ -78,7 +78,7 @@ ylim([-0.5 5])
 xlim(XLIM)
 ax2.YAxis(2).Color = blue;
 
-print('-dpng','-r300','fig_supp/figS1_Ri.png');
+print('-dpng','-r300','fig_supp/figS_TS_mavs1_Ri.png');
 
 
 
@@ -99,7 +99,7 @@ ylim([-0.5 5])
 xlim(XLIM)
 ax2.YAxis(2).Color = blue;
 
-print('-dpng','-r300','fig_supp/figS1_axes.png');
+print('-dpng','-r300','fig_supp/figS_TS_mavs1_axes.png');
 
 
 

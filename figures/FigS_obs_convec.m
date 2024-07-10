@@ -42,7 +42,7 @@ set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-1.75 1.75]/1e5)
 colormap(cmocean('balance'))
-title('Reconstruct $\partial_{\tilde z} b$ using $u_\mathrm{obs}$','Fontsize',fontsize+5,'interpreter','latex');
+title('Reconstruct $\partial_{\tilde z} B$ using $u_\mathrm{obs}$','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 h5=colorbar(ax5);
 set(h5,'Position',[0.635 0.135 0.007 0.28]);
@@ -62,7 +62,7 @@ set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-1.75 1.75]/1e5)
 colormap(cmocean('balance'))
-title('Reconstruct $\partial_{\tilde z} b$ using $u_\mathrm{fit}$','Fontsize',fontsize+5,'interpreter','latex');
+title('Reconstruct $\partial_{\tilde z} B$ using $U_\mathrm{fit}$','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 h6=colorbar(ax6);
 set(h6,'Position',[0.964 0.135 0.007 0.28]);

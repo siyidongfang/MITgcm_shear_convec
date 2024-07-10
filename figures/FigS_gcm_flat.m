@@ -113,7 +113,7 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-0.75:0.15:-0.15],'--','color',darkgr
 ylabel('HAB (m)','interpreter','latex');
 clim([-0.1 0.1]);
 set(gca,'Fontsize',fontsize);
-title('Temperature perturbation $T^\prime$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295])
+title('Time-varying component of temperature','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295])
 ylim(YLIM)
 h4=colorbar(ax4);
 set(h4,'Position',[0.95    0.46   0.008    0.11]);
@@ -157,7 +157,7 @@ h7=colorbar(ax7);
 set(h7,'Position',[0.95    0.05   0.008    0.16]);
 set(get(h7,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','latex','FontSize',fontsize);
 xlabel('$x$ (km)','interpreter','latex','FontSize',fontsize+2);
-title('$\partial_{\tilde z} b$ (snapshot)','Fontsize',fontsize+4,'interpreter','latex','Position',[0 297])
+title('$\partial_{\tilde z} B$ (snapshot)','Fontsize',fontsize+4,'interpreter','latex','Position',[0 297])
 xlim([-1.5 1.5])
 colormap(mycolor);
 freezeColors;
@@ -176,7 +176,7 @@ shading interp;
 xlabel('Time (tidal cycles)','interpreter','latex');
 ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
-title('Vertical buoyancy gradient $\partial_{\tilde z} b$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,297])
+title('Vertical buoyancy gradient $\partial_{\tilde z} B$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,297])
 clim(([-1 1]+1)/1e6)
 ylim(YLIM)
 % colormap(cmocean('diff'));

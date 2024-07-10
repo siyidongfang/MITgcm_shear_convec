@@ -158,7 +158,7 @@ set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-1.75 1.75]/1e5)
 colormap(cmocean('balance'))
-title('Observed $\partial_{\tilde z} b$','Fontsize',fontsize+5,'interpreter','latex');
+title('Observed $\partial_{\tilde z} B$','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48]);
 h3=colorbar(ax3);
 ylim([min(depth_temp) max(depth_temp)]);xlim([0 48])
@@ -167,66 +167,8 @@ set(get(h3,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsi
 % freezeColors;
 
 
-% %--- Time series of depth-averaged N2 and Ri of the large-scale flow
-% load('MAVS1_Ri.mat')
-% time = time/24; % convert into days
-% meanN2 = mean(n2,'omitnan');
-% meanShear = mean(shear_int,'omitnan');
-% XLIM = [0 32];
-% gray = [0.7 0.7 0.7];
-% lightgray = [249 249 249]/255;
-% 
-% axesposition = [0.048 0.04 0.85 0.42];
-% ax4 = subplot('position',axesposition);
-% annotation('textbox',[0.028 0.495 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-% 
-% yyaxis left;
-% plot(time, n2,'Color',gray);
-% hold on;
-% % plot(time, meanN2*ones(1,length(time)),'Color',[0 0.4470 0.7410]);
-% axis tight
-% plot(time, smooth_n2,'-','LineWidth',1,'Color',[0 0.4470 0.7410]);
-% ylabel('$\overline{\partial_{\tilde z}b}^{\tilde z}$ (s$^{-2}$)','interpreter','latex');
-% ylim([-5 10]*1e-6)
-% xlim(XLIM)
-% 
-% yyaxis right;
-% plot(time, shear_int,'LineWidth',1,'Color',[0.8500 0.3250 0.0980]);
-% % hold on;
-% % plot(time, meanShear*ones(1,length(time)),'Color',[0.8500 0.3250 0.0980]);
-% ylabel('Linear-fit shear $\Lambda(t)$ (s$^{-1}$)','interpreter','latex');
-% ylim([-2 1.7]*1e-3)
-% xlim(XLIM)
-% grid on;grid minor;
-% 
-% xticks([0:4:32])
-% xticklabels({'2021-08-01','2021-08-05','2021-08-09','2021-08-13','2021-08-17','2021-08-21','2021-08-25','2021-08-29','2021-08-31'})
-% 
-% % xlabel('Dates','interpreter','latex');
-% set(gca,'FontSize',fontsize,'TickDir', 'in','TickLength',[0.005, 0.005]);
-% title('Vertical buoyancy gradient, linear-fit shear, and inverse $R_i$ of the large-scale flow at MAVS1','interpreter','latex','FontSize',fontsize+5);
-% hold off;
-% 
-% 
-% ax42 = axes('Position',axesposition, 'Color', 'none');
-% yyaxis right
-% plot(time, 1./Ri,':','Color',[148, 137, 113]/255,'LineWidth',1);
-% hold on;
-% plot(time, 1./smooth_Ri,'--','Color',[0.9290 0.6940 0.1250],'LineWidth',1);
-% % plot(time, 1./smooth_Ri,'--','Color','k','LineWidth',1);
-% axis tight
-% set(gca,'FontSize',fontsize,'TickDir', 'in','TickLength',[0.005, 0.005]);
-% ax42.Visible = 'off';
-% % ax42.XTick = [];
-% ax42.YTick = [];
-% ylabel('Inverse $R_i$','Color',[0.9290 0.6940 0.1250],'Interpreter','latex')
-% ylim([0 4])
-% xlim(XLIM)
-% ax42.YAxis(2).Color = [0.9290 0.6940 0.1250];
 
-
-
-print('-dpng','-r300','fig_supp/figS1_matlab.png');
+print('-dpng','-r300','fig_supp/figS_TS_mavs1_matlab.png');
 
 
 
