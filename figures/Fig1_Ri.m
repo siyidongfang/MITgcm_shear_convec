@@ -7,7 +7,7 @@ time = time/24; % convert into days
 
 load_colors;
 
-fontsize = 16;
+fontsize = 17;
 gray = [0.7 0.7 0.7];
 lightgray = [249 249 249]/255;
 

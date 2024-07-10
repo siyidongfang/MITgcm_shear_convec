@@ -1,7 +1,7 @@
 
 clear;close all;
 addpath ../analysis/colormaps/
-fontsize = 16;
+fontsize = 17;
 load_colors;
 
 

@@ -6,7 +6,7 @@ addpath ../analysis/colormaps/
 addpath ../observations/
 addpath ../observations/CTD/
 
-fontsize = 16;
+fontsize = 17;
 load_colors;
 
 %%% make T-S diagram

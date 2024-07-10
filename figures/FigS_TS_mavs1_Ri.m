@@ -6,7 +6,7 @@ load('MAVS1_Ri.mat')
 time = time/24; % convert into days
 load_colors;
 
-fontsize = 16;
+fontsize = 17;
 gray = [0.7 0.7 0.7];
 lightgray = [249 249 249]/255;
 
@@ -99,7 +99,7 @@ ylim([-0.5 5])
 xlim(XLIM)
 ax2.YAxis(2).Color = blue;
 
-% print('-dpng','-r300','fig_supp/figS1_axes.png');
+print('-dpng','-r300','fig_supp/figS1_axes.png');
 
 
 

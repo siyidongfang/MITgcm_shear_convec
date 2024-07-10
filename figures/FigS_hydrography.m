@@ -7,9 +7,9 @@ load_colors;
 %%%------ Data for plotting bathymetry
 % addpath ../observations/
 % addpath ../observations/topography/
-% addpath ../observations/CTD/
+addpath ../observations/CTD/
 
-load('fig_supp/FigS_obs_CTD.mat')
+load('fig_supp/FigS_hydrography.mat')
 
 %%% Calculate the slope of internal wave characteristics r_iw (Lamb 2013, Annual Reviews, Eq. 3)
 %%% Calculate the topographic slope s_topog
@@ -92,11 +92,31 @@ leg1 = legend([s1 s2],'CTD','MAVS','Position',[0.0744 0.6221 0.0896 0.0566],...
 legend boxoff;
 
 
+
+mvs1_lon = -11.861534;
+mvs2_lon = -11.843511;
+
+mvs1_lat = 54.198556;
+mvs2_lat = 54.183718;
+
+% [a b1] = min(abs(lonn-mvs1_lon))
+[a b1] = min(abs(latn-mvs1_lat))
+latn(b1);
+lonn(b1);
+
+% [a b2] = min(abs(lonn-mvs2_lon))
+[a b2] = min(abs(latn-mvs2_lat))
+latn(b2);
+lonn(b2);
+
+
 %--- Canyon depth and local topographic slope (in degrees and radians)
 ax2 = subplot('position',[0.56 0.82 0.387 0.17]);
 annotation('textbox',[0.495 0.99 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 l1 = plot(along_canyonn,depthn,'-','LineWidth',3,'Color',black);
 hold on;
+s31 = scatter(along_canyonn(b1),depthn(b1),250,"+",'LineWidth',2,'MarkerEdgeColor',yellow); %%% MAVS 1&2
+s32 = scatter(along_canyonn(b2),depthn(b2),250,"+",'LineWidth',2,'MarkerEdgeColor',yellow); %%% MAVS 1&2
 l2 = plot(along_canyonn,-h_supercritical,'-','LineWidth',1.5,'Color',green);
 hold off;
 axis ij;grid on;grid minor;
@@ -104,7 +124,7 @@ set(gca,'FontSize',fontsize);
 ylabel('Depth (m)','interpreter','latex');
 xlim([0 max(along_canyonn)])
 axis tight
-leg2 = legend([l1 l2],'Canyon thalweg','Supercritical to M2 tide',...
+leg2 = legend([l1 l2],'Canyon thalweg','Supercritical to the M2 tide',...
     'Position',[0.5672 0.9261 0.2406 0.0626],'interpreter','latex','Fontsize',fontsize+1);
 legend boxoff;
 
@@ -115,6 +135,8 @@ annotation('textbox',[0.495 0.78 0.15 0.01],'String','c','FontSize',fontsize+3,'
 yyaxis right
 l31 = plot(along_midn,abs(s_topogn),'k-','LineWidth',1);
 hold on;
+s31 = scatter(along_midn(b1),abs(s_topogn(b1)),250,"+",'LineWidth',2,'MarkerEdgeColor',yellow); %%% MAVS 1&2
+s32 = scatter(along_midn(b2),abs(s_topogn(b2)),250,"+",'LineWidth',2,'MarkerEdgeColor',yellow); %%% MAVS 1&2
 l32 = plot(along_midn,abs(r_iw),'-.','LineWidth',2,'Color',green);
 xlabel('Along-canyon distance (km)','interpreter','latex');
 ylabel('(radian)','interpreter','latex');
@@ -131,22 +153,58 @@ xlim([0 max(along_canyonn)])
 ylim([0 22])
 set(gca,'FontSize',fontsize);
 
-leg3 = legend([l31 l32],'Topographic slope of the canyon thalweg','Critical slope for M2 tide',...
+leg3 = legend([l31 l32],'Topographic slope of the canyon thalweg','Critical slope for the M2 tide',...
     'Position',[0.5784 0.7216 0.3453 0.0626],'interpreter','latex','Fontsize',fontsize+1);
 legend boxoff;
 
 
 %%
 %--- Potential temperature from CTD
-ax4 = axes('position',[0.07 0.05 0.24 0.45]);
+ax4 = axes('position',[0.07 0.06 0.24 0.45]);
 annotation('textbox',[0.02 0.53 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 
-
-
+h1 = plot(pt_all(:,1:7),P_all(:,1:7),'LineWidth',1,'Color',gray);
+axis ij;grid on;grid minor;
+hold on;
+h2 = plot(pt_all(:,8:15),P_all(:,8:15),'LineWidth',1,'Color',gray);
+h1_mean = plot(pt_mean15,pp15,'LineWidth',3,'Color','k');hold off;
+xlabel('($^\circ$C)','interpreter','latex');
+ylabel('Depth (m)','interpreter','latex');
+set(gca,'Fontsize',fontsize)
+title('Potential temperature','interpreter','latex','Fontsize',fontsize+4);
+ylim([0 2700])
+xlim([2 15])
 
 %--- Salinity from CTD
+ax5 = axes('position',[0.39 0.06 0.24 0.45]);
+annotation('textbox',[0.34 0.53 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+plot(psal_all(:,1:7),P_all(:,1:7),'LineWidth',1,'Color',gray);
+axis ij;grid on;grid minor;
+hold on;
+plot(psal_all(:,8:15),P_all(:,8:15),'LineWidth',1,'Color',gray);
+plot(psal_mean15,pp15,'LineWidth',3,'Color','k');hold off;
+ylim([0 2700])
+xlabel('(psu)','interpreter','latex');
+ylabel('Depth (m)','interpreter','latex');
+set(gca,'Fontsize',fontsize)
+title('Salinity','interpreter','latex','Fontsize',fontsize+4);
+xlim([34.9 35.45])
 
 %--- N^2 from CTD
+ax6 = axes('position',[0.7 0.06 0.24 0.45]);
+annotation('textbox',[0.65 0.53 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+plot(log10(N2_all(:,1:7)),Pmid_all(:,1:7),':','LineWidth',0.5,'Color',gray);
+axis ij;grid on;grid minor;
+hold on;
+plot(log10(N2_all(:,8:15)),Pmid_all(:,8:15),':','LineWidth',0.5,'Color',gray);
+plot(log10(N2_mean15),Pmid_all(:,end),'LineWidth',1.5,'Color','k');
+hold off;
+ylim([0 2700])
+xlim([-9 -3])
+xlabel('$\log(\mathrm{s}^{-2})$','interpreter','latex');
+ylabel('Depth (m)','interpreter','latex');
+set(gca,'Fontsize',fontsize)
+title('$\log(\partial_{\tilde z} b)$','interpreter','latex','Fontsize',fontsize+4);
 
 
-% print('-dpng','-r200',['fig_supp/figS_obs_CTD.png']);
+print('-dpng','-r300',['fig_supp/figS_hydrography_matlab.png']);
