@@ -1,6 +1,6 @@
 addpath ../analysis/
 addpath ../analysis/functions/
-expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
+expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20_hifreq'
 expdir = '../exps_topo4/';
 loadexp;
 
@@ -14,8 +14,8 @@ dumpIters = dumpIters(dumpIters > nIter0);
 nDumps = length(dumpIters);
 
 
-No = 4*12;
-tidx = 25*12+1:25*12+No;
+No = 4*12*10;
+tidx = 1:No;
 
 uu_timeseries= zeros(No,Nr);
 S_timeseries = zeros(No,Nr);
@@ -43,7 +43,8 @@ end
 
 
 
-for i=1:length(tidx)
+for i=1:288
+% for i=1:length(tidx)
 
     o=tidx(i);
 
@@ -102,8 +103,8 @@ for i=1:length(tidx)
     dv_dx_wlev(:,2:Nr)= 0.5*(dv_dx(:,1:Nr-1)+dv_dx(:,2:Nr));
     
     
-    epsilon = viscAr.*(du_dz.^2+dv_dz_ugrid.^2+dw_dz_ugrid.^2  ...
-        +du_dx_ugrid_wlev.^2+dv_dx_wlev.^2+dw_dx.^2);  %%% Mass-point, lower level
+    epsilon = viscAr.*(du_dz.^2+dv_dz_ugrid.^2+dw_dz_ugrid.^2)  ...
+        +viscAh.*(du_dx_ugrid_wlev.^2+dv_dx_wlev.^2+dw_dx.^2);  %%% Mass-point, lower level
     
     dT_dx= (tt-tt([Nx 1:Nx-1],:)) ./dx; % u-grid, t-lev
     

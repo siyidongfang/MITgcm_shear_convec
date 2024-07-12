@@ -82,9 +82,9 @@ dv_dx= (vv-vv([Nx 1:Nx-1],:)) ./dx;
 dv_dx_wlev(:,2:Nr)= 0.5*(dv_dx(:,1:Nr-1)+dv_dx(:,2:Nr));
 
 
-epsilon = viscAr.*(du_dz.^2+dv_dz_ugrid.^2+dw_dz_ugrid.^2  ...
-    +du_dx_ugrid_wlev.^2+dv_dx_wlev.^2+dw_dx.^2);  %%% Mass-point, lower level
-% epsilon = viscAr.*(du_dz.^2+dv_dz_ugrid.^2);
+epsilon = viscAr.*(du_dz.^2+dv_dz_ugrid.^2+dw_dz_ugrid.^2)  ...
+    +viscAh.*(du_dx_ugrid_wlev.^2+dv_dx_wlev.^2+dw_dx.^2);  %%% Mass-point, lower level
+    
 
 
 % drho_dx = zeros(Nx,Nr);

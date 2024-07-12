@@ -78,6 +78,7 @@ pcolor(xx,zz,iniT');shading flat;colormap(mycolor);
 clim([-1.01 1.01]*1e-20)
 ylim([-500 0])
 yticks([-500 -250 0])
+xlim([-1500 1500])
 ylabel('$z$ (m)','interpreter','latex')
 xlabel('$x$ (m)','interpreter','latex')
 set(gca,'Fontsize',fontsize);
