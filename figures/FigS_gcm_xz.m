@@ -105,7 +105,6 @@ epsilon = viscAr.*(du_dz.^2+dv_dz_ugrid.^2+dw_dz_ugrid.^2  ...
 
 dT_dx= (tt-tt([Nx 1:Nx-1],:)) ./dx; % u-grid, t-lev
 
-tt_ugrid = zeros(Nx,Nr);
 tt_ugrid_wlev = zeros(Nx,Nr);
 tt_ugrid = 0.5*(tt([Nx 1:Nx-1],:)+tt);
 tt_ugrid_wlev(:,2:Nr) =  0.5*(tt_ugrid(:,1:Nr-1)+tt_ugrid(:,2:Nr));
@@ -115,9 +114,6 @@ dT_dz(:,1:Nr-1) = - diff(tt_ugrid_wlev,1,2) ./ dz;
 
 chi_x = diffKhT.*(dT_dx.^2); %%% u-grid, t-lev
 chi_z = diffKrT.*dT_dz.^2;   %%% u-grid, t-lev
-% chi_x_lower = zeros(Nx,Nr);
-% chi_x_lower(:,1:Nr-1) = 0.5 * (chi_x(:,1:Nr-1) + chi_x(:,2:Nr));
-
 chi_tt = chi_z + chi_x; %%% u-grid, t-lev
 
 
