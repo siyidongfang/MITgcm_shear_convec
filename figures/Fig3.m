@@ -30,7 +30,11 @@ annotation('textbox',[0.028 0.996 0.15 0.01],'String','a','FontSize',fontsize+3,
 rw_idx = 1:Nrw;
 pcolor(1./Ri_km,(lam_x_real(rw_idx))/1000,grow_sr(:,rw_idx)');
 set(gca,'Fontsize',fontsize);
-shading flat;colormap(WhiteBlueGreenYellowRed(0))
+shading flat;
+colormap(flip(bone))
+% colormap(cmocean('tempo'))
+% colormap(cmocean('rain'))
+% colormap(WhiteBlueGreenYellowRed(0))
 h1 = colorbar;
 set(h1,'Position',[0.45 0.7456+0.01   0.008    0.2]);
 set(get(h1,'Title'),'String',{'$\ \ \ \ (\mathrm{hour}^{-1})$'},'interpreter','latex','FontSize',fontsize);
@@ -44,10 +48,10 @@ xlim([0 4])
 
 ax2 = subplot('position',[.57 .74 0.4 0.225]);
 annotation('textbox',[0.538 0.996 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2);
+plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
 grid on;grid minor;
 hold on;
-plot(1./Ri_km,max_grow,'LineWidth',2);
+plot(1./Ri_km,max_grow,'LineWidth',2,'Color',black);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number $R_i^{-1}$','interpreter','latex');
 l1 = legend('MITgcm','Theory','Position',[0.58 0.9140 0.1010 0.0445],'interpreter','latex');
@@ -75,12 +79,13 @@ for i=1:length(shear_all)
     Ri_km(i) = Ri_min(b(i));
 end
 
+
 ax3 = subplot('position',[.06 .40 0.375 0.225]);
 annotation('textbox',[0.028 0.65 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 rw_idx = 1:Nrw;
 pcolor(1./Ri_km,(lam_x_real(rw_idx))/1000,grow_sr(:,rw_idx)');
 set(gca,'Fontsize',fontsize);
-shading flat;colormap(WhiteBlueGreenYellowRed(0))
+shading flat;
 h2 = colorbar;
 set(h2,'Position',[0.45 0.4056+0.01   0.008    0.2]);
 set(get(h2,'Title'),'String',{'$\ \ \ \ (\mathrm{hour}^{-1})$'},'interpreter','latex','FontSize',fontsize);
@@ -94,10 +99,10 @@ xlim([0 4])
 
 ax4 = subplot('position',[.57 .40 0.4 0.225]);
 annotation('textbox',[0.538 0.65 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2);
+plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
 grid on;grid minor;
 hold on;
-plot(1./Ri_km,max_grow,'LineWidth',2);
+plot(1./Ri_km,max_grow,'LineWidth',2,'Color',black);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number $R_i^{-1}$','interpreter','latex');
 l4 = legend('MITgcm','Theory','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
@@ -130,9 +135,9 @@ tt = tt(tidx);
 %--- plot vertical velocity and buoyancy perturbation
 ax5 = subplot('position',[.06 .06 0.4 0.225]);
 annotation('textbox',[0.028 0.31 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-plot(tt/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2);
+plot(tt/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2,'Color',blue);
 hold on;
-plot(tt/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2);
+plot(tt/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2,'Color',black);
 grid on;grid minor;
 l5 = legend('Buoyancy perturbation','Vertical velocity','interpreter','latex','Position',[0.07 0.2265 0.2063 0.0458]);
 xlabel('Time (tidal cycles)','interpreter','latex')
@@ -144,10 +149,10 @@ ax6 = subplot('position',[.57 .06 0.4 0.225]);
 annotation('textbox',[0.538 0.31 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 lres = plot(tt/43200,dbdt-uB0x-wB0z-wBz,'-','LineWidth',3,'Color',boxcolor);
 hold on;
-luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',[0.9290 0.6940 0.1250]);
-lwBz = plot(tt/43200,wBz,'LineWidth',2,'Color',[0.8500 0.3250 0.0980]);
-lwB0z = plot(tt/43200,wB0z,'LineWidth',2,'Color',[0 0.4470 0.7410]);
-ldbdt = plot(tt/43200,dbdt,':','LineWidth',2,'Color',black);
+luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',brown);
+lwBz = plot(tt/43200,wBz,'LineWidth',2,'Color',yellow);
+lwB0z = plot(tt/43200,wB0z,'LineWidth',2,'Color',blue);
+ldbdt = plot(tt/43200,dbdt,'--','LineWidth',1,'Color',black);
 grid on;grid minor;
 xlabel('Time (tidal cycles)','interpreter','latex')
 set(gca,'Fontsize',fontsize);
@@ -164,4 +169,4 @@ l62 = legend(ah,[ldbdt lres], ...
 legend('boxoff') 
 
 
-print('-dpng','-r200','fig3/fig3.png');
+print('-dpng','-r300','fig3/fig3.png');

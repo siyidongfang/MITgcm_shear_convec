@@ -5,7 +5,8 @@ addpath ../analysis/functions/
 % expname = 'hires_topo4_s0.0013_dz1dx6n-20';
 % expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
 expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
-expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4/';
+expdir = '../exps_topo4/';
+% expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4/';
 loadexp;
 
 rhoConst = 999.8;
