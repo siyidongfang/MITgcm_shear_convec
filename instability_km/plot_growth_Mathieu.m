@@ -4,8 +4,8 @@
 clear;addpath ../analysis/colormaps/
 
 %%% calculate omega0 and epsilon of each case
-expdir = 'backup_exps/exps_flat';
-% expdir = 'backup_exps/exps_topo4';
+% expdir = 'backup_exps/exps_flat';
+expdir = 'backup_exps/exps_topo4';
 % shear_all = [0:0.005:0.35 0.5:0.005:0.6 0.61:0.005:0.985 1:0.005:2]*1e-3; % 1:0.005:1.5
 shear_all = [0:0.005:0.36]*1e-3;
 % shear_all = [0:0.005:0.495]*1e-3;

@@ -19,8 +19,8 @@ clim([0 0.024])
 % colormap([[1 1 1];cmocean('phase')])
 colormap([[1 1 1];jet])
 set(gca,'fontsize',fontsize)
-ylabel('$\sqrt\epsilon/\omega = \sqrt {\frac{2\omega_0^3}{\omega}\frac{\Lambda}{\tilde N}}\Big/\omega$','Interpreter','latex','FontSize',fontsize+4)
-xlabel('$\omega_0 /\omega = (N \frac{k_0}{m_0})/\omega$','Interpreter','latex','FontSize',fontsize+4);
+ylabel('$\sqrt\epsilon_0/\omega = \sqrt {\frac{2\omega_0^3}{\omega}\frac{\Lambda}{\tilde N}}\Big/\omega$','Interpreter','latex','FontSize',fontsize+4)
+xlabel('$\omega_0 /\omega = (\tilde N \frac{k_0}{m_0})/\omega$','Interpreter','latex','FontSize',fontsize+4);
 title('Growth rate (hour$^{-1}$)','Interpreter','latex','FontSize',fontsize+4)
 box on;
 grid on;grid minor
@@ -35,8 +35,8 @@ clim([0 0.024])
 % ylabel('$\sqrt\epsilon/\omega = \sqrt {2\Lambda\omega_0^3/(N\omega^3)}$','Interpreter','latex')
 % xlabel('$\sqrt\delta/\omega = \omega_0 /\omega = N k_x/m_z/\omega$','Interpreter','latex')
 set(gca,'fontsize',fontsize)
-ylabel('$\sqrt\epsilon/\omega = \sqrt {\frac{2\omega_0^3}{\omega}\frac{\Lambda}{\tilde N}}\Big/\omega$','Interpreter','latex','FontSize',fontsize+4)
-xlabel('$\omega_0 /\omega = (N \frac{k_0}{m_0})/\omega$','Interpreter','latex','FontSize',fontsize+4)
+ylabel('$\sqrt\epsilon_0/\omega = \sqrt {\frac{2\omega_0^3}{\omega}\frac{\Lambda}{\tilde N}}\Big/\omega$','Interpreter','latex','FontSize',fontsize+4)
+xlabel('$\omega_0 /\omega = (\tilde N \frac{k_0}{m_0})/\omega$','Interpreter','latex','FontSize',fontsize+4)
 title('Growth rate (hour$^{-1}$)','Interpreter','latex','FontSize',fontsize+4)
 box on;
 grid on;grid minor
