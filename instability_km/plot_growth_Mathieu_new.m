@@ -14,7 +14,7 @@ omega0 = N*kx_all/m0_rw;
 for ns=1:50
     shear = shear_all(ns)
 
-    epsilon = (2*shear*omega0.^3/omega^3/N).^(1/2);
+    epsilon = 2*shear*omega0.^3/omega/N;
     epsilon_all=[epsilon_all epsilon];
 
     grow = grow_rw(ns,:);
@@ -22,7 +22,6 @@ for ns=1:50
 
     omega0_all = [omega0_all omega0];
 end
-
 
 
 % for ns = 1:100

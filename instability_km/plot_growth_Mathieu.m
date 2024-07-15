@@ -18,8 +18,7 @@ for ns = 1:length(shear_all)
     load([expdir '/growth_shear' num2str(shear*1e3,3) '_m01.mat'],'grow','rw_all','m0','N','omega')
     k0_all = rw_all*m0;
     omega0 = N*k0_all*m0;
-    epsilon = 2*omega0.^2.*omega0/omega*shear/N;
-    % epsilon = (epsilon/omega^2).^(1/2);
+    epsilon = 2*omega0.^3/omega*shear/N;
     grow_all = [grow_all grow];
     omega0_all = [omega0_all omega0];
     epsilon_all = [epsilon_all epsilon];
@@ -46,13 +45,13 @@ grow_sort = grow_all(I);
 grow_sort(grow_sort<0)=0;
 
 
-% save('../figures/fig4/fig4_topo0.mat')
+save('../figures/fig4/fig4_topo4.mat')
 
 
 
 figure(1)
 clf;set(gcf,'Color','w');
-scatter(omega0_sort.^2,epsilon_sort,20,grow_sort,'filled')
+scatter(omega0_sort.^2/omega^2,epsilon_sort/omega^2,20,grow_sort,'filled')
 % scatter(omega0_sort/omega,epsilon_sort,20,grow_sort,'filled')
 % scatter(omega0_sort/omega,epsilon_sort/omega^2,20,grow_sort,'filled')
 colorbar;
@@ -65,6 +64,7 @@ ylabel('$\sqrt\epsilon/\omega = \sqrt {2\Lambda\omega_0^3/(N\omega^3)}$','Interp
 title('Growth rate (1/hour)')
 xlabel('$\sqrt\delta/\omega = \omega_0 /\omega = N k_x/m_z/\omega$','Interpreter','latex')
 set(gca,'fontsize',20)
+xlim([0 4])
 
 
 

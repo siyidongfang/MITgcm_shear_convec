@@ -5,8 +5,7 @@ NT2 = 80;
 % expdir = 'exps/topo4_nu2e-4/'; %%% topo4 with diffusion/viscous dissipation
 % expdir = 'exps/topo4_kappa0/'; %%% topo4 with diffusion/viscous dissipation
 % expdir = 'exps/parallel_flat_rw_new/'; %%% Flat bottom with diffusion/viscous dissipation
-% expdir = 'exps_new/topo4_nu0/'
-expdir = 'exps_new/topo4_nu0'
+expdir = 'exps_new/topo4_nu0/'
 
 Diffusion = false;
 ConvectiveAdjustment = false;
