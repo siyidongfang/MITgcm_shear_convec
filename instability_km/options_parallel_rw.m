@@ -2,13 +2,16 @@
 %%%%% All variables are dimensional variables
 clear; close all;
 
-constants;
+delete(gcp('nocreate'))
+% constants
+constants_smallshear
 
 m0 = m0_rw;
 
 grow_rw = zeros(Ns,Nrw);
 
-for ns =1:Ns
+ for ns =1:5
+% for ns =1:Ns
     ns
     shear = shear_all(ns)
     
@@ -17,7 +20,8 @@ for ns =1:Ns
         rs = 0;
     end
   
-    parfor j=1:Nrw
+    % parfor j=1:Nrw
+    parfor j=1:20
         % for j=1
         % load("grow_rw.mat")
         % rw = rw_max(ns);
@@ -62,3 +66,5 @@ for ns =1:Ns
 end
 
 save([expdir '_output.mat']);
+
+delete(gcp('nocreate'))

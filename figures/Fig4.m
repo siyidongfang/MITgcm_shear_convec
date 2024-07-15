@@ -17,14 +17,13 @@ annotation('textbox',[0.015 0.99 0.15 0.01],'String','a','FontSize',fontsize+3,'
 scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o', 'filled');
 clim([0 0.024])
 % colormap([[1 1 1];cmocean('phase')])
-colormap([[1 1 1];jet])
+colormap([[1 1 1]*0.975;jet])
 set(gca,'fontsize',fontsize)
 ylabel('$\sqrt\epsilon_0/\omega = \sqrt {\frac{2\omega_0^3}{\omega}\frac{\Lambda}{\tilde N}}\Big/\omega$','Interpreter','latex','FontSize',fontsize+4)
 xlabel('$\omega_0 /\omega = (\tilde N \frac{k_0}{m_0})/\omega$','Interpreter','latex','FontSize',fontsize+4);
 title('Growth rate (hour$^{-1}$)','Interpreter','latex','FontSize',fontsize+4)
 box on;
 grid on;grid minor
-
 
 
 load('fig4/fig4_topo4.mat')
