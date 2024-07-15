@@ -3,7 +3,7 @@
 
 clear;addpath ../analysis/colormaps/
 
-expdir = 'exps_new/topo0_nu0'
+expdir = 'exps_new/topo0_nu0_Mathieu'
 load([expdir '_output.mat'])
 
 grow_all = [];
@@ -11,10 +11,10 @@ omega0_all = [];
 epsilon_all = [];
 omega0 = N*kx_all/m0_rw;
 
-for ns=1:50
+for ns=1:Ns
     shear = shear_all(ns)
 
-    epsilon = 2*shear*omega0.^3/omega/N;
+    epsilon = 2*omega0.^3/omega*shear/N;
     epsilon_all=[epsilon_all epsilon];
 
     grow = grow_rw(ns,:);
@@ -54,6 +54,11 @@ end
 [omega0_sort,I] = sort(omega0_all);
 epsilon_sort = epsilon_all(I);
 grow_sort = grow_all(I);
+
+
+save('../figures/fig4/fig4_topo0.mat')
+
+
 
 figure(1)
 clf;set(gcf,'Color','w');

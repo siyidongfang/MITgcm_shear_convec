@@ -9,6 +9,10 @@ expdir = 'backup_exps/exps_topo4';
 % shear_all = [0:0.005:0.35 0.5:0.005:0.6 0.61:0.005:0.985 1:0.005:2]*1e-3; % 1:0.005:1.5
 shear_all = [0:0.005:0.36]*1e-3;
 % shear_all = [0:0.005:0.495]*1e-3;
+
+% expdir = 'exps_new/topo0_nu0_Mathieu'
+% load([expdir '_output.mat'])
+
 grow_all = [];
 omega0_all = [];
 epsilon_all = [];
@@ -45,7 +49,7 @@ grow_sort = grow_all(I);
 grow_sort(grow_sort<0)=0;
 
 
-save('../figures/fig4/fig4_topo4.mat')
+% save('../figures/fig4/fig4_topo4.mat')
 
 
 

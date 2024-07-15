@@ -47,7 +47,7 @@ h1 = colorbar;
 set(h1,'Position',[0.45 0.7456+0.01   0.008    0.2]);
 set(get(h1,'Title'),'String',{'$\ \ \ \ (\mathrm{hour}^{-1})$'},'interpreter','latex','FontSize',fontsize);
 clim([0 0.35]);
-xlabel('Inverse Richardson number $R_i^{-1}$','interpreter','latex');
+xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 ylabel('Horizontal wavelength (km)','interpreter','latex');
 title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
 ylim([0 33])
@@ -61,7 +61,7 @@ grid on;grid minor;
 hold on;
 plot(1./Ri_km,max_grow_rw,'LineWidth',2,'Color',black);
 ylabel('(hour$^{-1}$)','interpreter','latex');
-xlabel('Inverse Richardson number $R_i^{-1}$','interpreter','latex');
+xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 l1 = legend('MITgcm','Theory','Position',[0.58 0.9140 0.1010 0.0445],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
 xlim([0 4])
@@ -104,8 +104,8 @@ h2 = colorbar;
 set(h2,'Position',[0.45 0.4056+0.01   0.008    0.2]);
 set(get(h2,'Title'),'String',{'$\ \ \ \ (\mathrm{hour}^{-1})$'},'interpreter','latex','FontSize',fontsize);
 clim([0 0.35]);
-xlabel('Inverse Richardson number $R_i^{-1}$','interpreter','latex');
-ylabel('Horizontal wavelength (km)','interpreter','latex');
+xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
+ylabel('Across-slope wavelength (km)','interpreter','latex');
 title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
 ylim([0 33])
 xlim([0 4])
@@ -118,7 +118,7 @@ grid on;grid minor;
 hold on;
 plot(1./Ri_km,max_grow_rw,'LineWidth',2,'Color',black);
 ylabel('(hour$^{-1}$)','interpreter','latex');
-xlabel('Inverse Richardson number $R_i^{-1}$','interpreter','latex');
+xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 l4 = legend('MITgcm','Theory','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
 xlim([0 4])
@@ -183,4 +183,4 @@ l62 = legend(ah,[ldbdt lres], ...
 legend('boxoff') 
 
 
-print('-dpng','-r300','fig3/fig3.png');
+print('-dpng','-r300','fig3/fig3_matlab.png');

@@ -24,7 +24,7 @@ xlabel('$\omega_0 /\omega = (\tilde N \frac{k_0}{m_0})/\omega$','Interpreter','l
 title('Growth rate (hour$^{-1}$)','Interpreter','latex','FontSize',fontsize+4)
 box on;
 grid on;grid minor
-
+xlim([0 2.5])
 
 load('fig4/fig4_topo4.mat')
 ax2 = axes('position',[0.55 0.15 0.39 0.77]);
@@ -40,6 +40,6 @@ title('Growth rate (hour$^{-1}$)','Interpreter','latex','FontSize',fontsize+4)
 box on;
 grid on;grid minor
 h3 = colorbar(ax2,'Position',[0.95 0.1400 0.0160/2 0.7800]);
-
+xlim([0 2.5])
 print('-dpng','-r300','fig4/fig4_matlab.png');
 
