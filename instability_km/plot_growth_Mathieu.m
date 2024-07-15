@@ -4,22 +4,22 @@
 clear;addpath ../analysis/colormaps/
 
 %%% calculate omega0 and epsilon of each case
-% expdir = 'exps_flatbottom';
-expdir = 'exps_topo4';
+expdir = 'backup_exps/exps_flat';
+% expdir = 'backup_exps/exps_topo4';
 % shear_all = [0:0.005:0.35 0.5:0.005:0.6 0.61:0.005:0.985 1:0.005:2]*1e-3; % 1:0.005:1.5
-% shear_all = [0:0.005:0.32]*1e-3;
-shear_all = [0:0.005:0.5]*1e-3;
+shear_all = [0:0.005:0.36]*1e-3;
+% shear_all = [0:0.005:0.495]*1e-3;
 grow_all = [];
 omega0_all = [];
 epsilon_all = [];
 
-for ns = 1:100
+for ns = 1:length(shear_all)
     shear = shear_all(ns);
     load([expdir '/growth_shear' num2str(shear*1e3,3) '_m01.mat'],'grow','rw_all','m0','N','omega')
     k0_all = rw_all*m0;
     omega0 = N*k0_all*m0;
     epsilon = 2*omega0.^2.*omega0/omega*shear/N;
-    epsilon = (epsilon/omega^2).^(1/2);
+    % epsilon = (epsilon/omega^2).^(1/2);
     grow_all = [grow_all grow];
     omega0_all = [omega0_all omega0];
     epsilon_all = [epsilon_all epsilon];
@@ -43,21 +43,28 @@ end
 [omega0_sort,I] = sort(omega0_all);
 epsilon_sort = epsilon_all(I);
 grow_sort = grow_all(I);
+grow_sort(grow_sort<0)=0;
+
+
+% save('../figures/fig4/fig4_topo0.mat')
+
+
 
 figure(1)
 clf;set(gcf,'Color','w');
-scatter(omega0_sort/omega,epsilon_sort/omega^2,20,grow_sort,'filled')
+scatter(omega0_sort.^2,epsilon_sort,20,grow_sort,'filled')
+% scatter(omega0_sort/omega,epsilon_sort,20,grow_sort,'filled')
+% scatter(omega0_sort/omega,epsilon_sort/omega^2,20,grow_sort,'filled')
 colorbar;
-% xlim([0 1.5])
-% ylim([0 0.5])
-clim([-0.3 0.3]/10)
-colormap(cmocean('balance'))
-% colormap(redblue)
+% clim([-0.3 0.3]/10)
+ clim([0 0.3]/10)
+ colormap([[1 1 1];cmocean('phase')])
+% colormap(cmocean('balance'))
+% colormap(WhiteBlueGreenYellowRed(3))
 ylabel('$\sqrt\epsilon/\omega = \sqrt {2\Lambda\omega_0^3/(N\omega^3)}$','Interpreter','latex')
 title('Growth rate (1/hour)')
 xlabel('$\sqrt\delta/\omega = \omega_0 /\omega = N k_x/m_z/\omega$','Interpreter','latex')
 set(gca,'fontsize',20)
-
 
 
 

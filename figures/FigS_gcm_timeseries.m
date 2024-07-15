@@ -22,7 +22,7 @@ hold on;
 contour(tidx,zz-botZ,tt_timeseries',[-0.405:0.015:0.405],'Color',darkgray,'LineWidth',0.5);
 % contour(tidx,zz-botZ,N2_timeseries',[0 0],'Color','w','LineWidth',0.2);
 hold off;
-shading interp
+shading flat
 colormap(cmocean('balance'))
 clim([-0.02 0.28]);
 ylim(YLIM)
@@ -39,7 +39,7 @@ freezeColors(ax1)
 ax2 = subplot('position',[0.07 0.7 0.85 0.12]);
 annotation('textbox',[0 0.84 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(tidx,zz-botZ,log10(epsilon_timeseries)');
-hold on;shading interp
+hold on;shading flat
 clim([-11 -8])
 ylim(YLIM)
 colormap(cmocean('thermal'))
@@ -56,10 +56,10 @@ xlim([0 48])
 ax3 = subplot('position',[0.07 0.55 0.85 0.12]);
 annotation('textbox',[0 0.69 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(tidx,zz-botZ,log10(chi_timeseries)');
-hold on;shading interp
-clim([-12 -9])
+hold on;shading flat
+clim([-11 -9.4])
 ylim(YLIM)
-colormap(cmocean('thermal'))
+colormap(cmocean('haline'))
 % colormap hot
 freezeColors(ax3);
 set(gca,'Fontsize',fontsize);
@@ -71,10 +71,12 @@ set(get(h3,'Title'),'String',{'$\log(\mathrm{^\circ C^2/s})$'},'interpreter','la
 xlim([0 48])
 
 
-
+Nplot = N2_timeseries;
+Nplot(N2_timeseries<0)=0;
+Nplot=log10(sqrt(abs(Nplot)));
 ax4 = subplot('position',[0.07 0.4 0.85 0.12]);
 annotation('textbox',[0 0.54 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-pcolor(tidx,zz-botZ,log10(sqrt(abs(N2_timeseries)))');
+pcolor(tidx,zz-botZ,Nplot');
 shading flat
 hold on;
 % contour(tidx,zz-botZ,N2_timeseries',[0 0],'Color','c','LineWidth',0.2);
@@ -96,7 +98,7 @@ xlim([0 48])
 ax5 = subplot('position',[0.07 0.25 0.85 0.12]);
 annotation('textbox',[0 0.39 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(tidx,zz-botZ,uu_timeseries'*cosd(4)-ww_timeseries'*sind(4));
-hold on;shading interp
+hold on;shading flat
 ylim(YLIM)
 clim([-0.399 0.399])
 colormap(cmocean('balance'))
@@ -113,7 +115,7 @@ xlim([0 48])
 ax6 = subplot('position',[0.07 0.1 0.85 0.12]);
 annotation('textbox',[0 0.24 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(tidx,zz-botZ,ww_timeseries'*cosd(4)+uu_timeseries'*sind(4));
-hold on;shading interp
+hold on;shading flat
 ylim(YLIM)
 clim([-0.075 0.075])
 colormap(cmocean('balance'))
@@ -131,39 +133,50 @@ print('-dpng','-r300',['fig_supp/figS_gcm_timeseries_matlab.png']);
 
 
 
-
-figure(2)
-clf;   
-set(gcf,'Color','w');
-scrsz = get(0,'ScreenSize');
-set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 900]);
-
-ax2 = subplot('position',[0.07 0.7 0.85 0.12]);
-h2=colorbar(ax2,'Position',[0.93    0.7+0.01   0.008    0.105]);
-set(gca,'Fontsize',fontsize);
-xticks([])
-clim([-11 -8])
-
-ax3 = subplot('position',[0.07 0.55 0.85 0.12]);
-h3=colorbar(ax3,'Position',[0.93    0.55+0.01   0.008    0.105]);
-colormap(cmocean('thermal'))
-set(gca,'Fontsize',fontsize);
-xticks([])
-clim([-12 -9])
-
-print('-dpng','-r300',['fig_supp/figS_gcm_timeseries_colorbar2.png']);
+% figure(2)
+% clf;   
+% set(gcf,'Color','w');
+% scrsz = get(0,'ScreenSize');
+% set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 900]);
+% 
+% ax2 = subplot('position',[0.07 0.7 0.85 0.12]);
+% h2=colorbar(ax2,'Position',[0.93    0.7+0.01   0.008    0.105]);
+% set(gca,'Fontsize',fontsize);
+% xticks([])
+% clim([-11 -8])
+% colormap(cmocean('thermal'))
+% 
+% print('-dpng','-r300',['fig_supp/figS_gcm_timeseries_colorbar2.png']);
 
 
 
-figure(3)
-clf;   
-set(gcf,'Color','w');
-scrsz = get(0,'ScreenSize');
-set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 900]);
-ax4 = subplot('position',[0.07 0.4 0.85 0.12]);
-colormap(cmocean('haline'))
-set(gca,'Fontsize',fontsize);
-h4=colorbar(ax4,'Position',[0.93    0.4+0.01   0.008    0.105]);
-clim([-3.2 -2.8])
-
-print('-dpng','-r300',['fig_supp/figS_gcm_timeseries_colorbar3.png']);
+% figure(3)
+% clf;   
+% set(gcf,'Color','w');
+% scrsz = get(0,'ScreenSize');
+% set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 900]);
+% 
+% 
+% ax3 = subplot('position',[0.07 0.55 0.85 0.12]);
+% h3=colorbar(ax3,'Position',[0.93    0.55+0.01   0.008    0.105]);
+% colormap(cmocean('haline'))
+% set(gca,'Fontsize',fontsize);
+% xticks([])
+% clim([-11 -9.4])
+% 
+% print('-dpng','-r300',['fig_supp/figS_gcm_timeseries_colorbar3.png']);
+% 
+% 
+% 
+% figure(4)
+% clf;   
+% set(gcf,'Color','w');
+% scrsz = get(0,'ScreenSize');
+% set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 900]);
+% ax4 = subplot('position',[0.07 0.4 0.85 0.12]);
+% colormap(cmocean('haline'))
+% set(gca,'Fontsize',fontsize);
+% h4=colorbar(ax4,'Position',[0.93    0.4+0.01   0.008    0.105]);
+% clim([-3.2 -2.8])
+% 
+% print('-dpng','-r300',['fig_supp/figS_gcm_timeseries_colorbar4.png']);

@@ -55,7 +55,7 @@ ax1.YAxis(2).Color = green;
 
 % xlabel('Dates','interpreter','latex');
 set(gca,'FontSize',fontsize,'TickDir', 'in','TickLength',[0.005, 0.005]);
-title('Vertical buoyancy gradient, linear-fit shear, and inverse $R_i$ of the large-scale flow at MAVS1','interpreter','latex','FontSize',fontsize+5);
+title('Vertical buoyancy gradient, linear-fit shear, and inverse Richardson number of the large-scale flow at MAVS1','interpreter','latex','FontSize',fontsize+5);
 hold off;
 
 xticks([0:4:32])
@@ -73,7 +73,7 @@ set(gca,'FontSize',fontsize,'TickDir', 'in','TickLength',[0.005, 0.005]);
 ax2.Visible = 'off';
 ax2.XTick = [];
 ax2.YTick = [];
-ylabel('Inverse $R_i$','Color',blue,'Interpreter','latex')
+ylabel('Inverse Richardson number','Color',blue,'Interpreter','latex')
 ylim([-0.5 5])
 xlim(XLIM)
 ax2.YAxis(2).Color = blue;
@@ -94,7 +94,7 @@ yyaxis right
 axis tight
 set(gca,'FontSize',fontsize,'TickDir', 'in','TickLength',[0.005, 0.005]);
 ax2.XTick = [];
-ylabel('Inverse $R_i$','Color',blue,'Interpreter','latex')
+ylabel('Inverse Richardson number','Color',blue,'Interpreter','latex')
 ylim([-0.5 5])
 xlim(XLIM)
 ax2.YAxis(2).Color = blue;

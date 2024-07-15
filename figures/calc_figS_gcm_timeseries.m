@@ -43,8 +43,7 @@ end
 
 
 
-for i=1:288
-% for i=1:length(tidx)
+for i=1:length(tidx)
 
     o=tidx(i);
 
@@ -56,6 +55,7 @@ for i=1:288
     tt(tt==0)=NaN;
 
     LC = 1*m1km;
+    % LC = -0.5*m1km;
     [mC,nC] = min(abs(xx-LC));
     ttC = tt(nC,:)+tt_background(nC,:);
     tt_timeseries(i,:) = ttC;

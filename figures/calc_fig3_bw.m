@@ -12,7 +12,8 @@ shear_set = shear_calc_Ri(b);
 load('fig3/topo4_kappa0.mat','shear_all','crop_limit')
 [a num_shear] = min(abs(shear_set - shear_all));
 shear = shear_all(num_shear);
-expdir = '../instability_km/exps/topo4_kappa0/';
+% expdir = '../instability_km/exps/topo4_kappa0/';
+ expdir = '../instability_km/exps_new/topo0_nu0/';
 
 %--- find out the most unstable mode
 h_shear = 2000;

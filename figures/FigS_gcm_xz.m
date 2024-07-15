@@ -11,6 +11,7 @@ expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
 expdir = '../exps_topo4/';
 loadexp;
 rhoConst = 999.8;
+YLIM = [0 400];
 
 %%% Frequency of diagnostic output
 dumpFreq = abs(diag_frequency(1)); 
@@ -117,64 +118,12 @@ chi_z = diffKrT.*dT_dz.^2;   %%% u-grid, t-lev
 chi_tt = chi_z + chi_x; %%% u-grid, t-lev
 
 
-figure(2)
+figure(1)
 clf;
 set(gcf,'Color','w');
 scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 600]);
 
-ax1 = subplot('position',[0.07 0.72 0.365 0.22]);
-annotation('textbox',[0 0.99 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-pcolor(xx/1000,zz-botZ,uu');
-shading interp;
-clim([-1 1]*0.18)
-ylabel('HAB (m)','interpreter','latex');
-set(gca,'Fontsize',fontsize);
-title('Across-isobath velocity $u$','Fontsize',fontsize+4,'interpreter','latex');
-colormap(cmocean('balance'))
-h1 = colorbar(ax1,'Position',[0.44 0.72+0.015 0.008 0.18]);
-set(get(h1,'Title'),'String',{'$\ \ \ \ (\mathrm{m/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
-xlim([-1.5 1.5])
-
-
-ax2 = subplot('position',[0.57 0.72 0.365 0.22]);
-annotation('textbox',[0.5 0.99 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-pcolor(xx/1000,zz-botZ,tt');
-shading interp;
-clim([-0.01 0.21])
-ylabel('HAB (m)','interpreter','latex');
-set(gca,'Fontsize',fontsize);
-title('Temperature $T$','Fontsize',fontsize+4,'interpreter','latex');
-h2 = colorbar(ax2,'Position',[0.94 0.7200+0.015 0.008 0.18]);
-set(get(h2,'Title'),'String',{'$\ \ \ \ (^\circ\mathrm{C})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
-xlim([-1.5 1.5])
-
-
-ax3 = subplot('position',[0.07 0.4 0.365 0.22]);
-annotation('textbox',[0 0.665 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-pcolor(xx/1000,zz-botZ,S');
-shading interp;
-clim([-1 1]*3e-3)
-ylabel('HAB (m)','interpreter','latex');
-set(gca,'Fontsize',fontsize);
-title('Shear $\Lambda=\partial_z u$','Fontsize',fontsize+4,'interpreter','latex');
-h3 = colorbar(ax3,'Position',[0.44 0.4+0.015 0.008 0.18]);
-set(get(h3,'Title'),'String',{'$\ \ \ \ (\mathrm{1/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
-
-
-
-
-ax4 = subplot('position',[0.57 0.4 0.365 0.22]);
-annotation('textbox',[0.5 0.665 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-pcolor(xx/1000,zz-botZ,ww');
-shading interp;
-clim([-1 1]*0.03)
-ylabel('HAB (m)','interpreter','latex');
-set(gca,'Fontsize',fontsize);
-title('Slope-normal velocity $w$','Fontsize',fontsize+4,'interpreter','latex');
-h4 = colorbar(ax4,'Position',[0.94 0.4+0.015 0.008 0.18]);
-set(get(h4,'Title'),'String',{'$\ \ \ \ (\mathrm{m/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
-xlim([-1.5 1.5])
 
 
 ax5 = subplot('position',[0.07 0.08 0.365 0.22]);
@@ -185,13 +134,15 @@ ylabel('HAB (m)','interpreter','latex');
 xlabel('$x$ (km)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
 clim([-11 -8])
+% clim([-11 -9.4])
 % clim([0 1]*1e-9)
 % title('Dissipation rate of TKE','Fontsize',fontsize+4,'interpreter','latex');
 title('$\epsilon=\nu(\nabla \mathbf{u})^2$','Fontsize',fontsize+4,'interpreter','latex');
 h5 = colorbar(ax5,'Position',[0.44 0.08+0.015 0.008 0.18]);
 set(get(h5,'Title'),'String',{'$\log(\mathrm{m^2/s^3})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
-
-
+colormap(cmocean('haline'))
+freezeColors(ax5);
+ylim(YLIM)
 
 
 ax6 = subplot('position',[0.57 0.08 0.365 0.22]);
@@ -202,11 +153,119 @@ ylabel('HAB (m)','interpreter','latex');
 xlabel('$x$ (km)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
 clim([-12.5 -8.6])
+% clim([-11 -8])
 % clim([0 1]*1e-9)
 % title('Dissipation rate of temp. variance','Fontsize',fontsize+4,'interpreter','latex');
 title('$\chi=\kappa(\nabla T)^2$','Fontsize',fontsize+4,'interpreter','latex');
 h6 = colorbar(ax6,'Position',[0.94 0.08+0.015 0.008 0.18]);
 set(get(h6,'Title'),'String',{'$\log(\mathrm{^\circ C^2/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
+colormap(cmocean('thermal'))
+freezeColors(ax6);
+ylim(YLIM)
 
 
-print('-dpng','-r300',['fig_supp/figS_gcm_xz.png']);
+
+
+ax1 = subplot('position',[0.07 0.72 0.365 0.22]);
+annotation('textbox',[0 0.99 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+pcolor(xx/1000,zz-botZ,uu');
+shading flat;
+clim([-1 1]*0.18)
+ylabel('HAB (m)','interpreter','latex');
+set(gca,'Fontsize',fontsize);
+title('Across-isobath velocity $u$','Fontsize',fontsize+4,'interpreter','latex');
+colormap(cmocean('balance'))
+h1 = colorbar(ax1,'Position',[0.44 0.72+0.015 0.008 0.18]);
+set(get(h1,'Title'),'String',{'$\ \ \ \ (\mathrm{m/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
+xlim([-1.5 1.5])
+freezeColors(ax1);
+ylim(YLIM)
+
+
+ax2 = subplot('position',[0.57 0.72 0.365 0.22]);
+annotation('textbox',[0.5 0.99 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+pcolor(xx/1000,zz-botZ,tt');
+shading flat;
+clim([-0.01 0.21])
+ylabel('HAB (m)','interpreter','latex');
+set(gca,'Fontsize',fontsize);
+title('Temperature $T$','Fontsize',fontsize+4,'interpreter','latex');
+h2 = colorbar(ax2,'Position',[0.94 0.7200+0.015 0.008 0.18]);
+set(get(h2,'Title'),'String',{'$\ \ \ \ (^\circ\mathrm{C})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
+xlim([-1.5 1.5])
+colormap(cmocean('balance'))
+freezeColors(ax2);
+ylim(YLIM)
+
+
+ax3 = subplot('position',[0.07 0.4 0.365 0.22]);
+annotation('textbox',[0 0.665 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+pcolor(xx/1000,zz-botZ,S');
+shading flat;
+clim([0 0.7]*3e-3)
+ylabel('HAB (m)','interpreter','latex');
+set(gca,'Fontsize',fontsize);
+title('Absolute shear $\vert\Lambda\vert=\vert\partial_z u\vert$','Fontsize',fontsize+4,'interpreter','latex');
+h3 = colorbar(ax3,'Position',[0.44 0.4+0.015 0.008 0.18]);
+set(get(h3,'Title'),'String',{'$\ \ \ \ (\mathrm{1/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
+colormap(cmocean('haline'))
+freezeColors(ax3);
+ylim(YLIM)
+
+
+ax4 = subplot('position',[0.57 0.4 0.365 0.22]);
+annotation('textbox',[0.5 0.665 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+pcolor(xx/1000,zz-botZ,ww');
+shading flat;
+clim([-1 1]*0.03)
+ylabel('HAB (m)','interpreter','latex');
+set(gca,'Fontsize',fontsize);
+title('Slope-normal velocity $w$','Fontsize',fontsize+4,'interpreter','latex');
+h4 = colorbar(ax4,'Position',[0.94 0.4+0.015 0.008 0.18]);
+set(get(h4,'Title'),'String',{'$\ \ \ \ (\mathrm{m/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
+xlim([-1.5 1.5])
+colormap(cmocean('balance'))
+freezeColors(ax4);
+ylim(YLIM)
+
+
+
+print('-dpng','-r300',['fig_supp/figS_gcm_xz_matlab.png']);
+
+
+
+figure(2)
+clf;
+set(gcf,'Color','w');
+scrsz = get(0,'ScreenSize');
+set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 600]);
+ax3 = subplot('position',[0.07 0.4 0.365 0.22]);
+clim([0 0.7]*3e-3)
+set(gca,'Fontsize',fontsize);
+h3 = colorbar(ax3,'Position',[0.44 0.4+0.015 0.008 0.18]);
+ax5 = subplot('position',[0.07 0.08 0.365 0.22]);
+clim([-11 -8])
+% clim([-11 -9.4])
+h5 = colorbar(ax5,'Position',[0.44 0.08+0.015 0.008 0.18]);
+colormap(cmocean('haline'))
+set(gca,'Fontsize',fontsize);
+print('-dpng','-r300',['fig_supp/figS_gcm_xz_colorbar1.png']);
+
+
+
+figure(3)
+clf;
+set(gcf,'Color','w');
+scrsz = get(0,'ScreenSize');
+set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 600]);
+ax6 = subplot('position',[0.57 0.08 0.365 0.22]);
+set(gca,'Fontsize',fontsize);
+clim([-12.5 -8.6])
+% clim([-11 -8])
+h6 = colorbar(ax6,'Position',[0.94 0.08+0.015 0.008 0.18]);
+colormap(cmocean('thermal'))
+print('-dpng','-r300',['fig_supp/figS_gcm_xz_colorbar2.png']);
+
+
+
+

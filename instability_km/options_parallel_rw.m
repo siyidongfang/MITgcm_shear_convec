@@ -4,16 +4,14 @@ clear; close all;
 
 constants;
 
-mkdir(expdir);
-
 m0 = m0_rw;
 
-for ns =1:length(shear_all)
+grow_rw = zeros(Ns,Nrw);
+
+for ns =1:Ns
     ns
     shear = shear_all(ns)
     
-    mkdir([expdir 'shear_' num2str(shear*1e3,3)]);
-
     rs = shear/omega; %%% shear over omega 
     if(omega==0)
         rs = 0;
@@ -49,7 +47,7 @@ for ns =1:length(shear_all)
             =loop(grow,j,NTtide,kappa_const,dt,Nt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,tt,buoy,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert);
         end
 
-        if(grow(j)>0 && grow(j)<0.1)
+        if(grow(j)>0 && grow(j)<0.15)
             NTtide = NT2*2;
 
             [dt,Nt,tt,psi,zeta,buoy,dbdt,dzetadt,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert] = ...
@@ -59,15 +57,8 @@ for ns =1:length(shear_all)
             =loop(grow,j,NTtide,kappa_const,dt,Nt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,tt,buoy,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert);
         end
 
-         %%% Save the data
-         outputname=[[expdir 'shear_' num2str(shear*1e3,3)] '/growth_shear' num2str(shear*1e3,3) '_rw' num2str(j) '.mat'];
-
-         %%% Save outputs
-         s = struct('grow',grow,'shear',shear,'rw_all',rw_all,'m0',m0);  
-         save(sprintf(outputname),"-fromstruct",s);
-            
+         grow_rw(ns,j)=grow(j);
     end
-
 end
 
-save([expdir '.mat']);
+save([expdir '_output.mat']);
