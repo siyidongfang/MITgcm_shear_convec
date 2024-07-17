@@ -1,4 +1,6 @@
 
+load_colors;
+fontsize = 16;
 %%% 8 panels 
 
 %--- Flat bottom: growth rate as a function of inverse Ri and log10(lambda_x)
@@ -19,3 +21,7 @@
 
 
 % print('-dpng','-r200',['fig_supp/FigS_disc_growth.png']);
+
+
+
+

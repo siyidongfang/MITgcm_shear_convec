@@ -7,18 +7,20 @@ clear all;
 close all;
 
 % exppath = 'exps_tanh_ZeroBot_dz0.5/';
-exppath = 'exps_linear_dz0.5/';
+% exppath = 'exps_linear_dz0.5/';
+exppath = 'exps_topo4_linear_dz1/'
 constants;
 
-parfor Nexp_lambda =1:length(lambda_parm)
+% parfor Nexp_lambda =1:length(lambda_parm)
 % parfor Nexp_lambda =10:11
+for Nexp_lambda =3
     lambda = lambda_parm(Nexp_lambda);
     kx = 2*pi/lambda;
     expfolder = [exppath 'lambda' num2str(lambda) '/']
     mkdir(expfolder); 
 
     % for Nexp_shear =1:length(Shear_parm)
-    for Nexp_shear =1:4
+    for Nexp_shear =15
 
         Shear = Shear_parm(Nexp_shear)
         
