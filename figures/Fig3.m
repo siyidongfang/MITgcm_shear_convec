@@ -1,186 +1,190 @@
 
-% clear;close all;
+clear;close all;
 addpath ../analysis/colormaps/
-fontsize = 17;
+fontsize = 15;
 load_colors;
+
+addpath ../analysis/
+addpath ../analysis/functions/
+expname = 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4';
+% expname = 'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4';
+expdir = '../exps_hires/';
+% expname = 'hires_topo4_s0.0013_dz1dx6n-20';
+% expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
+loadexp;
+rhoConst = 999.8;
+
+%%% Frequency of diagnostic output
+dumpFreq = abs(diag_frequency(1)); 
+nDumps = floor(nTimeSteps*deltaT/dumpFreq);
+dumpIters = round((1:nDumps)*dumpFreq/deltaT);
+dumpIters = dumpIters(dumpIters > nIter0);
+nDumps = length(dumpIters);
+
+%--- snapshots
+o = 12*26+3;
+tt = squeeze(rdmds([exppath,'/results/THETA'],dumpIters(o)));
+tt(tt==0)=NaN;
+Hz = sum(delR);
+N2const = (1e-3)^2;
+tNorth = N2const *(zz+Hz) /9.81/2e-4;
+tt_background = ones(Nx,Nr);
+for k=1:Nr
+    tt_background(:,k) = squeeze(tt_background(:,k))*tNorth(k);
+end
+tt = tt + tt_background;
+
+rho = rhoConst.*(1-(tt-tRef)*tAlpha);
+N2 = NaN*zeros(Nx,Nr);
+N2(:,1:Nr-1) = -gravity/rhoConst.*(rho(:,1:end-1)-rho(:,2:end))./(zz(1:end-1)-zz(2:end));
+% N2 = N2+N2const;
+
+%--- make figS3
 
 figure(1)
 clf;   
 set(gcf,'Color','w');
 scrsz = get(0,'ScreenSize');
-set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
+set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 900 950]);
 
-%--- flat bottom
-load('fig3/MITgcm_growth_hires_flat.mat')
-load('../instability_km/exps_new/topo0_nu0_output.mat')
-load('fig3/Ri_flat.mat')
+%%% coordinate
+ax1 = subplot('position',[.03 .795 .3 .2]);
+annotation('textbox',[0 0.993 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.07 0.993 0.3 0.01],'String','Flat-bottom simulation','FontSize',fontsize+4,'interpreter','latex','LineStyle','None');
+imshow('fig3/fig3_flat_coordinate.png')
 
-crop_limit = 4000;
+%--- Load MITgcm simulation
+filename = [expdir expname '/RMSE.mat'];
+load(filename)
+load('fig3/fig3_gcm_flat.mat')
+YLIM = [0 300];
 
-rw_idx_crop=find(lam_x_real<=crop_limit);
-max_grow_rw = max(grow_rw(:,rw_idx_crop),[],2);
+%%% TKE time series
+ax2 = subplot('position',[0.435 0.815 0.505 0.16]);
+annotation('textbox',[0.38 0.993 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+plot(time_h/12,log(pe)/2,'LineWidth',2);
+hold on;
+plot(time_h/12,log(ke)/2,'LineWidth',2);
+plot(xxplot(fit_span)/12, y_fit(fit_span),'k--','LineWidth',2);
+xlabel('Time (tidal cycles)','interpreter','latex');
+ylabel('log(energy)','interpreter','latex');
+h2 = legend('Turbulent potential energy','Turbulent kinetic energy','Linear fit',...
+    'Fontsize',fontsize+1,'Position',[0.69 0.825 0.2285 0.0661],'interpreter','latex');
+set(gca,'Fontsize',fontsize)
+title('Normalized turbulent energy in the shear layer','Fontsize',fontsize+4,'interpreter','latex');
+grid on;grid minor;
+hold on;
+ylim([-38 2])
+xlim([0 30])
 
-for i=1:length(shear_MITgcm)
-    [a(i) b(i)] = min(abs(shear_MITgcm(i)-shear_calc_Ri));
-    Ri_gcm(i) = Ri_min(b(i));
-end
 
-for i=1:length(shear_all)
-    [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
-    Ri_km(i) = Ri_min(b(i));
-end
+mycolor=cmocean('balance');
+mycolor=mycolor(20:end-20,:);
 
-ax1 = subplot('position',[.065 .74 0.375 0.225]);
-annotation('textbox',[0.028 0.996 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-rw_idx = 1:Nrw;
-pcolor(1./Ri_km,(lam_x_real(rw_idx))/1000,grow_rw(:,rw_idx)');
+%%% Velocity
+ax3 = subplot('position',[0.07 0.62 0.87 0.125]);
+annotation('textbox',[0 0.755 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+pcolor(time_tidal,zz-botZ,uu_timeseries');
+hold on;shading interp;
+contour(time_tidal,zz-botZ,uu_timeseries',[0.15:0.15:0.75],'color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1)
+contour(time_tidal,zz-botZ,uu_timeseries',[-0.75:0.15:-0.15],'--','color',darkgray)
+clim([-0.401 0.401])
+ylabel('HAB (m)','interpreter','latex');
+set(gca,'Fontsize',fontsize);
+title('Across-isobath tidal velocity $u$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295])
+ylim(YLIM)
+h3=colorbar(ax3);
+set(h3,'Position',[0.95    0.62    0.008    0.11]);
+set(get(h3,'Title'),'String',{'$\ \ \ \ (\mathrm{m/s})$'},'interpreter','latex','FontSize',fontsize);
+set(gca,'xtick',[])
+colormap(mycolor);
+freezeColors;
+
+
+%%% Temperature
+ax4 = subplot('position',[0.07 0.46 0.87 0.13]);
+annotation('textbox',[0 0.595 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+pcolor(time_tidal,zz-botZ,tt_timeseries');
+hold on;shading interp;
+contour(time_tidal,zz-botZ,uu_timeseries',[0.15:0.15:0.75],'color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1)
+contour(time_tidal,zz-botZ,uu_timeseries',[-0.75:0.15:-0.15],'--','color',darkgray)
+ylabel('HAB (m)','interpreter','latex');
+clim([-0.1 0.1]);
+set(gca,'Fontsize',fontsize);
+title('Time-varying component of temperature','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295])
+ylim(YLIM)
+h4=colorbar(ax4);
+set(h4,'Position',[0.95    0.46   0.008    0.11]);
+set(get(h4,'Title'),'String',{'$\ \ \ \ (^\circ \mathrm{C})$'},'interpreter','latex','FontSize',fontsize);
+set(gca,'xtick',[])
+colormap(mycolor);
+freezeColors;
+
+%%% Temperature snapshot
+ax6 = subplot('position',[0.07 0.05 0.37 0.18]);
+annotation('textbox',[0 0.24 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+pcolor(xx/1000,zz-botZ,tt');hold on;
 shading interp;
+clim([0.03 0.18])
+% clim([-0.02 0.1])
+ylabel('HAB (m)','interpreter','latex');
+set(gca,'Fontsize',fontsize);
+ylim(YLIM)
+h6=colorbar(ax6);
+set(h6,'Position',[0.45    0.05   0.008    0.16]);
+set(get(h6,'Title'),'String',{'$\ \ \ \ (^\circ \mathrm{C})$'},'interpreter','latex','FontSize',fontsize);
+xlabel('$x$ (km)','interpreter','latex','FontSize',fontsize+2);
+title('Temperature $T$ (snapshot)','Fontsize',fontsize+4,'interpreter','latex','Position',[0 295]);
+xlim([-1.5 1.5])
+colormap(mycolor);
+freezeColors;
+
+%%% N2 snapshot
+ax7 = subplot('position',[0.57 0.05 0.37 0.18]);
+annotation('textbox',[0.5 0.24 0.15 0.01],'String','g','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+pcolor(xx/1000,zz-botZ,N2')
 hold on;
-plot(1./Ri_km,crop_limit/1000*ones(1,length(Ri_km)),'k--','LineWidth',1);
+contour(xx/1000,zz-botZ,N2',[0 0],'Color','c','LineWidth',1);
 hold off;
+shading interp;set(gca,'Fontsize',fontsize);
+clim(([-1 1]+1)/1e6)
+ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
-% colormap(flip(bone))
-% colormap(cmocean('tempo'))
-% colormap(cmocean('rain'))
-colormap(WhiteBlueGreenYellowRed(0))
-h1 = colorbar;
-set(h1,'Position',[0.45 0.7456+0.01   0.008    0.2]);
-set(get(h1,'Title'),'String',{'$\ \ \ \ (\mathrm{hour}^{-1})$'},'interpreter','latex','FontSize',fontsize);
-clim([0 0.35]);
-xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-ylabel('Horizontal wavelength (km)','interpreter','latex');
-title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
-ylim([0 33])
-xlim([0 4])
+ylim(YLIM)
+h7=colorbar(ax7);
+set(h7,'Position',[0.95    0.05   0.008    0.16]);
+set(get(h7,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','latex','FontSize',fontsize);
+xlabel('$x$ (km)','interpreter','latex','FontSize',fontsize+2);
+title('$\partial_{\tilde z} \mathcal B$ (snapshot)','Fontsize',fontsize+4,'interpreter','latex','Position',[0 297])
+xlim([-1.5 1.5])
+colormap(mycolor);
+freezeColors;
 
 
-ax2 = subplot('position',[.57 .74 0.4 0.225]);
-annotation('textbox',[0.538 0.996 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
-grid on;grid minor;
+%%% N2
+ax5 = subplot('position',[0.07 0.3 0.87 0.13]);
+annotation('textbox',[0 0.435 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+pcolor(time_tidal,zz-botZ,(N2_timeseries)')
 hold on;
-plot(1./Ri_km,max_grow_rw,'LineWidth',2,'Color',black);
-ylabel('(hour$^{-1}$)','interpreter','latex');
-xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-l1 = legend('MITgcm','Theory','Position',[0.58 0.9140 0.1010 0.0445],'interpreter','latex');
-set(gca,'Fontsize',fontsize);
-xlim([0 4])
-ylim([-1e-3 0.35])
-title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
-
-
-
-
-clear growth_MITgcm max_grow_rw Ri_gcm Ri_km shear_MITgcm shear_all shear_calc_Ri
-%--- topo = 4 degrees
-load('fig3/MITgcm_growth_hires_topo4.mat')
-load('../instability_km/exps_new/topo4_nu0_output.mat')
-load('fig3/Ri_topo4.mat')
-
-rw_idx_crop=find(lam_x_real<=crop_limit);
-max_grow_rw = max(grow_rw(:,rw_idx_crop),[],2);
-
-for i=1:length(shear_MITgcm)
-    [a(i) b(i)] = min(abs(shear_MITgcm(i)-shear_calc_Ri));
-    Ri_gcm(i) = Ri_min(b(i));
-end
-
-for i=1:length(shear_all)
-    [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
-    Ri_km(i) = Ri_min(b(i));
-end
-
-
-ax3 = subplot('position',[.06 .40 0.375 0.225]);
-annotation('textbox',[0.028 0.65 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-rw_idx = 1:Nrw;
-pcolor(1./Ri_km,(lam_x_real(rw_idx))/1000,grow_rw(:,rw_idx)');
-hold on;
-plot(1./Ri_km,crop_limit/1000*ones(1,length(Ri_km)),'k--','LineWidth',1);
-hold off;
-set(gca,'Fontsize',fontsize);
+contour(time_tidal,zz-botZ,(N2_timeseries)',[0 0],'Color','c','LineWidth',1);
+contour(time_tidal,zz-botZ,uu_timeseries',[0.15:0.15:0.75],'color',darkgray)
+contour(time_tidal,zz-botZ,uu_timeseries',[0 0],'color',darkgray,'LineWidth',1)
+contour(time_tidal,zz-botZ,uu_timeseries',[-0.75:0.15:-0.15],'--','color',darkgray)
 shading interp;
-h2 = colorbar;
-set(h2,'Position',[0.45 0.4056+0.01   0.008    0.2]);
-set(get(h2,'Title'),'String',{'$\ \ \ \ (\mathrm{hour}^{-1})$'},'interpreter','latex','FontSize',fontsize);
-clim([0 0.35]);
-xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-ylabel('Across-slope wavelength (km)','interpreter','latex');
-title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
-ylim([0 33])
-xlim([0 4])
-
-
-ax4 = subplot('position',[.57 .40 0.4 0.225]);
-annotation('textbox',[0.538 0.65 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
-grid on;grid minor;
-hold on;
-plot(1./Ri_km,max_grow_rw,'LineWidth',2,'Color',black);
-ylabel('(hour$^{-1}$)','interpreter','latex');
-xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-l4 = legend('MITgcm','Theory','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
+xlabel('Time (tidal cycles)','interpreter','latex');
+ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
-xlim([0 4])
-ylim([-1e-3 0.35])
-title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
+title('Vertical buoyancy gradient $\partial_{\tilde z} \mathcal B$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,297])
+clim(([-1 1]+1)/1e6)
+ylim(YLIM)
+% colormap(cmocean('diff'));
+h5=colorbar(ax5);
+set(h5,'Position',[0.95    0.3   0.008    0.1]);
+set(get(h5,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','latex','FontSize',fontsize);
 
 
+%%% Save the figure
 
-
-load('fig3/fig3_km.mat')
-tidx = nt_percycle*5+1:nt_percycle*10;
-%- Calculate the buoyancy budget
-uB0x = -re_uuu(tidx)*N^2*ss;
-wB0z = -re_www(tidx)*N^2*cs;
-wBz  =  re_www(tidx)*shear/omega*N^2*ss.*st(tidx);
-% diffusion = 0*
-dbdt = [0 (re_buoy(3:end)-re_buoy(1:end-2))/dt/2 0];
-dbdt = dbdt(tidx);
-
-%- Normalization
-uB0x = uB0x/max(abs(dbdt));
-wB0z = wB0z/max(abs(dbdt));
-wBz = wBz/max(abs(dbdt));
-dbdt = dbdt/max(abs(dbdt));
-tt = tt(tidx);
-
-
-%--- plot vertical velocity and buoyancy perturbation
-ax5 = subplot('position',[.06 .06 0.4 0.225]);
-annotation('textbox',[0.028 0.31 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-plot(tt/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2,'Color',blue);
-hold on;
-plot(tt/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2,'Color',black);
-grid on;grid minor;
-l5 = legend('Buoyancy perturbation','Vertical velocity','interpreter','latex','Position',[0.07 0.2265 0.2063 0.0458]);
-xlabel('Time (tidal cycles)','interpreter','latex')
-set(gca,'Fontsize',fontsize);
-title('Normalized perturbations','interpreter','latex','Fontsize',fontsize+5);
-
-
-ax6 = subplot('position',[.57 .06 0.4 0.225]);
-annotation('textbox',[0.538 0.31 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-lres = plot(tt/43200,dbdt-uB0x-wB0z-wBz,'-','LineWidth',3,'Color',boxcolor);
-hold on;
-luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',brown);
-lwBz = plot(tt/43200,wBz,'LineWidth',2,'Color',yellow);
-lwB0z = plot(tt/43200,wB0z,'LineWidth',2,'Color',blue);
-ldbdt = plot(tt/43200,dbdt,'--','LineWidth',1,'Color',black);
-grid on;grid minor;
-xlabel('Time (tidal cycles)','interpreter','latex')
-set(gca,'Fontsize',fontsize);
-title('Normalized buoyancy budget','interpreter','latex','Fontsize',fontsize+5);
-ylim([-1 1])
-l61 = legend([lwB0z,lwBz,luB0x], ...
-    '$w^\prime\partial_z B_0$','$w^\prime\partial_z B$','$u^\prime\partial_x B_0$',...
-    'interpreter','latex','Position',[0.58 0.2104 0.0889 0.0668]);
-ah=axes('position',get(ax6,'position'),'visible','off');
-set(gca,'Fontsize',fontsize);
-l62 = legend(ah,[ldbdt lres], ...
-    '$\partial_\tau b^\prime = \partial_t b^\prime + U\partial_x b^\prime$','Residual',...
-    'interpreter','latex','Position', [0.58 0.0825 0.1626 0.0458]');
-legend('boxoff') 
-
-
-print('-dpng','-r300','fig3/fig3_matlab.png');
+print('-dpng','-r300',['fig3/fig3.png']);

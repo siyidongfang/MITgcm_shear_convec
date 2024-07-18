@@ -6,9 +6,9 @@ NT2 = 80;
 % expdir = 'exps/topo4_nu2e-4/'; %%% topo4 with diffusion/viscous dissipation
 % expdir = 'exps/topo4_kappa0/'; %%% topo4 with diffusion/viscous dissipation
 % expdir = 'exps/parallel_flat_rw_new/'; %%% Flat bottom with diffusion/viscous dissipation
-expdir = 'exps_new/topo0_nu0_Mathieu'
+expdir = 'exps_new/topo0_nu2e-4_lores'
 
-Diffusion = false;
+Diffusion = true;
 ConvectiveAdjustment = false;
 nt_percycle = 72*30; 
 
@@ -26,11 +26,13 @@ Ptide = 43200;
 omega = 2*pi/Ptide;
 % shear_all = [0:1e-4/10:shear_Ri0_25];
 % shear_all = [0:1e-4:shear_Ri0_25];
-shear_all = [0:1e-4/50:shear_Ri0_25/4]; %%% for small-shear
+% shear_all = [0:1e-4/50:shear_Ri0_25/4]; %%% for small-shear
+shear_all = [0:1e-4:shear_Ri0_25]; %%% for small-shear
 
 Ns = length(shear_all);
 
-h_shear = 500*3;
+% h_shear = 500*3/6;
+h_shear = 250;
 m0_rw = 2*pi/h_shear;
 
 m0max = 2*pi/1;
@@ -44,9 +46,10 @@ lam_z_all = 2*pi./m0_all;
 % lam_x_all = 2*pi./kx_all;
 
 % lam_x_all = [10:10:100 125:25:1000 1100:100:5000 5200:200:10000 10000:500:40000 40000:1000:100000];
-
 % lam_x_all = [10:20:33000];
-lam_x_all = [10:10:26000];
+% lam_x_all = [10:10:26000];
+
+lam_x_all = [20:20:5500];
 lam_x_all = flip(lam_x_all);
 % rw_all= 10.^([-3:0.1/2:-1 -0.95:0.01/2:0 0.1:0.1/2:2.1]);
 kx_all = 2*pi./lam_x_all;

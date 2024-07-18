@@ -1,10 +1,11 @@
 
 clear;close all
 % constants;
-expdir = 'exps_new/topo0_nu0/'
+% expdir = 'exps_new/topo0_nu0/'
+expdir = 'exps_new/topo0_nu2e-4_lores_'
 load([expdir 'output.mat']);
 
-load([expdir 'grow_rw.mat'])
+% load([expdir 'grow_rw.mat'])
 % grow_sr = NaN*zeros(length(shear_all),length(rw_all));
 
 % for s = 1:length(shear_all)
@@ -18,7 +19,7 @@ load([expdir 'grow_rw.mat'])
 %     end
 % end
 
-% save([expdir 'grow.mat']);
+% save([expdir '_grow.mat']);
 
 %%
 
@@ -26,13 +27,14 @@ load([expdir 'grow_rw.mat'])
 
 
 
-h_reset = 1500;
+% h_reset = 1500;
+h_reset = 250;
 L_reset = h_reset./rw_all;
 
 rw_idx = 1:Nrw;
 
-% crop_limit = 5000;
-% rw_idx=find(L_reset<=crop_limit);
+crop_limit = 3000;
+rw_idx=find(L_reset<=crop_limit);
 
 
 
@@ -45,7 +47,8 @@ shading flat;colormap(WhiteBlueGreenYellowRed(0))
 % set(gcf,'Color','w');pcolor(shear_all,(lam_x_real(rw_idx))/1000,grow_sr(:,rw_idx)');set(gca,'Fontsize',20);shading flat;colormap(WhiteBlueGreenYellowRed(0))
 colorbar;clim([0 0.35]);xlabel('Shear (1/s)');ylabel('Horizontal wavelength (km)');title('Growth rate (1/hour)','Fontsize',25)
 % ylim([0 13])
-ylim([0 35])
+% ylim([0 35])
+ylim([0 6])
 
 
 figure(3)

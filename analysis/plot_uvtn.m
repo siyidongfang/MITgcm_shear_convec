@@ -1,6 +1,6 @@
 
     clear;close all;
-    ne=8;
+    ne=1;
     load_all;
 
     t0 = squeeze(rdmds([exppath,'/results/T'],0));
@@ -8,9 +8,11 @@
 
     o2 = nDumps;
     o2 = 35*12;
-    o1 = 10*12;
+    o1 = 5*12;
 
-    YLIM = [-zz(end)-max(-bathy) -zz(end)];XLIM = [-Lx/2/1000 Lx/2/1000];
+    % YLIM = [-zz(end)-max(-bathy) -zz(end)];
+    YLIM = [250 500];
+    XLIM = [-Lx/2/1000 Lx/2/1000];
     [ZZ,XX] = meshgrid(zz,xx);
     
     Hz = sum(delR);
@@ -30,21 +32,21 @@ for o=o1:o2
     nIter = dumpIters(o);
     time_h = nIter.*deltaT./3600;
 
-    tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
-    tt(tt==0)=NaN;
-    tt = tt + tt_background;
+    % tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
+    % tt(tt==0)=NaN;
+    % tt = tt + tt_background;
 
-    % uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
-    % uu(uu==0)=NaN;
-    % ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
-    % ww(ww==0)=NaN;
+    uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
+    uu(uu==0)=NaN;
+    ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
+    ww(ww==0)=NaN;
 
     % eta = rdmds([exppath,'/results/ETAN_inst'],nIter);
     % eta(eta==0)=NaN;
 
-    rho = rhoConst.*(1-(tt-tRef)*tAlpha);
-    N2 = NaN*zeros(Nx,Nr);
-    N2(:,1:Nr-1) = -gravity/rhoConst.*(rho(:,1:end-1)-rho(:,2:end))./(zz(1:end-1)-zz(2:end));
+    % rho = rhoConst.*(1-(tt-tRef)*tAlpha);
+    % N2 = NaN*zeros(Nx,Nr);
+    % N2(:,1:Nr-1) = -gravity/rhoConst.*(rho(:,1:end-1)-rho(:,2:end))./(zz(1:end-1)-zz(2:end));
 
     % S = NaN*zeros(Nx,Nr);
     % S(:,1:Nr-1) = (uu(:,1:end-1)-uu(:,2:end))./(zz(1:end-1)-zz(2:end));
@@ -57,34 +59,34 @@ for o=o1:o2
     h_figure = figure(1);
     % set(h_figure,'Visible',false);
     clf;set(gcf,'color','w');set(gcf,'Position',  [-407 32 1247 942])
-    subplot(3,2,1)
-    pcolor(xx/1000,-zz,tt');hold on;
-    % contour(XX/1000,-ZZ,tt,[0:0.01:1],'k')
-    shading flat;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-    xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
-    title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    clim([-0.1 0.4])
-    % clim([-0.06 0.2])
-    ylim(YLIM);xlim(XLIM);
-
-    % subplot(3,2,2)
-    % pcolor(xx/1000,-zz,uu')
-    % shading flat;colorbar;colormap(jet);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+    % subplot(3,2,1)
+    % pcolor(xx/1000,-zz,tt');hold on;
+    % % contour(XX/1000,-ZZ,tt,[0:0.01:1],'k')
+    % shading flat;colorbar;axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     % xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
-    % title(['u (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    % clim([-0.3 0.3])
+    % title(['Temperature $\theta (^\circ \mathrm{C})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
+    % clim([-0.1 0.4])
+    % % clim([-0.06 0.2])
     % ylim(YLIM);xlim(XLIM);
 
-    subplot(3,2,3)
-    % pcolor(xx/1000,-zz,real(log10(N2))')
-    pcolor(xx/1000,-zz,N2')
-    shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+    subplot(3,2,2)
+    pcolor(xx/1000,-zz,uu')
+    shading flat;colorbar;colormap(jet);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
     xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
-    % title(['$\log(N^2)\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    title(['$N^2\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    % clim([-2 2]/1e6)
-    clim(([-1 1]/1e8+1)/1e6)
+    title(['u (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
+    clim([-0.3 0.3])
     ylim(YLIM);xlim(XLIM);
+
+    % subplot(3,2,3)
+    % % pcolor(xx/1000,-zz,real(log10(N2))')
+    % pcolor(xx/1000,-zz,N2')
+    % shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+    % xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
+    % % title(['$\log(N^2)\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
+    % title(['$N^2\ (s^{-2})$, t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
+    % % clim([-2 2]/1e6)
+    % clim(([-1 1]/1e10+1)/1e6)
+    % ylim(YLIM);xlim(XLIM);
 
     % subplot(3,2,4)
     % pcolor(xx/1000,-zz,abs(S'))
@@ -103,13 +105,13 @@ for o=o1:o2
     % % title(['Sea Surface Height (m), t = ' num2str(time_h,'%.1f') ' h'],'interpreter','latex');
     % % ylim([-0.1 0.1])
     % 
-    % subplot(3,2,5)
-    % pcolor(xx/1000,-zz,ww')
-    % shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
-    % xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
-    % title(['w (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
-    % clim([-2 2]/100/1e7)
-    % ylim(YLIM);xlim(XLIM);
+    subplot(3,2,5)
+    pcolor(xx/1000,-zz,ww')
+    shading flat;colorbar;colormap(redblue);axis ij;set(gca,'Fontsize',fontsize);set(gca,'color',gray);
+    xlabel('x (km)','interpreter','latex');ylabel('Depth (m)','interpreter','latex');
+    title(['w (m/s), t = ' num2str(time_h,'%.1f') ' h'],'Fontsize',fontsize+3,'interpreter','latex')
+    clim([-2 2]/1e14/5)
+    ylim(YLIM);xlim(XLIM);
     % 
     % subplot(3,2,6)
     % pcolor(xx/1000,-zz,1./Ri')

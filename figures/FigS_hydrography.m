@@ -197,6 +197,7 @@ plot(log10(N2_all(:,1:7)),Pmid_all(:,1:7),':','LineWidth',0.5,'Color',gray);
 axis ij;grid on;grid minor;
 hold on;
 plot(log10(N2_all(:,8:15)),Pmid_all(:,8:15),':','LineWidth',0.5,'Color',gray);
+N2_mean7(823)=NaN;
 plot(log10(N2_mean15),Pmid_all(:,end),'LineWidth',1.5,'Color','k');
 hold off;
 ylim([0 2700])
@@ -207,4 +208,4 @@ set(gca,'Fontsize',fontsize)
 title('$\log(\partial_{\tilde z} b)$','interpreter','latex','Fontsize',fontsize+4);
 
 
-print('-dpng','-r300',['fig_supp/figS_hydrography_matlab.png']);
+% print('-dpng','-r300',['fig_supp/figS_hydrography_matlab.png']);

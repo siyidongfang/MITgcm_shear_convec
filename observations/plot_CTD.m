@@ -62,7 +62,7 @@ psal_mean7 = mean(psal_all(:,1:7),2,'omitnan');
 SA_mean7 = mean(SA_all(:,1:7),2,'omitnan');
 pp7 = mean(P_all(:,1:7),2,'omitnan');
 [N2_mean7, p_mid7] = gsw_Nsquared(SA_mean7,CT_mean7,pp7,lat_mean7);
-
+N2_mean7(N2_mean7<=0)=NaN;
 % pt_mean15 = mean(pt_all,2,'omitnan');
 % psal_mean15 = mean(psal_all,2,'omitnan');
 % SA_mean15 = mean(SA_all,2,'omitnan');
@@ -85,6 +85,9 @@ p1 = p_mid15(find(N2_mean15<0))
 negN2idx = find(N2_mean15<0);
 negN2idx_model = negN2idx(1:5);
 
+N2_mean15(N2_mean15<=0)=NaN;
+
+
 for i=1:5
     zidx = negN2idx_model(i)-20:negN2idx_model(i)+20;
     psal_mean15(zidx) = smooth(smooth(smooth(smooth(smooth(smooth(psal_mean15(zidx)))))));
@@ -102,8 +105,9 @@ plot(pt_mean15,pp15);axis ij;
 subplot(1,2,2)
 plot(psal_mean15,pp15);axis ij;
 
-% save('CTD/CTD.mat','P_all','pt_all','psal_all','SA_all','CT_all','N2_all','Pmid_all','lat_all','lon_all',...
-%     'lat_mean7','pt_mean15','psal_mean15','SA_mean15','pp15','N2_mean15','p_mid15','lat15')
+save('CTD/CTD.mat','P_all','pt_all','psal_all','SA_all','CT_all','N2_all','Pmid_all','lat_all','lon_all',...
+    'lat_mean7','pt_mean7','CT_mean7','psal_mean7','SA_mean7','pp7','N2_mean7','p_mid7',...
+    'pt_mean15','psal_mean15','SA_mean15','pp15','N2_mean15','p_mid15','lat15')
 
 %%
 % color1=red;color2=orange;color3=pink;color4=yellow;color5=brown;color6=lightblue;color7=purple;color8=green;

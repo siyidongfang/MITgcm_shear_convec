@@ -15,7 +15,7 @@ GrowthRate = NaN.*zeros(length(lambda_parm),length(Shear_parm));
 grow =  NaN.*zeros(1,length(Shear_parm));
 
 % for Nexp_lambda = 8:length(lambda_parm)
-for Nexp_lambda=47:60
+for Nexp_lambda=44:60
     Nexp_lambda
     lambda = lambda_parm(Nexp_lambda);
     grow = zeros(1,length(Shear_parm));

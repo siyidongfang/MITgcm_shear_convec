@@ -1,5 +1,5 @@
 %%% Calculate and store the buoyancy budget for fig3
-load('fig3/fig3_km.mat')
+load('fig4/fig4_km.mat')
 
 tidx = nt_percycle*5+1:nt_percycle*10;
 

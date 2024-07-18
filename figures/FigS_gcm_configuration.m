@@ -65,6 +65,8 @@ mycolor=cmocean('balance');
 mycolor=mycolor(30:end-30,:);
 
 %%
+
+
 figure(1)
 clf;
 set(gcf,'Color','w');
@@ -89,7 +91,8 @@ title('Initial temperatue perturbation','Fontsize',fontsize+4,'interpreter','lat
 
 
 %--- Tidal amplitude and linear shear
-ax2 = axes('position',[0.08 0.08 0.39 0.53]);
+% ax2 = axes('position',[0.08 0.08 0.39 0.53]);
+ax2 = axes('position',[0.08 0.08 0.3 0.53]);
 annotation('textbox',[0.02 0.68 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(ax2, u_linear_smooth, zz, 'k-', 'LineWidth', 2)
 ylim(ax2, [-500 0])
@@ -101,6 +104,7 @@ hold(ax2, 'off');
 set(ax2, 'FontSize', fontsize);
 xlabel(ax2, 'Tidal amplitude, quasi-linear (m/s)', 'Fontsize', fontsize+4, 'interpreter', 'latex')
 ylabel(ax2, '$z$ (m)', 'interpreter', 'latex')
+xlim(ax2,[0 0.4])
 
 % Secondary axes for shear
 ax22 = axes('Position', get(ax2, 'Position'), 'Color', 'none');
@@ -108,8 +112,9 @@ plot(ax22, shear_linear_smooth/1e-3, z_mid, '-', 'Color', brown, 'LineWidth', 2)
 set(ax22, 'YAxisLocation', 'right', 'XAxisLocation', 'top', 'Color', 'none', 'XColor', brown, 'FontSize', fontsize);
 xlabel(ax22, 'Shear (10$^{-3}\,$s$^{-1}$)', 'Color', brown, 'Interpreter', 'latex', 'Fontsize', fontsize+4);
 ylim(ax22, [-500 0])
-xlim(ax22, [-0.25 1.75])
-% xlim(ax22, [0 1.5])
+% xlim(ax22, [-0.25 1.75])
+% xlim(ax22, [-0.35 1.75])
+xlim(ax22,[0 1.5])
 ax22.YTick = [];
 
 % Create a dummy axes to show bottom x-axis in black
@@ -117,16 +122,27 @@ ax23 = axes('Position', get(ax2, 'Position'), 'Color', 'none', 'XAxisLocation', 
 ax23.XTick = ax2.XTick;  % Match the ticks
 ax23.XTickLabel = [];    % Hide the labels
 set(ax23, 'FontSize', fontsize);
-xlim([0 0.4])
+% xlim([0 0.4])
+xlim(ax23,[0 0.4])
 
 % Link the axes
 linkaxes([ax2, ax22, ax23], 'y');
 
 
 
+print('-dpng','-r300',['fig_supp/figS_gcm_configuration_matlab.png']);
+
+
+
+figure(2)
+clf;
+set(gcf,'Color','w');
+scrsz = get(0,'ScreenSize');
+set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 600]);
+
 %--- Tidal amplitude and shear as a function of tanh(z)
-ax3 = axes('position',[0.58 0.08 0.39 0.53]);
-annotation('textbox',[0.52 0.68 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+ax3 = axes('position',[0.58-0.2 0.08 0.45 0.53*1.6]);
+annotation('textbox',[0.52-0.2 1 0.15 0.001],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(u_tanh_bot,zz_tanh,'k-','LineWidth',2)
 hold on;
 plot(u_tanh_center,zz_tanh,'k--','LineWidth',2)
@@ -147,9 +163,9 @@ set(ax32, 'YAxisLocation', 'right', 'XAxisLocation', 'top', 'Color', 'none', 'XC
 xlabel(ax32, 'Shear (10$^{-3}\,$s$^{-1}$)', 'Color', brown, 'Interpreter', 'latex', 'Fontsize', fontsize+4);
 ylim(ax32, [-800 0])
 % xlim(ax32, [-0.5 2.5])
-xlim(ax32, [-0.35 1.75])
+xlim(ax32, [-0.75 1.5])
  % xlim(ax32, [0 1.5])
-% ax32.XTick = [-0.5:0.5:2] * 1e-3;
+ax32.XTick = [0:0.5:2];
 % ax32.XTickLabel = ['-0.5','0','-0.5','1','1.5','2'];
 ax32.YTick = [];
 
@@ -163,7 +179,7 @@ xlim(ax33,[-0.2 0.4])
 % Link the axes
 linkaxes([ax3, ax32, ax33], 'y');
 
-print('-dpng','-r300',['fig_supp/figS_gcm_configuration_matlab.png']);
+print('-dpng','-r300',['fig_supp/figS_gcm_configuration_matlab2.png']);
 
 
 
