@@ -14,8 +14,12 @@ z = ncread(ncfname,'z');
 load Rockall_gebco.mat
 
 load('fig1/fig1.mat')
-plot_tidx = 1:length(time_temp);
+plot_tidx = 1:50:length(time_temp);
 
+zz_rec = -depth_n2 + depth_n2(end);
+buoy_init = repmat(meanN2*cosd(topo)*zz_rec,[length(buoy1fit) 1]);
+buoy_fit = buoy1fit + buoy_init;
+buoy_obs = buoy1obs + buoy_init;
 n2_1obs = meanN2 + cosd(topo)*(n2_1obs-meanN2*cosd(topo));
 n2_1fit = meanN2 + cosd(topo)*(n2_1fit-meanN2*cosd(topo));
 
@@ -168,7 +172,7 @@ annotation('textbox',[0.36 0.482 0.15 0.01],'String','f','FontSize',fontsize+3,'
 pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)');
 shading interp;
 hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+contour(time_temp(plot_tidx)*24,depth_n2,buoy_obs(plot_tidx,:)','Color',black);
 hold off;
 xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
 % ylabel('Depth (m)','interpreter','latex','FontSize',fontsize);
@@ -189,7 +193,7 @@ ax7 = subplot('position',[0.709 0.07 0.25 0.38]);
 annotation('textbox',[0.69 0.482 0.15 0.01],'String','g','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)');shading interp;
 hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+contour(time_temp(plot_tidx)*24,depth_n2,buoy_fit(plot_tidx,:)','Color',black);
 hold off;
 xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
 % ylabel('Depth (m)','interpreter','latex','FontSize',fontsize);
@@ -197,12 +201,11 @@ set(gca,'Fontsize',fontsize);
 axis ij;
 clim([-1.75 1.75]/1e5)
 colormap(cmocean('balance'))
-title('Reconstruct $\partial_{\tilde z} \mathbb B$ using $U_\mathrm{fit}$','Fontsize',fontsize+5,'interpreter','latex');
+title('Reconstruct $\partial_{\tilde z} \mathcal B$ using $U_\mathrm{fit}$','Fontsize',fontsize+5,'interpreter','latex');
 xticks([0:6:48])
 h7=colorbar(ax7);
 set(h7,'Position',[0.964 0.135 0.007 0.28]);
 set(get(h7,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsize,'interpreter','latex');
 xlim([0 48])
 
-print('-dpng','-r300','fig1/fig1_matlab.png');
-% print('-dpng','-r300','fig1/fig1_convec.png');
+% print('-dpng','-r300','fig1/fig1_matlab.png');

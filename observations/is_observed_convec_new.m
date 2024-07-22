@@ -14,7 +14,7 @@ fontsize = 20;
 load('MAVS2_LinearShear.mat');
 load('MAVS2_velocity.mat')
 
-time_adcp = double(ncread('MAVS2_24606.nc','time')) + 33.000323*1e6; % microseconds since 2021-07-07 06:00:33.000323
+time_adcp = double(ncread('moorings_gridded_adcp_v2/MAVS2_24606.nc','time')) + 33.000323*1e6; % microseconds since 2021-07-07 06:00:33.000323
 Time_adcp = datetime(2021,7,7) + hours(round(time_adcp/1e6/3600)+6);
 Time_adcp.Format = 'yyyy-MM-dd';
 
@@ -65,11 +65,11 @@ ufit_detrend = ufit-mean(ufit);
 
 
 % Temperature data of two tidal cycles:
-temp = ncread('mavs2_20210718_level1.nc','__xarray_dataarray_variable__');
+addpath moorings_gridded_thermistors/level1/mavs2/
+temp = ncread('moorings_gridded_thermistorsmavs2_20210718_level1.nc','__xarray_dataarray_variable__');
 depth_temp = ncread('mavs2_20210718_level1.nc','depth');
 time_temp = double(ncread('mavs2_20210718_level1.nc','time'));
 
-% addpath moorings_gridded_thermistors/level1/mavs2/
 % temp = ncread('mavs2_20210710.nc','__xarray_dataarray_variable__');
 % depth_temp = ncread('mavs2_20210710.nc','depth');
 % time_temp = double(ncread('mavs2_20210710.nc','time'));
@@ -149,7 +149,7 @@ save('../figures/fig1/fig1.mat','T_tavg','N2_zavg',...
     'meanN2','topo',...
     'temp','N2','smooth_N2','time_u','time_temp',...
     'depth_temp','depth_n2','depth_u','depth_reconst_n',...
-    'uobs','ufit','n2_1obs','n2_1fit','meanT')
+    'uobs','ufit','n2_1obs','n2_1fit','meanT','buoy1fit','buoy1obs')
 
 
 %% Make figures
