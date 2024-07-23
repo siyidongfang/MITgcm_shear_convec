@@ -20,8 +20,22 @@ zz_rec = -depth_n2 + depth_n2(end);
 buoy_init = repmat(meanN2*cosd(topo)*zz_rec,[length(buoy1fit) 1]);
 buoy_fit = buoy1fit + buoy_init;
 buoy_obs = buoy1obs + buoy_init;
-n2_1obs = meanN2 + cosd(topo)*(n2_1obs-meanN2*cosd(topo));
-n2_1fit = meanN2 + cosd(topo)*(n2_1fit-meanN2*cosd(topo));
+n2_1obs = meanN2 + n2_1obs - meanN2*cosd(topo);
+n2_1fit = meanN2 + n2_1fit - meanN2*cosd(topo);
+
+
+%%% Calculate observed buoyancy
+dz_obs = diff(depth_temp);
+buoy_from_obs = cumsum(N2.*dz_obs',2,'reverse');
+bbb = buoy_from_obs;
+bbb(:,1:5)=NaN;
+bbb(:,50:end)=NaN;
+
+bbb0=0.5*(min(min(buoy_obs))+min(min(buoy_fit)));
+
+buoy_obs = buoy_obs-bbb0;
+buoy_fit = buoy_fit-bbb0;
+buoy_from_obs = buoy_from_obs-min(min(bbb));
 
 
 figure(1)
@@ -61,7 +75,7 @@ colormap(mycolor);
 % clim([-3.5 3.5])
 clim([-0.5 4])
 freezeColors;
-%%
+
 %%% Rockall Trough
 ax1 = subplot('position',[0.028 0.8 0.28 0.17]);
 annotation('textbox',[0.025 0.76 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
@@ -105,8 +119,10 @@ ax3 = subplot('position',[0.048 0.07 0.25 0.38]);
 annotation('textbox',[0.028 0.482 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)');shading flat;
 hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 contour(time_temp(plot_tidx)*24,depth_n2,smooth_N2(plot_tidx,:)',[0 0],'Color',cyan,'LineWidth',0.75);
+[c0,h0]=contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',3.3:0.5:7,'Color',black);
+clabel(c0,h0,'manual','FontSize',fontsize-6,'Color','k');
+% clabel(c0,h0,'FontSize',fontsize-6,'Color','k','LabelSpacing',1000);
 hold off;
 xlabel('Time (hours)','interpreter','latex');
 ylabel('Depth (m)','interpreter','latex');
@@ -128,7 +144,9 @@ ax4 = subplot('position',[0.38 0.58 0.25 0.38]);
 annotation('textbox',[0.36 0.993 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_u*24,depth_u,uobs');
 hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+[c0,h0]=contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',3.3:0.5:7,'Color',black);
+clabel(c0,h0,'manual','FontSize',fontsize-6,'Color','k');
+% clabel(c0,h0,'LabelSpacing',1000,'FontSize',fontsize-6,'Color','k');
 hold off;
 shading flat;
 xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
@@ -144,12 +162,15 @@ ylim([min(depth_temp) max(depth_temp)]);xlim([0 48])
 set(h4,'Position',[0.635  0.645 0.007 0.28]);
 set(get(h4,'Title'),'String','$\ \ \ \ (\mathrm{m/s})$','Fontsize',fontsize,'interpreter','latex');
 
+%%
 %%% Linear-fit velocity
 ax5 = subplot('position',[0.709 0.58 0.25 0.38]);
 annotation('textbox',[0.69 0.993 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_u*24,depth_u,ufit');
 hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+[c0,h0]=contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',3.3:0.5:7,'Color',black);
+clabel(c0,h0,'manual','FontSize',fontsize-6,'Color','k');
+% clabel(c0,h0,'LabelSpacing',1000,'FontSize',fontsize-6,'Color','k');
 hold off;
 shading flat;
 xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
@@ -166,6 +187,8 @@ set(h5,'Position',[0.964  0.645 0.007 0.28]);
 set(get(h5,'Title'),'String','$\ \ \ \ (\mathrm{m/s})$','Fontsize',fontsize,'interpreter','latex');
 
 
+
+%%
 %%% Reconstructed dbdz using the observed velocity
 ax6 = subplot('position',[0.38 0.07 0.25 0.38]);
 annotation('textbox',[0.36 0.482 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
@@ -173,8 +196,10 @@ pcolor(time_temp(plot_tidx)*24,depth_n2,buoy_obs(plot_tidx,:)');
 % pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)');
 shading flat;
 hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 contour(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)',[0 0],'Color','c','LineWidth',2);
+[c0,h0]=contour(time_temp(plot_tidx)*24,depth_n2,1e3*buoy_from_obs(plot_tidx,:)',[1:3:20]/10,'Color',black,'ShowText','off');
+clabel(c0,h0,'manual','FontSize',fontsize-6,'Color','k');
+% contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 % contour(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)',[1 2 3 4]*1e-6,'Color','w','LineWidth',1.5);
 % contour(time_temp(plot_tidx)*24,depth_n2,buoy_obs(plot_tidx,:)','Color',black);
 hold off;
@@ -183,7 +208,7 @@ xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
 set(gca,'Fontsize',fontsize);
 axis ij;
 % clim([-1.75 1.75]/1e5)
-clim([-0.2 1.7]/1e3)
+clim([0 2]/1e3)
 colormap(cmocean('balance'))
 title('Reconstruct $\mathcal B_\mathrm{rec}$ using $u_\mathrm{obs}$','Fontsize',fontsize+5,'interpreter','latex');
 % title('Reconstruct $\partial_{\tilde z} \mathcal B$ using $u_\mathrm{obs}$','Fontsize',fontsize+5,'interpreter','latex');
@@ -194,7 +219,7 @@ set(get(h6,'Title'),'String',{'$\ \ \ \ (\mathrm{m/s^2})$',''},'Fontsize',fontsi
 % set(get(h6,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsize,'interpreter','latex');
 xlim([0 48])
 
-
+%%
 %%% Reconstructed dbdz using the linear-fit velocity
 ax7 = subplot('position',[0.709 0.07 0.25 0.38]);
 annotation('textbox',[0.69 0.482 0.15 0.01],'String','g','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
@@ -202,8 +227,10 @@ pcolor(time_temp(plot_tidx)*24,depth_n2,buoy_fit(plot_tidx,:)');
 shading flat;
 % pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)');shading interp;
 hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 contour(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)',[0 0],'Color','c','LineWidth',2);
+[c0,h0]=contour(time_temp(plot_tidx)*24,depth_n2,1e3*buoy_from_obs(plot_tidx,:)',[1:3:20]/10,'Color',black,'ShowText','off');
+clabel(c0,h0,'manual','FontSize',fontsize-6,'Color','k');
+% contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 % contour(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)',[1 2 3 4]*1e-6,'Color','w','LineWidth',1.5);
 % contour(time_temp(plot_tidx)*24,depth_n2,buoy_fit(plot_tidx,:)','Color',black);
 hold off;
@@ -212,7 +239,7 @@ xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
 set(gca,'Fontsize',fontsize);
 axis ij;
 % clim([-1.75 1.75]/1e5)
-clim([-0.2 1.7]/1e3)
+clim([0 2]/1e3)
 colormap(cmocean('balance'))
 title('Reconstruct $\mathcal B_\mathrm{rec}$ using $U_\mathrm{fit}$','Fontsize',fontsize+5,'interpreter','latex');
 % title('Reconstruct $\partial_{\tilde z} \mathcal B$ using $U_\mathrm{fit}$','Fontsize',fontsize+5,'interpreter','latex');
@@ -224,3 +251,4 @@ set(get(h7,'Title'),'String',{'$\ \ \ \ (\mathrm{m/s^2})$',''},'Fontsize',fontsi
 xlim([0 48])
 
 print('-dpng','-r300','fig1/fig1_matlab.png');
+

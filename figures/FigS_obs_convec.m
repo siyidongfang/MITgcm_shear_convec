@@ -18,11 +18,11 @@ buoy_init = repmat(meanN2*cosd(topo)*zz_rec,[length(buoy1fit) 1]);
 buoy_fit = buoy1fit + buoy_init;
 buoy_obs = buoy1obs + buoy_init;
 
-n2_1obs = meanN2 + cosd(topo)*(n2_1obs-meanN2*cosd(topo));
-n2_1fit = meanN2 + cosd(topo)*(n2_1fit-meanN2*cosd(topo));
+n2_1obs = meanN2 + n2_1obs-meanN2*cosd(topo);
+n2_1fit = meanN2 + n2_1fit-meanN2*cosd(topo);
 
-n2_1obs_convec =  cosd(topo)*(n2_1obs-meanN2*cosd(topo));
-n2_1fit_convec =  cosd(topo)*(n2_1fit-meanN2*cosd(topo));
+n2_1obs_convec =  n2_1obs-meanN2*cosd(topo);
+n2_1fit_convec =  n2_1fit-meanN2*cosd(topo);
 
 
 
@@ -39,7 +39,8 @@ annotation('textbox',[0.36 0.993-0.005 0.15 0.01],'String','a','FontSize',fontsi
 pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)');
 shading flat;
 hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+[c0,h0]=contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',3.3:0.5:7,'Color',black);
+clabel(c0,h0,'FontSize',fontsize-6,'Color','k','LabelSpacing',1000);
 contour(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)',[0 0],'Color','c','LineWidth',1.5);
 hold off;
 xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
@@ -61,7 +62,8 @@ annotation('textbox',[0.69 0.993-0.005 0.15 0.01],'String','b','FontSize',fontsi
 pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)');
 shading flat;
 hold on;
-contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
+[c0,h0]=contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',3.3:0.5:7,'Color',black);
+clabel(c0,h0,'FontSize',fontsize-6,'Color','k','LabelSpacing',1000);
 contour(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)',[0 0],'Color','c','LineWidth',1.5);
 hold off;
 xlabel('Time (hours)','interpreter','latex','FontSize',fontsize);
@@ -125,4 +127,4 @@ xlim([0 48])
 
 
 
-print('-dpng','-r300','fig_supp/figS_obs_convec_matlab.png');
+print('-dpng','-r300','fig_supp/figS_obs_convec.png');
