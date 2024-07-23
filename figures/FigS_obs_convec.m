@@ -37,7 +37,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1400 700]);
 ax1 = subplot('position',[0.38 0.58-0.005 0.25 0.38]);
 annotation('textbox',[0.36 0.993-0.005 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)');
-shading interp;
+shading flat;
 hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 contour(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)',[0 0],'Color','c','LineWidth',1.5);
@@ -59,7 +59,7 @@ set(get(h1,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsi
 ax2 = subplot('position',[0.709 0.58-0.005 0.25 0.38]);
 annotation('textbox',[0.69 0.993-0.005 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)');
-shading interp;
+shading flat;
 hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 contour(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)',[0 0],'Color','c','LineWidth',1.5);
@@ -84,7 +84,7 @@ set(get(h2,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsi
 ax5 = subplot('position',[0.38 0.07-0.005 0.25 0.38]);
 annotation('textbox',[0.36 0.482-0.005 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs_convec(plot_tidx,:)');
-shading interp;
+shading flat;
 hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 contour(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs_convec(plot_tidx,:)',[0 0],'Color','c','LineWidth',1.5);
@@ -105,7 +105,7 @@ xlim([0 48])
 %--- dbdz using linear-fit u, without N2
 ax6 = subplot('position',[0.709 0.07-0.005 0.25 0.38]);
 annotation('textbox',[0.69 0.482-0.005 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit_convec(plot_tidx,:)');shading interp;
+pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit_convec(plot_tidx,:)');shading flat;
 hold on;
 contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',meanT-2:0.5:meanT+2,'Color',black);
 contour(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit_convec(plot_tidx,:)',[0 0],'Color','c','LineWidth',1.5);

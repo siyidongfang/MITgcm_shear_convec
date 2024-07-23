@@ -49,7 +49,7 @@ lam_z_all = 2*pi./m0_all;
 % lam_x_all = [10:20:33000];
 % lam_x_all = [10:10:26000];
 
-lam_x_all = [20:20:5500];
+lam_x_all = [20:20:6000];
 lam_x_all = flip(lam_x_all);
 % rw_all= 10.^([-3:0.1/2:-1 -0.95:0.01/2:0 0.1:0.1/2:2.1]);
 kx_all = 2*pi./lam_x_all;

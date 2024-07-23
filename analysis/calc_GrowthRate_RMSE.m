@@ -7,13 +7,13 @@
 clear;
 % close all
 
-for  ne = 5
+for  ne = 1
 load_all
 
 % Ntide = 20;
 % tidx = 1:Ntide*12;
 No = nDumps;
-No = 12*12;
+No = 35*12;
 tidx = 1:No;
 Nt = length(tidx);
 Hshear = 250;
@@ -29,7 +29,7 @@ div_uu = zeros(Nt,Nshear);
 div_vv = zeros(Nt,Nshear);
 div_ww = zeros(Nt,Nshear);
 
-for o = tidx
+parfor o = tidx
     nIter = dumpIters(o);
     time_h(o) = nIter.*deltaT./3600;
     time_tidal(o) = time_h(o)/12;

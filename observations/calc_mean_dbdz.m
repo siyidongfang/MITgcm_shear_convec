@@ -11,26 +11,30 @@ addpath /Users/ysi/Software/gsw_matlab_v3_06_11/thermodynamics_from_t/
 
 % Load the thermistor data
 
-% %%% MAVS 1
-% fpath = 'moorings_gridded_thermistors/level1/mavs1/mavs1_';
-% Ndate = [801:2:829 902];
-% lon_MAVS = -11.861534; 
-% lat_MAVS = 54.198556; 
-% load('MAVS1_velocity.mat','depth');
-% u_zidx = 5:18;%%% For MAVS1
-% depth=depth(u_zidx);
-% n2_zidx = 9:44;%%% For MAVS1
-
-
-%%% MAVS 2
-fpath = 'moorings_gridded_thermistors/level1/mavs2/mavs2_';
-Ndate = [706:2:720];
-lon_MAVS = -11.843511;
-lat_MAVS = 54.183718;
-load('MAVS2_velocity.mat','depth');
-u_zidx = 4:18;%%% For MAVS2
+%%% MAVS 1
+fpath = 'moorings_gridded_thermistors/level1/mavs1/mavs1_';
+Ndate = [801:2:829 902];
+lon_MAVS = -11.861534; 
+lat_MAVS = 54.198556; 
+load('MAVS1_velocity.mat','depth');
+n2_zidx = 9:48;%%% For MAVS1, full depth, from 1359 to 1569m
+u_zidx = 5:18;%%% For MAVS1, full depth, from 1360 to 1568m
+% n2_zidx= 26:48;%%% For MAVS1, bottom 100m, from 1469 to 1569m
+% u_zidx = 12:18;%%% For MAVS1, bottom 96m, from 1472 to 1568m
 depth=depth(u_zidx);
-n2_zidx =6:50;%%% For MAVS2
+
+
+% %%% MAVS 2
+% fpath = 'moorings_gridded_thermistors/level1/mavs2/mavs2_';
+% Ndate = [706:2:720];
+% lon_MAVS = -11.843511;
+% lat_MAVS = 54.183718;
+% load('MAVS2_velocity.mat','depth');
+% % n2_zidx =6:50;%%% For MAVS2, full depth
+% % u_zidx = 4:18;%%% For MAVS2, full depth, from 1189 to 1413m
+% n2_zidx =28:50;%%% For MAVS2, bottom 96m
+% u_zidx = 12:18;%%% For MAVS2, bottom 96m, from 1317 to 1413m
+% depth=depth(u_zidx);
 
 
 % idx = [n2_zidx(1) n2_zidx(end)];
@@ -40,10 +44,10 @@ temp = [];
 time_temp = [];
 for n=1:length(Ndate)
     %%% MAVS 1
-    % temp = [temp;ncread([fpath '20210' num2str(Ndate(n)) '.nc'],'t')];
+    temp = [temp;ncread([fpath '20210' num2str(Ndate(n)) '.nc'],'t')];
 
     %%% MAVS 2
-    temp = [temp;ncread([fpath '20210' num2str(Ndate(n)) '.nc'],'__xarray_dataarray_variable__')];
+    % temp = [temp;ncread([fpath '20210' num2str(Ndate(n)) '.nc'],'__xarray_dataarray_variable__')];
     
     time_temp = [time_temp;double(ncread([fpath '20210' num2str(Ndate(n)) '.nc'],'time'))];
 end
@@ -66,7 +70,7 @@ smooth_SA = NaN*SA;
 smooth_CT = NaN*CT;
 smooth_N2 = NaN*N2;
 
-Nsmooth = 900;
+Nsmooth = 900; %%% 15-min window size
 
 parfor kk=1:length(idx)
     smooth_SA(:,kk) = smoothdata(SA(:,kk),'gaussian',Nsmooth);
@@ -88,7 +92,10 @@ end
 N2_zavg = mean(N2,2,'omitnan');
 smooth_N2_zavg = mean(smooth_N2,2,'omitnan');
 
-save('MAVS2_N2.mat','N2_zavg','time_temp','smooth_N2_zavg')
+
+save('MAVS1_N2.mat','N2_zavg','time_temp','smooth_N2_zavg')
+
+
 
 
 
