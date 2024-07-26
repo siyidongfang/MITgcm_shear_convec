@@ -12,8 +12,8 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1000 350]);
 
 
 load('fig5/fig5_topo0.mat')
-ax1 = axes('position',[0.075 0.15 0.39 0.77]);
-annotation('textbox',[0.015 0.99 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+ax1 = axes('position',[0.075 0.15+0.002 0.39 0.77]);
+annotation('textbox',[0.015 0.99+0.002 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o', 'filled');
 clim([0 0.024])
 % colormap([[1 1 1];cmocean('phase')])
@@ -27,8 +27,8 @@ grid on;grid minor
 xlim([0 2.5])
 
 load('fig5/fig5_topo4.mat')
-ax2 = axes('position',[0.55 0.15 0.39 0.77]);
-annotation('textbox',[0.49 0.99 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+ax2 = axes('position',[0.55 0.15+0.002 0.39 0.77]);
+annotation('textbox',[0.49 0.99+0.002 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o','filled');
 clim([0 0.024])
 % ylabel('$\sqrt\epsilon/\omega = \sqrt {2\Lambda\omega_0^3/(N\omega^3)}$','Interpreter','latex')
@@ -39,7 +39,7 @@ xlabel('$\omega_0 /\omega = (\tilde N \frac{k_0}{m_0})/\omega$','Interpreter','l
 title('Growth rate (hour$^{-1}$)','Interpreter','latex','FontSize',fontsize+4)
 box on;
 grid on;grid minor
-h3 = colorbar(ax2,'Position',[0.95 0.1400 0.0160/2 0.7800]);
+h3 = colorbar(ax2,'Position',[0.95 0.1400+0.002 0.0160/2 0.7800]);
 xlim([0 2.5])
 print('-dpng','-r300','fig5/fig5_matlab.png');
 
