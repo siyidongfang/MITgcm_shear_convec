@@ -8,7 +8,7 @@
 function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = true;
+  FigureIsVisible = false;
   useLinearShear = true;
   useTanhShear = false;
 
@@ -61,7 +61,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 6*t1day;
+  simTime = 20*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -82,11 +82,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
   
   
-  Ly = 3*m1km;
-  Lx = 3*m1km; 
-
-  % Ly = 5*m1km;
-  % Lx = 5*m1km; 
+  Ly = 10*m1km;
+  Lx = 10*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -203,7 +200,6 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm01.addParm('viscC2leith',0,PARM_REAL);
   parm01.addParm('viscC2leithD',0,PARM_REAL);  
   %------ ysi's configuration
-
   parm01.addParm('viscAr',viscAr,PARM_REAL);      
   parm01.addParm('viscAh',viscAh,PARM_REAL);
   parm01.addParm('diffKrT',diffKrT,PARM_REAL);
@@ -234,8 +230,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   parm01.addParm('no_slip_sides',false,PARM_BOOL);
   parm01.addParm('no_slip_bottom',false,PARM_BOOL);
   parm01.addParm('bottomDragLinear',0,PARM_REAL);  %-- from Xiaozhou
-  % parm01.addParm('bottomDragQuadratic',2.5e-3,PARM_REAL);  %-- from Xiaozhou
-  parm01.addParm('bottomDragQuadratic',0,PARM_REAL); 
+  parm01.addParm('bottomDragQuadratic',2.5e-3,PARM_REAL);  %-- from Xiaozhou
+  % parm01.addParm('bottomDragQuadratic',0,PARM_REAL); 
   %%% physical parameters
   parm01.addParm('f0',f0,PARM_REAL);
   parm01.addParm('beta',beta,PARM_REAL);
@@ -279,7 +275,6 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 
 
-
   %%% PARM02
   % parm02.addParm('useSRCGSolver',true,PARM_BOOL);  %-- from Xiaozhou
   % parm02.addParm('cg2dMaxIters',1000,PARM_INT);  
@@ -299,11 +294,11 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
       % seaice work only with this).
   parm03.addParm('nIter0',nIter0,PARM_INT);
   parm03.addParm('abEps',0.1,PARM_REAL);
-  parm03.addParm('chkptFreq',6*t1hour,PARM_REAL); % rolling 
-  parm03.addParm('pChkptFreq',6*t1hour,PARM_REAL); % permanent
+  parm03.addParm('chkptFreq',24*t1hour,PARM_REAL); % rolling 
+  parm03.addParm('pChkptFreq',24*t1hour,PARM_REAL); % permanent
   parm03.addParm('taveFreq',0,PARM_REAL); % it only works properly, if taveFreq is a multiple of the time step deltaT (or deltaTclock).
-  parm03.addParm('dumpFreq',120*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
-  parm03.addParm('monitorFreq',120*t1hour,PARM_REAL); % interval to write monitor output (s)
+  parm03.addParm('dumpFreq',240*t1hour,PARM_REAL); % interval to write model state/snapshot data (s)
+  parm03.addParm('monitorFreq',240*t1hour,PARM_REAL); % interval to write monitor output (s)
   parm03.addParm('dumpInitAndLast',true,PARM_BOOL);
   parm03.addParm('pickupStrictlyMatch',false,PARM_BOOL); 
   parm03.addParm('cAdjFreq',0,PARM_REAL); %%% set to -1, frequency of convective adj. scheme == deltaT
@@ -351,7 +346,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % dz = [1*ones(1,300) [1:2/99:3] 3*ones(1,100)];
   % dz = flipud(dz')';
 
-  dz_const = 1;
+  dz_const = 2;
   dz = dz_const*ones(1,Nr);
 
   % % %%% Varied dz with depth  %  -- from Xiaozhou
@@ -936,19 +931,19 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   Flinear = zeros(1,Nr);
   % Flinear = tNoise*(flip(-zz)); 
 
-  %---- Add random noise with a certain wavelength to the initial temperature field
-  lambda_noise = 200;
-  Frms = 1;
-  % Nx_noise = Lx;
-  % Nr_noise = Hmax;
-
-  Fnoise = genRandField_xz(lambda_noise,[],Frms,Nx,Nr,Lx,Hmax);
-  Fnoise = tNoise*Fnoise/max(max(abs(Fnoise)));
-  % [zzz1,xxx1] = meshgrid(-1*(1:Hmax),1:Lx);
-  % [zzz2,xxx2] = meshgrid(zz,xx);
+  % %---- Add random noise with a certain wavelength to the initial temperature field
+  % lambda_noise = 200;
+  % Frms = 1;
+  % % Nx_noise = Lx;
+  % % Nr_noise = Hmax;
   % 
-  % Fnoise = interp2(zzz1,xxx1,Fnoise,zzz2,xxx2);
-  %----------------
+  % Fnoise = genRandField_xz(lambda_noise,[],Frms,Nx,Nr,Lx,Hmax);
+  % Fnoise = tNoise*Fnoise/max(max(abs(Fnoise)));
+  % % [zzz1,xxx1] = meshgrid(-1*(1:Hmax),1:Lx);
+  % % [zzz2,xxx2] = meshgrid(zz,xx);
+  % % 
+  % % Fnoise = interp2(zzz1,xxx1,Fnoise,zzz2,xxx2);
+  % %----------------
 
   %%% Align initial temp with background
   hydroTh = ones(Nx,Ny,Nr);
@@ -959,19 +954,23 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     hydroSa(:,:,k) = squeeze(hydroSa(:,:,k))*sNorth(k);
   end
 
-  % %%%% Initial condition: random noise in buoyancy field
+  %%%% Initial condition: random noise in buoyancy field (not white noise)
   % hydroTh = hydroTh + tNoise*(2*rand(Nx,Ny,Nr)-1);
   % hydroSa = hydroSa + sNoise*(2*rand(Nx,Ny,Nr)-1);
 
-  for i=1:Nx
-      for j=1:Ny
-          for k=1:Nr
-              % hydroTh(i,j,k)=hydroTh(i,j,k)+Flinear(k);
-              % hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k)+Flinear(k);
-              hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k);
-          end
-      end
-  end
+  %%%% Initial condition: Guassian white noise in buoyancy field
+  hydroTh = hydroTh + tNoise*randn(Nx,Ny,Nr);
+  hydroSa = hydroSa + sNoise*randn(Nx,Ny,Nr);
+
+  % for i=1:Nx
+  %     for j=1:Ny
+  %         for k=1:Nr
+  %             % hydroTh(i,j,k)=hydroTh(i,j,k)+Flinear(k);
+  %             % hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k)+Flinear(k);
+  %             hydroTh(i,j,k)=hydroTh(i,j,k)+Fnoise(i,k);
+  %         end
+  %     end
+  % end
 
   % %%% Titled isotherms
   % theta_slope = 4; %%% 4 degree slope
@@ -1052,7 +1051,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   if(useLinearShear)
 
       % Nshear_smooth_half = round(15*3/dz_const);
-      Nshear_smooth_half = 100;
+      Nshear_smooth_half = 50;
       % Nsmooth_span = Nshear_smooth_half*2+1;
       % vrelax = smooth(vrelax,Nsmooth_span);
     

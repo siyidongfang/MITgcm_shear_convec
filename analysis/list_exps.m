@@ -1,7 +1,12 @@
 
 
     prodir = '../../MITgcm_shear_convec/products/';
-    expdir = '../../MITgcm_shear_convec/exps_hires/';
+    % expdir ='/Volumes/MIT/MITgcm_shear_convec/exps_topo4/'
+    % expdir ='/Volumes/MIT/MITgcm_shear_convec/exps_flat_test/'
+    expdir ='/Volumes/MIT/MITgcm_shear_convec/experiments/'
+    
+    
+    % expdir = '../../MITgcm_shear_convec/exps_hires/';
     % expdir = '../../MITgcm_shear_convec/exps_SteadyShear/';
     % expdir = '../../MITgcm_shear_convec/experiments/';
     % expdir = '../../MITgcm_shear_convec/exps_flat_lores/';
@@ -9,6 +14,28 @@
     % expdir = '../../MITgcm_shear_convec/exps_topo4/';
 
     EXPNAME = {
+        % 'hires_topo0_s0_dz1dx6n-20'
+        % 'hires_topo0_s0.0001_dz1dx6n-20'
+        % 'hires_topo0_s0.0002_dz1dx6n-20'
+        % 'hires_topo0_s0.0003_dz1dx6n-20'
+        % 'hires_topo0_s0.0004_dz1dx6n-20'
+        % 'hires_topo0_s0.0005_dz1dx6n-20'
+        % 'hires_topo0_s0.0006_dz1dx6n-20'
+        % 'hires_topo0_s0.0007_dz1dx6n-20'
+        % 'hires_topo0_s0.0008_dz1dx6n-20'
+        % 'hires_topo0_s0.0009_dz1dx6n-20'
+        % 'hires_topo0_s0.001_dz1dx6n-20'
+        % 'hires_topo0_s0.0011_dz1dx6n-20'
+        % 'hires_topo0_s0.0012_dz1dx6n-20'
+        % 'hires_topo0_s0.0013_dz1dx6n-20'
+        % 'hires_topo0_s0.0014_dz1dx6n-20'
+        % 'hires_topo0_s0.0015_dz1dx6n-20'
+        % 'hires_topo0_s0.0016_dz1dx6n-20'
+        % 'hires_topo0_s0.0017_dz1dx6n-20'
+        % 'hires_topo0_s0.0018_dz1dx6n-20'
+        % 'hires_topo0_s0.0019_dz1dx6n-20'
+        % 'hires_topo0_s0.002_dz1dx6n-20'
+        ...
 % 'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv1e-4'
 % 'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv1e-4_smag'
 % 'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv2e-4_restoreT'
@@ -28,11 +55,11 @@
 % 'topo0_H500_s0.0011dz1dx3ln200n-20sm100_kv2e-4'
 % 'topo0_H500_s0.0012dz1dx3ln200n-20sm100_kv2e-4'
 % 'topo0_H500_s0.0013dz1dx3ln200n-20sm100_kv2e-4'
-'topo0_H500_s0.0014dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0014dz1dx3ln200n-20sm100_kv2e-4'
 % 'topo0_H500_s0.0015dz1dx3ln200n-20sm100_kv2e-4'
 % 'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4'
 % 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4'
-'topo0_H500_s0.0018dz1dx3ln200n-20sm100_kv2e-4'
+% 'topo0_H500_s0.0018dz1dx3ln200n-20sm100_kv2e-4'
 % 'topo0_H500_s0.0019dz1dx3ln200n-20sm100_kv2e-4'
 % 'topo0_H500_s0.002dz1dx3ln200n-20sm100_kv2e-4'
         ...
@@ -85,27 +112,27 @@
         ...
         % 'Lx5kmRestoreT_topo0_H500_s0.0007dz1dx10ln200n-14s_kv2e-4'
         ...
-        % 'Lx10kmRestoreT_topo0_H500_s0dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0001dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0002dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0003dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0004dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0005dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0006dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0007dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0008dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0009dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.001dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0011dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0012dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0013dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0014dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0015dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0016dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0017dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0018dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.0019dz1dx10ln200n-20_kv2e-4'
-        % 'Lx10kmRestoreT_topo0_H500_s0.002dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0001dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0002dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0003dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0004dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0005dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0006dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0007dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0008dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0009dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.001dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0011dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0012dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0013dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0014dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0015dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0016dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0017dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0018dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.0019dz1dx10ln200n-20_kv2e-4'
+        'Lx10kmRestoreT_topo0_H500_s0.002dz1dx10ln200n-20_kv2e-4'
         ...
         % 'topo0_tanhH800_s0dz1dx3ln200n-20_kv2e-4'
         % 'topo0_tanhH800_s0.0001dz1dx3ln200n-20_kv2e-4'
@@ -197,7 +224,6 @@
     % expdir = '/Users/ysi/MITgcm_shear_convec/exps_topo4_hires/';
     % expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_backup_2024/backup_wrongshear/';
 
-
     
         % 'topo0_H900_smo90m_s0.0006_dz3dx20ln400n-7'
         % 'H900_smooth120m_topo0_s0.0006_dz3dx20n-5'
@@ -217,28 +243,7 @@
         % 'lores_topo0_s0.0005_dz3dx15n-20'
         % 'lores_topo0_s0.0006_dz3dx15n-20rand_lfac1_smooth'
         % ...
-        % 'hires_topo0_s0_dz1dx6n-20'
-        % 'hires_topo0_s0.0001_dz1dx6n-20'
-        % 'hires_topo0_s0.0002_dz1dx6n-20'
-        % 'hires_topo0_s0.0003_dz1dx6n-20'
-        % 'hires_topo0_s0.0004_dz1dx6n-20'
-        % 'hires_topo0_s0.0005_dz1dx6n-20'
-        % 'hires_topo0_s0.0006_dz1dx6n-20'
-        % 'hires_topo0_s0.0007_dz1dx6n-20'
-        % 'hires_topo0_s0.0008_dz1dx6n-20'
-        % 'hires_topo0_s0.0009_dz1dx6n-20'
-        % 'hires_topo0_s0.001_dz1dx6n-20'
-        % 'hires_topo0_s0.0011_dz1dx6n-20'
-        % 'hires_topo0_s0.0012_dz1dx6n-20'
-        % 'hires_topo0_s0.0013_dz1dx6n-20'
-        % 'hires_topo0_s0.0014_dz1dx6n-20'
-        % 'hires_topo0_s0.0015_dz1dx6n-20'
-        % 'hires_topo0_s0.0016_dz1dx6n-20'
-        % 'hires_topo0_s0.0017_dz1dx6n-20'
-        % 'hires_topo0_s0.0018_dz1dx6n-20'
-        % 'hires_topo0_s0.0019_dz1dx6n-20'
-        % 'hires_topo0_s0.002_dz1dx6n-20'
-        ...
+
         ...
         % 'hires_topo4_s0_dz1dx6n-20'
         % 'hires_topo4_s0.0001_dz1dx6n-20'

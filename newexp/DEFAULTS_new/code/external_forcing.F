@@ -179,13 +179,13 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 2.0e-03
+      u_shear = 1.8e-03
       h_shear = 250.0
       Nsquare_const = 1.0e-06
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
@@ -213,7 +213,7 @@ C----------end if useTanhShear------------
 
 C----------begin if useLinearShear----------
       if(useLinearShear) then
-      Hmax = 500.0
+      Hmax = 600.0
 
 C      if((rC(kLev)-rC(Nr)).lt.h_shear) then
 C      shearRatio=(rC(kLev)-rC(Nr))/h_shear
@@ -229,7 +229,7 @@ C      end if
        end if
       END DO
 
-      Nshear_smooth_half = 100
+      Nshear_smooth_half = 50
 
       if(kLev.gt.Nshear_smooth_half) then
       if((Nr-kLev).ge.Nshear_smooth_half) then
@@ -464,8 +464,8 @@ C      u_shear = 1.5e-03
 C      h_shear = 250.5
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
@@ -876,8 +876,8 @@ C=== Yidongfang Si =====
       temp_Alpha = 2.0e-04
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
@@ -916,18 +916,18 @@ C     Bottom boundary grid cell
        ENDDO
       ENDIF
 
-      tauTop = 1./3600.
-      tauProfile = 0.
-      if(rC(kLev).ge.-100.) then
-      tauProfile=tauTop*(rC(kLev)+100.)/(rC(1)+100.)
-      end if
+C      tauTop = 1./3600.
+C      tauProfile = 0.
+C      if(rC(kLev).ge.-100.) then
+C      tauProfile=tauTop*(rC(kLev)+100.)/(rC(1)+100.)
+C      end if
 
-      DO j=1,sNy
-       DO i=1,sNx
-        gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
-     & + ( 0. - theta(i,j,kLev,bi,bj) ) * tauProfile
-       ENDDO
-      ENDDO
+C      DO j=1,sNy
+C       DO i=1,sNx
+C        gT(i,j,kLev,bi,bj) = gT(i,j,kLev,bi,bj)
+C     & + ( 0. - theta(i,j,kLev,bi,bj) ) * tauProfile
+C       ENDDO
+C      ENDDO
 
 C==========================
 
