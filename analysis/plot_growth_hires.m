@@ -4,18 +4,16 @@ addpath functions/
 clear;close all;
 list_exps;
 
-for ne = [1:10 21]
+for ne = 1:3
     expname = EXPNAME{ne};
     loadexp;
     load([expdir expname '/RMSE_tt.mat'])
     growth(ne) = pp(1);
 end
 
-growth=squeeze(growth([1:10 21]));
 
-shear_MITgcm = [0:0.1:0.9 2.0]*1e-3;
-% shear_MITgcm = [0:0.1:2.0]*1e-3;
- % shear_MITgcm = [0:0.1:1.8]*1e-3;
+shear_MITgcm = [0.2:0.2:0.6]*1e-3;
+
 figure(1)
 % clf;
 set(gcf,'Color','w')
@@ -29,7 +27,7 @@ title('Growth rate (1/hour)')
 
 growth_MITgcm = growth;
 
-save('../figures/fig4/MIT_flat.mat','growth_MITgcm','shear_MITgcm')
+save('../figures/fig4/MIT_topo4_hires_kv5e-5.mat','growth_MITgcm','shear_MITgcm')
 
 
 %%

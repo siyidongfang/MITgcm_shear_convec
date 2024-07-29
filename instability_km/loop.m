@@ -117,10 +117,10 @@ function [grow,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_fron
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
     grow(j)=pp(1);
     % pp(1)
-    if(isnan(pp(1)))
-        warning('NaN in growth rate!')
-    end
-
+    % if(isnan(pp(1)))
+    %     warning('NaN in growth rate!')
+    % end
+    % 
     % [y_fit,delta_fit] = polyval(pp,xxplot,S);
     % fig = figure(20);
     % clf;set(gcf,'Color','w')

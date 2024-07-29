@@ -19,23 +19,6 @@
 
     EXPNAME = {
         ...
-        'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv1e-4' %40
-        'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv1e-4' %40
-        'topo4_H500Lx3k_s0.6dz1dx3n-20sm100_kv1e-4' %40
-        'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv1e-4' %32
-        'topo4_H500Lx3k_s1.0dz1dx3n-20sm100_kv1e-4' %25
-        'topo4_H500Lx3k_s1.2dz1dx3n-20sm100_kv1e-4'
-        'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv1e-4'
-        'topo4_H500Lx3k_s1.6dz1dx3n-20sm100_kv1e-4'
-        'topo4_H500Lx3k_s1.8dz1dx3n-20sm100_kv1e-4'
-        ...
-        'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv1e-5' 
-        'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv5e-5'
-        'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv1e-5'
-        'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv5e-5'
-        'topo4_H500Lx3k_s0.6dz1dx3n-20sm100_kv1e-5'
-        'topo4_H500Lx3k_s0.6dz1dx3n-20sm100_kv5e-5'
-        ...
         % 'topo4_H500Lx3k_s0.0dz1dx3n-20sm100_kv2e-4' %40
         % 'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv2e-4' %40
         % 'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv2e-4' %40
@@ -46,6 +29,25 @@
         % 'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv2e-4' %18
         % 'topo4_H500Lx3k_s1.6dz1dx3n-20sm100_kv2e-4' %16
         % 'topo4_H500Lx3k_s1.8dz1dx3n-20sm100_kv2e-4' %14
+...
+        % 'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv1e-4' %40
+        % 'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv1e-4' %40
+        % 'topo4_H500Lx3k_s0.6dz1dx3n-20sm100_kv1e-4' %40
+        % 'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv1e-4' %32
+        % 'topo4_H500Lx3k_s1.0dz1dx3n-20sm100_kv1e-4' %25
+        % 'topo4_H500Lx3k_s1.2dz1dx3n-20sm100_kv1e-4'
+        % 'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv1e-4'
+        % 'topo4_H500Lx3k_s1.6dz1dx3n-20sm100_kv1e-4'
+        % 'topo4_H500Lx3k_s1.8dz1dx3n-20sm100_kv1e-4'
+        ...
+        % 'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv1e-5' 
+        % 'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv1e-5'
+        % 'topo4_H500Lx3k_s0.6dz1dx3n-20sm100_kv1e-5'
+...
+        'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv5e-5'
+        'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv5e-5'
+        'topo4_H500Lx3k_s0.6dz1dx3n-20sm100_kv5e-5'
+        ...
         ...
 
         % 'topo4_H600Lx10k_s0.0dz2dx10n-20sm50_kv1e-4'
