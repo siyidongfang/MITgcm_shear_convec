@@ -11,7 +11,8 @@ scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
 
 %--- flat bottom
-load('fig4/MITgcm_growth_hires_flat.mat')
+load('fig4/MIT_test1_flat.mat')
+% load('fig4/MITgcm_growth_hires_flat.mat')
 % load('fig4/MIT_exps_flat_test.mat')
 % load('fig4/MIT_experiments_flat.mat')
 
@@ -20,7 +21,7 @@ load('fig4/Ri_flat.mat')
 load('../instability/products/GrowthRate_exps_linear_dz0.5.mat')
 
 % crop_limit = 4000;
- crop_limit = 3000;
+ crop_limit = 32000;
 
 rw_idx_crop=find(lam_x_real<=crop_limit);
 max_grow_rw = max(grow_rw(:,rw_idx_crop),[],2);
@@ -92,7 +93,8 @@ title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
 %%
 clear growth_MITgcm max_grow_rw Ri_gcm Ri_km shear_MITgcm shear_all shear_calc_Ri
 %--- topo = 4 degrees
-load('fig4/MITgcm_growth_hires_topo4.mat')
+load('fig4/MIT_test1_topo4.mat')
+% load('fig4/MITgcm_growth_hires_topo4.mat')
 % load('fig4/MIT_exps_topo4.mat')
 load('../instability_km/exps_new/topo4_nu0_output.mat')
 load('fig4/Ri_topo4.mat')

@@ -1,8 +1,9 @@
 
 
     prodir = '../../MITgcm_shear_convec/products/';
+    expdir ='../../MITgcm_shear_convec/exps_topo4_hires/'
     % expdir ='../../MITgcm_shear_convec/exps_flat/'
-    expdir ='../../MITgcm_shear_convec/exps_topo4/'
+    % expdir ='../../MITgcm_shear_convec/exps_topo4/'
 
     % expdir ='/Volumes/MIT/MITgcm_shear_convec/exps_topo4/'
     % expdir ='/Volumes/MIT/MITgcm_shear_convec/exps_flat_test/'
@@ -17,50 +18,79 @@
     % expdir = '../../MITgcm_shear_convec/exps_topo4/';
 
     EXPNAME = {
-        'topo4_H600Lx10k_s0.0dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s0.1dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s0.2dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s0.3dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s0.4dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s0.5dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s0.6dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s0.7dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s0.8dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s0.9dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s1.0dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s1.1dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s1.2dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s1.3dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s1.4dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s1.5dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s1.6dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s1.7dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s1.8dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s1.9dz2dx10n-20sm50_kv1e-4'
-        'topo4_H600Lx10k_s2.0dz2dx10n-20sm50_kv1e-4'
+        ...
+        'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv1e-4' %40
+        'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv1e-4' %40
+        'topo4_H500Lx3k_s0.6dz1dx3n-20sm100_kv1e-4' %40
+        'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv1e-4' %32
+        'topo4_H500Lx3k_s1.0dz1dx3n-20sm100_kv1e-4' %25
+        'topo4_H500Lx3k_s1.2dz1dx3n-20sm100_kv1e-4'
+        'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv1e-4'
+        'topo4_H500Lx3k_s1.6dz1dx3n-20sm100_kv1e-4'
+        'topo4_H500Lx3k_s1.8dz1dx3n-20sm100_kv1e-4'
+        ...
+        'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv1e-5' 
+        'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv5e-5'
+        'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv1e-5'
+        'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv5e-5'
+        'topo4_H500Lx3k_s0.6dz1dx3n-20sm100_kv1e-5'
+        'topo4_H500Lx3k_s0.6dz1dx3n-20sm100_kv5e-5'
+        ...
+        % 'topo4_H500Lx3k_s0.0dz1dx3n-20sm100_kv2e-4' %40
+        % 'topo4_H500Lx3k_s0.2dz1dx3n-20sm100_kv2e-4' %40
+        % 'topo4_H500Lx3k_s0.4dz1dx3n-20sm100_kv2e-4' %40
+        % 'topo4_H500Lx3k_s0.6dz1dx3n-20sm100_kv2e-4' %40
+        % 'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv2e-4' %32
+        % 'topo4_H500Lx3k_s1.0dz1dx3n-20sm100_kv2e-4' %25
+        % 'topo4_H500Lx3k_s1.2dz1dx3n-20sm100_kv2e-4' %21
+        % 'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv2e-4' %18
+        % 'topo4_H500Lx3k_s1.6dz1dx3n-20sm100_kv2e-4' %16
+        % 'topo4_H500Lx3k_s1.8dz1dx3n-20sm100_kv2e-4' %14
+        ...
+
+        % 'topo4_H600Lx10k_s0.0dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s0.1dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s0.2dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s0.3dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s0.4dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s0.5dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s0.6dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s0.7dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s0.8dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s0.9dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s1.0dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s1.1dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s1.2dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s1.3dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s1.4dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s1.5dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s1.6dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s1.7dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s1.8dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s1.9dz2dx10n-20sm50_kv1e-4'
+        % 'topo4_H600Lx10k_s2.0dz2dx10n-20sm50_kv1e-4'
     ...
-        'topo0_H600Lx10k_s0.0dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s0.1dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s0.2dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s0.3dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s0.4dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s0.5dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s0.6dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s0.7dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s0.8dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s0.9dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s1.0dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s1.1dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s1.2dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s1.3dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s1.4dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s1.5dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s1.6dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s1.7dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s1.8dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s1.9dz2dx10n-20sm50_kv1e-4'
-        'topo0_H600Lx10k_s2.0dz2dx10n-20sm50_kv1e-4'
-    ...
+    %     'topo0_H600Lx10k_s0.0dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s0.1dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s0.2dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s0.3dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s0.4dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s0.5dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s0.6dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s0.7dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s0.8dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s0.9dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s1.0dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s1.1dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s1.2dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s1.3dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s1.4dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s1.5dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s1.6dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s1.7dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s1.8dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s1.9dz2dx10n-20sm50_kv1e-4'
+    %     'topo0_H600Lx10k_s2.0dz2dx10n-20sm50_kv1e-4'
     ...
         % 'hires_topo0_s0_dz1dx6n-20'
         % 'hires_topo0_s0.0001_dz1dx6n-20'

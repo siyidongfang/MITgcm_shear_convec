@@ -82,8 +82,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
   
   
-  Ly = 10*m1km;
-  Lx = 10*m1km; 
+  Ly = 3*m1km;
+  Lx = 3*m1km; 
 
   g = 9.81; %%% Gravity
   Omega = 2*pi*366/365/86400;
@@ -346,7 +346,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % dz = [1*ones(1,300) [1:2/99:3] 3*ones(1,100)];
   % dz = flipud(dz')';
 
-  dz_const = 2;
+  dz_const = 1;
   dz = dz_const*ones(1,Nr);
 
   % % %%% Varied dz with depth  %  -- from Xiaozhou
@@ -1051,7 +1051,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   if(useLinearShear)
 
       % Nshear_smooth_half = round(15*3/dz_const);
-      Nshear_smooth_half = 50;
+      Nshear_smooth_half = 100;
       % Nsmooth_span = Nshear_smooth_half*2+1;
       % vrelax = smooth(vrelax,Nsmooth_span);
     

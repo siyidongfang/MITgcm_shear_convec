@@ -179,7 +179,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 1.8e-03
+      u_shear = 0.2e-03
       h_shear = 250.0
       Nsquare_const = 1.0e-06
 
@@ -213,7 +213,7 @@ C----------end if useTanhShear------------
 
 C----------begin if useLinearShear----------
       if(useLinearShear) then
-      Hmax = 600.0
+      Hmax = 500.0
 
 C      if((rC(kLev)-rC(Nr)).lt.h_shear) then
 C      shearRatio=(rC(kLev)-rC(Nr))/h_shear
@@ -229,7 +229,7 @@ C      end if
        end if
       END DO
 
-      Nshear_smooth_half = 50
+      Nshear_smooth_half = 100
 
       if(kLev.gt.Nshear_smooth_half) then
       if((Nr-kLev).ge.Nshear_smooth_half) then
