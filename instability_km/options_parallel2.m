@@ -6,7 +6,7 @@ constants;
 mkdir(expdir);
 
 % for ns =1:length(shear_all)
-for ns =5:7
+for ns =3:4
     ns
     shear = shear_all(ns)
     

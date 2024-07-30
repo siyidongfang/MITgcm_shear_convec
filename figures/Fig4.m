@@ -11,18 +11,15 @@ scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
 
 %--- flat bottom
-load('fig4/MIT_exps_flat_test.mat')
-% load('fig4/MITgcm_growth_hires_flat.mat')
 % load('fig4/MIT_exps_flat_test.mat')
-% load('fig4/MIT_experiments_flat.mat')
+load('fig4/MITgcm_growth_hires_flat.mat')
 
 load('../instability_km/exps_new/topo0_nu0_output.mat')
 load('fig4/Ri_flat.mat')
 load('../instability/products/GrowthRate_exps_linear_dz0.5.mat')
 
-% crop_limit = 4000;
- crop_limit = 40000;
-
+lam_x_real=lam_x_real/6;
+crop_limit = 40000/6;
 rw_idx_crop=find(lam_x_real<=crop_limit);
 max_grow_rw = max(grow_rw(:,rw_idx_crop),[],2);
 
@@ -144,10 +141,11 @@ plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
 grid on;grid minor;
 hold on;
 plot(1./Ri_km_diff,max_grow,'LineWidth',2,'Color',black);
-plot(1./Ri_km,max_grow_rw,'--','LineWidth',2,'Color',brown);
+% plot(1./Ri_km,max_grow_rw,'--','LineWidth',2,'Color',brown);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-l4 = legend('MITgcm','Theory: inviscid','Theory: $\kappa=\nu=2e-4$','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
+% l4 = legend('MITgcm','Theory: inviscid','Theory: $\kappa=\nu=2e-4$','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
+l4 = legend('MITgcm','Theory','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
 xlim([0 4])
 ylim([-1e-3 0.35])
