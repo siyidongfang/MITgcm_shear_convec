@@ -21,7 +21,7 @@ load('fig4/Ri_flat.mat')
 load('../instability/products/GrowthRate_exps_linear_dz0.5.mat')
 
 % crop_limit = 4000;
- crop_limit = 32000;
+ crop_limit = 40000;
 
 rw_idx_crop=find(lam_x_real<=crop_limit);
 max_grow_rw = max(grow_rw(:,rw_idx_crop),[],2);
@@ -42,7 +42,7 @@ rw_idx = 1:Nrw;
 pcolor(1./Ri_km,(lam_x_real(rw_idx))/1000,grow_rw(:,rw_idx)');
 shading interp;
 hold on;
-plot(1./Ri_km,crop_limit/1000*ones(1,length(Ri_km)),'k--','LineWidth',1);
+% plot(1./Ri_km,crop_limit/1000*ones(1,length(Ri_km)),'k--','LineWidth',1);
 hold off;
 set(gca,'Fontsize',fontsize);
 % colormap(flip(bone))
@@ -112,13 +112,18 @@ for i=1:length(shear_all)
     Ri_km(i) = Ri_min(b(i));
 end
 
+load('fig4/topo4_km_kv2e-4.mat','max_grow','shear_all')
+for i=1:length(shear_all)
+    [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
+    Ri_km_diff(i) = Ri_min(b(i));
+end
 
 ax3 = subplot('position',[.06 .40 0.375 0.225]);
 annotation('textbox',[0.028 0.65 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 rw_idx = 1:Nrw;
 pcolor(1./Ri_km,(lam_x_real(rw_idx))/1000,grow_rw(:,rw_idx)');
 hold on;
-plot(1./Ri_km,crop_limit/1000*ones(1,length(Ri_km)),'k--','LineWidth',1);
+% plot(1./Ri_km,crop_limit/1000*ones(1,length(Ri_km)),'k--','LineWidth',1);
 hold off;
 set(gca,'Fontsize',fontsize);
 shading interp;
@@ -138,10 +143,11 @@ annotation('textbox',[0.538 0.65 0.15 0.01],'String','d','FontSize',fontsize+3,'
 plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
 grid on;grid minor;
 hold on;
-plot(1./Ri_km,max_grow_rw,'LineWidth',2,'Color',black);
+plot(1./Ri_km_diff,max_grow,'LineWidth',2,'Color',black);
+plot(1./Ri_km,max_grow_rw,'--','LineWidth',2,'Color',brown);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-l4 = legend('MITgcm','Theory','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
+l4 = legend('MITgcm','Theory: inviscid','Theory: $\kappa=\nu=2e-4$','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
 xlim([0 4])
 ylim([-1e-3 0.35])

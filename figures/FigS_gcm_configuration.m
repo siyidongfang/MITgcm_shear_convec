@@ -5,8 +5,8 @@ load_colors;
 
 addpath ../analysis/
 addpath ../analysis/functions/
-expname = 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4';
-expdir = '../exps_hires/';
+expname = 'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv1e-4';
+expdir = '../exps_topo4_hires/';
 load([expdir expname '/setParams.mat'])
 loadexp;
 rhoConst = 999.8;
@@ -93,7 +93,7 @@ title('Initial temperatue perturbation','Fontsize',fontsize+4,'interpreter','lat
 %--- Tidal amplitude and linear shear
 % ax2 = axes('position',[0.08 0.08 0.39 0.53]);
 ax2 = axes('position',[0.08 0.08 0.3 0.53]);
-annotation('textbox',[0.02 0.68 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.02 0.68 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(ax2, u_linear_smooth, zz, 'k-', 'LineWidth', 2)
 ylim(ax2, [-500 0])
 hold(ax2, 'on');
@@ -142,7 +142,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 600]);
 
 %--- Tidal amplitude and shear as a function of tanh(z)
 ax3 = axes('position',[0.58-0.2 0.08 0.45 0.53*1.6]);
-annotation('textbox',[0.52-0.2 1 0.15 0.001],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.52-0.2 1 0.15 0.001],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(u_tanh_bot,zz_tanh,'k-','LineWidth',2)
 hold on;
 plot(u_tanh_center,zz_tanh,'k--','LineWidth',2)
