@@ -7,8 +7,8 @@ load_colors;
 addpath ../analysis/
 addpath ../analysis/functions/
 % expname = 'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4';
-% expdir = '../exps_hires/';
-% expname = 'hires_topo4_s0.0013_dz1dx6n-20';
+% expdir = '../exps_topo4_hires/';
+% expname = 'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv1e-4';
 expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
 expdir = '../backup_exps/exps_topo4/';
 % expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4/';
@@ -46,7 +46,7 @@ load(filename)
 load('fig2/fig2_new.mat')
 YLIM = [0 300];
 
-% 
+
 mycolor=cmocean('balance');
 mycolor=mycolor(20:end-20,:);
 % mycolor=WhiteBlueGreenYellowRed(0);

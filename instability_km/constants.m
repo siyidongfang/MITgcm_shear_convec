@@ -1,8 +1,11 @@
 
+
 NT1 = 20;
 NT2 = 70;
 
-expdir = 'exps_new/flat_kv2e-4/';
+pi = vpa(pi, 60);
+% expdir = 'exps_new/flat_kv2e-4/';
+expdir = 'exps_new/topo4_kv2e-4_pi60/';
 
 Diffusion = true;
 ConvectiveAdjustment = false;
@@ -10,13 +13,13 @@ nt_percycle = 72*30;
 
 N = sqrt(1)*1e-3;
 
-% topo=4;
-% shear_Ri0_25 = 0.0018; % 0.0017525;
-% shear_Ri1 = 9.7e-04;
+topo=4;
+shear_Ri0_25 = 0.0018; % 0.0017525;
+shear_Ri1 = 9.7e-04;
 
-topo=0;
-shear_Ri0_25 = 2*N;
-shear_Ri1 = N;
+% topo=0;
+% shear_Ri0_25 = 2*N;
+% shear_Ri1 = N;
 
 Ptide = 43200;
 omega = 2*pi/Ptide;

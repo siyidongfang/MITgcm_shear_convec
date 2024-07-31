@@ -1,8 +1,11 @@
 
 % clear;close all
 
-expdir = 'exps_new/topo4_kv2e-4/';
-shear_all = (0:0.1:1.8)/1e3;
+% expdir = 'exps_new/topo4_kv2e-4/';
+% shear_all = (0:0.1:1.8)/1e3;
+
+expdir = 'exps_new/flat_kv2e-4/';
+shear_all = (0:0.1:2.0)/1e3;
 
 for ns=1:length(shear_all)
     shear = shear_all(ns);
@@ -22,7 +25,8 @@ end
 figure(1)
 plot(shear_all,max_grow);
 
-save('../figures/fig4/topo4_km_kv2e-4.mat')
+% save('../figures/fig4/topo4_km_kv2e-4.mat')
+save('../figures/fig4/flat_km_kv2e-4.mat')
 
 
 %%
