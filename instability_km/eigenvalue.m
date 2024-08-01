@@ -74,7 +74,6 @@ for ns = 1:Ns
         
         end
     end
-    
 
   
     sigma_all = real_eigv;
@@ -86,7 +85,7 @@ for ns = 1:Ns
     pcolor(lx_all/1000,lz_all,sigma_all_max');shading flat;
     colorbar;colormap(WhiteBlueGreenYellowRed(0))
     % clim([0 1]*3e-5)
-    clim([0 1]*0.4)
+    clim([0 1]*0.3)
     % xlim([0 1])
     % ylim([0 1])
     set(gca,'Fontsize',17);
@@ -106,5 +105,9 @@ for ns = 1:Ns
 
 end
 
+
+
+
+%%
 
 
