@@ -33,6 +33,12 @@ for i=1:length(shear_all)
     Ri_km(i) = Ri_min(b(i));
 end
 
+load('fig4/flat_km_kv2e-4.mat','max_grow','shear_all')
+for i=1:length(shear_all)
+    [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
+    Ri_km_diff(i) = Ri_min(b(i));
+end
+
 ax1 = subplot('position',[.065 .74 0.375 0.225]);
 annotation('textbox',[0.028+0.02 0.996 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 rw_idx = 1:Nrw;
@@ -56,14 +62,15 @@ title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
 ylim([0 33]/6)
 xlim([0 4])
 
-
+load('fig4/Floquet_km_flat.mat')
 ax2 = subplot('position',[.57 .74 0.4 0.225]);
 annotation('textbox',[0.538+0.02 0.996 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
 grid on;grid minor;
 hold on;
-plot(1./Ri_km,max_grow_rw,'LineWidth',2,'Color',black);
-
+plot(1./Ri_gcm,max_grow_floquet,'LineWidth',2,'Color',black);
+% plot(1./Ri_km,max_grow_rw,'LineWidth',2,'Color',black);
+plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 % % load('../instability_km/exps_new/topo0_nu2e-4_lores_output.mat')
 % % crop_limit = 3000;
 % % rw_idx=find(lam_x_real<=crop_limit);
@@ -78,7 +85,8 @@ plot(1./Ri_km,max_grow_rw,'LineWidth',2,'Color',black);
 % plot(1./Ri_gcm,growth_Floquet,':','LineWidth',2)
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-l1 = legend('MITgcm','Theory','Position',[0.58 0.9140 0.1010 0.0445],'interpreter','latex');
+l1 = legend('MITgcm','Theory: Eigenvalues','Theory: Time Advancement','Position',[0.5807 0.8896 0.2427 0.0668],'interpreter','latex');
+% l1 = legend('MITgcm','Theory','Position',[0.58 0.9140 0.1010 0.0445],'interpreter','latex');
 % l1 = legend('MITgcm','Theory','Discretized, Lx = 250m','Discretized, Lx = 320m','Discretized, Lx = 400m','Discretized, Lx =300$\sim$700m','interpreter','latex');
 set(gca,'Fontsize',fontsize);
 xlim([0 4])
@@ -110,6 +118,7 @@ for i=1:length(shear_all)
     Ri_km(i) = Ri_min(b(i));
 end
 
+clear max_grow shear_all Ri_km_diff
 load('fig4/topo4_km_kv2e-4.mat','max_grow','shear_all')
 for i=1:length(shear_all)
     [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));

@@ -60,7 +60,6 @@ function [dt,Nt,tt,psi,zeta,buoy,p0,b0,z0,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4,..
         
         %%% Initial condition
         buoy(1,:) = 2.0000e-23;   
-        % buoy(1,:) = 2.0000e-15;   
         psi(1,:) = 0;
         zeta(1,:) = 0;
 

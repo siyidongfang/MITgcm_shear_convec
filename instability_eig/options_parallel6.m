@@ -56,6 +56,7 @@ for ns =11:12
             % Compute the growth rate in 1/hour
             grow(i,j) = max(real(lambda(i,j,:)));
 
+
         end
         
     end
