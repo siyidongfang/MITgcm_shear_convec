@@ -1,22 +1,23 @@
 
 NTtide = 1;
 
-
-pi = vpa(pi, 60);
-expdir = 'eigenvalues/eig_topo4_kv2e-4/';
+% pi = vpa(pi, 60);
+% pi_hp = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679;
+% expdir = 'eigenvalues/eig_topo4_kv2e-4/';
+expdir = 'eigenvalues/eig_flat_kv2e-4/';
 
 Diffusion = true;
 nt_percycle = 72*30; 
 
 N = sqrt(1)*1e-3;
 
-topo=4;
-shear_Ri0_25 = 0.0018; % 0.0017525;
-shear_Ri1 = 9.7e-04;
+% topo=4;
+% shear_Ri0_25 = 0.0018; % 0.0017525;
+% shear_Ri1 = 9.7e-04;
 
-% topo=0;
-% shear_Ri0_25 = 2*N;
-% shear_Ri1 = N;
+topo=0;
+shear_Ri0_25 = 2*N;
+shear_Ri1 = N;
 
 Ptide = 43200;
 omega = 2*pi/Ptide;

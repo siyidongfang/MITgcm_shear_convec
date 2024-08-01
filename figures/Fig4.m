@@ -34,7 +34,7 @@ for i=1:length(shear_all)
 end
 
 ax1 = subplot('position',[.065 .74 0.375 0.225]);
-annotation('textbox',[0.028 0.996 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.028+0.02 0.996 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 rw_idx = 1:Nrw;
 pcolor(1./Ri_km,(lam_x_real(rw_idx))/1000,grow_rw(:,rw_idx)');
 shading interp;
@@ -53,12 +53,12 @@ clim([0 0.35]);
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 ylabel('Horizontal wavelength (km)','interpreter','latex');
 title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
-ylim([0 33])
+ylim([0 33]/6)
 xlim([0 4])
 
 
 ax2 = subplot('position',[.57 .74 0.4 0.225]);
-annotation('textbox',[0.538 0.996 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.538+0.02 0.996 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
 grid on;grid minor;
 hold on;
@@ -90,12 +90,13 @@ title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
 %%
 clear growth_MITgcm max_grow_rw Ri_gcm Ri_km shear_MITgcm shear_all shear_calc_Ri
 %--- topo = 4 degrees
-load('fig4/MIT_topo4_hires_kv1e-4.mat')
+% load('fig4/MIT_topo4_hires_kv1e-4.mat')
 % load('fig4/MITgcm_growth_hires_topo4.mat')
-% load('fig4/MIT_exps_topo4.mat')
+load('fig4/MIT_exps_topo4.mat')
 load('../instability_km/exps_new/topo4_nu0_output.mat')
 load('fig4/Ri_topo4.mat')
 
+lam_x_real = lam_x_real/6;
 rw_idx_crop=find(lam_x_real<=crop_limit);
 max_grow_rw = max(grow_rw(:,rw_idx_crop),[],2);
 
@@ -116,7 +117,7 @@ for i=1:length(shear_all)
 end
 
 ax3 = subplot('position',[.06 .40 0.375 0.225]);
-annotation('textbox',[0.028 0.65 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.028+0.02 0.65 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 rw_idx = 1:Nrw;
 pcolor(1./Ri_km,(lam_x_real(rw_idx))/1000,grow_rw(:,rw_idx)');
 hold on;
@@ -131,21 +132,24 @@ clim([0 0.35]);
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 ylabel('Across-slope wavelength (km)','interpreter','latex');
 title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
-ylim([0 33])
+ylim([0 33]/6)
 xlim([0 4])
 
 
+load('fig4/Floquet_km_topo4.mat')
 ax4 = subplot('position',[.57 .40 0.4 0.225]);
-annotation('textbox',[0.538 0.65 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.538+0.02 0.65 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
 grid on;grid minor;
 hold on;
-plot(1./Ri_km_diff,max_grow,'LineWidth',2,'Color',black);
+plot(1./Ri_gcm,max_grow_floquet,'LineWidth',2,'Color',black);
+plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 % plot(1./Ri_km,max_grow_rw,'--','LineWidth',2,'Color',brown);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
+l4 = legend('MITgcm','Theory: Eigenvalues','Theory: Time Advancement','Position',[0.5807 0.5501 0.2427 0.0668],'interpreter','latex');
 % l4 = legend('MITgcm','Theory: inviscid','Theory: $\kappa=\nu=2e-4$','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
-l4 = legend('MITgcm','Theory','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
+% l4 = legend('MITgcm','Theory','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
 xlim([0 4])
 ylim([-1e-3 0.35])
@@ -174,7 +178,7 @@ tt = tt(tidx);
 
 %--- plot vertical velocity and buoyancy perturbation
 ax5 = subplot('position',[.06 .06 0.4 0.225]);
-annotation('textbox',[0.028 0.31 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.028+0.02 0.31 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(tt/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2,'Color',blue);
 hold on;
 plot(tt/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2,'Color',black);
@@ -186,7 +190,7 @@ title('Normalized perturbations','interpreter','latex','Fontsize',fontsize+5);
 
 
 ax6 = subplot('position',[.57 .06 0.4 0.225]);
-annotation('textbox',[0.538 0.31 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.538+0.02 0.31 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 lres = plot(tt/43200,dbdt-uB0x-wB0z-wBz,'-','LineWidth',3,'Color',boxcolor);
 hold on;
 luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',brown);
