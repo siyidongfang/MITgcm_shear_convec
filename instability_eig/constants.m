@@ -1,15 +1,11 @@
 
+NTtide = 1;
 
-NT1 = 20;
-NT2 = 70;
 
 pi = vpa(pi, 60);
-% expdir = 'exps_new/flat_kv2e-4/';
-% expdir = 'exps_new/topo4_kv2e-4_pi60/';
 expdir = 'eigenvalues/eig_topo4_kv2e-4/';
 
 Diffusion = true;
-ConvectiveAdjustment = false;
 nt_percycle = 72*30; 
 
 N = sqrt(1)*1e-3;
@@ -48,9 +44,6 @@ Nrw = length(rw_all);
 
 cs = cosd(topo);
 ss = sind(topo);
-    
-b00 = 2.0e-70;
-b0 = b00*(rand()+rand()*1i);  %%% Initial condition b(t=0)
 
 kappa_const = 2e-4;
 nu_const = 2e-4;
