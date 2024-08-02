@@ -69,6 +69,7 @@ plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
 grid on;grid minor;
 hold on;
 plot(1./Ri_gcm,max_grow_floquet,'LineWidth',2,'Color',black);
+plot(1./Ri_gcm,max_grow_floquet_exclude,'LineWidth',2,'Color',red);
 % plot(1./Ri_km,max_grow_rw,'LineWidth',2,'Color',black);
 plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 % % load('../instability_km/exps_new/topo0_nu2e-4_lores_output.mat')
@@ -152,6 +153,7 @@ plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
 grid on;grid minor;
 hold on;
 plot(1./Ri_gcm,max_grow_floquet,'LineWidth',2,'Color',black);
+plot(1./Ri_gcm,max_grow_floquet_exclude,'LineWidth',2,'Color',red);
 plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 % plot(1./Ri_km,max_grow_rw,'--','LineWidth',2,'Color',brown);
 ylabel('(hour$^{-1}$)','interpreter','latex');
