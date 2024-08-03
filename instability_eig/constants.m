@@ -30,10 +30,12 @@ Ns = length(shear_all);
 h_shear = 250;
 m0_rw = 2*pi/h_shear;
 
-lam_z_all = [1:1:500];
+% lam_z_all = [1:1:500];
+lam_z_all = [0.01:0.01:0.09 0.1:0.1:10 10.25:0.25:50 50.5:0.5:500];
 m0_all = 2*pi./lam_z_all;
 
-lam_x_all = [5 10:10:12000];
+% lam_x_all = [5 10:10:12000];
+lam_x_all = [0.05 0.1 0.25:0.25:10 10:1:800 805:5:12000];
 kx_all = 2*pi./lam_x_all;
 
 rw_all = kx_all/m0_rw;

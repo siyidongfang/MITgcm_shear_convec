@@ -86,7 +86,7 @@ plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 % plot(1./Ri_gcm,growth_Floquet,':','LineWidth',2)
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-l1 = legend('MITgcm','Theory: Eigenvalues','Theory: Time Advancement','Position',[0.5807 0.8896 0.2427 0.0668],'interpreter','latex');
+l1 = legend('MITgcm','Theory: Eigenvalues','Theory: cutoff Lx=380m','Theory: Time Advancement','Position',[0.5807 0.8896 0.2427 0.0668],'interpreter','latex');
 % l1 = legend('MITgcm','Theory','Position',[0.58 0.9140 0.1010 0.0445],'interpreter','latex');
 % l1 = legend('MITgcm','Theory','Discretized, Lx = 250m','Discretized, Lx = 320m','Discretized, Lx = 400m','Discretized, Lx =300$\sim$700m','interpreter','latex');
 set(gca,'Fontsize',fontsize);
@@ -158,7 +158,7 @@ plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 % plot(1./Ri_km,max_grow_rw,'--','LineWidth',2,'Color',brown);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-l4 = legend('MITgcm','Theory: Eigenvalues','Theory: Time Advancement','Position',[0.5807 0.5501 0.2427 0.0668],'interpreter','latex');
+l4 = legend('MITgcm','Theory: Eigenvalues','Theory: cutoff Lx=380m','Theory: Time Advancement','Position',[0.5807 0.5501 0.2427 0.0668],'interpreter','latex');
 % l4 = legend('MITgcm','Theory: inviscid','Theory: $\kappa=\nu=2e-4$','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
 % l4 = legend('MITgcm','Theory','Position',[0.58 0.5712 0.1010 0.0445],'interpreter','latex');
 set(gca,'Fontsize',fontsize);

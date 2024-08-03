@@ -88,16 +88,16 @@ for ns=1:Ns
     % ylabel('m_0 (1/m)')
     % % title('The real part of the eigenvalues')
     % title('Growth rate (1/hour)')
-    % 
-    % figure(3);set(gcf,'Color','w')
-    % pcolor(lam_x_all,lam_z_all,real(grow)');
-    % shading flat;colorbar;colormap(redblue);
-    % clim([-1 1]*0.3);set(gca,'fontsize',17)
+
+    figure(3);set(gcf,'Color','w')
+    pcolor(lam_x_all,lam_z_all,real(grow)');
+    shading flat;colorbar;colormap(redblue);
+    clim([-1 1]*0.3);set(gca,'fontsize',17)
     % xlim([0 3000]);ylim([0 250])
-    % xlabel('Lx (1/m)')
-    % ylabel('Lz (m)')
-    % % title('The real part of the eigenvalues')
-    % title('Growth rate (1/hour)')
+    xlabel('Lx (1/m)')
+    ylabel('Lz (m)')
+    % title('The real part of the eigenvalues')
+    title('Growth rate (1/hour)')
 
     
     % lambda = real(lambda);

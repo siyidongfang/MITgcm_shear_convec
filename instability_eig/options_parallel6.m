@@ -61,8 +61,7 @@ for ns =11:12
         
     end
 
-    grow_h = grow/3600;
-
+    clear M11 M12 M21 M22 Lambda
     save([expdir 'shear' num2str(shear*1e3,3) '_output.mat']);
 
 end

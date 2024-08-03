@@ -3,7 +3,7 @@
 #PBS -m abe
 #PBS -M y_si@mit.edu
 #PBS -q main
-#PBS -l walltime=00:15:00
+#PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=128:mpiprocs=128:ompthreads=1
 #PBS -N options_parallel3
 #PBS -o eigenvalues/eig_flat_kv2e-4/ns3.txt

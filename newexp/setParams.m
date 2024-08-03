@@ -61,7 +61,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 20*t1day;
+  simTime = 40*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')
@@ -82,7 +82,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % end
   
   
-  Ly = 3*m1km;
+  Ly = 1*m1km;
   Lx = 3*m1km; 
 
   g = 9.81; %%% Gravity
@@ -169,8 +169,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % parm01.addParm('implicDiv2DFlow',0.6,PARM_REAL); %%% test20231027
 
   %------ viscosity and diffusivity
-  diffKhT = 1e-4; %%% Horizontal temp diffusion  
-  diffKrT = 1e-4; %%% Vertical temp diffusion    
+  diffKhT = 2e-4; %%% Horizontal temp diffusion  
+  diffKrT = 2e-4; %%% Vertical temp diffusion    
   Prandtl = 1;
   viscAh = diffKhT*Prandtl; %%% Horizontal viscosity        
   viscAr = diffKrT*Prandtl; %%% Vertical viscosity          
