@@ -61,7 +61,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 40*t1day;
+  simTime = 50*t1day;
    % simTime = 1000;
   nIter0 = 0;
   % if(run_type=='init')

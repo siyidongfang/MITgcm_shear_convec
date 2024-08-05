@@ -7,21 +7,21 @@
 clear;
 % close all
 
-for  ne = 1:4
+for  ne = 22
 load_all
 
 
 % No = nDumps;
-No = 40*12;
+No = 100*12;
 tidx = 1:No;
 
-fit_span = 10*12+1:No;
-% fit_span = 3*12+1:9*12;
+% fit_span = 9*12+1:No;
+fit_span = 10*12+1:100*12;
 
 Nt = length(tidx);
-Hshear = 250;
+% Hshear = 250;
 dz = delR(end);
-Nshear = round(Hshear/dz);
+% Nshear = round(Hshear/dz);
 % Nshear = 250;
 % zidx = Nr-Nshear:Nr;
 zidx = 300:500;
@@ -116,7 +116,7 @@ hold on;
 % ylim([1e-9 1e-1])
 % ylim([min(min([div_tt_zavg div_uu_zavg])) max(max([div_tt_zavg div_uu_zavg]))])
 
-ylim([-40 5])
+% ylim([-40 5])
 print('-dpng','-r150',[expdir expname '_rmse_tt.png']);
 
 
