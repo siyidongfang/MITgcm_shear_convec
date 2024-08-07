@@ -8,7 +8,7 @@
 function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = true;
+  FigureIsVisible = false;
   useLinearShear = true;
   useTanhShear = false;
 
@@ -61,7 +61,7 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 20*t1day;
+  simTime = 50*t1day;
   nIter0 = 0;
 
   % if(run_type=='init')
@@ -112,8 +112,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%% end of calculating the Coriolis parameter   
   % f0 = 0.53e-4; %%% Coriolis parameter         %-- from Xiaozhou, reference latitude = asind(0.53/10000*86400/4/pi) = 21.37 degree N
   % beta = 1e-11; %%% Beta parameter    
-  f0 = 1.18e-4;
-  % f0 = 0;
+  % f0 = 1.18e-4;
+  f0 = 0;
   beta = 0;                                    %-- from Xiaozhou
   rhoConst = 999.8; %%% Reference density       %-- from Xiaozhou, MITgcm default value 999.8
 

@@ -30,16 +30,19 @@
         'topo0_H500Lx3k_s2.0dz1dx3n-20sm100_kv8e-5' %13
         'topo0_H500Lx3k_s2.3dz1dx3n-20sm100_kv8e-5' %
         ...
-        'topo0_H500Lx3k_s1.0dz1dx3n-20sm100_kv2e-4'        %49
-        'topo0_H500Lx2.775k_s1.0dz1dx1.85n-20sm100_kv2e-4' %15
-        % 'topo0_H500Lx3.08k_s1.0dz1dx3.08n-20sm100_kv2e-4'  %25
-        % 'topo0_H500Lx3.48k_s1.0dz1dx3.48n-20sm100_kv2e-4'  %30
-        'topo0_H500Lx3.08k_s1.0dz1dx3.08n-20sm100_kv1e-4' %52
-        'topo0_H500Lx3.08k_s1.0dz1dx3.08n-20sm100_kv7.5e-5'  %50
-        'topo0_H500Lx3.08k_s1.0dz1dx3.08n-20sm100_kv5e-5' %25
-       };
+        };
     nEXP = length(EXPNAME);
 
+
+
+
+         % 'topo0_H500Lx3k_s1.0dz1dx3n-20sm100_kv2e-4'        %49
+        % 'topo0_H500Lx2.775k_s1.0dz1dx1.85n-20sm100_kv2e-4' %15
+        % 'topo0_H500Lx3.08k_s1.0dz1dx3.08n-20sm100_kv2e-4'  %25
+        % 'topo0_H500Lx3.48k_s1.0dz1dx3.48n-20sm100_kv2e-4'  %30
+        % 'topo0_H500Lx3.08k_s1.0dz1dx3.08n-20sm100_kv1e-4' %52
+        % 'topo0_H500Lx3.08k_s1.0dz1dx3.08n-20sm100_kv7.5e-5'  %50
+        % 'topo0_H500Lx3.08k_s1.0dz1dx3.08n-20sm100_kv5e-5' %25
 
 
 

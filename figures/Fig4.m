@@ -14,7 +14,8 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
 load('../instability_km/exps_new/topo0_nu0_output.mat')
 load('fig4/Ri_flat.mat')
 % load('../instability/products/GrowthRate_exps_linear_dz0.5.mat')
-load('fig4/MIT_flat_kv8e-5_tt.mat');
+% load('fig4/MIT_flat_kv8e-5_tt.mat');
+load('fig4/MIT_flat_noCori_tt.mat');
 load('fig4/Floquet_km_flat_8e-5.mat')
 
 % lam_x_real=lam_x_real/6;
@@ -65,9 +66,9 @@ annotation('textbox',[0.538+0.02 0.996 0.15 0.01],'String','b','FontSize',fontsi
 scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
-scatter(1./Ri_floquet,max_grow_floquet,36,black,'LineWidth',2);
-plot(1./Ri_gcm,growth_MITgcm,'LineWidth',1,'Color',blue);
-plot(1./Ri_floquet,max_grow_floquet,'LineWidth',1,'Color',black);
+scatter(1./Ri_floquet,max_grow_floquet,20,black,'LineWidth',2);
+plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
+plot(1./Ri_floquet,max_grow_floquet,'-','LineWidth',1,'Color',black);
 % plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
@@ -75,14 +76,16 @@ xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','late
 l1 = legend('MITgcm','Theory: Eigenvalues','Position',[0.5790 0.9140 0.1871 0.0458],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
 xlim([0 4])
-ylim([-1e-3 0.35])
+ylim([-1e-3 0.4])
 title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
 box on;
 
 %%
 clear growth_MITgcm max_grow_rw Ri_gcm Ri_km shear_MITgcm shear_all shear_calc_Ri
 %--- topo = 4 degrees
-load('fig4/MIT_topo4_kv8e-5_tt.mat')
+% load('fig4/MIT_topo4_kv8e-5_tt.mat')
+clear growth_MITgcm;
+load('fig4/MIT_topo4_noCori_tt.mat')
 load('../instability_km/exps_new/topo4_nu0_output.mat')
 load('fig4/Ri_topo4.mat')
 
@@ -98,6 +101,8 @@ for i=1:length(shear_all)
     [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
     Ri_km(i) = Ri_min(b(i));
 end
+
+
 
 clear max_grow shear_all Ri_km_diff
 load('fig4/topo4_km_kv2e-4.mat','max_grow','shear_all')
@@ -125,15 +130,22 @@ title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5
 xlim([0 4])
 
 
+clear Ri_floquet shear_floquet 
 load('fig4/Floquet_km_topo4.mat')
+shear_floquet=shear_all;
+for i=1:length(shear_floquet)
+    [a(i) b(i)] = min(abs(shear_floquet(i)-shear_calc_Ri));
+    Ri_floquet(i) = Ri_min(b(i));
+end
+
 ax4 = subplot('position',[.57 .40 0.4 0.225]);
 annotation('textbox',[0.538+0.02 0.65 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
-scatter(1./Ri_gcm,max_grow_floquet,36,black,'LineWidth',2);
-plot(1./Ri_gcm,growth_MITgcm,'LineWidth',1,'Color',blue);
-plot(1./Ri_gcm,max_grow_floquet,'LineWidth',1,'Color',black);
+scatter(1./Ri_floquet,max_grow_floquet,20,black,'LineWidth',2);
+plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
+plot(1./Ri_floquet,max_grow_floquet,'-','LineWidth',1,'Color',black);
 % plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
@@ -141,7 +153,7 @@ xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','late
 l4 = legend('MITgcm','Theory: Eigenvalues','Position',[0.5790 0.5712 0.1871 0.0458],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
 xlim([0 4])
-ylim([-1e-3 0.35])
+ylim([-1e-3 0.4])
 title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
 box on;
 
@@ -184,7 +196,7 @@ hold on;
 luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',brown);
 lwBz = plot(tt/43200,wBz,'LineWidth',2,'Color',yellow);
 lwB0z = plot(tt/43200,wB0z,'LineWidth',2,'Color',blue);
-ldbdt = plot(tt/43200,dbdt,'--','LineWidth',1,'Color',black);
+ldbdt = plot(tt/43200,dbdt,'LineWidth',1,'Color',black);
 grid on;grid minor;
 xlabel('Time (tidal cycles)','interpreter','latex')
 set(gca,'Fontsize',fontsize);
@@ -201,4 +213,4 @@ l62 = legend(ah,[ldbdt lres], ...
 legend('boxoff') 
 
 
-print('-dpng','-r300','fig4/fig4_matlab.png');
+% print('-dpng','-r300','fig4/fig4_matlab.png');
