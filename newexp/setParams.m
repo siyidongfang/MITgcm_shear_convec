@@ -8,7 +8,7 @@
 function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
-  FigureIsVisible = false;
+  FigureIsVisible = true;
   useLinearShear = true;
   useTanhShear = false;
 
@@ -61,9 +61,9 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%% FIXED PARAMETER VALUES %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  simTime = 50*t1day;
-   % simTime = 1000;
+  simTime = 20*t1day;
   nIter0 = 0;
+
   % if(run_type=='init')
   %     simTime = 1*t1day;
   %     nIter0 = 0; %%% Initial iteration 
@@ -1338,16 +1338,16 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
   %%% Number of fields for which to calculate layer fluxes
   % The number of possible layers coordinates (max number of tracer fields used for layer averaging)
-  layers_maxNum = 2;
-  % layers_maxNum = 1;
+  % layers_maxNum = 2;
+  layers_maxNum = 1;
 
 %   %%% Specify potential density
-  layers_name = char('RHO','TH'); 
-  % layers_name = char('TH'); 
+  % layers_name = char('RHO','TH'); 
+  layers_name = char('TH'); 
 %     layers_name = char('RHO'); 
 
-  % layers_bounds = zeros(Nr+2,2);
-  layers_bounds = zeros(Nr*2+2,2);
+  layers_bounds = zeros(Nr+2,2);
+  % layers_bounds = zeros(Nr*2+2,2);
 
    rhoShift = rhoConst - 1000;
    max_rho = max(rho_north-rhoConst);
@@ -1373,22 +1373,22 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
    layers_bounds(end,2) = pt_bounds(end);
 
   %%% Reference level for calculation of potential density
-  refDepth = 0*m1km;
-  [dz_refDepth idx_refDepth] = min(abs(abs(zz)-refDepth));
-  layers_krho = [idx_refDepth 1];    %%% Pressure reference level, level indice k
-    % layers_krho = 1 % High-resolution zz (51)=-1.9943e+03 m;
+  % refDepth = 0*m1km;
+  % [dz_refDepth idx_refDepth] = min(abs(abs(zz)-refDepth));
+  % layers_krho = [idx_refDepth 1];    %%% Pressure reference level, level indice k
+  layers_kpt = 1 % High-resolution zz (51)=-1.9943e+03 m;
   
   %%% If set true, the GM bolus velocity is added to the calculation
   layers_bolus = false;  
    
   %%% Layers
     for nl=1:layers_maxNum    
-      % layers_parm01.addParm(['layers_bounds'],layers_bounds,PARM_REALS); 
-      % layers_parm01.addParm(['layers_krho'],layers_krho,PARM_INT); 
-      % layers_parm01.addParm(['layers_name'],strtrim(layers_name),PARM_STR); 
-      layers_parm01.addParm(['layers_name(' num2str(nl) ')'],strtrim(layers_name(nl,:)),PARM_STR); 
-      layers_parm01.addParm(['layers_krho(' num2str(nl) ')'],layers_krho(nl),PARM_INT); 
-      layers_parm01.addParm(['layers_bounds(:,' num2str(nl) ')'],layers_bounds(:,nl),PARM_REALS); 
+      layers_parm01.addParm('layers_bounds',pt_bounds,PARM_REALS); 
+      layers_parm01.addParm('layers_krho',layers_kpt,PARM_INT); 
+      layers_parm01.addParm('layers_name',strtrim(layers_name),PARM_STR); 
+      % layers_parm01.addParm(['layers_name(' num2str(nl) ')'],strtrim(layers_name(nl,:)),PARM_STR); 
+      % layers_parm01.addParm(['layers_krho(' num2str(nl) ')'],layers_krho(nl),PARM_INT); 
+      % layers_parm01.addParm(['layers_bounds(:,' num2str(nl) ')'],layers_bounds(:,nl),PARM_REALS); 
     end
       layers_parm01.addParm('layers_bolus',layers_bolus,PARM_BOOL); 
 

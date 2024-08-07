@@ -6,11 +6,13 @@ load_colors;
 
 addpath ../analysis/
 addpath ../analysis/functions/
+expdir = '../exps_topo4_hires/';
+expname='topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv8e-5'
 % expname = 'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4';
 % expdir = '../exps_hires/';
 % expname = 'hires_topo4_s0.0013_dz1dx6n-20';
-expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
-expdir = '../exps_topo4/';
+% expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
+% expdir = '../exps_topo4/';
 % expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4/';
 loadexp;
 rhoConst = 999.8;
@@ -55,10 +57,11 @@ annotation('textbox',[0.07 0.993 0.3 0.01],'String','Slope-aligned coordinate','
 imshow('fig2/coordinate.png')
 
 %--- Load MITgcm simulation
-filename = [expdir expname '/RMSE.mat'];
+filename = [expdir expname '/RMSE_tt.mat'];
 load(filename)
 load('fig2/fig2_new.mat')
 YLIM = [0 300];
+time_tidal=time_h/12;
 
 %%% TKE time series
 ax2 = subplot('position',[0.435 0.815 0.505 0.16]);
@@ -187,4 +190,4 @@ set(get(h5,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','la
 
 %%% Save the figure
 
-print('-dpng','-r300','fig2/fig2.png');
+% print('-dpng','-r300','fig2/fig2.png');

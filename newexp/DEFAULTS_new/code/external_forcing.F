@@ -179,7 +179,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 2.0e-03
+      u_shear = 1.4e-03
       h_shear = 250.0
       Nsquare_const = 1.0e-06
 

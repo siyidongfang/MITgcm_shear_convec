@@ -62,10 +62,12 @@ xlim([0 4])
 
 ax2 = subplot('position',[.57 .74 0.4 0.225]);
 annotation('textbox',[0.538+0.02 0.996 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
+scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
-plot(1./Ri_floquet,max_grow_floquet,'LineWidth',2,'Color',black);
+scatter(1./Ri_floquet,max_grow_floquet,36,black,'LineWidth',2);
+plot(1./Ri_gcm,growth_MITgcm,'LineWidth',1,'Color',blue);
+plot(1./Ri_floquet,max_grow_floquet,'LineWidth',1,'Color',black);
 % plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
@@ -75,13 +77,12 @@ set(gca,'Fontsize',fontsize);
 xlim([0 4])
 ylim([-1e-3 0.35])
 title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
-
-
+box on;
 
 %%
 clear growth_MITgcm max_grow_rw Ri_gcm Ri_km shear_MITgcm shear_all shear_calc_Ri
 %--- topo = 4 degrees
-load('fig4/MIT_exps_topo4.mat')
+load('fig4/MIT_topo4_kv8e-5_tt.mat')
 load('../instability_km/exps_new/topo4_nu0_output.mat')
 load('fig4/Ri_topo4.mat')
 
@@ -127,10 +128,12 @@ xlim([0 4])
 load('fig4/Floquet_km_topo4.mat')
 ax4 = subplot('position',[.57 .40 0.4 0.225]);
 annotation('textbox',[0.538+0.02 0.65 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
+scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
-plot(1./Ri_gcm,max_grow_floquet,'LineWidth',2,'Color',black);
+scatter(1./Ri_gcm,max_grow_floquet,36,black,'LineWidth',2);
+plot(1./Ri_gcm,growth_MITgcm,'LineWidth',1,'Color',blue);
+plot(1./Ri_gcm,max_grow_floquet,'LineWidth',1,'Color',black);
 % plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
@@ -140,7 +143,7 @@ set(gca,'Fontsize',fontsize);
 xlim([0 4])
 ylim([-1e-3 0.35])
 title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
-
+box on;
 
 
 load('fig4/fig4_km.mat')
@@ -198,4 +201,4 @@ l62 = legend(ah,[ldbdt lres], ...
 legend('boxoff') 
 
 
-% print('-dpng','-r300','fig4/fig4_matlab.png');
+print('-dpng','-r300','fig4/fig4_matlab.png');
