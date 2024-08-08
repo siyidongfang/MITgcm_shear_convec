@@ -10,7 +10,9 @@ addpath /Users/ysi/MITgcm_shear_convec/analysis/colormaps/;
 close all;clear;
 
 % batch_name = 'exps_topo4_noCori'
-batch_name = 'exps_flat_noCori'
+% batch_name = 'exps_flat_noCori'
+
+batch_name = 'exps_topo4_tanh'
 
 
 %%% Input parametersd
@@ -21,7 +23,8 @@ randtopog_length = 0; %%% 1000
 
 
 Nx = 1000;
-Nr = 500;
+% Nr = 500;
+Nr = 800;
 
 % Hmax = 950;
 % dz_const = 3;
@@ -37,9 +40,9 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 
 %[0.1:0.2:0.7 0.8:0.1:2.5]*1e-03;
 
-Shear =  2.5e-3;
-exp_name = ['topo0_H500Lx3k_s' num2str(Shear*1e3) 'dz1dx3n-20sm100_kv8e-5']
-% exp_name = ['topo0_H500Lx3k_s2.0dz1dx3n-20sm100_kv8e-5']
+Shear =  0.5e-3;
+exp_name = ['topo4_H800Lx3k_s' num2str(Shear*1e3) 'dz1dx3n-20sm100_kv8e-5']
+% exp_name = ['topo4_H800Lx3k_s1.0dz1dx3n-20sm100_kv8e-5']
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)
 
 
