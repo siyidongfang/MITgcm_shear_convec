@@ -12,7 +12,7 @@ for ntopo = 1:Ntopo
     cs = cosd(topo);
     ss = sind(topo);
     for nn = 1:Nn
-        N = N_all(nn)
+        N = N_all(nn);
         clear shear_all;
         shear_all = [0:3*N/30:3*N]; 
         Ns = length(shear_all);
@@ -27,5 +27,5 @@ for ntopo = 1:Ntopo
     end
 end
 
-save([expdir 'grow_M2.mat']);
+save([expdir 'grow_K1.mat']);
 

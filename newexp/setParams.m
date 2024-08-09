@@ -169,8 +169,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % parm01.addParm('implicDiv2DFlow',0.6,PARM_REAL); %%% test20231027
 
   %------ viscosity and diffusivity
-  diffKhT = 6.5e-5; %%% Horizontal temp diffusion  
-  diffKrT = 6.5e-5; %%% Vertical temp diffusion    
+  diffKhT = 2e-5; %%% Horizontal temp diffusion  
+  diffKrT = 2e-5; %%% Vertical temp diffusion    
   Prandtl = 1;
   viscAh = diffKhT*Prandtl; %%% Horizontal viscosity        
   viscAr = diffKrT*Prandtl; %%% Vertical viscosity          
