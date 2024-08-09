@@ -31,8 +31,5 @@
     nDumps = length(dumpIters);
 
 
-    % plot_uvtn;
-    % plot_RuanFig2;
-
 
 

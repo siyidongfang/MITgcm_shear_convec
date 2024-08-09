@@ -63,21 +63,21 @@ xlim([0 4])
 
 ax2 = subplot('position',[.57 .74 0.4 0.225]);
 annotation('textbox',[0.538+0.02 0.996 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-% scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
+scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
-% scatter(1./Ri_floquet,max_grow_floquet,36,black,'LineWidth',2);
-% plot(1./Ri_floquet,max_grow_floquet,'-','LineWidth',2,'Color',black);
-% plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
-scatter(shear_floquet,max_grow_floquet,'LineWidth',2,'Color',black);
-scatter(shear_MITgcm,growth_MITgcm,'LineWidth',2,'Color',blue);
+scatter(1./Ri_floquet,max_grow_floquet,36,black,'LineWidth',2);
+plot(1./Ri_floquet,max_grow_floquet,'-','LineWidth',2,'Color',black);
+plot(1./Ri_gcm,growth_MITgcm,'LineWidth',2,'Color',blue);
+% scatter(shear_floquet,max_grow_floquet,'LineWidth',2,'Color',black);
+% scatter(shear_MITgcm,growth_MITgcm,'LineWidth',2,'Color',blue);
 % plot(1./Ri_km_diff,max_grow,'--','LineWidth',2,'Color',green);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 % l1 = legend('MITgcm','Theory: Eigenvalues','Theory: Time Advancement','Position',[0.5807 0.8896 0.2427 0.0668],'interpreter','latex');
 l1 = legend('MITgcm','Theory: Eigenvalues','Position',[0.5790 0.9140 0.1871 0.0458],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
-% xlim([0 4])
+xlim([0 4])
 ylim([-1e-3 0.4])
 title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
 box on;

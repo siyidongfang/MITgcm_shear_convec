@@ -6,8 +6,8 @@
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=128:mpiprocs=128:ompthreads=1
 #PBS -N options_parallel6
-#PBS -o eigenvalues/eig_flat_kv8e-5/ns6.txt
-#PBS -e eigenvalues/eig_flat_kv8e-5/ns6_e.txt 
+#PBS -o K1/ns6.txt
+#PBS -e K1/ns6_e.txt 
 
 module load matlab
 matlab -nodisplay -nosplash -r options_parallel6

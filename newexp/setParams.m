@@ -9,8 +9,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
   FigureIsVisible = false;
-  useLinearShear = false;
-  useTanhShear = true;
+  useLinearShear = true;
+  useTanhShear = false;
 
   addpath ../utils/;
   addpath ../newexp_utils/;
@@ -169,8 +169,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % parm01.addParm('implicDiv2DFlow',0.6,PARM_REAL); %%% test20231027
 
   %------ viscosity and diffusivity
-  diffKhT = 8e-5; %%% Horizontal temp diffusion  
-  diffKrT = 8e-5; %%% Vertical temp diffusion    
+  diffKhT = 6.5e-5; %%% Horizontal temp diffusion  
+  diffKrT = 6.5e-5; %%% Vertical temp diffusion    
   Prandtl = 1;
   viscAh = diffKhT*Prandtl; %%% Horizontal viscosity        
   viscAr = diffKrT*Prandtl; %%% Vertical viscosity          

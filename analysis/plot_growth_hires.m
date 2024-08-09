@@ -30,7 +30,7 @@ title('Growth rate (1/hour)')
 
 growth_MITgcm = growth;
 
-save('../figures/fig4/MIT_topo4_noCori_tt.mat','growth_MITgcm','shear_MITgcm')
+save('../figures/fig4/MIT_flat_noCori_tt.mat','growth_MITgcm','shear_MITgcm')
 
 
 %%
