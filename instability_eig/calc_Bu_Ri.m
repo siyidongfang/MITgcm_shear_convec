@@ -12,11 +12,13 @@ f0 = 1e-4;
 Ns = 31;
 Bu = NaN.*zeros(Ntopo,Nn,Ns);
 Ri = NaN.*zeros(Ntopo,Nn,Ns);
+strat = NaN.*zeros(Ntopo,Nn,Ns);
 isConvec = NaN.*zeros(Ntopo,Nn,Ns);
 
 dt_ri = 10;
 Nt_ri = 100*Ptide/dt_ri;
 tt_ri = dt_ri:dt_ri:Nt_ri*dt_ri;
+
 
 for ntopo = 1:Ntopo
 
@@ -27,6 +29,7 @@ for ntopo = 1:Ntopo
         N = N_all(nn);
         % Slope Burger number
         Bu(ntopo,nn,:) = N*alpha/f0;
+        strat(ntopo,nn,:) = N;
 
         clear shear_all;
         shear_all = [0:3*N/30:3*N]; 
