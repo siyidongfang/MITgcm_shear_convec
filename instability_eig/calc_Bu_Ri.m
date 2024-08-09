@@ -15,6 +15,8 @@ Ri = NaN.*zeros(Ntopo,Nn,Ns);
 strat = NaN.*zeros(Ntopo,Nn,Ns);
 isConvec = NaN.*zeros(Ntopo,Nn,Ns);
 
+velocityshear = NaN.*zeros(Ntopo,Nn,Ns);
+
 dt_ri = 10;
 Nt_ri = 100*Ptide/dt_ri;
 tt_ri = dt_ri:dt_ri:Nt_ri*dt_ri;
@@ -45,6 +47,8 @@ for ntopo = 1:Ntopo
                 isConvec(ntopo,nn,ns) = 1;
             end
 
+            velocityshear(ntopo,nn,ns) = shear;
+
         end
 
     end
@@ -52,7 +56,7 @@ for ntopo = 1:Ntopo
 end
 
 
-save('grow_K1.mat')
+save('grow_K1_calc.mat')
 
 
 % % for ntopo = 1:Ntopo

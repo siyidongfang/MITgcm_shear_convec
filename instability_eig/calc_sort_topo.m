@@ -1,7 +1,7 @@
 clear all;close all;
 
-load('grow_K1.mat')
-% load('grow_M2.mat')
+load('grow_K1_calc.mat')
+% load('grow_M2_calc.mat')
 % mycolormap = WhiteBlueGreenYellowRed(9);
 mycolormap = WhiteBlueGreenYellowRed(8);
 fontsize = 20;markersize = 36;
@@ -56,7 +56,6 @@ for nt =Ntopo:-1:1
 
     subplot(3,1,1);hold on;
     scatter(Ri_sort,grow_sort,markersize,topo.*ones(1,length(grow_sort)),'filled')
-    % plot(Ri_sort,grow_sort)
     set(gca,'xscale','log')
     xlim([0 120])
     ylim([0 0.85])
@@ -64,7 +63,7 @@ for nt =Ntopo:-1:1
     set(gca,'Fontsize',fontsize)
     colormap(mycolormap);colorbar;
     clim([0 20]);
-    xlabel('Richardson number ${R_i}_\mathrm{min}$','interpreter','latex');
+    % xlabel('Richardson number ${R_i}_\mathrm{min}$','interpreter','latex');
     ylabel('(hour$^{-1}$)','interpreter','latex');
 
     title('Growth Rate vs. ${R_i}_\mathrm{min}$ Colored by Topographic Slope ($^\circ$)','interpreter','latex');
@@ -116,7 +115,7 @@ for nn =Nidx
     set(gca,'Fontsize',fontsize)
     colormap(mycolormap);colorbar;
     % clim([0 20]);
-    xlabel('Richardson number ${R_i}_\mathrm{min}$','interpreter','latex');
+    % xlabel('Richardson number ${R_i}_\mathrm{min}$','interpreter','latex');
     ylabel('(hour$^{-1}$)','interpreter','latex');
     title('Growth Rate vs. ${R_i}_\mathrm{min}$ Colored by Stratification (s$^{-1}$)','interpreter','latex');
 
@@ -125,5 +124,36 @@ end
 
 % Colored by Shear
 
+velocityshear_flat = velocityshear(:);
+[shear_sort,I] = sort(velocityshear_flat);
 
+Ri_flat = Ri(:);
+grow_flat = grow_floquet(:);
+Bu_flat = Bu(:);
+isConvec_flat = isConvec(:);
+
+Ri_sort = Ri_flat(I);
+grow_sort = grow_flat(I);
+Bu_sort = Bu_flat(I);
+isConvec_sort = isConvec_flat(I);
+
+grow_sort(isConvec_sort==1)=NaN;
+Ri_sort = Ri_sort(~isnan(grow_sort));
+Bu_sort = Bu_sort(~isnan(grow_sort));
+shear_sort = shear_sort(~isnan(grow_sort));
+grow_sort = grow_sort(~isnan(grow_sort));
+
+
+subplot(3,1,3);
+scatter(Ri_sort,grow_sort,markersize,log10(shear_sort),'filled')
+set(gca,'xscale','log')
+xlim([0 120])
+ylim([0 0.85])
+grid on;box on;
+set(gca,'Fontsize',fontsize)
+colormap(mycolormap);colorbar;
+% clim([0 20]);
+xlabel('Richardson number ${R_i}_\mathrm{min}$','interpreter','latex');
+ylabel('(hour$^{-1}$)','interpreter','latex');
+title('Growth Rate vs. ${R_i}_\mathrm{min}$ Colored by Shear, $\log(\Lambda)$ (s$^{-1}$)','interpreter','latex');
 
