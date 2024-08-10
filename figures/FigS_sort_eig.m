@@ -153,6 +153,7 @@ for nt =Ntopo:-1:1
     set(gca,'Fontsize',fontsize)
     colormap(mycolormap);colorbar;
     clim([0 20]);
+    xticks([0.1 1 10 100])
     % xlabel('Richardson number ${R_i}_\mathrm{min}$','interpreter','latex');
     ylabel('(hour$^{-1}$)','interpreter','latex');
 
@@ -193,6 +194,7 @@ for nn =Nidx
     grid on;box on;
     set(gca,'Fontsize',fontsize)
     colormap(mycolormap);colorbar;
+    xticks([0.1 1 10 100])
     % xlabel('Richardson number ${R_i}_\mathrm{min}$','interpreter','latex');
     ylabel('(hour$^{-1}$)','interpreter','latex');
     title('Growth Rate vs. ${R_i}_\mathrm{min}$ Colored by $\tilde N$ (s$^{-1}$)','interpreter','latex');
@@ -229,6 +231,7 @@ ylim([0 0.85])
 grid on;box on;
 set(gca,'Fontsize',fontsize)
 colormap(mycolormap);colorbar;
+xticks([0.1 1 10 100])
 xlabel('Minimum Richardson number ${R_i}_\mathrm{min}$','interpreter','latex');
 ylabel('(hour$^{-1}$)','interpreter','latex');
 title('Growth Rate vs. ${R_i}_\mathrm{min}$ Colored by Shear, $\log(\Lambda)$ (s$^{-1}$)','interpreter','latex');
@@ -236,6 +239,28 @@ title('Growth Rate vs. ${R_i}_\mathrm{min}$ Colored by Shear, $\log(\Lambda)$ (s
 
 
 % Colored by Slope Burger Number
+
+Bu_flat = Bu(:);
+[Bu_sort,I] = sort(Bu_flat);
+
+velocityshear_flat = velocityshear(:);
+Ri_flat = Ri(:);
+grow_flat = grow_floquet(:);
+Bu_flat = Bu(:);
+isConvec_flat = isConvec(:);
+
+Ri_sort = Ri_flat(I);
+grow_sort = grow_flat(I);
+shear_sort = velocityshear_flat(I);
+isConvec_sort = isConvec_flat(I);
+
+grow_sort(isConvec_sort==1)=NaN;
+Ri_sort = Ri_sort(~isnan(grow_sort));
+Bu_sort = Bu_sort(~isnan(grow_sort));
+shear_sort = shear_sort(~isnan(grow_sort));
+grow_sort = grow_sort(~isnan(grow_sort));
+
+
 subplot(2,2,4);hold on;
 scatter(Ri_sort,grow_sort,markersize,(Bu_sort))
 set(gca,'xscale','log')
@@ -245,6 +270,7 @@ grid on;box on;
 set(gca,'Fontsize',fontsize)
 colormap(mycolormap);colorbar;
 clim([0 3]);
+xticks([0.1 1 10 100])
 xlabel('Minimum Richardson number ${R_i}_\mathrm{min}$','interpreter','latex');
 ylabel('(hour$^{-1}$)','interpreter','latex');
 title('Growth Rate vs. ${R_i}_\mathrm{min}$ Colored by $B_u=\tilde N\theta/f_0$','interpreter','latex');

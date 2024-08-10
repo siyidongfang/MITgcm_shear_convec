@@ -1,6 +1,6 @@
 
 
-    expdir ='../../MITgcm_shear_convec/exps_topo4_kv6.5e-5/'
+    expdir ='../../MITgcm_shear_convec/exps_topo4_kv2e-5/'
     % expdir ='../../MITgcm_shear_convec/exps_flat_noCori/'
     % expdir ='../../MITgcm_shear_convec/exps_topo4_noCori/'
     % expdir ='../../MITgcm_shear_convec/exps_topo4_tanh/'
@@ -11,12 +11,19 @@
     Nend_all   = [100 100 30  40 20 30 49 45];
 
     EXPNAME = {
-        'topo4_H500Lx3k_s0.3dz1dx3n-20sm100_kv6.5e-5' %82
-        'topo4_H500Lx3k_s0.5dz1dx3n-20sm100_kv6.5e-5' %48
-        'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv6.5e-5' %31
-        'topo4_H500Lx3k_s1.0dz1dx3n-20sm100_kv6.5e-5' %25
-        'topo4_H500Lx3k_s1.2dz1dx3n-20sm100_kv6.5e-5' %21
-        'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv6.5e-5' %18
+        'topo4_H500Lx3k_s0.5dz1dx3n-20sm100_kv2e-5'
+        'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv1e-5'
+        'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv2e-5'
+        'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv4e-5'
+        'topo4_H500Lx3k_s1.0dz1dx3n-20sm100_kv2e-5'
+        'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv2e-5'
+        ...
+        % 'topo4_H500Lx3k_s0.3dz1dx3n-20sm100_kv6.5e-5' %82
+        % 'topo4_H500Lx3k_s0.5dz1dx3n-20sm100_kv6.5e-5' %48
+        % 'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv6.5e-5' %31
+        % 'topo4_H500Lx3k_s1.0dz1dx3n-20sm100_kv6.5e-5' %25
+        % 'topo4_H500Lx3k_s1.2dz1dx3n-20sm100_kv6.5e-5' %21
+        % 'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv6.5e-5' %18
         ...
         % 'topo4_H800Lx3k_s0.1dz1dx3n-20sm100_kv8e-5' %64
         % 'topo4_H800Lx3k_s0.3dz1dx3n-20sm100_kv8e-5' %35
