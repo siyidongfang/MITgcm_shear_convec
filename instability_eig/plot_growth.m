@@ -1,16 +1,16 @@
 clear;
-% expdir = 'eigenvalues/eig_topo4_kv2e-4/';
-expdir = 'eigenvalues/eig_flat_kv8e-5/';
+expdir = 'eigenvalues/eig_topo4_kv8e-5/';
+% expdir = 'eigenvalues/eig_flat_kv8e-5/';
 % expdir = 'eigenvalues/eig_flat_kv2e-4-hires/';
 
 N = sqrt(1)*1e-3;
-% topo=4;
-% shear_Ri0_25 = 0.0018; % 0.0017525;
-% shear_Ri1 = 9.7e-04;
+topo=4;
+shear_Ri0_25 = 0.0018; % 0.0017525;
+shear_Ri1 = 9.7e-04;
 
-topo=0;
-shear_Ri0_25 = 2*N;
-shear_Ri1 = N;
+% topo=0;
+% shear_Ri0_25 = 2*N;
+% shear_Ri1 = N;
 
 shear_all = [0:1e-4:shear_Ri0_25]; 
 Ns = length(shear_all);
@@ -75,12 +75,12 @@ for ns=1:Ns
     % lambda(:,:,1) = exclude_negative_mt.*lambda(:,:,1);
     % lambda(:,:,2) = exclude_negative_mt.*lambda(:,:,2);
 
+    grow(grow<=0)=NaN;
     grow = log(grow)/43200*3600;
-    grow=real(grow);
 
     % grow_exclude = log(grow_exclude)/43200*3600;
 
-    max_grow_floquet(ns) =max(grow,[],'all')
+    max_grow_floquet(ns) =max(grow,[],'all','omitnan')
     % max_grow_floquet_exclude(ns) =max(real(grow_exclude),[],'all');
 
     % figure(2);set(gcf,'Color','w')
@@ -136,7 +136,7 @@ title('The Floquet exponents as a function of shear')
 ylim([0 0.34])
 grid on;grid minor;
 
-save('../figures/fig4/Floquet_km_flat_8e-5.mat','max_grow_floquet','shear_floquet')
+save('../figures/fig4/Floquet_km_topo4_8e-5.mat','max_grow_floquet','shear_floquet')
 
 
 

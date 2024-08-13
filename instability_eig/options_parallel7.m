@@ -17,8 +17,7 @@ for ntopo = 7
         N = N_all(nn)
 
         clear shear_all;
-        shear_all = [0:3*N/30:3*N]; 
-        Ns = length(shear_all);
+        shear_all = [0:3*N/(Ns-1):3*N]; 
 
         for ns =1:Ns
             shear = shear_all(ns);
