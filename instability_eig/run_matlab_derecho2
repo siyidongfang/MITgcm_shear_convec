@@ -4,10 +4,10 @@
 #PBS -M y_si@mit.edu
 #PBS -q main
 #PBS -l walltime=12:00:00
-#PBS -l select=1:ncpus=128:mpiprocs=128:ompthreads=1
-#PBS -N options_parallel2
-#PBS -o K1/ns2.txt
-#PBS -e K1/ns2_e.txt 
+#PBS -l select=2:ncpus=128:mpiprocs=128:ompthreads=1
+#PBS -N options_parallel1_random
+#PBS -o shear_methieu_noDiff_random/ns1.txt
+#PBS -e shear_methieu_noDiff_random/ns1_e.txt 
 
 module load matlab
-matlab -nodisplay -nosplash -r options_parallel2
+matlab -nodisplay -nosplash -r options_parallel1_random

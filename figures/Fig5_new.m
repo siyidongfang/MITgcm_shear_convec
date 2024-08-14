@@ -11,12 +11,12 @@ set(gcf,'Color','w');
 scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1000 350]);
 
-load('fig5/fig5_topo0_noDiff_eig.mat')
+load('fig5/fig5_topo0_noDiff_eig_new.mat')
 epsilon_sort(epsilon_sort<=0)=NaN;
 ax1 = axes('position',[0.075 0.15+0.002 0.39 0.77]);
 annotation('textbox',[0.015 0.99+0.002 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o', 'filled');
-clim([0 0.4])
+clim([0 0.04])
 % colormap([[1 1 1];cmocean('phase')])
 colormap([[1 1 1]*0.97;jet])
 set(gca,'fontsize',fontsize)
@@ -32,7 +32,7 @@ epsilon_sort(epsilon_sort<=0)=NaN;
 ax2 = axes('position',[0.55 0.15+0.002 0.39 0.77]);
 annotation('textbox',[0.49 0.99+0.002 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o','filled');
-clim([0 0.4])
+clim([0 0.04])
 % ylabel('$\sqrt\epsilon/\omega = \sqrt {2\Lambda\omega_0^3/(N\omega^3)}$','Interpreter','latex')
 % xlabel('$\sqrt\delta/\omega = \omega_0 /\omega = N k_x/m_z/\omega$','Interpreter','latex')
 set(gca,'fontsize',fontsize)
@@ -59,12 +59,12 @@ set(gcf,'Color','w');
 scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1000 350]);
 
-load('fig5/fig5_topo0_noDiff_eig.mat')
+load('fig5/fig5_topo0_noDiff_eig_new.mat')
 ax1 = axes('position',[0.075 0.15+0.002 0.39 0.77]);
 annotation('textbox',[0.015 0.99+0.002 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 % scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o', 'filled');
 scatter(omega0_sort/omega,Ri_sort,20,grow_sort,'o', 'filled');
-clim([0 0.4])
+clim([0 0.04])
 % colormap([[1 1 1];cmocean('phase')])
 colormap([[1 1 1]*0.97;jet])
 set(gca,'fontsize',fontsize)
@@ -85,7 +85,7 @@ ax2 = axes('position',[0.55 0.15+0.002 0.39 0.77]);
 annotation('textbox',[0.49 0.99+0.002 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 % scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o','filled');
 scatter(omega0_sort/omega,Ri_sort,20,grow_sort,'o','filled');
-clim([0 0.4])
+clim([0 0.04])
 % ylabel('$\sqrt\epsilon/\omega = \sqrt {2\Lambda\omega_0^3/(N\omega^3)}$','Interpreter','latex')
 % xlabel('$\sqrt\delta/\omega = \omega_0 /\omega = N k_x/m_z/\omega$','Interpreter','latex')
 set(gca,'fontsize',fontsize)

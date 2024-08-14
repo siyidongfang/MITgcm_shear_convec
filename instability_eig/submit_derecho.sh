@@ -1,11 +1,5 @@
-qsub run_matlab_derecho1 > K1/out1.txt
-qsub run_matlab_derecho2 > K1/out2.txt
-qsub run_matlab_derecho3 > K1/out3.txt
-qsub run_matlab_derecho4 > K1/out4.txt
-qsub run_matlab_derecho5 > K1/out5.txt
-qsub run_matlab_derecho6 > K1/out6.txt
-qsub run_matlab_derecho7 > K1/out7.txt
-qsub run_matlab_derecho8 > K1/out8.txt
-qsub run_matlab_derecho9 > K1/out9.txt
-qsub run_matlab_derecho10 > K1/out10.txt
-qsub run_matlab_derecho11 > K1/out11.txt
+qsub run_matlab_derecho1 > shear_methieu_noDiff/out1.txt
+qsub run_matlab_derecho2 > shear_methieu_noDiff_random/out2.txt
+qsub run_matlab_derecho3 > shear_methieu_noDiff_random2/out3.txt
+qsub run_matlab_derecho4 > shear_methieu_noDiff_random3/out4.txt
+

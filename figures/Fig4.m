@@ -48,6 +48,30 @@ annotation('textbox',[0.028+0.02 0.996 0.15 0.01],'String','a','FontSize',fontsi
 pcolor(1./Ri_km,1./rw_all,grow_rw');
 hold on;
 
+% figure(2)
+% inverseRi = (omega/N*1./rw_all).^2;
+% plot(inverseRi,1./rw_all);
+xxxplot = 1./Ri_km;
+xxxplot(xxxplot<1.97)=NaN;
+yyyplot = N/omega.*sqrt(xxxplot-2);
+plot(xxxplot,yyyplot,'LineWidth',2,'Color',black);
+xxxplot = 1./Ri_km;
+xxxplot(xxxplot<2.49)=NaN;
+yyyplot = N/omega.*sqrt(xxxplot-2.5);
+plot(xxxplot,yyyplot,'LineWidth',2,'Color',black);
+xxxplot = 1./Ri_km;
+xxxplot(xxxplot<2.99)=NaN;
+yyyplot = N/omega.*sqrt(xxxplot-3);
+plot(xxxplot,yyyplot,'LineWidth',2,'Color',black);
+xxxplot = 1./Ri_km;
+xxxplot(xxxplot<3.49)=NaN;
+yyyplot = N/omega.*sqrt(xxxplot-3.5);
+plot(xxxplot,yyyplot,'LineWidth',2,'Color',black);
+% xlim([0 4])
+% ylim([0 20])
+
+% figure(1)
+
 % set(gca, 'XScale', 'log')
 shading interp;
 set(gca,'Fontsize',fontsize);
@@ -66,6 +90,9 @@ xlim([0 4])
 % xticks([0.1 0.2 0.3 0.5 0.75 1 2 3 4])
 
 
+
+
+%%
 ax2 = subplot('position',[.57 .74 0.4 0.225]);
 annotation('textbox',[0.538+0.02 0.996 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);

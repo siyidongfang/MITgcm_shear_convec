@@ -6,8 +6,8 @@ constants;
 mkdir(expdir);
 
 
-% for ntopo = 1:Ntopo
-for ntopo = 1
+for ntopo = 1:Ntopo
+% for ntopo = 1
 
     topo = topo_all(ntopo)
     cs = cosd(topo);
@@ -66,7 +66,7 @@ for ntopo = 1
             end
         
             clear M11 M12 M21 M22 lambda
-            save([expdir 'ptide' num2str(Ptide) '_topo' num2str(topo) '_N' num2str(N*1e3,3) '_shear' num2str(shear*1e3,3) '.mat']);
+            save([expdir 'ptide' num2str(Ptide) '_topo' num2str(topo) '_N' num2str(N*1e3) '_shear' num2str(shear*1e3) '.mat']);
         
         end
     

@@ -5,7 +5,7 @@ expdir = 'shear_methieu_noDiff/'
 Ptide = 43200;
 topo = 0;
 N = 1e-3;
-Ns = 251;
+Ns = 1001;
 omega = 2*pi/Ptide;
 shear_all = [0:3*N/(Ns-1):3*N]; 
 
@@ -15,10 +15,10 @@ epsilon_all = [];
 Ri_all = [];
 
 h_shear=250;
-lam_x_all = [-8000:10:8000];
+lam_x_all = [-8000:1:8000];
 m0_rw = 2*pi/h_shear;
 kx_all = 2*pi./lam_x_all;
-omega0 = N*kx_all/m0_rw;
+omega0 = abs(N*kx_all/m0_rw);
 
 dt_ri = 10;
 Nt_ri = 100*Ptide/dt_ri;
@@ -28,7 +28,7 @@ Ri_shear = NaN.*zeros(1,Ns); %%% minimum Ri as a function of shear
 
 for ns=1:Ns
     shear = shear_all(ns);
-    load([expdir 'ptide' num2str(Ptide) '_topo' num2str(topo) '_N' num2str(N*1e3,3) '_shear' num2str(shear*1e3,3) '.mat']);
+    load([expdir 'ptide' num2str(Ptide) '_topo' num2str(topo) '_N' num2str(N*1e3) '_shear' num2str(shear*1e3) '.mat']);
     grow(grow<=0)=NaN;
     grow = log(grow)/43200*3600;
     grow_all = [grow_all grow];
@@ -54,7 +54,7 @@ epsilon_sort = epsilon_all(I);
 grow_sort = grow_all(I);
 Ri_sort = Ri_all(I);
 
-save('../figures/fig5/fig5_topo0_noDiff_eig.mat')
+save('../figures/fig5/fig5_topo0_noDiff_eig_new.mat')
 
 
 %%

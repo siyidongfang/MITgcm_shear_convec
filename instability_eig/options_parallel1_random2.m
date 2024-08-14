@@ -2,12 +2,12 @@
 %%%%% All variables are dimensional variables
 clear; close all;
 
-constants;
+constants_random2;
 mkdir(expdir);
 
 
-% for ntopo = 1:Ntopo
-for ntopo = 7
+for ntopo = 1:Ntopo
+% for ntopo = 1
 
     topo = topo_all(ntopo)
     cs = cosd(topo);
@@ -20,7 +20,7 @@ for ntopo = 7
         shear_all = [0:3*N/(Ns-1):3*N]; 
 
         for ns =1:Ns
-            shear = shear_all(ns);
+            shear = shear_all(ns)
             rs = shear/omega; %%% shear over omega 
             if(omega==0)
                 rs = 0;
@@ -38,7 +38,7 @@ for ntopo = 7
                 for j=1:Nm
                     m0 = m0_all(j);    
                     
-                    z0 = 1;
+                    z0 = 1+rand()*1i;
                     b0 = 0;
                     [dt,Nt,tt,zeta,buoy,dbdt,dzetadt] = initialize(shear,h_shear,kx,m0,Diffusion,nu,NTtide,Ptide,nt_percycle,omega,b0,z0);
                     [buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_front,a1_t] =loop(dt,Nt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,tt,buoy,zeta);
@@ -46,7 +46,7 @@ for ntopo = 7
                     M21(i,j)=buoy(end);
         
                     z0 = 0;
-                    b0 = 1;
+                    b0 = 1+rand()*1i;
                     [dt,Nt,tt,zeta,buoy,dbdt,dzetadt] = initialize(shear,h_shear,kx,m0,Diffusion,nu,NTtide,Ptide,nt_percycle,omega,b0,z0);
                     [buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_front,a1_t] =loop(dt,Nt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,tt,buoy,zeta);
                     M12(i,j)=zeta(end);
@@ -65,7 +65,7 @@ for ntopo = 7
                 
             end
         
-            clear M11 M12 M21 M22 Lambda
+            clear M11 M12 M21 M22 lambda
             save([expdir 'ptide' num2str(Ptide) '_topo' num2str(topo) '_N' num2str(N*1e3) '_shear' num2str(shear*1e3) '.mat']);
         
         end

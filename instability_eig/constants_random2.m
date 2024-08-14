@@ -1,7 +1,7 @@
 
 NTtide = 1;
 
-expdir = 'shear_methieu_noDiff/';
+expdir = 'shear_methieu_noDiff_random2/';
 
 Diffusion = false;
 nt_percycle = 72*30; 
