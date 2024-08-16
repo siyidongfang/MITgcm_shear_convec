@@ -7,29 +7,25 @@
 clear;
 % close all
 
-for  ne = 22
+for  ne = 1
 load_all
 
 
 % No = nDumps;
-No = 100*12;
+No =100*12;
 tidx = 1:No;
 
 % fit_span = 9*12+1:No;
-fit_span = 10*12+1:100*12;
+fit_span = 50*12+1:100*12;
 
 Nt = length(tidx);
-% Hshear = 250;
 dz = delR(end);
-% Nshear = round(Hshear/dz);
-% Nshear = 250;
-% zidx = Nr-Nshear:Nr;
-zidx = 300:500;
-% zidx = 200:300;
+% zidx = 350:500;
+zidx = 325:475;
 Nshear = length(zidx);
 
 div_tt = zeros(Nt,Nshear);
-% div_uu = zeros(Nt,Nshear);
+div_uu = zeros(Nt,Nshear);
 % div_vv = zeros(Nt,Nshear);
 div_ww = zeros(Nt,Nshear);
 
@@ -44,19 +40,19 @@ parfor o = tidx
     mean_tt_shear_2d = repmat(mean_tt_shear,[Nx 1]);
     div_tt(o,:) = rmse(tt_shear,mean_tt_shear_2d,1);
 
-    % uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
+    uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
     % vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
     ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
-    % uu_shear = uu(:,zidx);
+    uu_shear = uu(:,zidx);
     % vv_shear = vv(:,zidx);
     ww_shear = ww(:,zidx);
-    % mean_uu_shear = mean(uu(:,zidx));
+    mean_uu_shear = mean(uu(:,zidx));
     % mean_vv_shear = mean(vv(:,zidx));
     mean_ww_shear = mean(ww(:,zidx));
-    % mean_uu_shear_2d = repmat(mean_uu_shear,[Nx 1]);
+    mean_uu_shear_2d = repmat(mean_uu_shear,[Nx 1]);
     % mean_vv_shear_2d = repmat(mean_vv_shear,[Nx 1]);
     mean_ww_shear_2d = repmat(mean_ww_shear,[Nx 1]);
-    % div_uu(o,:) = rmse(uu_shear,mean_uu_shear_2d,1);
+    div_uu(o,:) = rmse(uu_shear,mean_uu_shear_2d,1);
     % div_vv(o,:) = rmse(vv_shear,mean_vv_shear_2d,1);
     div_ww(o,:) = rmse(ww_shear,mean_ww_shear_2d,1);
 
@@ -64,31 +60,28 @@ end
 
 %%
 div_tt2_zint = sum(dz*div_tt.^2,2);
-% div_uu2_zint = sum(dz*div_uu.^2,2);
+div_uu2_zint = sum(dz*div_uu.^2,2);
 % div_vv2_zint = sum(dz*div_vv.^2,2);
 div_ww2_zint = sum(dz*div_ww.^2,2);
 
 Pr = 1;
-% ke = (div_uu2_zint/2+div_vv2_zint/2+div_ww2_zint/2);
-ke = div_ww2_zint/2;
+ke = (div_uu2_zint/2+div_ww2_zint/2);
+% ke = div_ww2_zint/2;
 pe = Pr*div_tt2_zint/2;
 
-% if(max(energy)<=1e-5)
-%     % fit_span = 12*10+1:No;
-%     fit_span = 12*45+1:No;
-% end
 xxplot = time_h;
 yyplot = log(pe)/2;
 [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
-grow(ne) = pp(1)
+pp(1)
+grow(ne) = pp(1);
 [y_fit,delta_fit] = polyval(pp,xxplot,S);
 
 
 filename = [expdir expname '/RMSE_tt.mat'];
-% save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
-%     'ke','pe','div_uu2_zint','div_vv2_zint','div_ww2_zint','div_tt2_zint','grow')
 save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
-    'div_ww2_zint','div_tt2_zint','grow')
+    'ke','pe','div_uu2_zint','div_ww2_zint','div_tt2_zint','grow')
+% save(filename,'time_h','xxplot','yyplot','fit_span','pp','y_fit',...
+%     'div_ww2_zint','div_tt2_zint','grow')
 
 
 
@@ -122,21 +115,3 @@ print('-dpng','-r150',[expdir expname '_rmse_tt.png']);
 
 
 end
-
-% legend(...
-%     's0.0006, NOsmag, h1e-4v2e-4',...
-%     's0.0006, NOsmag, h1e-4v5e-4',...
-%     's0.0006, NOsmag, h4e-4v2e-4',...
-%     's0.0006, smag4C, h1e-4v2e-4',...
-%     's0.0006, smag4C, h1e-4v5e-4',...
-%     's0.0006, smag4C, h5e-4v2e-4',...
-%     's0.0006, 3DSmag1e-2, hv1e-5',...
-%     's0.0006, 3Dsmag1e-3, hv1e-5',...
-%     's0.0006, 3Dsmag1e-4, hv1e-5')
-
-% legend('smag, hori=1e-4,vert=2e-4','smag, hori=1e-4,vert=5e-4',...
-%     'smag, hori=1e-4,vert=1e-3','smag, hori=5e-4,vert=2e-4','Fontsize',fontsize+3)
-
-% legend('smag, hori=1e-4,vert=2e-4','no smag, hori=1e-4,vert=2e-4','no smag, hori=vert=2e-4',...
-%     'no smag, hori=2e-4,vert=1e-4','no smag, hori=4e-4,vert=2e-4','no smag, hori=6e-4,vert=3e-4')
-

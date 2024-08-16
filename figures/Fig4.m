@@ -15,7 +15,8 @@ load('../instability_km/exps_new/topo0_nu0_output.mat')
 load('fig4/Ri_flat.mat')
 % load('../instability/products/GrowthRate_exps_linear_dz0.5.mat')
 % load('fig4/MIT_flat_kv8e-5_tt.mat');
-load('fig4/MIT_flat_noCori_tt.mat');
+% load('fig4/MIT_flat_noCori_tt.mat');
+load('fig4/MIT_flat_kv5e-6_tt.mat');
 load('fig4/Floquet_km_flat_8e-5.mat')
 
 % lam_x_real=lam_x_real/6;
@@ -111,7 +112,7 @@ xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','late
 % l1 = legend('MITgcm','Theory: Eigenvalues','Theory: Time Advancement','Position',[0.5807 0.8896 0.2427 0.0668],'interpreter','latex');
 l1 = legend('MITgcm','Theory: Eigenvalues','Position',[0.58 0.91 0.1871 0.0458],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
-xlim([0 4])
+xlim([0 5.2])
 ylim([-1e-3 0.4])
 title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
 box on;
@@ -125,7 +126,9 @@ load('fig4/Ri_topo4.mat')
 lam_x_real = lam_x_real/6;
 max_grow_rw = max(grow_rw,[],2);
 
-load('fig4/MIT_topo4_noCori_tt.mat')
+% load('fig4/MIT_topo4_noCori_tt.mat')
+load('fig4/MIT_topo4_kv5e-6_tt.mat')
+
 for i=1:length(shear_MITgcm)
     if(shear_MITgcm(i)>shear_convec)
         shear_MITgcm(i)=NaN;
@@ -185,9 +188,9 @@ annotation('textbox',[0.538+0.02 0.65 0.15 0.01],'String','d','FontSize',fontsiz
 scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
-% scatter(Ri_floquet,max_grow_floquet,36,black,'LineWidth',2);
-% plot(Ri_gcm,growth_MITgcm,'-','LineWidth',2,'Color',blue);
+% scatter(1./Ri_floquet,max_grow_floquet,36,black,'LineWidth',2);
 plot(1./Ri_floquet,max_grow_floquet,'-','LineWidth',2,'Color',black);
+% plot(1./Ri_gcm,growth_MITgcm,'-','LineWidth',2,'Color',blue);
 % set(gca, 'XScale', 'log')
 % scatter(shear_floquet,max_grow_floquet,'LineWidth',2,'Color',black);
 % scatter(shear_MITgcm,growth_MITgcm,'LineWidth',2,'Color',blue);
@@ -198,7 +201,7 @@ xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','late
 % l4 = legend('MITgcm','Theory: Eigenvalues','Theory: Time Advancement','Position',[0.5807 0.5501 0.2427 0.0668],'interpreter','latex');
 l4 = legend('MITgcm','Theory: Eigenvalues','Position',[0.58 0.57 0.1871 0.0458],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
-% xlim([0 4])
+xlim([0 5.2])
 ylim([-1e-3 0.4])
 title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
 box on;
