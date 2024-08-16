@@ -179,7 +179,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 0.8e-03
+      u_shear = 0.1e-03
       h_shear = 250.0
       Nsquare_const = 1.0e-06
 
@@ -207,7 +207,9 @@ C      topog_slope = 0.0
 C----------begin if useTanhShear----------
       if(useTanhShear) then
       Hmax = 800.0
+C--      zero velocity at sea floor
       shearRatio=(1+tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
+C--      zero velocity at center
 C      shearRatio=( tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
       end if
 C----------end if useTanhShear------------

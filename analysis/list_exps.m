@@ -11,6 +11,14 @@
     % Nend_all   = [100 100 30  40 20 30 49 45];
 
     EXPNAME = {
+        'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv1e-6' %32
+        'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv2e-6' %32
+        'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv5e-6' %32
+        'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv7.5e-6' %32
+        'topo4_H500Lx3k_s0.8dz1dx2.1873n-20sm100_kv1e-5' %23
+        'topo4_H500Lx3k_s0.8dz1dx2.1873n-20sm100_kv8e-5' %23
+        'topo4_H500Lx3k_s0.8dz1dx6.562n-20sm100_kv8e-5'  %68
+        ...
         'topo4_H500Lx3k_s0.5dz1dx3n-20sm100_kv2e-5' %49
         'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv1e-5' %32
         'topo4_H500Lx3k_s0.8dz1dx3n-20sm100_kv2e-5' %31

@@ -198,7 +198,7 @@ xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','late
 % l4 = legend('MITgcm','Theory: Eigenvalues','Theory: Time Advancement','Position',[0.5807 0.5501 0.2427 0.0668],'interpreter','latex');
 l4 = legend('MITgcm','Theory: Eigenvalues','Position',[0.58 0.57 0.1871 0.0458],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
-xlim([0 4])
+% xlim([0 4])
 ylim([-1e-3 0.4])
 title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
 box on;
