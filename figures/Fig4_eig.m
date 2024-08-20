@@ -58,6 +58,31 @@ annotation('textbox',[0.028+0.02 0.996 0.15 0.01],'String','a','FontSize',fontsi
 pcolor(1./Ri_eig,m0_rw./kx_all,grow_all);
 
 hold on;
+
+xxxplot = 1./Ri_km;
+xxxplot(xxxplot<1.97)=NaN;
+yyyplot = N/omega.*sqrt(xxxplot-2);
+plot(xxxplot,yyyplot,'LineWidth',2,'Color',black);
+xxxplot = 1./Ri_km;
+xxxplot(xxxplot<2.49)=NaN;
+yyyplot = N/omega.*sqrt(xxxplot-2.5);
+plot(xxxplot,yyyplot,'LineWidth',2,'Color',black);
+xxxplot = 1./Ri_km;
+xxxplot(xxxplot<2.99)=NaN;
+yyyplot = N/omega.*sqrt(xxxplot-3);
+plot(xxxplot,yyyplot,'LineWidth',2,'Color',black);
+xxxplot = 1./Ri_km;
+xxxplot(xxxplot<3.49)=NaN;
+yyyplot = N/omega.*sqrt(xxxplot-3.5);
+plot(xxxplot,yyyplot,'LineWidth',2,'Color',black);
+xxxplot = 1./Ri_km;
+yyyplot = N/omega.*sqrt(xxxplot+0.8);
+plot(xxxplot,yyyplot,'LineWidth',2,'Color',black);
+% xxxplot = 1./Ri_km;
+% yyyplot = N/omega.*sqrt(xxxplot)+1;
+% plot(xxxplot,yyyplot,'LineWidth',2,'Color',black);
+
+
 ylim([0 1]*25)
 
 % contour(1./Ri_km,1./rw_all,grow_rw',[0.02:0.02:0.5],'Color',black);
