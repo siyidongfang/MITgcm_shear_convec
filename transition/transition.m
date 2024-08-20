@@ -14,7 +14,7 @@ Ln = length(Ri_all);
 intA = NaN*zeros(1,Ln);
 maxA = NaN*zeros(1,Ln);
 k0=1;
-rw = 0;
+rw = 1;
 m0=rw*k0;
 
 figure(1)
@@ -22,8 +22,9 @@ l1=plot(tt/3600,omega^2/2*ones(1,length(tt)),'k--','LineWidth',2);
 hold on;
 l2=plot(tt/3600,omega^2*ones(1,length(tt)),'b--','LineWidth',2);
 
-% for n=1:21
-for n=22:Ln
+% for n=1:Ln
+for n=1:21
+% for n=22:Ln
     Ri = Ri_all(n)
     B = abs(m0/k0*omega/N-Ri^(-0.5)*sin(omega*tt));
     C = 1./(omega^2/N^2+B.^2)-1;
@@ -38,31 +39,31 @@ for n=22:Ln
 
     figure(1)
     plot(tt/3600,A);
-    set(gca,'Fontsize',16)
+    set(gca,'Fontsize',18)
     xlabel('Time (hours)')
-    title('A(t), m0/k0=0')
+    title('A(t), m0/k0=1')
     set(gca,'YScale', 'log')
-    % ylim([0 1e-6])
-    % ylim([-2 2])
+    ylim([1e-9 1e-6])
 end
 
 legend([l1 l2],'\omega^2/2','\omega^2')
+grid on;grid minor;
 
 
-figure(3)
-plot(inverseRi,minA)
-hold on;
-plot(inverseRi,omega^2/2*ones(1,length(inverseRi)))
-set(gca,'YScale','log')
-grid on;
-grid minor;
-set(gca,'fontsize',15)
-
-
-aaa = meanA./omega^2;
-
-figure(4)
-plot(inverseRi,aaa)
-set(gca,'YScale','log')
-grid on;
-grid minor;
+% figure(3)
+% plot(inverseRi,minA)
+% hold on;
+% plot(inverseRi,omega^2/2*ones(1,length(inverseRi)))
+% set(gca,'YScale','log')
+% grid on;
+% grid minor;
+% set(gca,'fontsize',15)
+% 
+% 
+% aaa = meanA./omega^2;
+% 
+% figure(4)
+% plot(inverseRi,aaa)
+% set(gca,'YScale','log')
+% grid on;
+% grid minor;
