@@ -4,7 +4,7 @@
 
 clear all;close all;
 
-expdir = 'shear_methieu_noDiff/'
+expdir = 'shear_methieu_noDiff_random3/'
 Ptide = 43200;
 topo = 4;
 N = 1e-3;
