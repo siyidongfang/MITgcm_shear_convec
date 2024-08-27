@@ -179,7 +179,7 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 0.4e-03
+      u_shear = 2.8e-03
       h_shear = 250.0
       Nsquare_const = 1.0e-06
 
@@ -193,8 +193,8 @@ C      topog_slope = 4.d0
       temp_Alpha = 2.0e-4
       Tref_const = 0.d0
 
-      useLinearShear = .FALSE.
-      useTanhShear = .TRUE.
+      useLinearShear = .TRUE.
+      useTanhShear = .FALSE.
 
       amp_tide = u_shear * h_shear
 
