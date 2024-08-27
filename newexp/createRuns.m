@@ -12,7 +12,7 @@ close all;clear;
 % batch_name = 'exps_topo4_noCori'
 % batch_name = 'exps_flat_noCori'
 
-batch_name = 'exps_topo4_kv5e-6'
+batch_name = 'exps_kv1e-5'
 
 
 %%% Input parametersd
@@ -40,8 +40,8 @@ run_type = 'spin'; %%% select from 'init','spin','prod' for initialize run with 
 
 %flat [0.1 0.4 0.6 0.8 1.0:0.1:2.2 1.455]*1e-03;
 %topo4 [0.1 0.4 0.6 0.8 1.0:0.1:2.0 2.08 1.335]*1e-03;
-Shear = 0.1e-3;
-exp_name = ['topo4_H500Lx3k_s' num2str(Shear*1e3,'%.3f') 'dz1dx3sm100']
+Shear = 0.4e-3;
+exp_name = ['tanh_topo0_H800Lx3k_s' num2str(Shear*1e3,'%.3f') 'dz1dx3sm100']
 newexp(batch_name,exp_name,Atide,randtopog_height,randtopog_length,Nr,Nx,run_type,Shear)
 
 

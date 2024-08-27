@@ -1,1 +1,1 @@
-rsync -av --update ysi@derecho.hpc.ucar.edu:/glade/derecho/scratch/ysi/MITgcm_shear_convec/instability_km/eigenvalues/*  eigenvalues/. 
+rsync -av --update ysi@derecho.hpc.ucar.edu:/glade/derecho/scratch/ysi/MITgcm_shear_convec/instability_km/exps_varyingN  . 

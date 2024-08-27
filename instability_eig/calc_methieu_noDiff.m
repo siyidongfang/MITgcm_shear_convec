@@ -1,7 +1,7 @@
 %%
 clear all;addpath ../analysis/colormaps/
 
-expdir = 'shear_methieu_noDiff/'
+expdir = 'shear_methieu_noDiff_imag/'
 Ptide = 43200;
 topo = 0;
 N = 1e-3;
@@ -54,7 +54,7 @@ epsilon_sort = epsilon_all(I);
 grow_sort = grow_all(I);
 Ri_sort = Ri_all(I);
 
-save('../figures/fig5/fig5_topo0_noDiff_eig_new.mat')
+save('../figures/fig5/fig5_topo0_noDiff_eig_imag.mat')
 
 
 %%
