@@ -6,7 +6,7 @@ omega = 2*pi/43200;
 N_hat = N/omega;
 
 Ntide = 1;
-dt = 2*pi/10000;
+dt = 2*pi/100000;
 tt_hat = 0:dt:2*pi*Ntide;
 Nt = length(tt_hat);
 
@@ -96,17 +96,18 @@ for o=1:nr
 
     A = N_hat^2./(1+N_hat^2*R*sin(tt_hat).^2);
 
-    % figure(3);clf;set(gcf,'Color','w','Position',[41 146 1275 428])
-    % plot(tt_hat/2/pi,A,'LineWidth',2);
-    % hold on;
-    % plot(tt_hat/2/pi,A_new,'LineWidth',2);
-    % plot(tt_hat/2/pi,ones(1,length(tt_hat)),'--','LineWidth',2,'Color','k');
-    % grid on;grid minor;set(gca,'Fontsize',20);
-    % xlabel('Time, $\hat t/(2\pi)$ (Tidal cycles)','Interpreter','latex');
-    % title(['$A(\hat t)$, R=' num2str(R,2)],'Interpreter','latex');
-    % set(gca,'YScale', 'log');
-    % legend('$A(\hat t)$','Idealized $A$','Interpreter','latex');
-    % ylim([0.04 100])
+    figure(3);clf;set(gcf,'Color','w','Position',[41 146 1275 428])
+    plot(tt_hat/2/pi,A,'LineWidth',2);
+    hold on;
+    plot(tt_hat/2/pi,A_new,'LineWidth',2);
+    plot(tt_hat/2/pi,meanA,'LineWidth',2);
+    plot(tt_hat/2/pi,ones(1,length(tt_hat)),'--','LineWidth',2,'Color','k');
+    grid on;grid minor;set(gca,'Fontsize',20);
+    xlabel('Time, $\hat t/(2\pi)$ (Tidal cycles)','Interpreter','latex');
+    title(['$A(\hat t)$, R=' num2str(R,2)],'Interpreter','latex');
+    set(gca,'YScale', 'log');
+    legend('$A(\hat t)$','Idealized $A$','(harmonic mean of $\sqrt(A)$)$^2$','Interpreter','latex');
+    ylim([0.04 100])
     
     nt1(o)=t1;
     nt2(o)=t2;
@@ -116,6 +117,6 @@ for o=1:nr
 end
 
 
-%%% Save the data
-clear A R n o om Amin A_new t1 t2 t3 t4 t5 o1 o2 beta al
-save('om_alpha.mat')
+% %%% Save the data
+% clear A R n o om Amin A_new t1 t2 t3 t4 t5 o1 o2 beta al
+% save('om_alpha.mat')
