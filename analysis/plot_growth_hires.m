@@ -4,7 +4,7 @@ addpath functions/
 clear;close all;
 list_exps;
 
-for ne = 1:21
+for ne = 1:14
     expname = EXPNAME{ne};
     loadexp;
     load([expdir expname '/RMSE_tt.mat'])
@@ -12,9 +12,9 @@ for ne = 1:21
     growth(ne) = pp(1);
 end
 
-% shear_MITgcm = [0.1 0.4:0.2:2.8]*1e-03; % topo0, tanh
+shear_MITgcm = [0.1 0.4:0.2:2.8]*1e-03; % topo0, tanh
 % shear_MITgcm = [0.1 0.4 0.6 0.8 1.0:0.1:1.3 1.335 1.4:0.1:2.0 2.08]*1e-03;%% topo4
-shear_MITgcm = [0.1 0.4 0.6 0.8 1.0:0.1:1.4 1.455 1.5:0.1:2.2 2.4 2.6 2.8]*1e-03; %% flat
+% shear_MITgcm = [0.1 0.4 0.6 0.8 1.0:0.1:1.4 1.455 1.5:0.1:2.2 2.4 2.6 2.8]*1e-03; %% flat
 
 figure(1)
 % clf;
@@ -29,7 +29,7 @@ title('Growth rate (1/hour)')
 
 growth_MITgcm = growth;
 
-save('../figures/fig4/MIT_flat_kv5e-6_tt.mat','growth_MITgcm','shear_MITgcm')
+save('../figures/fig4/MIT_tanh_topo0_kv5e-6_tt.mat','growth_MITgcm','shear_MITgcm')
 
 
 %%

@@ -14,14 +14,15 @@ Amax = N_hat^2;
 
 
 R_all = [0:0.1:20];
-nr = length(R_all);   
-om1 = zeros(1,nr);
-om2 = zeros(1,nr);
-om0 = zeros(1,nr);
-nom1 = zeros(1,nr);
-nom2 = zeros(1,nr);
+nR = length(R_all);   
+om1 = zeros(1,nR);
+om2 = zeros(1,nR);
+om0 = zeros(1,nR);
+nom1 = zeros(1,nR);
+nom2 = zeros(1,nR);
+alpha = zeros(1,nR);
 
-for o=1:nr
+for o=1:nR
     R = R_all(o);
     
     Amin = N_hat^2/(1+N_hat^2*R);
@@ -85,7 +86,7 @@ title('Portion of a period with frequency $\sqrt{A(\hat t)}$ lower than 1','Inte
 A_harmonic = om0.^2;
 
 
-for o=1:nr
+for o=1:nR
     R = R_all(o);
     o1=om1(o);
     o2=om2(o);
@@ -129,7 +130,7 @@ save('om_alpha.mat')
 figure(1);clf;set(gcf,'Color','w','Position',[41 146 600 428])
 plot(R_all,1./om0,'LineWidth',2);
 hold on;
-plot(R_all,ones(1,nr),'--','Color','k','LineWidth',2);
+plot(R_all,ones(1,nR),'--','Color','k','LineWidth',2);
 grid on;grid minor;set(gca,'Fontsize',20);
 title('Mean Period = 1./(Harmonic mean of $\sqrt A)$','Interpreter','latex');
 xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');

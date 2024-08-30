@@ -5,7 +5,7 @@ load_colors
 
 load('om_alpha.mat')
 
-for o = 11:nr % 11:nr
+for o = 11:nR % 11:nR
     o
 R = R_all(o);
 o1=om1(o);

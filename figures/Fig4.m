@@ -25,6 +25,12 @@ for i=1:length(shear_all)
     Ri_km(i) = Ri_min(b(i));
 end
 
+[max_grow r_idx]=max(grow_rw,[],2);
+for i=1:length(shear_all)
+    r_mostunstable(i) = 1./rw_all(r_idx(i));
+end
+r_mostunstable(r_mostunstable>17)=NaN;
+
 
 load('fig4/flat_km_kv2e-4.mat','max_grow','shear_all')
 for i=1:length(shear_all)
@@ -37,6 +43,7 @@ ax1 = subplot('position',[.065 .74 0.375 0.225]);
 annotation('textbox',[0.028+0.02 0.996 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(1./Ri_km,1./rw_all,grow_rw');
 hold on;
+scatter(1./Ri_km,r_mostunstable,8,brown,'filled','LineWidth',1);
 shading interp;
 set(gca,'Fontsize',fontsize);
 colormap(WhiteBlueGreenYellowRed(0))
@@ -99,6 +106,14 @@ for i=1:length(shear_all)
     Ri_km(i) = Ri_min(b(i));
 end
 
+clear r_mostunstable
+[max_grow r_idx]=max(grow_rw,[],2);
+for i=1:length(shear_all)
+    r_mostunstable(i) = 1./rw_all(r_idx(i));
+end
+r_mostunstable(r_mostunstable>12)=NaN;
+
+
 
 clear max_grow shear_all Ri_km_diff 
 load('fig4/topo4_km_kv2e-4.mat','max_grow','shear_all')
@@ -112,6 +127,8 @@ ax3 = subplot('position',[.06 .40 0.375 0.225]);
 annotation('textbox',[0.028+0.02 0.65 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 rw_idx = 1:Nrw;
 pcolor(1./Ri_km,1./rw_all,grow_rw');
+hold on;
+scatter(1./Ri_km,r_mostunstable,8,brown,'filled','LineWidth',1);
 set(gca,'Fontsize',fontsize);
 shading interp;
 h2 = colorbar;
@@ -176,7 +193,7 @@ ax6 = subplot('position',[.57 .06 0.4 0.225]);
 annotation('textbox',[0.538+0.02 0.31 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 lres = plot(tt/43200,dbdt-uB0x-wB0z-wBz,'-','LineWidth',3,'Color',boxcolor);
 hold on;
-luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',brown);
+luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',RED1);
 lwBz = plot(tt/43200,wBz,'LineWidth',2,'Color',yellow);
 lwB0z = plot(tt/43200,wB0z,'LineWidth',2,'Color',blue);
 ldbdt = plot(tt/43200,dbdt,'LineWidth',1,'Color',black);
