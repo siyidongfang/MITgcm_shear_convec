@@ -125,7 +125,7 @@ end
 
 % %%% Save the data
 % clear A R n o om Amin A_new t1 t2 t3 t4 t5 o1 o2 beta al
-save('om_alpha.mat')
+save('freq_flat.mat')
 
 figure(1);clf;set(gcf,'Color','w','Position',[41 146 600 428])
 plot(R_all,1./om0,'LineWidth',2);

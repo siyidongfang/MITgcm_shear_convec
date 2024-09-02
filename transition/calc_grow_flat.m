@@ -3,7 +3,7 @@ clear;
 addpath ../analysis/functions
 load_colors
 
-load('om_alpha.mat')
+load('freq_flat.mat')
 
 for o = 11:nR % 11:nR
     o
