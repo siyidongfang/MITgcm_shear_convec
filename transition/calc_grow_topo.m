@@ -6,7 +6,6 @@ load_colors
 load('freq_topo.mat')
 
 for o = 2:nR 
-% for o = 23
     o
     R = R_all(o);
 
@@ -168,30 +167,37 @@ close all;
 save('grow_topo.mat')
 
 
-% %%
-% load('grow_topo.mat')
-% figure(3)
-% clf;set(gcf,'Color','w','Position',[41 146 700 428])
-% plot(R_all,grow,'LineWidth',2)
-% grid on;grid minor;set(gca,'Fontsize',20);
-% title('Growth rate (1/hour)','Interpreter','latex');
-% 
-% 
-% load('../instability_km/exps_varyingN/N1e-3output','grow_rw','shear_all')
-% load('../figures/fig4/Ri_topo4.mat')
-% 
-% hold on;
-% max_grow_km = max(grow_rw,[],2);
-% for i=1:length(shear_all)
-%     [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
-%     Ri_km(i) = Ri_min(b(i));
-% end
-% grow_mzero = grow_rw(:,1);
-% plot(1./Ri_km,grow_mzero,'--','LineWidth',2)
-% xlim([0 20])
-% ylim([-0.04 0.4])
-% xlabel('R = ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-% legend('Analytical solution: two frequency','Theory (m0/k0=0)')
-% 
-% 
-% print('-dpng','-r150',['figures_topo/grow_topo.png']);
+%%
+load('grow_topo.mat')
+figure(3)
+clf;set(gcf,'Color','w','Position',[41 146 700 428])
+plot(R_all,grow,'LineWidth',2)
+grid on;grid minor;set(gca,'Fontsize',20);
+title('Growth rate (1/hour)','Interpreter','latex');
+
+
+% load('/Users/ysi/MITgcm_shear_convec/instability_km/exps_new/topo4_nu0_output.mat','grow_rw','shear_all')
+load('../instability_km/exps_new/topo4_nu0_output.mat','grow_rw','shear_all')
+load('../figures/fig4/Ri_topo4.mat')
+hold on;
+
+
+max_grow_km = max(grow_rw,[],2);
+for i=1:length(shear_all)
+    [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
+    Ri_km(i) = Ri_min(b(i));
+
+    r=cosd(topo)/sind(topo)-N_hat*sqrt(1/Ri_km(i))
+
+    [a(i) b(i)] = min(abs(r-1./rw_all));
+    grow_mzero(i) = grow_rw(i,b(i));
+end
+
+plot(1./Ri_km,grow_mzero,'--','LineWidth',2)
+xlim([0 6])
+ylim([-0.04 0.35])
+xlabel('R = ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
+legend('Analytical solution','Theory')
+
+
+% print('-dpng','-r150',['figures_topo4/grow_topo.png']);

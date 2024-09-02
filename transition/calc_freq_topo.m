@@ -13,7 +13,7 @@ tt_hat = 0:dt:2*pi*Ntide;
 Nt = length(tt_hat);
 
 % R_all = [2.1:0.1:6];
-R_all = [0:0.1:6];
+R_all = [0:0.1:4.4];
 nR = length(R_all);   
 om1 = zeros(1,nR);
 om2 = zeros(1,nR);
@@ -52,7 +52,7 @@ for o=1:nR
     sigma(sigma==0)=NaN;
     sigma1_imag_harmonic(o) = 1/(sum(1./sigma,'omitnan')/length(sigma));
 
-    if(R>2.4)
+    if(R>2.45)
 
         for n=1:Nt
             om = sigma1_imag(n);

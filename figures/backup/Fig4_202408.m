@@ -25,7 +25,7 @@ for i=1:length(shear_all)
     Ri_km(i) = Ri_min(b(i));
 end
 
-[max_grow_nodiff r_idx]=max(grow_rw,[],2);
+[max_grow r_idx]=max(grow_rw,[],2);
 for i=1:length(shear_all)
     r_mostunstable(i) = 1./rw_all(r_idx(i));
 end
@@ -64,7 +64,6 @@ scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
 plot(1./Ri_km_diff,max_grow,'-','LineWidth',2,'Color',green);
-% plot(1./Ri_km,max_grow_nodiff,'--','LineWidth',2,'Color',yellow);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 l1 = legend('MITgcm','Theory','Position',[0.58 0.91 0.1871 0.0458],'interpreter','latex');
@@ -73,6 +72,8 @@ xlim([0 5.2])
 ylim([-1e-3 0.4])
 title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
 box on;
+
+
 
 
 
