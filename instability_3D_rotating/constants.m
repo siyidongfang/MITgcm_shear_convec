@@ -23,7 +23,7 @@ Ptide = 43200;
 omega = 2*pi/Ptide;
 max_shear = shear_Ri0_25/2*3;
 % Ns = 1200;
-Ns = 28;
+Ns = 14;
 shear_all = [0:max_shear/(Ns-1):max_shear]; 
 
 % shear_all = [0:1e-4/50:shear_Ri0_25/4]; %%% for small-shear
