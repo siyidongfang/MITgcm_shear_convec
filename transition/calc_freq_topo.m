@@ -12,15 +12,18 @@ dt = 2*pi/10000;
 tt_hat = 0:dt:2*pi*Ntide;
 Nt = length(tt_hat);
 
-% R_all = [2.1:0.1:6];
-R_all = [0:0.025:6];
+R_all = [0:0.1:4.4];
 nR = length(R_all);   
 om1 = zeros(1,nR);
 om2 = zeros(1,nR);
 om3 = zeros(1,nR);
+om4 = zeros(1,nR);
+
 nom1 = zeros(1,nR);
 nom2 = zeros(1,nR);
 nom3 = zeros(1,nR);
+nom4 = zeros(1,nR);
+
 sigma_new_idx = zeros(nR,Nt);
 sigma_new = zeros(nR,Nt);
 topo=4;
@@ -47,37 +50,66 @@ for o=1:nR
     sigma(sigma==0)=NaN;
     sigma1_imag_harmonic(o) = 1/(sum(1./sigma,'omitnan')/length(sigma));
 
-    for n=1:Nt
-        om = sigma1_imag(n);
-        if(om>=1)
-           om1(o) = om1(o) + 1/om;
-           nom1(o) = nom1(o)+1;
-           sigma_new_idx(o,n)=1;
-        elseif(om<1 && om>=sigma1_imag_harmonic(o))
-           om2(o) = om2(o) + 1/om;
-           nom2(o) = nom2(o)+1;
-           sigma_new_idx(o,n)=2;
-        elseif(om>0 && om<sigma1_imag_harmonic(o))
-           om3(o) = om3(o) + 1/om;
-           nom3(o) = nom3(o)+1;
-           sigma_new_idx(o,n)=3;
-        elseif(om==0)
-           sigma_new_idx(o,n)=3;
-        end
-    end   
+    if(R<2.4)
+        for n=1:Nt
+            om = sigma1_imag(n);
+            if(om>=1)
+               om1(o) = om1(o) + 1/om;
+               nom1(o) = nom1(o)+1;
+               sigma_new_idx(o,n)=1;
+            elseif(om<1 && om>=sigma1_imag_harmonic(o))
+               om2(o) = om2(o) + 1/om;
+               nom2(o) = nom2(o)+1;
+               sigma_new_idx(o,n)=2;
+            elseif(om>0 && om<sigma1_imag_harmonic(o))
+               om3(o) = om3(o) + 1/om;
+               nom3(o) = nom3(o)+1;
+               sigma_new_idx(o,n)=3;
+            elseif(om==0)
+               sigma_new_idx(o,n)=3;
+            end
+        end  
+    else
+        for n=1:Nt
+            om = sigma1_imag(n);
+            if(om>=1)
+               om1(o) = om1(o) + 1/om;
+               nom1(o) = nom1(o)+1;
+               sigma_new_idx(o,n)=1;
+            elseif(n>round(Nt/2) && om<1 && om>=sigma1_imag_harmonic(o))
+               om2(o) = om2(o) + 1/om;
+               nom2(o) = nom2(o)+1;
+               sigma_new_idx(o,n)=2;
+            elseif(om>0 && om<sigma1_imag_harmonic(o))
+               om3(o) = om3(o) + 1/om;
+               nom3(o) = nom3(o)+1;
+               sigma_new_idx(o,n)=3;
+            elseif(om==0)
+               sigma_new_idx(o,n)=3;
+            elseif(n<round(Nt/2) && om<1 && om>=sigma1_imag_harmonic(o))
+               om4(o) = om4(o) + 1/om;
+               nom4(o) = nom4(o)+1;
+               sigma_new_idx(o,n)=4;
+            end
+        end  
+    end
 
     om1(o) = om1(o)/nom1(o);
     om2(o) = om2(o)/nom2(o);
     om3(o) = om3(o)/nom3(o);
+    om4(o) = om4(o)/nom4(o);
     om1(o) = 1/om1(o);
     om2(o) = 1/om2(o);
     om3(o) = 1/om3(o);
+    om4(o) = 1/om4(o);
 
     o1=om1(o);
     o2=om2(o);
     o3=om3(o);
+    o4=om4(o);
 
-    ntransition(o) = sum(abs(diff(sigma_new_idx(o,:))));
+    bbb = diff(sigma_new_idx(o,:));
+    ntransition(o) = sum(bbb~=0);
     transition_idx = find(diff(sigma_new_idx(o,:))~=0);
 
     for n=1:Nt
@@ -88,6 +120,8 @@ for o=1:nR
             sigma_new(o,n)=o2;
         elseif(aa==3)
             sigma_new(o,n)=o3;
+        elseif(aa==4)
+            sigma_new(o,n)=o4;
         end
     end
 
@@ -134,24 +168,26 @@ end
 
 
 
-close all;
-save('freq_topo.mat')
-
-figure(3)
-clf;clf;set(gcf,'Color','w','Position', [313 413 1608 465])
-subplot(1,2,1)
-plot(R_all,om1,'LineWidth',2)
-hold on;
-plot(R_all,om2,'LineWidth',2,'Color',orange)
-plot(R_all,om3,'LineWidth',2,'Color',green)
-set(gca,'YScale', 'log');
-grid on;grid minor;set(gca,'Fontsize',20);
-% ylim([0.1 10])
-xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');
-legend('$\omega_1$ = harmonic mean of $\sigma(\hat t)$ higher than 1',...
-    '$\omega_2$',...
-    '$\omega_3$',...
-    'Interpreter','latex');
-
-
-
+% close all;
+% save('freq_topo.mat')
+% 
+% figure(3)
+% clf;clf;set(gcf,'Color','w','Position', [313 413 1608 465])
+% subplot(1,2,1)
+% plot(R_all,om1,'LineWidth',2)
+% hold on;
+% plot(R_all,om2,'LineWidth',2,'Color',orange)
+% plot(R_all,om3,'LineWidth',2,'Color',green)
+% plot(R_all,om4,'LineWidth',2,'Color',brown)
+% set(gca,'YScale', 'log');
+% grid on;grid minor;set(gca,'Fontsize',20);
+% % ylim([0.1 10])
+% xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');
+% legend('$\omega_1$ = harmonic mean of $\sigma(\hat t)$ higher than 1',...
+%     '$\omega_2$',...
+%     '$\omega_3$',...
+%     '$\omega_4$',...
+%     'Interpreter','latex');
+% 
+% 
+% 
