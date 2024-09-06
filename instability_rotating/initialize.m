@@ -1,8 +1,8 @@
 
-function [dt,Nt,tt,uu,vv,ww,bb,pp,dudt,dvdt,dwdt,dbdt] = initialize(k0,m0,Diffusion,nu,NTtide,Ptide,nt_percycle,omega,b0)
+function [dt,Nt,tt,psi,zeta,buoy,vvel,dvdt,dbdt,dzetadt,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert] = initialize(shear,h_shear,kx,m0,Diffusion,nu,NTtide,Ptide,nt_percycle,omega,ConvectiveAdjustment,b0)
 
 
-        lambda = 2*pi/k0;
+        lambda = 2*pi/kx;
         dz = 2*pi/m0;
 
         % Umax = shear*h_shear;
@@ -40,23 +40,31 @@ function [dt,Nt,tt,uu,vv,ww,bb,pp,dudt,dvdt,dwdt,dbdt] = initialize(k0,m0,Diffus
         tt = dt:dt:Nt*dt;
     end
 
-    uu = zeros(1,Nt);
-    vv = zeros(1,Nt);
-    ww = zeros(1,Nt);
-    bb = zeros(1,Nt);
-    pp = zeros(1,Nt);
-    dudt = zeros(1,Nt);
-    dvdt = zeros(1,Nt);
-    dwdt = zeros(1,Nt);
+    psi = zeros(1,Nt);
+    zeta = zeros(1,Nt);
+    buoy = zeros(1,Nt);
+    vvel = zeros(1,Nt);
     dbdt = zeros(1,Nt);
+    dzetadt = zeros(1,Nt);
+    dvdt = zeros(1,Nt);
     
+    if(ConvectiveAdjustment)
+        dbdz_vert = zeros(1,Nt);
+        dBdz_vert = zeros(1,Nt);
+        dB0dz_vert = zeros(1,Nt);
+        dbtotaldz_vert = zeros(1,Nt);
+    else
+        dbdz_vert =[];
+        dBdz_vert =[];
+        dB0dz_vert=[];
+        dbtotaldz_vert=[];
+    end
     
     %%% Initial condition
-    bb(1) = b0;
-    uu(1) = 0;
-    vv(1) = 0;
-    ww(1) = 0;
-    pp(1) = 0;
+    buoy(1) = b0;
+    psi(1) = 0;
+    zeta(1) = 0;
+    vvel(1) = 0;
     
 
 end

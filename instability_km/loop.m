@@ -35,7 +35,8 @@ function [grow,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_fron
         t0 = tt(o)+dt;
         b0 = b_4;
         z0 = z_4;
-        [dbdt,dzetadt]=tendency(o,dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);        k_4b = dbdt(o);
+        [dbdt,dzetadt]=tendency(o,dbdt,dzetadt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,kappa,nu);        
+        k_4b = dbdt(o);
         k_4z = dzetadt(o);
     
         % Simpson rule corrector advancing dt:

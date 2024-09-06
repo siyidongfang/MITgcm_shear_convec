@@ -1,35 +1,24 @@
 
-function [ww,pp,dwdt,dudt,dvdt,dbdt]=tendency(o,RKstep,ww,pp,dwdt,dudt,dvdt,dbdt,t0,m0,k0,l0,u0,v0,b0,ss,cs,shear,omega,N,f0,kappa,nu)
+function [dbdt,dzetadt,dvdt]=tendency(o,dbdt,dzetadt,dvdt,omega,t0,m0,rs,kx,shear,ss,cs,N,z0,b0,v0,kappa,nu,f)
 
     st = sin(omega*t0);
-    ct = cos(omega*t0);
-    mz = m0 - shear/omega*st*k0 -shear*f0*cs/omega^2*(ct-1)*l0;
-    D = -(k0^2+l0^2+mz^2);
-    Uz = shear*ct;
-    Vz = - shear*f0*cs/omega*st;
-    Bz = -shear/omega*N^2*ss*st;
-
-    w0 = -(k0*u0+l0*v0)/mz;
-
-    if(RKstep==1)
-        ww(o) = w0;
-        dwdt(o) = (w0-ww(o-1))/dt;
-    elseif(RKstep==2)
-        dwdt(o) = (w0-ww(o))/(dt/2);
-    elseif(RKstep==3)
-        dwdt(o) = (w0-ww(o))/(dt/2);
-    elseif(RKstep==4)
-        dwdt(o) = (w0-ww(o))/dt;
+    mz = m0-rs*st*kx;
+    
+    if(omega==0)
+        mz = m0-shear*t0*kx;
     end
 
-    p0 = (b0*cs+nu*D*w0-dwdt(o)-f0*v0*ss)/1i/mz;
-    if(RKstep==1)
-        pp(o) = p0;
-    end
-
-    dudt(o) = - w0*Uz + f0*v0*cs - 1i*k0*p0 + b0*ss + nu*D*u0;
-    dvdt(o) = - w0*Vz - f0*u0*cs - f0*w0*ss - 1i*l0*p0 + nu*D*v0;
-    dbdt(o) = - u0*N^2*ss - w0*N^2*cs - w0*Bz + kappa*D*b0;
+    a0 = (1i*m0*ss-1i*kx*cs)*N^2; 
+    a1 = -(kx^2+mz^2); 
+    a2 = 1i*kx*cs - 1i*mz*ss;
+    a3 = -1i*kx*f*ss - 1i*mz*f*cs;
+    a4 = -1i*kx*f*ss + 1i*mz*f*cs;
+    
+    p0 = z0/a1;
+    
+    dbdt(o) = a0*p0 + kappa*a1*b0;
+    dzetadt(o) = a2*b0 + a3*v0 + nu*a1*z0;
+    dvdt(o) = a4*p0 + nu*a1*v0;
 
 end
 
