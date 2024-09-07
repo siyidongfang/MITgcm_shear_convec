@@ -3,7 +3,7 @@ NT1 = 80;
 % NT2 = 70;
 
 
-expdir = 'exps_rotating/flat_N1e-3';
+expdir = 'exps_rotating/topo4_N1e-3';
 N = 1e-3;
 f = 1.2e-4;
 
@@ -12,13 +12,13 @@ ConvectiveAdjustment = false;
 nt_percycle = 72*30; 
 
 
-% topo=4;
-% shear_Ri0_25 = 0.0018; % 0.0017525;
-% shear_Ri1 = 9.7e-04;
+topo=4;
+shear_Ri0_25 = 0.0018; % 0.0017525;
+shear_Ri1 = 9.7e-04;
 
-topo=0;
-shear_Ri0_25 = 2*N;
-shear_Ri1 = N;
+% topo=0;
+% shear_Ri0_25 = 2*N;
+% shear_Ri1 = N;
 
 Ptide = 43200;
 omega = 2*pi/Ptide;

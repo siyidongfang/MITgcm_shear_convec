@@ -1,16 +1,16 @@
 clear;
 addpath exps_rotating/
 
-% fname = 'flat_N1e-3output_kepe';
+% fname = 'wVz_flat_N1e-3output';
 % strn = 'Flat bottom';
 
-fname = 'topo4_N1e-3output_kepe';
+fname = 'wVz_topo4_N1e-3output';
 strn = 'Sloping bottom';
 
 
 load([fname '.mat'])
 addpath ../analysis/colormaps/
-grow_rw = grow_rw_ke;
+% grow_rw = grow_rw_ke;
 grow_rw(grow_rw<0)=NaN;
 
 R = shear_all.^2/N^2;
@@ -95,7 +95,7 @@ hold off;
 grid on;grid minor;
 set(gca,'FontSize',fontsize)
 axis tight;
-xlim([0 6.2])
+xlim([0 4.5])
 xlabel('${R_i}_\mathrm{min}^{-1}$','Interpreter','latex','FontSize',fontsize+4)
 ylabel('Maximum growth rate (1/hour)')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)

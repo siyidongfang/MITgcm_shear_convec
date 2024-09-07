@@ -5,9 +5,9 @@
 #PBS -q main
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=128:mpiprocs=128:ompthreads=1
-#PBS -N options_parallel_rw
-#PBS -o exps_rotating/o2.txt
-#PBS -e exps_rotating/e2.txt 
+#PBS -N options_parallel_rw_topo
+#PBS -o exps_rotating/o.txt
+#PBS -e exps_rotating/e.txt 
 
 module load matlab
-matlab -nodisplay -nosplash -r options_parallel_rw
+matlab -nodisplay -nosplash -r options_parallel_rw_topo

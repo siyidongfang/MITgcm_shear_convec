@@ -2,7 +2,7 @@
 %%%%% All variables are dimensional variables
 clear; close all;
 
-constants
+constants_topo
 
 m0 = m0_rw;
 
