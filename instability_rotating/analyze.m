@@ -1,11 +1,11 @@
 clear;
-addpath exps_varyingN/
+addpath exps_rotating/
 
-fname = 'N1e-3output';
-strn = '$N=6.9\ \omega$';
+% fname = 'flat_N1e-3output';
+% strn = 'Flat bottom';
 
-% fname = 'N300omegaoutput';
-% strn = '$N=300\ \omega$';
+fname = 'topo4_N1e-3output';
+strn = 'Sloping bottom';
 
 
 load([fname '.mat'])
@@ -72,6 +72,7 @@ ylabel('$m_0/k_0$','Interpreter','latex')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)
 % clim([0 0.4])
 xlim([0 10])
+ylim([-25 25])
 
 subplot(2,2,2)
 plot(R,max(grow_rw,[],2),'LineWidth',2);
@@ -89,7 +90,9 @@ shading flat;colorbar;
 set(gca,'FontSize',fontsize)
 title(strn,'Interpreter','latex','FontSize',fontsize+5)
 xlim([0 2])
-ylim([0 10])
+ylim([0.1 10])
+
+% ylim([0 10])
 % clim([0 max(grow_rw,[],'all')/3])
 grid on;grid minor;
 colormap([[1 1 1]*0.97;jet])
@@ -106,12 +109,13 @@ ylabel('${R_i}_\mathrm{min}$','Interpreter','latex','FontSize',fontsize+4)
 xlabel('$\omega_0 /\omega = (\tilde N \frac{k_0}{m_0})/\omega$','Interpreter','latex','FontSize',fontsize+4);
 box on;
 grid on;grid minor;colorbar;
-xlim([0 2])
-ylim([0.01 3000])
+xlim([0 5])
+ylim([0.1 20])
+% ylim([0.01 3000])
 % clim([0 max(grow_rw,[],'all')/3])
 set(gca, 'YScale', 'log')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)
 
 
-% print('-dpng','-r200',['exps_varyingN/' fname '.png']);
+print('-dpng','-r200',['exps_rotating/' fname '.png']);
 
