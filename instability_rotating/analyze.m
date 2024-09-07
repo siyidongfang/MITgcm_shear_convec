@@ -1,15 +1,16 @@
 clear;
 addpath exps_rotating/
 
-% fname = 'flat_N1e-3output';
+% fname = 'flat_N1e-3output_kepe';
 % strn = 'Flat bottom';
 
-fname = 'topo4_N1e-3output';
+fname = 'topo4_N1e-3output_kepe';
 strn = 'Sloping bottom';
 
 
 load([fname '.mat'])
 addpath ../analysis/colormaps/
+grow_rw = grow_rw_ke;
 grow_rw(grow_rw<0)=NaN;
 
 R = shear_all.^2/N^2;
@@ -72,14 +73,14 @@ ylabel('$m_0/k_0$','Interpreter','latex')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)
 % clim([0 0.4])
 xlim([0 10])
-ylim([-25 25])
+% ylim([-25 25])
 
 subplot(2,2,2)
 plot(R,max(grow_rw,[],2),'LineWidth',2);
 grid on;grid minor;
 set(gca,'FontSize',fontsize)
 axis tight;
-xlim([0 10])
+% xlim([0 10])
 xlabel('${R_i}_\mathrm{min}^{-1}$','Interpreter','latex','FontSize',fontsize+4)
 ylabel('Maximum growth rate (1/hour)')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)

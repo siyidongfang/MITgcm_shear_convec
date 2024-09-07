@@ -23,7 +23,7 @@ shear_Ri1 = N;
 Ptide = 43200;
 omega = 2*pi/Ptide;
 max_shear = shear_Ri0_25/2*2.5;
-Ns = 200;
+Ns = 100;
 % Ns = 16;
 shear_all = [0:max_shear/(Ns-1):max_shear]; 
 

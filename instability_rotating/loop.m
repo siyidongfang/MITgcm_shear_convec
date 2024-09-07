@@ -1,5 +1,5 @@
     %%% Start the loop
-function [grow,vvel,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_front,a1_t,ke_nond,grav,pe_nond,fit_span,xxplot,yyplot,pp,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert]...
+    function [grow,vvel,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_front,a1_t,ke_nond,grav,pe_nond,fit_span,xxplot,yyplot,pp,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert]...
         =loop(grow,j,NTtide,kappa_const,dt,Nt,dvdt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,f,tt,buoy,vvel,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert)
 
 
@@ -104,10 +104,9 @@ function [grow,vvel,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle
     re_buoy = real(buoy);
     re_uuu = real(uuu);
     re_www = real(www);
-    % re_vvv = real(vvel);
+    re_vvv = real(vvel);
     % pe = re_buoy.^2;
     % ke = 0.5*(re_uuu.^2+re_www.^2+re_vvv.^2);
-    % kew = 0.5*(re_www.^2);
     % %%% To match Radko (2019) Eq.(19)
     if(nu*kappa~=0)
         Pr = nu/kappa;
@@ -128,12 +127,14 @@ function [grow,vvel,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle
     end
     xxplot = tt/3600;
     yyplot = log(ke_nond+pe_nond)/2;
+    % yyplot = log(ke)/2;
     % yyplot = log(pe/median(pe)+ke/median(ke))/2;
     % yyplot = log(pe+ke)/2;
     % yyplot = log(pe_nond)/2;
     % yyplot = log(ke_nond)/2;
     [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
     grow(j)=pp(1);
+
     % pp(1)
     % if(isnan(pp(1)))
     %     warning('NaN in growth rate!')
