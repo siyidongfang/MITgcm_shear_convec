@@ -3,7 +3,7 @@ NT1 = 80;
 % NT2 = 70;
 
 
-expdir = 'exps_rotating/flat_N1e-3';
+expdir = 'exps_rotating/wVz_flat_N1e-3';
 N = 1e-3;
 f = 1.2e-4;
 
@@ -23,8 +23,7 @@ shear_Ri1 = N;
 Ptide = 43200;
 omega = 2*pi/Ptide;
 max_shear = shear_Ri0_25/2*2.5;
-Ns = 100;
-% Ns = 16;
+Ns = 200;
 shear_all = [0:max_shear/(Ns-1):max_shear]; 
 
 % shear_all = [0:1e-4/50:shear_Ri0_25/4]; %%% for small-shear

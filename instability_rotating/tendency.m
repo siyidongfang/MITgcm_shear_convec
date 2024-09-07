@@ -12,7 +12,8 @@ function [dbdt,dzetadt,dvdt]=tendency(o,dbdt,dzetadt,dvdt,omega,t0,m0,rs,kx,shea
     a1 = -(kx^2+mz^2); 
     a2 = 1i*kx*cs - 1i*mz*ss;
     a3 = -1i*kx*f*ss - 1i*mz*f*cs;
-    a4 = -1i*kx*f*ss + 1i*mz*f*cs;
+    a4 = -1i*kx*f*ss + 1i*mz*f*cs + 1i*kx*rs*f*cs*st;
+   
     
     p0 = z0/a1;
     

@@ -39,7 +39,6 @@ for ns=1:Ns
 
     omega0_all = [omega0_all omega0];
 
-
     %%% Compute Richardson number
     Ri_inverse = (shear*cos(omega*tt_ri)).^2./(N^2*cosd(topo) - N^2*sind(topo)/omega*shear*sin(omega*tt_ri));
     % figure(50);plot(tt_ri,Ri_inverse)
@@ -62,6 +61,7 @@ Ri_sort = Ri_all(I);
 fontsize = 18;
 
 figure(1)
+clf;
 set(gcf,'Color','w','Position', [-46 153 1339 824])
 subplot(2,2,1)
 pcolor(R,1./rw_all,grow_rw');
@@ -72,18 +72,34 @@ xlabel('$R=R_i^{-1}=\Lambda^2/N^2$','Interpreter','latex')
 ylabel('$m_0/k_0$','Interpreter','latex')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)
 % clim([0 0.4])
-xlim([0 10])
+% xlim([0 10])
 % ylim([-25 25])
+
+
+
 
 subplot(2,2,2)
 plot(R,max(grow_rw,[],2),'LineWidth',2);
+hold on;
+load('../instability_km/exps_new/topo4_nu0_output.mat','rw_all','grow_rw','shear_all')
+load('../figures/fig4/Ri_topo4.mat')
+% load('../instability_km/exps_varyingN/N1e-3output','grow_rw','shear_all')
+% load('../figures/fig4/Ri_flat.mat')
+max_grow_km = max(grow_rw,[],2);
+for i=1:length(shear_all)
+    [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
+    Ri_km(i) = Ri_min(b(i));
+end
+plot(1./Ri_km,max_grow_km,'LineWidth',2);
+hold off;
 grid on;grid minor;
 set(gca,'FontSize',fontsize)
 axis tight;
-% xlim([0 10])
+xlim([0 6.2])
 xlabel('${R_i}_\mathrm{min}^{-1}$','Interpreter','latex','FontSize',fontsize+4)
 ylabel('Maximum growth rate (1/hour)')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)
+legend('Rotating','Non-rotating')
 
 subplot(2,2,3)
 scatter(omega0_sort/omega,epsilon_sort/omega^2,10,grow_sort,'filled')
