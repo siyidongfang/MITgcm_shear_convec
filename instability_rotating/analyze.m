@@ -2,10 +2,12 @@ clear;
 addpath exps_rotating/
 
 % fname = 'wVz_flat_N1e-3output';
-% strn = 'Flat bottom';
+fname = 'flat_N1e-3output';
+strn = 'Flat bottom';
 
-fname = 'wVz_topo4_N1e-3output';
-strn = 'Sloping bottom';
+% fname = 'wVz_topo4_N1e-3output';
+% fname = 'topo4_N1e-3output';
+% strn = 'Sloping bottom';
 
 
 load([fname '.mat'])
@@ -81,10 +83,10 @@ title(strn,'Interpreter','latex','FontSize',fontsize+5)
 subplot(2,2,2)
 plot(R,max(grow_rw,[],2),'LineWidth',2);
 hold on;
-load('../instability_km/exps_new/topo4_nu0_output.mat','rw_all','grow_rw','shear_all')
-load('../figures/fig4/Ri_topo4.mat')
-% load('../instability_km/exps_varyingN/N1e-3output','grow_rw','shear_all')
-% load('../figures/fig4/Ri_flat.mat')
+% load('../instability_km/exps_new/topo4_nu0_output.mat','rw_all','grow_rw','shear_all')
+% load('../figures/fig4/Ri_topo4.mat')
+load('../instability_km/exps_varyingN/N1e-3output','grow_rw','shear_all')
+load('../figures/fig4/Ri_flat.mat')
 max_grow_km = max(grow_rw,[],2);
 for i=1:length(shear_all)
     [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
@@ -97,7 +99,7 @@ set(gca,'FontSize',fontsize)
 axis tight;
 xlim([0 4.5])
 xlabel('${R_i}_\mathrm{min}^{-1}$','Interpreter','latex','FontSize',fontsize+4)
-ylabel('Maximum growth rate (1/hour)')
+ylabel('Maximum growth rate (1/hour)','Interpreter','latex')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)
 legend('Rotating','Non-rotating')
 
