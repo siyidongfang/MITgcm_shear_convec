@@ -11,7 +11,8 @@ scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
 
 %--- flat bottom
-load('../instability_km/exps_new/topo0_nu0_output.mat')
+% load('../instability_km/exps_new/topo0_nu0_output.mat')
+load('../instability_km/exps_varyingN/N1e-3output.mat')
 load('fig4/Ri_flat.mat')
 load('fig4/MIT_flat_kv5e-6_tt.mat');
 
@@ -29,9 +30,9 @@ end
 for i=1:length(shear_all)
     r_mostunstable(i) = 1./rw_all(r_idx(i));
 end
-r_mostunstable(r_mostunstable>17)=NaN;
+% r_mostunstable(r_mostunstable>17)=NaN;
 
-
+%%
 load('fig4/flat_km_kv2e-4.mat','max_grow','shear_all')
 for i=1:length(shear_all)
     [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));

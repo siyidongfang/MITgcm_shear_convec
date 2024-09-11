@@ -38,7 +38,7 @@ m0_rw = 2*pi/h_shear;
 lam_z_all = [1:1:500];
 m0_all = 2*pi./lam_z_all;
 
-lam_x_all = [5 10:10:12000];
+lam_x_all = [1e-100 5 10:10:12000];
 kx_all = 2*pi./lam_x_all;
 
 rw_all = kx_all/m0_rw;
