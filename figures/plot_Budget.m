@@ -10,14 +10,11 @@ set(gcf,'Color','w');
 scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
 
-
-load('fig4/fig4_km.mat')
-load('../instability_km/budget/flat_output.mat')
-
-% load('../instability_km/budget/topo4_output.mat')
+% load('../instability_km/budget/flat_output_R1.mat')
+load('../instability_km/budget/topo4_output_R1.mat')
 
 
-tidx = nt_percycle*5+1:nt_percycle*7;
+tidx = nt_percycle*5+1:nt_percycle*9;
 %- Calculate the buoyancy budget
 uB0x = -re_uuu(tidx)*N^2*ss;
 wB0z = -re_www(tidx)*N^2*cs;
@@ -54,7 +51,7 @@ lzres = plot(tt/43200,dzetadt-bxcs-bzss,'-','LineWidth',3,'Color',boxcolor);
 hold on;
 lbxcs = plot(tt/43200,bxcs,'LineWidth',2,'Color',blue);
 lbzss = plot(tt/43200,bzss,'LineWidth',2,'Color',yellow);
-ldzetadt = plot(tt/43200,dzetadt,'LineWidth',1,'Color',green);
+ldzetadt = plot(tt/43200,dzetadt,'LineWidth',2,'Color',green);
 grid on;grid minor;
 xlabel('Time (tidal cycles)','interpreter','latex')
 set(gca,'Fontsize',fontsize);
@@ -81,14 +78,17 @@ luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',RED1);
 lwBz = plot(tt/43200,wBz,'LineWidth',2,'Color',yellow);
 lwB0z = plot(tt/43200,wB0z,'LineWidth',2,'Color',blue);
 ldbdt = plot(tt/43200,dbdt,'LineWidth',1,'Color',green);
+luB0x_lwBz = plot(tt/43200,wBz+uB0x,'--','LineWidth',2,'Color',brown);
+
 grid on;grid minor;
 xlabel('Time (tidal cycles)','interpreter','latex')
 set(gca,'Fontsize',fontsize);
 % title('Buoyancy budget','interpreter','latex','Fontsize',fontsize+5);
 title('Normalized buoyancy budget','interpreter','latex','Fontsize',fontsize+5);
 % ylim([-1 1])
-l61 = legend([lwB0z,lwBz,luB0x], ...
+l61 = legend([lwB0z,lwBz,luB0x,luB0x_lwBz], ...
     '$w^\prime\partial_z B_0$','$w^\prime\partial_z B$','$u^\prime\partial_x B_0$',...
+    '$w^\prime\partial_z B+u^\prime\partial_x B_0$',...
     'interpreter','latex','Position',[0.58 0.2104 0.0889 0.0668]);
 ah=axes('position',get(ax6,'position'),'visible','off');
 set(gca,'Fontsize',fontsize);
