@@ -108,15 +108,17 @@ for o=1:nR
     figure(3);clf;set(gcf,'Color','w','Position',[41 146 1275 428])
     plot(tt_hat/2/pi,sqrt(A),'LineWidth',2);
     hold on;
-    plot(tt_hat/2/pi,A_new,'LineWidth',2);
+    % plot(tt_hat/2/pi,A_new,'LineWidth',2);
     plot(tt_hat/2/pi,sqrt(A_harmonic(o))*ones(1,length(tt_hat)),'LineWidth',2);
     plot(tt_hat/2/pi,ones(1,length(tt_hat)),'--','LineWidth',2,'Color','k');
     grid on;grid minor;set(gca,'Fontsize',20);
     xlabel('Time, $\hat t/(2\pi)$ (Tidal cycles)','Interpreter','latex');
     title(['$\sqrt{A(\hat t)}$, R=' num2str(R,2)],'Interpreter','latex');
     set(gca,'YScale', 'log');
-    legend('$\sqrt{A(\hat t)}$','Idealized $\sqrt{A}$','(harmonic mean of $\sqrt(A)$)$^2$','Interpreter','latex');
-    ylim([0.04 100])
+    legend('$\sqrt{A(\hat t)}$','harmonic mean of $\sqrt A$','Interpreter','latex');
+    % legend('$\sqrt{A(\hat t)}$','Idealized $\sqrt{A}$','(harmonic mean of $\sqrt(A)$)$^2$','Interpreter','latex');
+    % ylim([0.04 100])
+    ylim([0.2 10])
     
     nt1(o)=t1;
     nt2(o)=t2;
@@ -128,12 +130,12 @@ end
 
 % %%% Save the data
 % clear A R n o om Amin A_new t1 t2 t3 t4 t5 o1 o2 beta al
-save('freq_flat_harmonic.mat')
+% save('freq_flat_harmonic.mat')
 
-figure(1);clf;set(gcf,'Color','w','Position',[41 146 600 428])
-plot(R_all,1./om0,'LineWidth',2);
-hold on;
-plot(R_all,ones(1,nR),'--','Color','k','LineWidth',2);
-grid on;grid minor;set(gca,'Fontsize',20);
-title('Mean Period = 1./(Harmonic mean of $\sqrt A)$','Interpreter','latex');
-xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');
+% figure(1);clf;set(gcf,'Color','w','Position',[41 146 600 428])
+% plot(R_all,1./om0,'LineWidth',2);
+% hold on;
+% plot(R_all,ones(1,nR),'--','Color','k','LineWidth',2);
+% grid on;grid minor;set(gca,'Fontsize',20);
+% title('Mean Period = 1./(Harmonic mean of $\sqrt A)$','Interpreter','latex');
+% xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');
