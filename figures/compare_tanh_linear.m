@@ -59,7 +59,7 @@ plot(1./Ri_km_diff,max_grow,'-','LineWidth',2,'Color',green);
 plot(1./Ri_km,max_grow_km,'--','LineWidth',2,'Color',gray);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-l1 = legend('MITgcm: linear shear', 'MITgcm: tanh shear','Linear theory: viscous', 'Linear theory: inviscid','Position',[0.5743 0.8954 0.1972 0.0668],'interpreter','latex');
+l1 = legend('MITgcm: linear shear', 'MITgcm: tanh shear','Linear theory: viscous', 'Linear theory: inviscid','Position',[0.5734 0.8749 0.2033 0.0877],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
 xlim([0 8])
 % ylim([-1e-3 0.4])

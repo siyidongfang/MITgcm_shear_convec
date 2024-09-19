@@ -6,8 +6,10 @@ load_colors;
 
 addpath ../analysis/
 addpath ../analysis/functions/
-expdir = '../exps_topo4_hires/';
-expname='topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv8e-5'
+expdir = '../exps_kv5e-6/';
+expname='topo4_H500Lx3k_s1.40dz1dx3sm100'
+% expdir = '../exps_topo4_hires/';
+% expname='topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv8e-5'
 % expname = 'topo0_H500_s0.0016dz1dx3ln200n-20sm100_kv2e-4';
 % expdir = '../exps_hires/';
 % expname = 'hires_topo4_s0.0013_dz1dx6n-20';

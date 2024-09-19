@@ -11,7 +11,7 @@ scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
 
 % load('../instability_km/budget/flat_output_R1.mat')
-load('../instability_km/budget/topo4_output_R1.mat')
+load('../instability_km/budget/topo4_output_R3.mat')
 
 
 tidx = nt_percycle*5+1:nt_percycle*9;

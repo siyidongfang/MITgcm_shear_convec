@@ -6,8 +6,10 @@ load_colors;
 
 addpath ../analysis/
 addpath ../analysis/functions/
-expame='topo0_H500Lx3k_s1.5dz1dx3n-20sm100_kv8e-5';
-expdir = '../exps_flat_hires/';
+expame='flat_H500Lx3k_s1.60dz1dx3sm100';
+expdir = '../exps_kv5e-6/';
+% expame='topo0_H500Lx3k_s1.5dz1dx3n-20sm100_kv8e-5';
+% expdir = '../exps_flat_hires/';
 % expname = 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4';
 % expdir = '../exps_hires/';
 % expname = 'hires_topo4_s0.0013_dz1dx6n-20';
@@ -52,12 +54,12 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 900 950]);
 ax1 = subplot('position',[.03 .795 .3 .2]);
 annotation('textbox',[0 0.993 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 annotation('textbox',[0.07 0.993 0.3 0.01],'String','Flat-bottom simulation','FontSize',fontsize+4,'interpreter','latex','LineStyle','None');
-imshow('fig3/fig3_flat_coordinate.png')
+imshow('figS_gcm_flat/figS_gcm_flat_coordinate.png')
 
 %--- Load MITgcm simulation
 filename = [expdir expname '/RMSE.mat'];
 load(filename)
-load('fig3/fig3_gcm_flat.mat')
+load('figS_gcm_flat/figS_gcm_flat.mat')
 YLIM = [0 300];
 
 %%% TKE time series
@@ -188,4 +190,4 @@ set(get(h5,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','la
 
 %%% Save the figure
 
-print('-dpng','-r300',['fig3/fig3.png']);
+% print('-dpng','-r300',['figS_gcm_flat/figS_gcm_flat.png']);
