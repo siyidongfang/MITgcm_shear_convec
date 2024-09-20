@@ -8,7 +8,7 @@ fontsize = 16;
 
 fg1 = figure(1);
 clf;
-set(gcf,'Color','w','Position', [-46 153 1300 1000])
+set(gcf,'Color','w','Position', [100 153 1300 1000])
 
 tiledlay = tiledlayout(4,3);
 

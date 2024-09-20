@@ -2,17 +2,18 @@
 clear;
 addpath ../transition/
 load('../transition/freq_flat_new.mat')
+
+
+%%
 load_colors;
 
 fontsize = 18;
 
 fg1 = figure(1);
 clf;
-set(gcf,'Color','w','Position', [-46 153 1339 800])
+set(gcf,'Color','w','Position', [100 153 1339 800])
 
 tiledlay = tiledlayout(3,3);
-x = 0:0.1:5;
-
 
 
 o=18;
@@ -484,8 +485,6 @@ ylim([-13 12])
 
 tiledlay.TileSpacing = 'compact';
 tiledlay.Padding = 'compact';
-
-
 
 
 AddLetters2Plots(fg1,'FontSize',fontsize+5,'FontWeight','normal')

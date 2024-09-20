@@ -3,14 +3,18 @@ clear;
 addpath ../analysis/functions
 load_colors
 
-% load('freq_flat.mat')
-load('freq_flat_harmonic.mat')
+load('freq_flat_new.mat')
+% load('freq_flat_harmonic.mat')
 
-for o = 2:nR % 2:nR
+for o = 1:nR % 2:nR
+% for o =34
     o
 R = R_all(o);
 o1=om1(o);
 o2=om2(o);
+if(isnan(o2))
+    o2=o1;
+end
 al = alpha(o);
 beta = 1-al;
 t1 = round(Nt*beta/4);
@@ -32,9 +36,9 @@ t4 = t4/Nt*2*pi;
 t5 = t5/Nt*2*pi;
 
 
-figure(1)
-clf;set(gcf,'Color','w','Position',[41 146 1275 428])
-hold on;
+% figure(1)
+% clf;set(gcf,'Color','w','Position',[41 146 1275 428])
+% hold on;
 
 nd=1;
 zeta = [];
@@ -108,26 +112,26 @@ yyplot = log(ke)/2;
 grow(o)=pp(1);
 [y_fit,delta_fit] = polyval(pp,xxplot,S);
 
-figure(2)
-clf;set(gcf,'Color','w','Position',[41 146 1275 428])
-plot(tt/2/pi,log(ke)/2,'LineWidth',2)
-hold on;
-plot(xxplot(fit_span)/12, y_fit(fit_span));
-hold off;
-grid on;grid minor;set(gca,'Fontsize',20);
-ylabel('$\ln(\mathrm{TKE})/2$','Interpreter','latex');
-xlabel('Time, $\hat t/(2\pi)$ (Tidal cycles)','Interpreter','latex');
-title(['TKE$\sim0.5*\zeta^2(\hat t)$, R=' num2str(R,3)],'Interpreter','latex');
-print('-dpng','-r150',['figures_flat_harmonic/ke' num2str(o) '.png']);
+% figure(2)
+% clf;set(gcf,'Color','w','Position',[41 146 1275 428])
+% plot(tt/2/pi,log(ke)/2,'LineWidth',2)
+% hold on;
+% plot(xxplot(fit_span)/12, y_fit(fit_span));
+% hold off;
+% grid on;grid minor;set(gca,'Fontsize',20);
+% ylabel('$\ln(\mathrm{TKE})/2$','Interpreter','latex');
+% xlabel('Time, $\hat t/(2\pi)$ (Tidal cycles)','Interpreter','latex');
+% title(['TKE$\sim0.5*\zeta^2(\hat t)$, R=' num2str(R,3)],'Interpreter','latex');
+% print('-dpng','-r150',['figures_flat_harmonic/ke' num2str(o) '.png']);
 
 end
 
-% close all;
-% save('grow_flat_harmonic.mat')
+close all;
+save('grow_flat_new.mat')
 
 
 %%
-% load('grow_flat_harmonic.mat')
+load('grow_flat_new.mat')
 figure(3)
 clf;set(gcf,'Color','w','Position',[41 146 700 428])
 plot(R_all,grow,'LineWidth',2)
