@@ -1,17 +1,17 @@
 clear;
 addpath ../instability_km/exps_varyingN/
 
-fname = 'N1e-3output';
-strn = '$N=6.9\ \omega$';
-figname = 'figS_N0'
+% fname = 'N1e-3output';
+% strn = '$N=6.9\ \omega$';
+% figname = 'figS_N0'
 % 
 % fname = 'N3omegaoutput';
 % strn = '$N=3\ \omega$';
 % figname = 'figS_N1'
 % 
-% fname = 'N20omegaoutput';
-% strn = '$N=20\ \omega$';
-% figname = 'figS_N2'
+fname = 'N20omegaoutput';
+strn = '$N=20\ \omega$';
+figname = 'figS_N2'
 % 
 % fname = 'N100omegaoutput';
 % strn = '$N=100\ \omega$';
@@ -76,12 +76,15 @@ subplot(2,2,1)
 pcolor(R,1./rw_all,grow_rw');
 shading flat;colorbar;
 set(gca,'FontSize',fontsize)
-xlabel('$R=R_i^{-1}=\Lambda^2/N^2$','Interpreter','latex')
+xlabel('${R_i}_\mathrm{min}^{-1}$','Interpreter','latex')
 ylabel('$m_0/k_0$','Interpreter','latex')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)
 % clim([0 0.4])
 xlim([0 9])
+% ylim([0 450])
 set(gca,'TickDir','out');
+grid on;grid minor;
+
 
 
 subplot(2,2,2)
@@ -104,9 +107,9 @@ xlim([0 2])
 ylim([0 10])
 % clim([0 max(grow_rw,[],'all')/3])
 grid on;grid minor;
-mycolormap=jet;
-colormap([[1 1 1]*0.97;mycolormap(10:end-10,:)])
-% colormap(cmocean('thermal'))
+% mycolormap=jet;
+% colormap([[1 1 1]*0.97;mycolormap(10:end-10,:)])
+colormap(WhiteBlueGreenYellowRed(0))
 set(gca,'TickDir','out');
 
 

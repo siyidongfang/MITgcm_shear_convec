@@ -136,5 +136,5 @@ set(gca, 'YScale', 'log')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)
 
 
-print('-dpng','-r200',['exps_rotating/' fname '.png']);
+% print('-dpng','-r200',['exps_rotating/' fname '.png']);
 
