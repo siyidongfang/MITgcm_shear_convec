@@ -82,7 +82,7 @@ grid on;grid minor;set(gca,'Fontsize',20);
 xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');
 title('Portion of a period with frequency $\sqrt{A(\hat t)}$ lower than 1','Interpreter','latex');
 
-A_harmonic = om0.^2;
+sigma_harmonic = om0;
 
 
 for o=1:nR
@@ -97,22 +97,22 @@ for o=1:nR
     t4 = t3 + round(Nt*al/2);
     t5 = Nt;
 
-    A_new = [o1*ones(1,t1) o2*ones(1,t2-t1) o1*ones(1,t3-t2) o2*ones(1,t4-t3) o1*ones(1,t5-t4)];
+    sigma_new = [o1*ones(1,t1) o2*ones(1,t2-t1) o1*ones(1,t3-t2) o2*ones(1,t4-t3) o1*ones(1,t5-t4)];
 
     A = N_hat^2./(1+N_hat^2*R*sin(tt_hat).^2);
 
     figure(3);clf;set(gcf,'Color','w','Position',[41 146 1275 428])
     plot(tt_hat/2/pi,sqrt(A),'LineWidth',2);
     hold on;
-    plot(tt_hat/2/pi,sqrt(A_new),'LineWidth',2);
-    plot(tt_hat/2/pi,sqrt(A_harmonic(o))*ones(1,length(tt_hat)),'LineWidth',2);
+    plot(tt_hat/2/pi,sigma_new,'LineWidth',2);
+    plot(tt_hat/2/pi,sigma_harmonic(o)*ones(1,length(tt_hat)),'-.','LineWidth',2);
     plot(tt_hat/2/pi,ones(1,length(tt_hat)),'--','LineWidth',2,'Color','k');
     grid on;grid minor;set(gca,'Fontsize',20);
     xlabel('Time, $\hat t/(2\pi)$ (Tidal cycles)','Interpreter','latex');
-    title(['$\sqrt(A(\hat t))$, R=' num2str(R,2)],'Interpreter','latex');
+    title(['$\sigma(\hat t)$, R=' num2str(R,2)],'Interpreter','latex');
     set(gca,'YScale', 'log');
-    legend('$A(\hat t)$','Idealized $A$','(harmonic mean of $\sqrt(A)$)$^2$','Interpreter','latex');
-    ylim([0.04 100])
+    legend('$\sigma(\hat t)$','Idealized $\sigma$','Harmonic mean of $\sigma(\hat t)$','Interpreter','latex');
+    ylim([0.2 10])
     
     nt1(o)=t1;
     nt2(o)=t2;
@@ -121,10 +121,10 @@ for o=1:nR
     nt5(o)=t5;
 end
 
-
-% %%% Save the data
+close all;
+%%% Save the data
 % clear A R n o om Amin A_new t1 t2 t3 t4 t5 o1 o2 beta al
-% save('freq_flat.mat')
+save('freq_flat_new.mat')
 
 figure(1);clf;set(gcf,'Color','w','Position',[41 146 600 428])
 plot(R_all,1./om0,'LineWidth',2);

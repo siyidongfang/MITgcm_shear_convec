@@ -122,12 +122,12 @@ print('-dpng','-r150',['figures_flat_harmonic/ke' num2str(o) '.png']);
 
 end
 
-close all;
-save('grow_flat_harmonic.mat')
+% close all;
+% save('grow_flat_harmonic.mat')
 
 
 %%
-load('grow_flat_harmonic.mat')
+% load('grow_flat_harmonic.mat')
 figure(3)
 clf;set(gcf,'Color','w','Position',[41 146 700 428])
 plot(R_all,grow,'LineWidth',2)
@@ -152,4 +152,4 @@ xlabel('R = ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 legend('Analytical solution: two frequency','Theory (m0/k0=0)')
 
 
-print('-dpng','-r150',['figures_flat_harmonic/grow.png']);
+% print('-dpng','-r150',['figures_flat_harmonic/grow.png']);

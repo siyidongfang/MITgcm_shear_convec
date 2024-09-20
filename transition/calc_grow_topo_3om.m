@@ -166,11 +166,11 @@ for o = 1:177
             zeta = [zeta z1 z2 z3 z4 z5 z6 z7];
             
             tt = [tt (k-1)*2*pi+tt_hat];
-            % plot(k-1+tt1/2/pi,z1,'LineWidth',2,'Color',blue)
-            % plot(k-1+tt2/2/pi,z2,'LineWidth',2,'Color',green)
-            % plot(k-1+tt3/2/pi,z3,'LineWidth',2,'Color',blue)
-            % plot(k-1+tt4/2/pi,z4,'LineWidth',2,'Color',orange)
-            % plot(k-1+tt5/2/pi,z5,'LineWidth',2,'Color',blue)
+            % plot(k-1+tt1/2/pi,z1,'LineWidth',2,'Color',green)
+            % plot(k-1+tt2/2/pi,z2,'LineWidth',2,'Color',blue)
+            % plot(k-1+tt3/2/pi,z3,'LineWidth',2,'Color',orange)
+            % plot(k-1+tt4/2/pi,z4,'LineWidth',2,'Color',blue)
+            % plot(k-1+tt5/2/pi,z5,'LineWidth',2,'Color',green)
 
         elseif(ntransition(o)==6)
             if(k==1)
