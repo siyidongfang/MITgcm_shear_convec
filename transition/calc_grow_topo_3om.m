@@ -1,11 +1,12 @@
-% clear;
+clear;
 
-% addpath ../analysis/functions
-% load_colors
-% 
-% load('freq_topo.mat')
+addpath ../analysis/functions
+load_colors
 
-for o = 1:177 
+load('freq_topo_3om.mat')
+
+% for o = 1:177 
+for o = 2:241 
     o
     R = R_all(o);
 
@@ -76,7 +77,7 @@ for o = 1:177
     zeta = [];
     tt = [];
     
-    ncycle = 7;
+    ncycle = 50;
     for k=1:ncycle
 
         if(ntransition(o)==2)
@@ -275,11 +276,11 @@ grow(o)=pp(1);
 end
 
 close all;
-save('grow_topo.mat')
+save('grow_topo_3om.mat')
 
 
 %%
-load('grow_topo.mat')
+load('grow_topo_3om.mat')
 figure(3)
 clf;set(gcf,'Color','w','Position',[41 146 700 428])
 plot(R_all,grow,'LineWidth',2)
