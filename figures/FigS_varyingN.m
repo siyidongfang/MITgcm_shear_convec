@@ -2,20 +2,20 @@ clear;
 addpath ../instability_km/exps_varyingN/
 
 % fname = 'N1e-3output';
-% strn = '$N=6.9\ \omega$';
-% figname = 'figS_N0'
+% strn = '$\tilde N=6.9\ \omega$';
+% figname = 'figS_N0_matlab'
 % 
 % fname = 'N3omegaoutput';
-% strn = '$N=3\ \omega$';
-% figname = 'figS_N1'
+% strn = '$\tilde N=3\ \omega$';
+% figname = 'figS_N1_matlab'
 % 
-fname = 'N20omegaoutput';
-strn = '$N=20\ \omega$';
-figname = 'figS_N2'
+% fname = 'N20omegaoutput';
+% strn = '$\tilde N=20\ \omega$';
+% figname = 'figS_N2_matlab'
 % 
-% fname = 'N100omegaoutput';
-% strn = '$N=100\ \omega$';
-% figname = 'figS_N3'
+fname = 'N100omegaoutput';
+strn = '$\tilde N=100\ \omega$';
+figname = 'figS_N3_matlab'
 
 load([fname '.mat'])
 addpath ../analysis/colormaps/
@@ -107,9 +107,9 @@ xlim([0 2])
 ylim([0 10])
 % clim([0 max(grow_rw,[],'all')/3])
 grid on;grid minor;
-% mycolormap=jet;
-% colormap([[1 1 1]*0.97;mycolormap(10:end-10,:)])
-colormap(WhiteBlueGreenYellowRed(0))
+mycolormap=jet;
+colormap([[1 1 1]*0.97;mycolormap])
+% colormap(WhiteBlueGreenYellowRed(0))
 set(gca,'TickDir','out');
 
 

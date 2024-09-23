@@ -1,6 +1,8 @@
 
 clear;
 addpath ../transition/
+addpath ../analysis/
+addpath ../analysis/colormaps/
 
 load_colors;
 
@@ -25,7 +27,7 @@ ylim([0.1 10])
 xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');
 legend('$\omega_1$ = harmonic mean of $\sigma(\hat t)\geq 1$',...
     '$\omega_2$ = harmonic mean of $\sigma(\hat t)<1$','Interpreter','latex','Fontsize',fontsize+2);
-title('Idealized frequency $\omega_1$ and $\omega_2$','Interpreter','latex','Fontsize',fontsize+4);
+title('Idealized frequencies $\omega_1$ and $\omega_2$','Interpreter','latex','Fontsize',fontsize+4);
 
 nexttile
 plot(R_all,alpha,'LineWidth',2,'Color',brown)

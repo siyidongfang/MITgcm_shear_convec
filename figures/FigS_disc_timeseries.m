@@ -1,6 +1,6 @@
 
 
-
+addpath ../analysis/colormaps/
 % load('/Users/ysi/MITgcm_shear_convec/instability/exps_linear_dz0.5/lambda800/topo0_H250_N0.001_S0.0016_lambda800/output.mat')
 load('/Users/ysi/MITgcm_shear_convec/instability/exps_topo4_linear_dz1/lambda700/topo4_H250_N0.001_S0.0014_lambda700/output.mat')
 
@@ -21,7 +21,7 @@ scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 600]);
 
 ax1 = subplot('position',[0.07 0.72 0.365 0.22]);
-annotation('textbox',[0 0.99 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.99 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(xplot,zz,re_buoy(plot_tidx,:)');shading flat;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)','interpreter','latex');
@@ -36,7 +36,7 @@ set(get(h1,'Title'),'String',{'$\ \ \ \ (\mathrm{1/s})$'},'interpreter','latex',
 
 
 ax2 = subplot('position',[0.57 0.72 0.365 0.22]);
-annotation('textbox',[0.5 0.99 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.5 0.99 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(xplot,zz_wgrid,re_zeta(plot_tidx,:)');shading flat;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)','interpreter','latex');
@@ -50,7 +50,7 @@ set(get(h2,'Title'),'String',{'$\ \ \ \ (\mathrm{1/s})$'},'interpreter','latex',
 
 
 ax3 = subplot('position',[0.07 0.4 0.365 0.22]);
-annotation('textbox',[0 0.665 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.665 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(xplot,zz,uuu(plot_tidx,:)');shading flat;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)','interpreter','latex');
@@ -66,7 +66,7 @@ set(get(h3,'Title'),'String',{'$\ \ \ \ \ (\mathrm{m/s})$'},'interpreter','latex
 
 
 ax4 = subplot('position',[0.57 0.4 0.365 0.22]);
-annotation('textbox',[0.5 0.665 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.5 0.665 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(xplot,zz_wgrid,www(plot_tidx,:)');shading flat;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)','interpreter','latex');
@@ -81,7 +81,7 @@ set(get(h4,'Title'),'String',{'$\ \ \ \ \ (\mathrm{m/s})$'},'interpreter','latex
 
 
 ax5 = subplot('position',[0.07 0.08 0.365 0.22]);
-annotation('textbox',[0 0.345 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.345 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(xplot,zz_wgrid,re_psi(plot_tidx,:)');shading flat;
 colormap(cmocean('balanced'))
 set(gca,'Fontsize',fontsize);
@@ -103,7 +103,7 @@ yyplot = log10(KE_zavg(plot_tidx)/max_ke);
 yyplot_b2 = log10(b2_zavg(plot_tidx)/max_b2);
 
 ax6 = subplot('position',[0.57 0.08 0.365 0.22]);
-annotation('textbox',[0.5 0.345 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.5 0.345 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 l2 = plot(xplot,yyplot_b2,'LineWidth',1.5,'Color','k');
 hold on;
 l1 = plot(xplot,yyplot,'LineWidth',1.5,'Color',brown);

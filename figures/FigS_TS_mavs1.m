@@ -79,7 +79,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1400 700]);
 
 %--- T/S diagram
 ax1 = subplot('position',[0.048 0.58 0.25 0.38]);
-annotation('textbox',[0.028 0.993 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.028 0.993 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(ss_rest,pt_rest,4,gray); 
 hold on;
 scatter(ss,pt,4,depths/1000); 
@@ -118,7 +118,7 @@ set(get(h1,'Title'),'String',{'$\ \ \ $Depth','$\ \ (\mathrm{km})$'},'Fontsize',
 
 %--- salinity
 ax2 = subplot('position',[0.38 0.58 0.25 0.38]);
-annotation('textbox',[0.36 0.993 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.36 0.993 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_temp,salt(plot_tidx,:)');
 shading flat;
 hold on;
@@ -146,7 +146,7 @@ set(get(h2,'Title'),'String','$\ \ \ \ (\mathrm{psu})$','Fontsize',fontsize,'int
 
 %--- N2
 ax3 = subplot('position',[0.709 0.58 0.25 0.38]);
-annotation('textbox',[0.69 0.993 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.69 0.993 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_n2,smooth_N2(plot_tidx,:)');
 hold on;
 [c0,h0]=contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',3.3:0.5:7,'Color',black);

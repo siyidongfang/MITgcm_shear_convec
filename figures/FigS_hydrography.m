@@ -61,7 +61,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1000 800]);
 
 %--- Canyon bathymetry, flat view
 ax1 = subplot('position',[0.07 0.61 0.35 0.35]);
-annotation('textbox',[0.04 0.99 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.04 0.99 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 contour(lon,lat,z',[400:25:3000],'LineWidth',0.5);
 hold on;
 contour(lon,lat,z',[400:100:3000],'LineWidth',2,'ShowText','on');
@@ -112,7 +112,7 @@ lonn(b2);
 
 %--- Canyon depth and local topographic slope (in degrees and radians)
 ax2 = subplot('position',[0.56 0.82 0.387 0.17]);
-annotation('textbox',[0.495 0.99 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.495 0.99 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 l1 = plot(along_canyonn,depthn,'-','LineWidth',3,'Color',black);
 hold on;
 s31 = scatter(along_canyonn(b1),depthn(b1),250,"+",'LineWidth',2,'MarkerEdgeColor',yellow); %%% MAVS 1&2
@@ -131,7 +131,7 @@ legend boxoff;
 
 
 ax3 = subplot('position',[0.56 0.61 0.387 0.17]);
-annotation('textbox',[0.495 0.78 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.495 0.78 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 yyaxis right
 l31 = plot(along_midn,abs(s_topogn),'k-','LineWidth',1);
 hold on;
@@ -161,7 +161,7 @@ legend boxoff;
 %%
 %--- Potential temperature from CTD
 ax4 = axes('position',[0.07 0.06 0.24 0.45]);
-annotation('textbox',[0.02 0.53 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.02 0.53 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 
 h1 = plot(pt_all(:,1:7),P_all(:,1:7),'LineWidth',1,'Color',gray);
 axis ij;grid on;grid minor;
@@ -177,7 +177,7 @@ xlim([2 15])
 
 %--- Salinity from CTD
 ax5 = axes('position',[0.39 0.06 0.24 0.45]);
-annotation('textbox',[0.34 0.53 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.34 0.53 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(psal_all(:,1:7),P_all(:,1:7),'LineWidth',1,'Color',gray);
 axis ij;grid on;grid minor;
 hold on;
@@ -192,7 +192,7 @@ xlim([34.9 35.45])
 
 %--- N^2 from CTD
 ax6 = axes('position',[0.7 0.06 0.24 0.45]);
-annotation('textbox',[0.65 0.53 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.65 0.53 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(log10(N2_all(:,1:7)),Pmid_all(:,1:7),':','LineWidth',0.5,'Color',gray);
 axis ij;grid on;grid minor;
 hold on;
@@ -208,4 +208,4 @@ set(gca,'Fontsize',fontsize)
 title('$\log(\partial_{\tilde z} b)$','interpreter','latex','Fontsize',fontsize+4);
 
 
-% print('-dpng','-r300',['fig_supp/figS_hydrography_matlab.png']);
+print('-dpng','-r300',['fig_supp/figS_hydrography_matlab.png']);

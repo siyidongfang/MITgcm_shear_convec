@@ -57,8 +57,8 @@ set(gca,'TickDir','out');
 grid on;grid minor;
 box on;
 legend([l11 l12],'Diagnosed most unstable mode',...
-    ['Predicted most unstable mode' newline '$r=\cot\theta-\hat N \sqrt{R} = \cot\theta-\Lambda/\omega$'] , ...
-    'interpreter','latex','Fontsize',fontsize+2,'Position',[0.1747 0.8513-0.04 0.2667 0.0920+0.04]);
+    ['Predicted most unstable mode for ${R_i}_\mathrm{min}^{-1}>2$:' newline '$r=\cot\theta-\hat N \sqrt{R} = \cot\theta-\Lambda/\omega$'] , ...
+    'interpreter','latex','Fontsize',fontsize+2,'Position',[0.0972 0.8513-0.03 0.2667 0.0920+0.03]);
 legend('boxoff')
 
 

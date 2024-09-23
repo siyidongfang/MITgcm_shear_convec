@@ -97,7 +97,7 @@ l62 = legend(ah,[ldbdt lres], ...
     'interpreter','latex','Position',  [0.5822 0.5629 0.2360 0.0650]);
 legend('boxoff') 
 
-print('-dpng','-r300',['fig_supp_new/budget_topo4_R3_1.png']);
+% print('-dpng','-r300',['fig_supp_new/budget_topo4_R3_1.png']);
 
 
 figure(2)
@@ -114,7 +114,7 @@ hold on;
 plot(tt/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2,'Color',black);
 plot(tt/43200,re_zeta(tidx)./max(abs(re_zeta(tidx))),'LineWidth',2,'Color',green);
 grid on;grid minor;
-l5 = legend('Buoyancy perturbation $b^\prime$','Vertical velocity $w^\prime$','Horizontal vorticity perturbation $\zeta$','interpreter','latex','Position',[0.0591 0.7316 0.4049 0.0956]);
+l5 = legend('Buoyancy perturbation $b^\prime$','Slope-normal velocity $w^\prime$','Horizontal vorticity perturbation $\zeta$','interpreter','latex','Position',[0.0591 0.7316 0.4049 0.0956]);
 % l5 = legend('Buoyancy perturbation','Vertical velocity','interpreter','latex','Position',[0.07 0.2265 0.2063 0.0458]);
 legend('boxoff')
 xlabel('Time (tidal cycles)','interpreter','latex')

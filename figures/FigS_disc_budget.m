@@ -34,7 +34,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 600]);
 
 mm1 = max(abs(bq1_int(plot_tidx)));
 ax1 = subplot('position',[0.07 0.72-0.1 0.365 0.22+0.1]);
-annotation('textbox',[0 0.99 0.15 0.01],'String','g','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.99 0.15 0.01],'String','G','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 b5 = plot(xplot,bq5_int(plot_tidx)/mm1,'LineWidth',lw,'Color',gray);
 hold on;
 b1 = plot(xplot,bq1_int(plot_tidx)/mm1,'LineWidth',lw,'Color',blue);
@@ -53,7 +53,7 @@ xlim([0 48])
 mm2 = max(abs(zq1_int(plot_tidx)));
 
 ax2 = subplot('position',[0.57 0.72-0.1 0.365 0.22+0.1]);
-annotation('textbox',[0.5 0.99 0.15 0.01],'String','h','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.5 0.99 0.15 0.01],'String','H','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 z4 = plot(xplot,(zq4_int(plot_tidx))/mm2,'LineWidth',lw,'Color',gray);
 hold on;
 z1 = plot(xplot,(zq1_int(plot_tidx))/mm2,'LineWidth',lw,'Color',blue);

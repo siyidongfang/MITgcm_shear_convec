@@ -5,8 +5,8 @@ load_colors;
 
 addpath ../analysis/
 addpath ../analysis/functions/
-expname = 'topo4_H500Lx3k_s1.4dz1dx3n-20sm100_kv1e-4';
-expdir = '../exps_topo4_hires/';
+expname = 'topo4_H500Lx3k_s1.40dz1dx3sm100';
+expdir = '../exps_kv5e-6/';
 load([expdir expname '/setParams.mat'])
 loadexp;
 rhoConst = 999.8;
@@ -75,7 +75,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 600]);
 
 %--- Initial temperature field, indicating the sponge layer
 ax1 = subplot('position',[0.1 0.78 0.8 0.17]);
-annotation('textbox',[0 0.99 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.99 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(xx,zz,iniT');shading flat;colormap(mycolor);
 clim([-1.01 1.01]*1e-20)
 ylim([-500 0])
@@ -93,7 +93,7 @@ title('Initial temperatue perturbation','Fontsize',fontsize+4,'interpreter','lat
 %--- Tidal amplitude and linear shear
 % ax2 = axes('position',[0.08 0.08 0.39 0.53]);
 ax2 = axes('position',[0.08 0.08 0.3 0.53]);
-annotation('textbox',[0.02 0.68 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.02 0.68 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(ax2, u_linear_smooth, zz, 'k-', 'LineWidth', 2)
 ylim(ax2, [-500 0])
 hold(ax2, 'on');
@@ -142,7 +142,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 600]);
 
 %--- Tidal amplitude and shear as a function of tanh(z)
 ax3 = axes('position',[0.58-0.2 0.08 0.45 0.53*1.6]);
-annotation('textbox',[0.52-0.2 1 0.15 0.001],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.52-0.2 1 0.15 0.001],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(u_tanh_bot,zz_tanh,'k-','LineWidth',2)
 hold on;
 plot(u_tanh_center,zz_tanh,'k--','LineWidth',2)
@@ -187,6 +187,6 @@ print('-dpng','-r300',['fig_supp/figS_gcm_configuration_matlab2.png']);
 
 % %--- Growth rate of the MITgcm simulation: linear shear, max tanh shear, mean tanh shear
 % ax2 = subplot('position',[0.57 0.65 0.4 0.3]);
-% annotation('textbox',[0.5 0.99 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+% annotation('textbox',[0.5 0.99 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 % set(gca,'Fontsize',fontsize);
 % title('Growth rate (flat bottom)','Fontsize',fontsize+4,'interpreter','latex')

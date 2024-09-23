@@ -46,7 +46,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1400 700]);
 
 %%% Canyon bathymetry
 ax2 = subplot('position',[0.04 0.53 0.27 0.25]);
-annotation('textbox',[0.025 0.993 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.025 0.993 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 surf(lon,lat,z'/1000,'EdgeColor','None');
 shading flat;
 set(gca, 'ZDir','reverse')
@@ -78,7 +78,7 @@ freezeColors;
 
 %%% Rockall Trough
 ax1 = subplot('position',[0.028 0.8 0.28 0.17]);
-annotation('textbox',[0.025 0.76 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.025 0.76 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 surf(ele_lon,ele_lat,-elev'/1000,'EdgeColor','None');
 hold on;
 contour3(ele_lon,ele_lat,-elev'/1000,[0 0],'EdgeColor',black);
@@ -116,7 +116,7 @@ freezeColors;
 %% Temperature
 
 ax3 = subplot('position',[0.048 0.07 0.25 0.38]);
-annotation('textbox',[0.028 0.482 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.028 0.482 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)');shading flat;
 hold on;
 contour(time_temp(plot_tidx)*24,depth_n2,smooth_N2(plot_tidx,:)',[0 0],'Color',cyan,'LineWidth',0.75);
@@ -141,7 +141,7 @@ set(get(h3,'Title'),'String','$\ \ \ \ (^\circ \mathrm{C})$','Fontsize',fontsize
 
 %%% Observed velocity
 ax4 = subplot('position',[0.38 0.58 0.25 0.38]);
-annotation('textbox',[0.36 0.993 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.36 0.993 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_u*24,depth_u,uobs');
 hold on;
 [c0,h0]=contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',3.3:0.5:7,'Color',black);
@@ -165,7 +165,7 @@ set(get(h4,'Title'),'String','$\ \ \ \ (\mathrm{m/s})$','Fontsize',fontsize,'int
 %%
 %%% Linear-fit velocity
 ax5 = subplot('position',[0.709 0.58 0.25 0.38]);
-annotation('textbox',[0.69 0.993 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.69 0.993 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_u*24,depth_u,ufit');
 hold on;
 [c0,h0]=contour(time_temp(plot_tidx)*24,depth_temp,temp(plot_tidx,:)',3.3:0.5:7,'Color',black);
@@ -191,7 +191,7 @@ set(get(h5,'Title'),'String','$\ \ \ \ (\mathrm{m/s})$','Fontsize',fontsize,'int
 %%
 %%% Reconstructed dbdz using the observed velocity
 ax6 = subplot('position',[0.38 0.07 0.25 0.38]);
-annotation('textbox',[0.36 0.482 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.36 0.482 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_n2,buoy_obs(plot_tidx,:)');
 % pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1obs(plot_tidx,:)');
 shading flat;
@@ -222,7 +222,7 @@ xlim([0 48])
 %%
 %%% Reconstructed dbdz using the linear-fit velocity
 ax7 = subplot('position',[0.709 0.07 0.25 0.38]);
-annotation('textbox',[0.69 0.482 0.15 0.01],'String','g','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.69 0.482 0.15 0.01],'String','G','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_temp(plot_tidx)*24,depth_n2,buoy_fit(plot_tidx,:)');
 shading flat;
 % pcolor(time_temp(plot_tidx)*24,depth_reconst_n,n2_1fit(plot_tidx,:)');shading interp;

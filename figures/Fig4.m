@@ -28,7 +28,7 @@ end
 
 %%
 ax1 = subplot('position',[.065 .74 0.375 0.225]);
-annotation('textbox',[0.028+0.02 0.996 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.028+0.02 0.996 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(1./Ri_km,1./rw_all,grow_rw');
 hold on;
 scatter(1./Ri_km,r_mostunstable,7,brown,'filled','LineWidth',1);
@@ -83,7 +83,7 @@ for i=1:length(shear_all)
 end
 
 ax2 = subplot('position',[.57 .74 0.4 0.225]);
-annotation('textbox',[0.538+0.02 0.996 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.538+0.02 0.996 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
@@ -166,7 +166,7 @@ end
 
 
 ax3 = subplot('position',[.06 .40 0.375 0.225]);
-annotation('textbox',[0.028+0.02 0.65 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.028+0.02 0.65 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 rw_idx = 1:Nrw;
 pcolor(1./Ri_km,1./rw_all,grow_rw');
 hold on;
@@ -186,7 +186,7 @@ set(gca,'TickDir','out');
 
 
 ax4 = subplot('position',[.57 .40 0.4 0.225]);
-annotation('textbox',[0.538+0.02 0.65 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.538+0.02 0.65 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
@@ -262,7 +262,7 @@ dzetadt = dzetadt/max(abs(dzetadt));
 
 %--- plot vertical velocity and buoyancy perturbation
 ax5 = subplot('position',[.06 .06 0.4 0.225]);
-annotation('textbox',[0.028+0.02 0.31 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.028+0.02 0.31 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 l5b = plot(tt1/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2,'Color',blue);
 hold on;
 l5w = plot(tt1/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2,'Color',black);
@@ -277,7 +277,7 @@ title('Normalized perturbations','interpreter','latex','Fontsize',fontsize+5);
 
 
 ax6 = subplot('position',[.57 .06 0.4 0.225]);
-annotation('textbox',[0.538+0.02 0.31 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.538+0.02 0.31 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 lres = plot(tt2/43200,dbdt-uB0x-wB0z-wBz,'-','LineWidth',3,'Color',boxcolor);
 hold on;
 luB0x = plot(tt2/43200,uB0x,'LineWidth',2,'Color',RED1);

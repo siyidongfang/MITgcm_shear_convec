@@ -11,7 +11,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1000 350]);
 
 load('fig5/fig5_topo0_Ri.mat')
 ax1 = axes('position',[0.075 0.15+0.002 0.39 0.77]);
-annotation('textbox',[0.015 0.99+0.002 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.015 0.99+0.002 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o', 'filled');
 clim([0 0.04])
 % colormap([[1 1 1];cmocean('phase')])
@@ -26,7 +26,7 @@ xlim([0 2.5])
 
 load('fig5/fig5_topo4_Ri.mat')
 ax2 = axes('position',[0.55 0.15+0.002 0.39 0.77]);
-annotation('textbox',[0.49 0.99+0.002 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.49 0.99+0.002 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o','filled');
 clim([0 0.04])
 % ylabel('$\sqrt\epsilon/\omega = \sqrt {2\Lambda\omega_0^3/(N\omega^3)}$','Interpreter','latex')
@@ -39,7 +39,7 @@ box on;
 grid on;grid minor
 h3 = colorbar(ax2,'Position',[0.95 0.1400+0.002 0.0160/2 0.7800]);
 xlim([0 2.5])
-% print('-dpng','-r300','fig5/fig5_matlab.png');
+print('-dpng','-r300','fig5/fig5_matlab.png');
 
 
 
@@ -57,7 +57,7 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1000 350]);
 
 load('fig5/fig5_topo0_Ri.mat')
 ax1 = axes('position',[0.075 0.15+0.002 0.39 0.77]);
-annotation('textbox',[0.015 0.99+0.002 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.015 0.99+0.002 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 % scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o', 'filled');
 scatter(omega0_sort/omega,Ri_sort,20,grow_sort,'o', 'filled');
 clim([0 0.04])
@@ -77,7 +77,7 @@ ylim([3 2000])
 
 load('fig5/fig5_topo4_Ri.mat')
 ax2 = axes('position',[0.55 0.15+0.002 0.39 0.77]);
-annotation('textbox',[0.49 0.99+0.002 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.49 0.99+0.002 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 % scatter(omega0_sort/omega,sqrt(epsilon_sort)/omega,20,grow_sort,'o','filled');
 scatter(omega0_sort/omega,Ri_sort,20,grow_sort,'o','filled');
 clim([0 0.04])
@@ -94,6 +94,6 @@ grid on;grid minor
 h3 = colorbar(ax2,'Position',[0.95 0.1400+0.002 0.0160/2 0.7800]);
 xlim([0 2.5])
 ylim([3 2000])
-% print('-dpng','-r300','fig5/fig5_matlab2.png');
+print('-dpng','-r300','fig5/fig5_matlab2.png');
 
 

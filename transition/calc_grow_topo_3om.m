@@ -77,7 +77,7 @@ for o = 2:241
     zeta = [];
     tt = [];
     
-    ncycle = 50;
+    ncycle = 40;
     for k=1:ncycle
 
         if(ntransition(o)==2)
