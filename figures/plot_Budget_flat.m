@@ -10,8 +10,8 @@ set(gcf,'Color','w');
 scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
 
-% load('../instability_km/budget/flat_output_R3.mat')
-load('../instability_km/budget/topo4_output_R3.mat')
+load('../instability_km/budget/flat_output_R1.mat')
+% load('../instability_km/budget/topo4_output_R3.mat')
 
 
 tidx = nt_percycle*5+1:nt_percycle*7;
@@ -50,17 +50,17 @@ ax5 = subplot('position',[.06 .06+0.1 0.4 0.225*3]);
 lzres = plot(tt/43200,dzetadt-bxcs-bzss,'-','LineWidth',3,'Color',boxcolor);
 hold on;
 lbxcs = plot(tt/43200,bxcs,'LineWidth',2,'Color',blue);
-lbzss = plot(tt/43200,bzss,'LineWidth',2,'Color',yellow);
-ldzetadt = plot(tt/43200,dzetadt,'LineWidth',2,'Color',green);
+% lbzss = plot(tt/43200,bzss,'LineWidth',2,'Color',yellow);
+ldzetadt = plot(tt/43200,dzetadt,'--','LineWidth',2,'Color',green);
 grid on;grid minor;
 xlabel('Time (tidal cycles)','interpreter','latex')
 set(gca,'Fontsize',fontsize);
 % title('Vorticity budget','interpreter','latex','Fontsize',fontsize+5);
 title('Normalized vorticity budget','interpreter','latex','Fontsize',fontsize+5);
 % ylim([-1 1])
-l51 = legend([lbxcs,lbzss], ...
-    '$\partial_x b^\prime \cos\theta$','-$\partial_z b^\prime \sin\theta$',...
-    'interpreter','latex','Position', [0.0779 0.7431 0.1379 0.0650]);
+l51 = legend([lbxcs], ...
+    '$\partial_x b^\prime $',...
+    'interpreter','latex');
 ah=axes('position',get(ax5,'position'),'visible','off');
 set(gca,'Fontsize',fontsize);
 l52 = legend(ah,[ldzetadt lzres], ...
@@ -74,11 +74,11 @@ ax6 = subplot('position',[.57 .06+0.1 0.4 0.225*3]);
 % annotation('textbox',[0.538+0.02 0.31 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 lres = plot(tt/43200,dbdt-uB0x-wB0z-wBz,'-','LineWidth',3,'Color',boxcolor);
 hold on;
-luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',RED1);
-lwBz = plot(tt/43200,wBz,'LineWidth',2,'Color',yellow);
+% luB0x = plot(tt/43200,uB0x,'LineWidth',2,'Color',RED1);
+% lwBz = plot(tt/43200,wBz,'LineWidth',2,'Color',yellow);
 lwB0z = plot(tt/43200,wB0z,'LineWidth',2,'Color',blue);
-ldbdt = plot(tt/43200,dbdt,'--','LineWidth',1,'Color',green);
-luB0x_lwBz = plot(tt/43200,wBz+uB0x,'--','LineWidth',2,'Color',brown);
+ldbdt = plot(tt/43200,dbdt,'--','LineWidth',2,'Color',green);
+% luB0x_lwBz = plot(tt/43200,wBz+uB0x,'--','LineWidth',2,'Color',brown);
 
 grid on;grid minor;
 xlabel('Time (tidal cycles)','interpreter','latex')
@@ -86,10 +86,9 @@ set(gca,'Fontsize',fontsize);
 % title('Buoyancy budget','interpreter','latex','Fontsize',fontsize+5);
 title('Normalized buoyancy budget','interpreter','latex','Fontsize',fontsize+5);
 % ylim([-1 1])
-l61 = legend([lwB0z,lwBz,luB0x,luB0x_lwBz], ...
-    '$w^\prime\partial_z B_0$','$w^\prime\partial_z B$','$u^\prime\partial_x B_0$',...
-    '$w^\prime\partial_z B+u^\prime\partial_x B_0$',...
-    'interpreter','latex','Position',  [0.5821 0.6485 0.2068 0.1261]);
+l61 = legend([lwB0z], ...
+    '$w^\prime\partial_z B_0$',...
+    'interpreter','latex');
 ah=axes('position',get(ax6,'position'),'visible','off');
 set(gca,'Fontsize',fontsize);
 l62 = legend(ah,[ldbdt lres], ...
@@ -97,29 +96,29 @@ l62 = legend(ah,[ldbdt lres], ...
     'interpreter','latex','Position',  [0.5822 0.5629 0.2360 0.0650]);
 legend('boxoff') 
 
-print('-dpng','-r300',['fig_supp_new/budget_topo4_R3_1.png']);
+print('-dpng','-r300',['fig_supp_new/budget_flat_R1_1.png']);
 
 
-figure(2)
-clf;   
-set(gcf,'Color','w');
-scrsz = get(0,'ScreenSize');
-set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
-
-%--- plot vertical velocity and buoyancy perturbation
-ax5 = subplot('position',[.06 .06+0.1 0.4 0.225*3]);
-% annotation('textbox',[0.028+0.02 0.31 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-plot(tt/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2,'Color',blue);
-hold on;
-plot(tt/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2,'Color',black);
-plot(tt/43200,re_zeta(tidx)./max(abs(re_zeta(tidx))),'LineWidth',2,'Color',green);
-grid on;grid minor;
-l5 = legend('Buoyancy perturbation $b^\prime$','Vertical velocity $w^\prime$','Horizontal vorticity perturbation $\zeta$','interpreter','latex','Position',[0.0591 0.7316 0.4049 0.0956]);
-% l5 = legend('Buoyancy perturbation','Vertical velocity','interpreter','latex','Position',[0.07 0.2265 0.2063 0.0458]);
-legend('boxoff')
-xlabel('Time (tidal cycles)','interpreter','latex')
-set(gca,'Fontsize',fontsize);
-title('Normalized perturbations','interpreter','latex','Fontsize',fontsize+5);
+% figure(2)
+% clf;   
+% set(gcf,'Color','w');
+% scrsz = get(0,'ScreenSize');
+% set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
+% 
+% %--- plot vertical velocity and buoyancy perturbation
+% ax5 = subplot('position',[.06 .06+0.1 0.4 0.225*3]);
+% % annotation('textbox',[0.028+0.02 0.31 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+% plot(tt/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2,'Color',blue);
+% hold on;
+% plot(tt/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2,'Color',black);
+% plot(tt/43200,re_zeta(tidx)./max(abs(re_zeta(tidx))),'LineWidth',2,'Color',green);
+% grid on;grid minor;
+% l5 = legend('Buoyancy perturbation $b^\prime$','Vertical velocity $w^\prime$','Horizontal vorticity perturbation $\zeta$','interpreter','latex','Position',[0.0591 0.7316 0.4049 0.0956]);
+% % l5 = legend('Buoyancy perturbation','Vertical velocity','interpreter','latex','Position',[0.07 0.2265 0.2063 0.0458]);
+% legend('boxoff')
+% xlabel('Time (tidal cycles)','interpreter','latex')
+% set(gca,'Fontsize',fontsize);
 % title('Normalized perturbations','interpreter','latex','Fontsize',fontsize+5);
-
-print('-dpng','-r300',['fig_supp_new/budget_topo4_R3_2.png']);
+% % title('Normalized perturbations','interpreter','latex','Fontsize',fontsize+5);
+% 
+% print('-dpng','-r300',['fig_supp_new/budget_flat_R3_2.png']);
