@@ -4,8 +4,19 @@ addpath ../analysis/functions/
 % expdir = '../exps_hires/';
 % expname = 'hires_topo4_s0.0013_dz1dx6n-20';
 % expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4_test/';
-expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
-expdir = '../exps_topo4/';
+
+% %%% old
+% expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
+% expdir = '../exps_topo4/';
+
+%%% new
+expdir = '../exps_kv5e-6/';
+expname='topo4_H500Lx3k_s1.70dz1dx3sm100'
+topo = 4;
+
+% expname='flat_H500Lx3k_s1.80dz1dx3sm100';
+% topo = 0;
+
 % expdir = '/Volumes/MIT/MITgcm_shear_convec/exps_topo4/';
 
 % expdir = '../exps_topo4_hires/';
@@ -26,7 +37,8 @@ nDumps = length(dumpIters);
 % xx = xx-xx(1);
 % No = nDumps;
 % No = 30*12;
- No = 13*12;
+ No = 28*12;
+ % No = 28*12;
 
 uu_timeseries= zeros(No,Nr);
 % shear_timeseries = zeros(No,Nr);
@@ -62,23 +74,37 @@ for o=1:No
     tt = squeeze(rdmds([exppath,'/results/THETA'],nIter));
     tt(tt==0)=NaN;
 
-    LC = 1*m1km;
+    LC = 0.3*m1km;
     [mC,nC] = min(abs(xx-LC));
     ttC = tt(nC,:)+tt_background(nC,:);
     tt_timeseries(o,:) = tt(nC,:);
     rhoC = rhoConst.*(1-(ttC-tRef)*tAlpha);
-    N2_timeseries(o,2:Nr) = -gravity/rhoConst.*(rhoC(1:end-1)-rhoC(2:end))./(zz(1:end-1)-zz(2:end));
+    N2_timeseries(o,2:Nr) = -cosd(topo)*gravity/rhoConst.*(rhoC(1:end-1)-rhoC(2:end))./(zz(1:end-1)-zz(2:end));
 
-    % uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
-    % ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
+
+    ttC1 = tt(nC-1,:)+tt_background(nC,:);
+    ttC3 = tt(nC+1,:)+tt_background(nC,:);
+    rhoC1 = rhoConst.*(1-(ttC1-tRef)*tAlpha);
+    rhoC3 = rhoConst.*(1-(ttC3-tRef)*tAlpha);
+    rho_ugrid1 = 0.5*(rhoC1+rhoC);
+    rho_ugrid2 = 0.5*(rhoC+rhoC3);
+    N2x = -sind(topo)*gravity/rhoConst.*(rho_ugrid2-rho_ugrid1)./delX(1);
+    N2x_lower = NaN*zeros(1,Nr);
+    N2x_lower(1:Nr-1) = 0.5*(N2x(1:end-1)+N2x(2:end));
+
+    N2_timeseries(o,:) = N2_timeseries(o,:) + N2x_lower;
+    
+
+    uu = squeeze(rdmds([exppath,'/results/UVEL'],nIter));
+    ww = squeeze(rdmds([exppath,'/results/WVEL'],nIter));
     % vv = squeeze(rdmds([exppath,'/results/VVEL'],nIter));
-    % uu(uu==0)=NaN;
-    % ww(ww==0)=NaN;
+    uu(uu==0)=NaN;
+    ww(ww==0)=NaN;
     % vv(vv==0)=NaN;
-    % shear_timeseries(o,2:Nr) = (uu(nC,1:end-1)-uu(nC,2:end))./delR(2:end);
-    % uu_timeseries(o,:) = uu(nC,:);
+    shear_timeseries(o,2:Nr) = (uu(nC,1:end-1)-uu(nC,2:end))./delR(2:end);
+    uu_timeseries(o,:) = uu(nC,:);
     % vv_timeseries(o,:) = vv(nC,:);
-    % ww_timeseries(o,:) = ww(nC,:);
+    ww_timeseries(o,:) = ww(nC,:);
 
 end
 
@@ -86,8 +112,9 @@ end
 botN = Nr;
 botZ =zz(end);
 
-% save('fig2/fig2_new.mat','time_tidal','zz','botZ','tt_timeseries','N2_timeseries','uu_timeseries')
+save('fig2/fig2_new_1.7.mat','time_tidal','zz','botZ','tt_timeseries','N2_timeseries','uu_timeseries')
 
+% save('figS_gcm_flat/figS_gcm_flat_1.8.mat','time_tidal','zz','botZ','tt_timeseries','N2_timeseries','uu_timeseries')
 
 % %%
 % 

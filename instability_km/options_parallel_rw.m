@@ -17,8 +17,8 @@ for ns =1:Ns
         rs = 0;
     end
   
-    parfor j=1:Nrw
-        % for j=1
+    % parfor j=1:Nrw
+        for j=1201
         % load("grow_rw.mat")
         % rw = rw_max(ns);
 

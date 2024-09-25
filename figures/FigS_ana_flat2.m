@@ -31,10 +31,13 @@ title('Idealized frequencies $\omega_1$ and $\omega_2$','Interpreter','latex','F
 
 nexttile
 plot(R_all,alpha,'LineWidth',2,'Color',brown)
+hold on;
+plot(R_all,0.5*ones(1,length(R_all)),'--','LineWidth',2,'Color',yellow)
+hold off;
 grid on;grid minor;set(gca,'Fontsize',fontsize);
 xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');
 title('Portion of a period with $\sigma(\hat t)<1$','Interpreter','latex','Fontsize',fontsize+4);
-
+yticks([0 0.5 1])
 
 nexttile
 plot(R_all,sqrt(A_harmonic),'LineWidth',2,'Color',brown)

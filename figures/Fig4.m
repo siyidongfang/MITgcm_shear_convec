@@ -42,9 +42,10 @@ clim([0 0.4]);
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 ylabel('Perturbation aspect ratio $m_0/k_0$','interpreter','latex');
 title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
-ylim([0 22])
-xlim([0 5.2])
+ylim([0 30])
+xlim([0 8])
 set(gca,'TickDir','out');
+grid on;grid minor;
 
 %%%%%%%%%%Start loading
 %--- flat bottom
@@ -124,11 +125,22 @@ box on;
 %%
 clear growth_MITgcm max_grow_rw Ri_gcm Ri_km shear_MITgcm shear_all shear_calc_Ri
 %--- topo = 4 degrees
-load('../instability_km/exps_new/topo4_nu0_output.mat')
+% load('../instability_km/exps_new/topo4_nu0_output.mat')
+load('../instability_km/exps_new/topo4_nu0_large_shearoutput.mat')
 load('fig4/Ri_topo4.mat')
 
 lam_x_real = lam_x_real/6;
 max_grow_rw = max(grow_rw,[],2);
+
+load('fig4/MIT_zeroCenter_tanh_topo4_kv5e-6_tt.mat')
+grow_gcm_tanh = growth_MITgcm;
+shear_gcm_tanh = shear_MITgcm;
+for i=1:length(shear_gcm_tanh)
+    [a(i) b(i)] = min(abs(shear_MITgcm(i)-shear_calc_Ri));
+    Ri_gcm_tanh(i) = Ri_min(b(i));
+end
+clear growth_MITgcm shear_MITgcm
+
 
 load('fig4/MIT_topo4_kv5e-6_tt.mat')
 
@@ -165,12 +177,16 @@ for i=1:length(shear_all)
 end
 
 
+
+
+
 ax3 = subplot('position',[.06 .40 0.375 0.225]);
 annotation('textbox',[0.028+0.02 0.65 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 rw_idx = 1:Nrw;
 pcolor(1./Ri_km,1./rw_all,grow_rw');
 hold on;
 scatter(1./Ri_km,r_mostunstable,7,brown,'filled','LineWidth',1);
+plot(1./Ri_km,zeros(1,length(Ri_km)),'k--','LineWidth',0.5);
 set(gca,'Fontsize',fontsize);
 shading interp;
 h2 = colorbar;
@@ -180,23 +196,29 @@ clim([0 0.4]);
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 ylabel('Perturbation aspect ratio $m_0/k_0$','interpreter','latex');
 title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
-ylim([0 22])
-xlim([0 5.2])
+ylim([-21 14])
+xlim([0 8])
 set(gca,'TickDir','out');
+grid on;grid minor;
 
+max_grow_km = max(grow_rw,[],2);
 
 ax4 = subplot('position',[.57 .40 0.4 0.225]);
 annotation('textbox',[0.538+0.02 0.65 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
+% scatter(1./Ri_gcm_tanh,grow_gcm_tanh,50,black,'LineWidth',2);
 plot(1./Ri_km_diff,max_grow,'-','LineWidth',2,'Color',green);
+plot(1./Ri_km,max_grow_km,'--','LineWidth',2,'Color',gray);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-l4 = legend('MITgcm: linear shear','Linear theory: viscous','Position',[0.58 0.57 0.1871 0.0458],'interpreter','latex');
+% l4 = legend('MITgcm: linear shear','MITgcm: tanh shear','Linear theory: viscous','Linear theory: inviscid','Position',[0.58 0.57 0.1871 0.0458],'interpreter','latex');
+l4 = legend('MITgcm: linear shear','Linear theory: viscous','Linear theory: inviscid','Position',[0.5751 0.5517 0.2033 0.0668],'interpreter','latex');
 set(gca,'Fontsize',fontsize);
-xlim([0 5.2])
-ylim([-1e-3 0.4])
+% xlim([0 5.2])
+xlim([0 8])
+ylim([-1e-3 0.6])
 title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
 box on;
 
@@ -290,7 +312,7 @@ grid on;grid minor;
 xlabel('Time (tidal cycles)','interpreter','latex')
 set(gca,'Fontsize',fontsize);
 title('Normalized buoyancy budget','interpreter','latex','Fontsize',fontsize+5);
-ylim([-1 1]*1.4)
+ylim([-0.8 1.4])
 % xticks([5 6 7 8])
 % xticklabels({'5','6','7','8'})
 l61 = legend([lwB0z,lwBz,luB0x], ...
@@ -310,7 +332,7 @@ l63 = legend(ah2,luB0x_lwBz, ...
 legend('boxoff') 
 
 
-print('-dpng','-r300','fig4/fig4_matlab.png');
+% print('-dpng','-r300','fig4/fig4_matlab.png');
 
 
 

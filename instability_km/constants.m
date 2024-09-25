@@ -4,8 +4,7 @@ NT1 = 20;
 NT2 = 70;
 
 % expdir = 'exps_new/flat_kv2e-4/';
-% expdir = 'exps_new/topo4_kv2e-4_pi60/';
-expdir = 'exps_varyingN/N1e-3';
+expdir = 'exps_new/topo4_nu0_large_shear2';
 N = 1e-3;
 
 Diffusion = false;
@@ -13,18 +12,20 @@ ConvectiveAdjustment = false;
 nt_percycle = 72*30; 
 
 
-% topo=4;
-% shear_Ri0_25 = 0.0018; % 0.0017525;
-% shear_Ri1 = 9.7e-04;
+topo=4;
+shear_Ri0_25 = 0.0018; % 0.0017525;
+shear_Ri1 = 9.7e-04;
 
-topo=0;
-shear_Ri0_25 = 2*N;
-shear_Ri1 = N;
+
+% topo=0;
+% shear_Ri0_25 = 2*N;
+% shear_Ri1 = N;
 
 Ptide = 43200;
 omega = 2*pi/Ptide;
-max_shear = shear_Ri0_25/2*3;
-Ns = 1200;
+% max_shear = shear_Ri0_25/2*3;
+max_shear = 0.002079500000000;
+Ns = 800;
 shear_all = [0:max_shear/(Ns-1):max_shear]; 
 
 % shear_all = [0:1e-4/50:shear_Ri0_25/4]; %%% for small-shear
@@ -38,7 +39,8 @@ m0_rw = 2*pi/h_shear;
 lam_z_all = [1:1:500];
 m0_all = 2*pi./lam_z_all;
 
-lam_x_all = [1e-100 5 10:10:12000];
+% lam_x_all = [1e-100 5 10:10:12000];
+ lam_x_all = [-12000:10:-10 1e-80 10:10:12000];
 kx_all = 2*pi./lam_x_all;
 
 rw_all = kx_all/m0_rw;

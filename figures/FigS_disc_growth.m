@@ -4,13 +4,40 @@ clear;close all;
 % load_colors;
 fontsize = 16;
 addpath ../instability/products/
-load('GrowthRate_exps_linear_dz0.5.mat')
+load('fig4/Ri_flat.mat')
 
+% load('fig4/topo4_km_kv2e-4.mat','max_grow','shear_all')
+load('../instability_km/exps_varyingN/N1e-3output.mat')
+[max_grow ~]=max(grow_rw,[],2);
+for i=1:length(shear_all)
+    [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
+    Ri_km(i) = Ri_min(b(i));
+end
 
-grow_400m = GrowthRate_Floquet(16,:);
+load('GrowthRate_tanh_ZeroCenter_dz2.mat')
+for i=1:length(shear_Floquet)
+    [a(i) b(i)] = min(abs(shear_Floquet(i)-shear_calc_Ri));
+    Ri_Flo(i) = Ri_min(b(i));
+end
+
 figure(1)
-plot(shear_Floquet,grow_400m)
+plot(1./Ri_Flo,growth_Floquet)
+hold on;
+plot(1./Ri_km,max_grow)
+xlim([0 4])
 
+
+load('GrowthRate_tanh_BottomCenter_dz2.mat')
+plot(1./Ri_Flo,growth_Floquet,'--')
+
+
+load('GrowthRate_exps_linear_dz0.5.mat')
+plot(1./Ri_Flo,growth_Floquet,':')
+
+
+
+grid on;
+grid minor;
 % figure(1)
 % plot(shear_Floquet,growth_Floquet)
 

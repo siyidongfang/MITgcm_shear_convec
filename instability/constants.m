@@ -1,12 +1,12 @@
 
     addpath ../analysis/colormaps/    
-    Shear_parm = ([0:0.1:2.0])*1e-3;
+    Shear_parm = ([0:0.1:4.0])*1e-3;
     lambda_parm = [50 75:25:1000 1050:50:2000 2200:200:3000 3500 4000 4500 5000 7500 10000]; 
     % lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
     lambda_parm = flip(lambda_parm);
     lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
 
-    lambda_parm = lambda_parm(42:82);
+    % lambda_parm = lambda_parm(42:82);
 
     Ptide_parm = [0.5:0.5:5 10000]*43200;
     topo_parm = [1e-20 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20];
@@ -48,10 +48,10 @@
     zspan = [0 Hmax];
 
     if(USEdiffusion)
-        % nu = 2e-6; 
-        % kappa = 2e-6;
-        nu = 2e-4; 
-        kappa = 2e-4;
+        nu = 2e-6; 
+        kappa = 2e-6;
+        % nu = 2e-4; 
+        % kappa = 2e-4;
     else
         nu = 0;
         kappa = 0;

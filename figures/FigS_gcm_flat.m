@@ -6,9 +6,9 @@ load_colors;
 
 addpath ../analysis/
 addpath ../analysis/functions/
-expame='flat_H500Lx3k_s1.60dz1dx3sm100';
+expname='flat_H500Lx3k_s1.80dz1dx3sm100';
 expdir = '../exps_kv5e-6/';
-% expame='topo0_H500Lx3k_s1.5dz1dx3n-20sm100_kv8e-5';
+% expname='topo0_H500Lx3k_s1.5dz1dx3n-20sm100_kv8e-5';
 % expdir = '../exps_flat_hires/';
 % expname = 'topo0_H500_s0.0017dz1dx3ln200n-20sm100_kv2e-4';
 % expdir = '../exps_hires/';
@@ -25,7 +25,9 @@ dumpIters = dumpIters(dumpIters > nIter0);
 nDumps = length(dumpIters);
 
 %--- snapshots
-o = 12*26+3;
+% o = 12*26+3;
+% o = 12*20+2;
+ o = 12*16+3;
 tt = squeeze(rdmds([exppath,'/results/THETA'],dumpIters(o)));
 tt(tt==0)=NaN;
 Hz = sum(delR);
@@ -52,19 +54,19 @@ set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 900 950]);
 
 %%% coordinate
 ax1 = subplot('position',[.03 .795 .3 .2]);
-annotation('textbox',[0 0.993 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.993 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 annotation('textbox',[0.07 0.993 0.3 0.01],'String','Flat-bottom simulation','FontSize',fontsize+4,'interpreter','latex','LineStyle','None');
 imshow('figS_gcm_flat/figS_gcm_flat_coordinate.png')
 
 %--- Load MITgcm simulation
-filename = [expdir expname '/RMSE.mat'];
+filename = [expdir expname '/RMSE_tt.mat'];
 load(filename)
-load('figS_gcm_flat/figS_gcm_flat.mat')
-YLIM = [0 300];
+load('figS_gcm_flat/figS_gcm_flat_1.8.mat')
+YLIM = [0 250];
 
 %%% TKE time series
 ax2 = subplot('position',[0.435 0.815 0.505 0.16]);
-annotation('textbox',[0.38 0.993 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.38 0.993 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 plot(time_h/12,log(pe)/2,'LineWidth',2);
 hold on;
 plot(time_h/12,log(ke)/2,'LineWidth',2);
@@ -78,7 +80,7 @@ title('Normalized turbulent energy in the shear layer','Fontsize',fontsize+4,'in
 grid on;grid minor;
 hold on;
 ylim([-38 2])
-xlim([0 30])
+xlim([0 28])
 
 
 mycolor=cmocean('balance');
@@ -86,7 +88,7 @@ mycolor=mycolor(20:end-20,:);
 
 %%% Velocity
 ax3 = subplot('position',[0.07 0.62 0.87 0.125]);
-annotation('textbox',[0 0.755 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.755 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_tidal,zz-botZ,uu_timeseries');
 hold on;shading interp;
 contour(time_tidal,zz-botZ,uu_timeseries',[0.15:0.15:0.75],'color',darkgray)
@@ -95,7 +97,7 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-0.75:0.15:-0.15],'--','color',darkgr
 clim([-0.401 0.401])
 ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
-title('Across-isobath tidal velocity $u$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295])
+title('Across-isobath tidal velocity $u$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295-50])
 ylim(YLIM)
 h3=colorbar(ax3);
 set(h3,'Position',[0.95    0.62    0.008    0.11]);
@@ -103,11 +105,13 @@ set(get(h3,'Title'),'String',{'$\ \ \ \ (\mathrm{m/s})$'},'interpreter','latex',
 set(gca,'xtick',[])
 colormap(mycolor);
 freezeColors;
+XLIM=[4.5 18.5];
+xlim(XLIM)
 
 
 %%% Temperature
 ax4 = subplot('position',[0.07 0.46 0.87 0.13]);
-annotation('textbox',[0 0.595 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.595 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_tidal,zz-botZ,tt_timeseries');
 hold on;shading interp;
 contour(time_tidal,zz-botZ,uu_timeseries',[0.15:0.15:0.75],'color',darkgray)
@@ -116,7 +120,7 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-0.75:0.15:-0.15],'--','color',darkgr
 ylabel('HAB (m)','interpreter','latex');
 clim([-0.1 0.1]);
 set(gca,'Fontsize',fontsize);
-title('Time-varying component of temperature','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295])
+title('Time-varying component of temperature','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295-50])
 ylim(YLIM)
 h4=colorbar(ax4);
 set(h4,'Position',[0.95    0.46   0.008    0.11]);
@@ -124,13 +128,14 @@ set(get(h4,'Title'),'String',{'$\ \ \ \ (^\circ \mathrm{C})$'},'interpreter','la
 set(gca,'xtick',[])
 colormap(mycolor);
 freezeColors;
+xlim(XLIM)
 
 %%% Temperature snapshot
 ax6 = subplot('position',[0.07 0.05 0.37 0.18]);
-annotation('textbox',[0 0.24 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.24 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(xx/1000,zz-botZ,tt');hold on;
 shading interp;
-clim([0.03 0.18])
+clim([0.01 0.13])
 % clim([-0.02 0.1])
 ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
@@ -139,14 +144,14 @@ h6=colorbar(ax6);
 set(h6,'Position',[0.45    0.05   0.008    0.16]);
 set(get(h6,'Title'),'String',{'$\ \ \ \ (^\circ \mathrm{C})$'},'interpreter','latex','FontSize',fontsize);
 xlabel('$x$ (km)','interpreter','latex','FontSize',fontsize+2);
-title('Temperature $T$ (snapshot)','Fontsize',fontsize+4,'interpreter','latex','Position',[0 295]);
+title('Temperature $T$ (snapshot)','Fontsize',fontsize+4,'interpreter','latex','Position',[0 295-50]);
 xlim([-1.5 1.5])
 colormap(mycolor);
 freezeColors;
 
 %%% N2 snapshot
 ax7 = subplot('position',[0.57 0.05 0.37 0.18]);
-annotation('textbox',[0.5 0.24 0.15 0.01],'String','g','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0.5 0.24 0.15 0.01],'String','G','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(xx/1000,zz-botZ,N2')
 hold on;
 contour(xx/1000,zz-botZ,N2',[0 0],'Color','c','LineWidth',1);
@@ -160,15 +165,14 @@ h7=colorbar(ax7);
 set(h7,'Position',[0.95    0.05   0.008    0.16]);
 set(get(h7,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','latex','FontSize',fontsize);
 xlabel('$x$ (km)','interpreter','latex','FontSize',fontsize+2);
-title('$\partial_{\tilde z} \mathcal B$ (snapshot)','Fontsize',fontsize+4,'interpreter','latex','Position',[0 297])
+title('$\partial_{\tilde z} \mathcal B$ (snapshot)','Fontsize',fontsize+4,'interpreter','latex','Position',[0 297-50])
 xlim([-1.5 1.5])
 colormap(mycolor);
 freezeColors;
 
-
 %%% N2
 ax5 = subplot('position',[0.07 0.3 0.87 0.13]);
-annotation('textbox',[0 0.435 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.435 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(time_tidal,zz-botZ,(N2_timeseries)')
 hold on;
 contour(time_tidal,zz-botZ,(N2_timeseries)',[0 0],'Color','c','LineWidth',1);
@@ -179,15 +183,16 @@ shading interp;
 xlabel('Time (tidal cycles)','interpreter','latex');
 ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
-title('Vertical buoyancy gradient $\partial_{\tilde z} \mathcal B$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,297])
+title('Vertical buoyancy gradient $\partial_{\tilde z} \mathcal B$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,297-50])
 clim(([-1 1]+1)/1e6)
 ylim(YLIM)
 % colormap(cmocean('diff'));
 h5=colorbar(ax5);
 set(h5,'Position',[0.95    0.3   0.008    0.1]);
 set(get(h5,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','latex','FontSize',fontsize);
+xlim(XLIM)
 
 
 %%% Save the figure
 
-% print('-dpng','-r300',['figS_gcm_flat/figS_gcm_flat.png']);
+print('-dpng','-r300',['figS_gcm_flat/figS_gcm_flat.png']);

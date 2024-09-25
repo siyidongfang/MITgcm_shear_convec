@@ -6,8 +6,8 @@
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=128:mpiprocs=128:ompthreads=1
 #PBS -N options_parallel_rw
-#PBS -o exps_varyingN/o.txt
-#PBS -e exps_varyingN/e.txt 
+#PBS -o exps_new/o.txt
+#PBS -e exps_new/e.txt 
 
 module load matlab
 matlab -nodisplay -nosplash -r options_parallel_rw

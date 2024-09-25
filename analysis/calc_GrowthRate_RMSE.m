@@ -12,16 +12,16 @@ load_all
 
 
 % No = nDumps;
-No =100*12;
+No =28*12;
 tidx = 1:No;
 
 % fit_span = 9*12+1:No;
-fit_span = 50*12+1:100*12;
+fit_span = 3*12+1:10*12;
 
 Nt = length(tidx);
 dz = delR(end);
-% zidx = 350:500;
-zidx = 325:475;
+zidx = 350:500;
+% zidx = 325:475;
 Nshear = length(zidx);
 
 div_tt = zeros(Nt,Nshear);
