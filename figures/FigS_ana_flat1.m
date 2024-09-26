@@ -1,6 +1,7 @@
 
 clear;
 addpath ../transition/
+addpath ../analysis/colormaps/
 load('../transition/freq_flat_new.mat')
 
 
@@ -359,7 +360,7 @@ l3 = plot(tt_hat/2/pi,sigma_harmonic(o)*ones(1,length(tt_hat)),'--','LineWidth',
 set(gca,'YScale', 'log');
 ylim([0.4 10])
 grid on;grid minor;set(gca,'FontSize',fontsize)
-xlabel('Time, $\hat t/(2\pi)$ (Tidal cycles)','Interpreter','latex');
+xlabel('Time, $\hat t/(2\pi)$ (Tidal phase)','Interpreter','latex');
 text(xt,yt,str,'Interpreter','latex','FontSize',fontsize+4);
 
 

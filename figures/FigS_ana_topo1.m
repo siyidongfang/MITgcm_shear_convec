@@ -1068,7 +1068,7 @@ title('Time-dependent frequency $\sigma(\hat t)$','Interpreter','latex','FontSiz
 text(xt,yt,str,'Interpreter','latex','FontSize',fontsize+4);
 
 
-xlabel('Time, $\hat t/(2\pi)$ (Tidal cycles)','Interpreter','latex');
+xlabel('Time, $\hat t/(2\pi)$ (Tidal phase)','Interpreter','latex');
 
 
 

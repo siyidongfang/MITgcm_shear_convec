@@ -131,6 +131,14 @@ title('Growth rate','Interpreter','latex','Fontsize',fontsize+4);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 
 
+load('../transition/real_component.mat')
+nexttile
+plot(tt_hat/2/pi,sigma1_real,'LineWidth',2,'Color',blue)
+grid on;grid minor;set(gca,'Fontsize',fontsize);
+title('Real component of $\mu(\hat t)$ (Independent of ${R_i}_\mathrm{min}^{-1}$)','Interpreter','latex','Fontsize',fontsize+4);
+xlabel('Time, $\hat t/(2\pi)$ (Tidal phase)','Interpreter','latex');
+
+
 
 tiledlay.TileSpacing = 'compact';
 tiledlay.Padding = 'compact';
