@@ -28,6 +28,7 @@ xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');
 legend('$\omega_1$ = harmonic mean of $\sigma(\hat t)\geq 1$',...
     '$\omega_2$ = harmonic mean of $\sigma(\hat t)<1$','Interpreter','latex','Fontsize',fontsize+2);
 title('Idealized frequencies $\omega_1$ and $\omega_2$','Interpreter','latex','Fontsize',fontsize+4);
+xlim([0 10])
 
 nexttile
 plot(R_all,alpha,'LineWidth',2,'Color',brown)
@@ -38,6 +39,8 @@ grid on;grid minor;set(gca,'Fontsize',fontsize);
 xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');
 title('Portion of a period with $\sigma(\hat t)<1$','Interpreter','latex','Fontsize',fontsize+4);
 yticks([0 0.5 1])
+xlim([0 10])
+ylim([0 1])
 
 nexttile
 plot(R_all,sqrt(A_harmonic),'LineWidth',2,'Color',brown)
@@ -46,9 +49,10 @@ plot(R_all,ones(1,length(R_all)),'--','LineWidth',2,'Color',yellow)
 grid on;grid minor;set(gca,'Fontsize',fontsize);
 xlabel('$R={R_i}_\mathrm{min}^{-1}$','Interpreter','latex');
 title('Harmonic mean of the frequency $\sigma(\hat t)$','Interpreter','latex','FontSize',fontsize+4);
-legend('$\overline{\sigma(\hat t)}^\mathrm{hm}$','Unity','Interpreter','latex','FontSize',fontsize+4);
+legend('$\overline{\sigma}^\mathrm{hm}$','Unity','Interpreter','latex','FontSize',fontsize+4);
 set(gca,'YScale', 'log');
 ylim([0.1 10])
+xlim([0 10])
 
 
 
@@ -68,14 +72,14 @@ nexttile
 plot(R_all,grow,'LineWidth',2,'Color',black)
 hold on;
 plot(1./Ri_km,grow_mzero,'--','LineWidth',2)
-xlim([0 20])
-ylim([-0.04 0.4])
+xlim([0 10])
+ylim([-0.01 0.4])
 hold on;
 grid on;grid minor;
 xlabel('R = ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 set(gca,'Fontsize',fontsize);
-legend('Analytical solution with $\omega_1$ and $\omega_2$','Inviscid theory ($m_0/k_0=0$)','Position',[0.5937 0.1076 0.3453 0.0750],'interpreter','latex','Fontsize',fontsize+2);
-% legend('boxoff')
+legend('Analytical solution with $\omega_1$ and $\omega_2$','Inviscid theory ($m_0/k_0=0$)','Position',[0.5437 0.2961 0.3453 0.0750],'interpreter','latex','Fontsize',fontsize+2);
+legend('boxoff')
 title('Growth rate (1/hour)','Interpreter','latex','Fontsize',fontsize+4);
 
 

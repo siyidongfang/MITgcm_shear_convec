@@ -12,7 +12,7 @@ function [dbdt,dzetadt,dvdt]=tendency_noV(o,dbdt,dzetadt,dvdt,omega,t0,m0,rs,kx,
     a1 = -(kx^2+mz^2); 
     a2 = 1i*kx*cs - 1i*mz*ss;
     a3 = -1i*kx*f*ss - 1i*mz*f*cs;
-    a4 = -1i*kx*f*ss + 1i*mz*f*cs;
+    a4 = 1i*kx*f*ss + 1i*mz*f*cs;
    
     
     p0 = z0/a1;

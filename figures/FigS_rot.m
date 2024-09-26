@@ -2,8 +2,8 @@ clear;
 addpath ../instability_rotating/
 addpath ../instability_rotating/exps_rotating/
 
-% fname = 'wVz_flat_N1e-3output';
 fname = 'flat_N1e-3output';
+% fname = 'noV_flat_N1e-3output';
 strn = 'Flat bottom';
 
 
@@ -108,8 +108,8 @@ set(gca,'TickDir','out');
 
 
 
-% fname = 'wVz_topo4_N1e-3output';
 fname = 'topo4_N1e-3output';
+% fname = 'noV_topo4_N1e-3output';
 strn = 'Sloping bottom';
 
 
@@ -214,5 +214,5 @@ AddLetters2Plots(fg1,'FontSize',fontsize+5,'FontWeight','normal')
 
 
 %%
-print('-dpng','-r300',['fig_supp_new/figS_rot1_matlab.png']);
+print('-dpng','-r300',['fig_supp_new/figS_rot2_matlab.png']);
 

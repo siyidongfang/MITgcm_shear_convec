@@ -13,7 +13,7 @@ set(gcf,'Color','w','Position', [100 153 1200 800])
 tiledlay = tiledlayout(2,2);
 
 load('fig4/Ri_topo4.mat')
-load('../instability_km/exps_new/topo4_nu0_output.mat')
+load('../instability_km/exps_new/topo4_nu0_large_shearoutput.mat')
 for i=1:length(shear_all)
     [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
     Ri_km(i) = Ri_min(b(i));
@@ -31,16 +31,17 @@ clear r_mostunstable
 for i=1:length(shear_all)
     r_mostunstable(i) = 1./rw_all(r_idx(i));
 end
-r_mostunstable(r_mostunstable>12)=NaN;
+% r_mostunstable(r_mostunstable>12)=NaN;
 
 
 nexttile
 rw_idx = 1:Nrw;
-grow_rw(:,1./rw_all>13)=NaN;
+% grow_rw(:,1./rw_all>13)=NaN;
 pcolor(1./Ri_km,1./rw_all,grow_rw');
 hold on;
 l11 = scatter(1./Ri_km,r_mostunstable,7,brown,'filled','LineWidth',1);
 l12 = plot(1./Ri_km,r,'Color','k','LineWidth',2);
+plot(1./Ri_km,zeros(1,length(Ri_km)),'k--','LineWidth',0.5);
 set(gca,'Fontsize',fontsize);
 shading interp;
 colormap(WhiteBlueGreenYellowRed(0))
@@ -51,14 +52,14 @@ clim([0 0.4]);
 xlabel('${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 ylabel('Aspect ratio $r=m_0/k_0$','interpreter','latex');
 title('Growth rate (1/hour)','interpreter','latex','Fontsize',fontsize+5);
-ylim([0 16])
-xlim([0 4.3])
+ylim([-10 14])
+xlim([0 8])
 set(gca,'TickDir','out');
 grid on;grid minor;
 box on;
 legend([l11 l12],'Diagnosed most unstable mode',...
     ['Predicted most unstable mode for ${R_i}_\mathrm{min}^{-1}>2$:' newline '$r=\cot\theta-\hat N \sqrt{R} = \cot\theta-\Lambda/\omega$'] , ...
-    'interpreter','latex','Fontsize',fontsize+2,'Position',[0.0972 0.8513-0.03 0.2667 0.0920+0.03]);
+    'interpreter','latex','Fontsize',fontsize+2,'Position',[0.0764 0.5813 0.2667 0.1220]);
 legend('boxoff')
 
 
@@ -74,11 +75,11 @@ hold on;
 l22 = plot(1./Ri_km,grow_mr,'--','LineWidth',2,'Color',orange);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-legend([l21 l22],'Growth rate of diagnosed most unstable modes','Growth rate along $r=\cot\theta-\Lambda/\omega$','interpreter','latex','Fontsize',fontsize+2,'Position', [0.5663 0.8542 0.3787 0.0666]);
+legend([l21 l22],'Growth rate of diagnosed most unstable modes','Growth rate along $r=\cot\theta-\Lambda/\omega$','interpreter','latex','Fontsize',fontsize+2,'Position', [0.5880 0.8830 0.3787 0.0666]);
 legend('boxoff')
 
 set(gca,'Fontsize',fontsize);
-xlim([0 4.3])
+xlim([0 8])
 ylim([-1e-3 0.35])
 title('Growth rate','interpreter','latex','Fontsize',fontsize+5);
 box on;
@@ -118,10 +119,11 @@ nexttile
 plot(1./Ri_ana,grow_ana,'LineWidth',2,'Color',black)
 hold on;
 plot(1./Ri_km,grow_mr,'--','LineWidth',2)
-xlim([0 4.4])
-ylim([-0.02 0.35])
+xlim([0 8])
+ylim([-1e-3 0.35])
 xlabel('${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-legend('Analytical solution with $\omega_1$, $\omega_2$, and $\omega_3$','Inviscid theory: along $r=\cot\theta-\Lambda/\omega$','interpreter','latex','Fontsize',fontsize+3);
+legend('Analytical solution with $\omega_1$, $\omega_2$, and $\omega_3$','Inviscid theory: along $r=\cot\theta-\Lambda/\omega$','interpreter','latex','Fontsize',fontsize+3,...
+    'Position',[0.0936 0.3793 0.3339 0.0686]);
 legend('boxoff')
 
 grid on;grid minor;set(gca,'Fontsize',fontsize);

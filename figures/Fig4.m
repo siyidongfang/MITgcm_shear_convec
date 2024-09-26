@@ -287,10 +287,11 @@ ax5 = subplot('position',[.06 .06 0.4 0.225]);
 annotation('textbox',[0.028+0.02 0.31 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 l5b = plot(tt1/43200,re_buoy(tidx)./max(abs(re_buoy(tidx))),'LineWidth',2,'Color',blue);
 hold on;
-l5w = plot(tt1/43200,re_www(tidx)./max(abs(re_www(tidx))),'LineWidth',2,'Color',black);
+l5u = plot(tt1/43200,re_uuu(tidx)./max(abs(re_uuu(tidx))),'--','LineWidth',2,'Color',orange);
+l5w = plot(tt1/43200,re_www(tidx)./max(abs(re_www(tidx))),'-.','LineWidth',2,'Color',black);
 l5z = plot(tt1/43200,re_zeta(tidx)./max(abs(re_zeta(tidx))),'LineWidth',2,'Color',green);
 grid on;grid minor;
-l5 = legend([l5w,l5b,l5z],'Vertical velocity $w^\prime$','Buoyancy perturbation $b^\prime$','Horizontal vorticity $\zeta$','interpreter','latex','Position',[0.0598 0.2171 0.2225 0.0668]);
+l5 = legend([l5w,l5u,l5b,l5z],'Slope-normal velocity $w^\prime$','Along-canyon velocity perturbation $u^\prime$','Buoyancy perturbation $b^\prime$','Horizontal vorticity perturbation $\zeta$','interpreter','latex','Position', [0.0691 0.1988 0.3114 0.0877]);
 % l5 = legend('Buoyancy perturbation','Vertical velocity','interpreter','latex','Position',[0.07 0.2265 0.2063 0.0458]);
 legend('boxoff') 
 xlabel('Time (tidal cycles)','interpreter','latex')
@@ -332,7 +333,7 @@ l63 = legend(ah2,luB0x_lwBz, ...
 legend('boxoff') 
 
 
-% print('-dpng','-r300','fig4/fig4_matlab.png');
+print('-dpng','-r300','fig4/fig4_matlab.png');
 
 
 

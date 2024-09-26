@@ -1,1 +1,1 @@
-rsync -av --update --exclude "test" --exclude "*txt" --exclude "products" --exclude "exp*" --exclude "*.mat" --exclude "backup*" ../instability_rotating/* ysi@derecho.hpc.ucar.edu:/glade/derecho/scratch/ysi/MITgcm_shear_convec/instability_rotating/.
+rsync -av --update --exclude "*wrong" --exclude "test" --exclude "*txt" --exclude "products" --exclude "exp*" --exclude "*.mat" --exclude "backup*" ../instability_rotating/* ysi@derecho.hpc.ucar.edu:/glade/derecho/scratch/ysi/MITgcm_shear_convec/instability_rotating/.

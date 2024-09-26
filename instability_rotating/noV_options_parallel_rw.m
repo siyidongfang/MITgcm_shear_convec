@@ -2,7 +2,7 @@
 %%%%% All variables are dimensional variables
 clear; close all;
 
-constants_topo
+noV_constants
 
 m0 = m0_rw;
 
@@ -35,7 +35,7 @@ for ns =1:Ns
             initialize(shear,h_shear,kx,m0,Diffusion,nu,NTtide,Ptide,nt_percycle,omega,ConvectiveAdjustment,b0);
 
         [grow,vvel,buoy,zeta,psi,www,uuu,re_buoy,re_uuu,re_www,ct,st,mz_t,angle_front,a1_t,ke_nond,grav,pe_nond,fit_span,xxplot,yyplot,pp,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert]...
-        =loop(grow,j,NTtide,kappa_const,dt,Nt,dvdt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,f,tt,buoy,vvel,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert);
+        =loop_noV(grow,j,NTtide,kappa_const,dt,Nt,dvdt,dbdt,dzetadt,omega,m0,rs,kx,shear,ss,cs,N,kappa,nu,f,tt,buoy,vvel,zeta,Diffusion,ConvectiveAdjustment,dbdz_vert,dBdz_vert,dB0dz_vert,dbtotaldz_vert);
 
         % if(grow_ke(j)>0)
         %     NTtide = NT1;

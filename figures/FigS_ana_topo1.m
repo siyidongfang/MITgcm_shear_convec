@@ -64,7 +64,7 @@ l1 = plot(tt_hat/2/pi,sigma1_imag,'LineWidth',2,'Color',brown);
 l2 = plot(tt_hat/2/pi,sigma_new(o,:),'LineWidth',2,'Color',pink);
 l3 = plot(tt_hat/2/pi,sigma1_imag_harmonic(o)*ones(1,length(tt_hat)),'--','LineWidth',2,'Color',yellow);
 set(gca,'YScale', 'log');
-legend([l1 l2 l3],'$\sigma(\hat t)$','Idealized $\sigma$ ($\omega_1$, $\omega_2$ and $\omega_3$)','Harmonic mean of $\sigma(\hat t)$','Interpreter','latex','FontSize',fontsize+4,'Position', [0.0506 0.7806 0.1890 0.0805]);
+legend([l1 l2 l3],'$\sigma(\hat t)$','Idealized $\sigma$ ($\omega_1$, $\omega_2$ and $\omega_3$)','$\overline{\sigma}^\mathrm{hm}$, harmonic mean of $\sigma(\hat t)$','Interpreter','latex','FontSize',fontsize+4,'Position', [0.0644 0.7776 0.1890 0.0805]);
 legend('boxoff')
 ylim([1e-4 10])
 grid on;grid minor;set(gca,'FontSize',fontsize)
