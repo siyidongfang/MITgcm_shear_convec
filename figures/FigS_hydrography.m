@@ -205,7 +205,7 @@ xlim([-9 -3])
 xlabel('$\log(\mathrm{s}^{-2})$','interpreter','latex');
 ylabel('Depth (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize)
-title('$\log(\partial_{\tilde z} b)$','interpreter','latex','Fontsize',fontsize+4);
+title('$\log(\partial_{\tilde z} \mathcal{B})$','interpreter','latex','Fontsize',fontsize+4);
 
 
 print('-dpng','-r300',['fig_supp/figS_hydrography_matlab.png']);

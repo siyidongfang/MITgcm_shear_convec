@@ -54,13 +54,13 @@ annotation('textbox',[0 0.665 0.15 0.01],'String','C','FontSize',fontsize+3,'fon
 pcolor(xplot,zz,uuu(plot_tidx,:)');shading flat;
 set(gca,'Fontsize',fontsize);
 ylabel('HAB (m)','interpreter','latex');
-title('Across-slope velocity perturbation $u^\prime$','Fontsize',fontsize+3,'interpreter','latex');
+title('Along-canyon velocity perturbation $u^\prime$','Fontsize',fontsize+3,'interpreter','latex');
 set(gca,'color',gray);
 aaa = max(max((abs(uuu(plot_tidx,:)))))/DIV;
 clim([-1 1]*aaa)
 xticks(XTICKS)
 h3 = colorbar(ax3,'Position',[0.44 0.4+0.015 0.008 0.19]);
-set(get(h3,'Title'),'String',{'$\ \ \ \ \ (\mathrm{m/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
+set(get(h3,'Title'),'String',{'$\ \ \ \ \ (\mathrm{m/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128-10 0]);
 
 
 
@@ -76,7 +76,7 @@ aaa = max(max((abs(www(plot_tidx,:)))))/DIV;
 clim([-1 1]*aaa)
 xticks(XTICKS)
 h4 = colorbar(ax4,'Position',[0.94 0.4+0.015 0.008 0.19]);
-set(get(h4,'Title'),'String',{'$\ \ \ \ \ (\mathrm{m/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
+set(get(h4,'Title'),'String',{'$\ \ \ \ \ (\mathrm{m/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128-10 0]);
 
 
 

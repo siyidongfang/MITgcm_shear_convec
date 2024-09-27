@@ -81,7 +81,7 @@ ylabel('$m_0/k_0$','Interpreter','latex')
 title(strn,'Interpreter','latex','FontSize',fontsize+5)
 % clim([0 0.4])
 xlim([0 9])
-% ylim([0 450])
+ylim([0 450])
 set(gca,'TickDir','out');
 grid on;grid minor;
 
