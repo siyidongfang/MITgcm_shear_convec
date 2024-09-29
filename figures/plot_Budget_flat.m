@@ -10,7 +10,7 @@ set(gcf,'Color','w');
 scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
 
-load('../instability_km/budget/flat_output_R3.mat')
+load('../instability_km/budget/flat_output_Ri3.mat')
 
 
 tidx = nt_percycle*5+1:nt_percycle*7;
@@ -126,4 +126,4 @@ title('Normalized perturbations','interpreter','latex','Fontsize',fontsize+5);
 % title('Normalized perturbations','interpreter','latex','Fontsize',fontsize+5);
 ylim([-1 1.3])
 
-print('-dpng','-r300',['fig_supp_new/budget_flat_R3_2.png']);
+% print('-dpng','-r300',['fig_supp_new/budget_flat_R3_2.png']);

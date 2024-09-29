@@ -7,11 +7,12 @@ Nend = Nall/140*2;
 u = re_uuu(1:Nend);
 w = re_www(1:Nend);
 t = tt(1:Nend);
+bb = re_buoy(1:Nend);
 u_int = cumsum(u.*t);
 w_int = cumsum(w.*t);
 
 t_plot = tt(1:Nall/140);
-t_plot = [t_plot t_plot]
+t_plot = [t_plot t_plot];
 
 figure(1);clf;
 plot(t,w_int)
