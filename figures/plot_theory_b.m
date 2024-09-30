@@ -40,7 +40,7 @@ ylabel('$b^\prime/b^\prime_0$','Interpreter','latex')
 set(gca,'Fontsize',fontsize)
 title('Normalized buoyancy perturbation','Interpreter','latex','Fontsize',fontsize+5)
 
-print('-dpng','-r300',['fig_supp_new/theory1.png']);
+% print('-dpng','-r300',['fig_supp_new/theory1.png']);
 
 % figure(2)
 % plot(angle/2/pi*12,bb)
@@ -91,7 +91,7 @@ set(gca,'Fontsize',fontsize)
 title('Normalized buoyancy perturbation','Interpreter','latex','Fontsize',fontsize+5)
 
 
-print('-dpng','-r300',['fig_supp_new/theory2.png']);
+% print('-dpng','-r300',['fig_supp_new/theory2.png']);
 
 
 
@@ -145,7 +145,7 @@ set(gca,'Fontsize',fontsize)
 title('Normalized buoyancy perturbation','Interpreter','latex','Fontsize',fontsize+5)
 
 
-print('-dpng','-r300',['fig_supp_new/theory3.png']);
+% print('-dpng','-r300',['fig_supp_new/theory3.png']);
 
 
 

@@ -9,8 +9,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
     = setParams(exp_name,inputpath,codepath,imgpath,listterm,Nx,Ny,Nr,Atide,randtopog_height,randtopog_length,run_type,Shear)
 
   FigureIsVisible = true;
-  useLinearShear = true;
-  useTanhShear = false;
+  useLinearShear = false;
+  useTanhShear = true;
 
   addpath ../utils/;
   addpath ../newexp_utils/;
@@ -1038,10 +1038,10 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 %%
   if(useTanhShear)
       %%% Zero velocity at sea floor
-      vrelax = h_shear*Shear *(1+ tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
+      % vrelax = h_shear*Shear *(1+ tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
       
       % %%% Zero velocity at center
-      % vrelax = h_shear*Shear *(   tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
+      vrelax = h_shear*Shear *(   tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
   end
 
 %%

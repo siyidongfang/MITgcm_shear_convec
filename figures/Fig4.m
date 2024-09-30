@@ -52,6 +52,15 @@ grid on;grid minor;
 load('../instability_km/exps_new/topo0_nu0_output.mat')
 load('fig4/Ri_flat.mat')
 
+load('fig4/MIT_flat_kv5e-6_tt_tanh_zeroCenter.mat')
+grow_gcm_tanh_0Center = growth_MITgcm;
+shear_gcm_tanh_0Center = shear_MITgcm;
+for i=1:length(shear_gcm_tanh_0Center)
+    [a(i) b(i)] = min(abs(shear_gcm_tanh_0Center(i)-shear_calc_Ri));
+    Ri_gcm_tanh_0Center(i) = Ri_min(b(i));
+end
+clear growth_MITgcm shear_MITgcm
+
 load('fig4/MIT_tanh_topo0_kv5e-6_tt.mat')
 grow_gcm_tanh = growth_MITgcm;
 shear_gcm_tanh = shear_MITgcm;
@@ -83,17 +92,22 @@ for i=1:length(shear_all)
     Ri_km(i) = Ri_min(b(i));
 end
 
+
+
 ax2 = subplot('position',[.57 .74 0.4 0.225]);
 annotation('textbox',[0.538+0.02 0.996 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
+scatter(1./Ri_gcm,growth_MITgcm,50,'^','MarkerEdgeColor',blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
 scatter(1./Ri_gcm_tanh,grow_gcm_tanh,50,black,'LineWidth',2);
+scatter(1./Ri_gcm_tanh_0Center,grow_gcm_tanh_0Center,50,'+','MarkerEdgeColor',yellow,'LineWidth',2);
 plot(1./Ri_km_diff,max_grow,'-','LineWidth',2,'Color',green);
 plot(1./Ri_km,max_grow_km,'--','LineWidth',2,'Color',darkgray);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-l1 = legend('MITgcm: linear shear', 'MITgcm: tanh shear','Linear theory: viscous', 'Linear theory: inviscid','Position',[0.5734 0.8749 0.2033 0.0877],'interpreter','latex');
+l1 = legend('MITgcm: linear shear', 'MITgcm: tanh shear, zero bottom','MITgcm: tanh shear, zero center',...
+    'Linear theory: viscous', 'Linear theory: inviscid','Position', [0.5692 0.8589 0.2854 0.1087],'interpreter','latex');
+legend('boxoff')
 set(gca,'Fontsize',fontsize);
 xlim([0 8])
 % ylim([-1e-3 0.4])
@@ -123,7 +137,7 @@ box on;
 
 
 %%
-clear growth_MITgcm max_grow_rw Ri_gcm Ri_km shear_MITgcm shear_all shear_calc_Ri
+clear growth_MITgcm max_grow_rw Ri_gcm Ri_gcm_tanh Ri_km shear_MITgcm shear_all shear_calc_Ri Ri_gcm_tanh_0Center
 %--- topo = 4 degrees
 % load('../instability_km/exps_new/topo4_nu0_output.mat')
 load('../instability_km/exps_new/topo4_nu0_large_shearoutput.mat')
@@ -132,28 +146,59 @@ load('fig4/Ri_topo4.mat')
 lam_x_real = lam_x_real/6;
 max_grow_rw = max(grow_rw,[],2);
 
-load('fig4/MIT_zeroCenter_tanh_topo4_kv5e-6_tt.mat')
-grow_gcm_tanh = growth_MITgcm;
-shear_gcm_tanh = shear_MITgcm;
-for i=1:length(shear_gcm_tanh)
-    [a(i) b(i)] = min(abs(shear_MITgcm(i)-shear_calc_Ri));
-    Ri_gcm_tanh(i) = Ri_min(b(i));
-end
-clear growth_MITgcm shear_MITgcm
+% load('fig4/MIT_zeroCenter_tanh_topo4_kv5e-6_tt.mat')
+% grow_gcm_tanh = growth_MITgcm;
+% shear_gcm_tanh = shear_MITgcm;
+% for i=1:length(shear_gcm_tanh)
+%     [a(i) b(i)] = min(abs(shear_MITgcm(i)-shear_calc_Ri));
+%     Ri_gcm_tanh(i) = Ri_min(b(i));
+% end
+% clear growth_MITgcm shear_MITgcm
 
 
-load('fig4/MIT_topo4_kv5e-6_tt.mat')
-
-for i=1:length(shear_MITgcm)
-    if(shear_MITgcm(i)>shear_convec)
-        shear_MITgcm(i)=NaN;
-        growth_MITgcm(i)=NaN;
-        Ri_gcm(i)=NaN;
+% load('fig4/MIT_topo4_kv5e-6_tt.mat')
+load('fig4/MITtopo4_kv1e-5_tt.mat')
+shear_gcm_linear = shear_MITgcm;
+grow_gcm_linear = growth_MITgcm;
+for i=1:length(shear_gcm_linear)
+    if(shear_gcm_linear(i)>shear_convec)
+        shear_gcm_linear(i)=NaN;
+        grow_gcm_linear(i)=NaN;
+        Ri_gcm_linear(i)=NaN;
     else
-        [a(i) b(i)] = min(abs(shear_MITgcm(i)-shear_calc_Ri));
-        Ri_gcm(i) = Ri_min(b(i));
+        [a(i) b(i)] = min(abs(shear_gcm_linear(i)-shear_calc_Ri));
+        Ri_gcm_linear(i) = Ri_min(b(i));
     end
 end
+
+load('fig4/MITtopo4_kv1e-5_tt_tanh.mat')
+shear_gcm_tanh = shear_MITgcm;
+grow_gcm_tanh = growth_MITgcm;
+for i=1:length(shear_gcm_tanh)
+    if(shear_gcm_tanh(i)>shear_convec)
+        shear_gcm_tanh(i)=NaN;
+        grow_gcm_tanh(i)=NaN;
+        Ri_gcm_tanh(i)=NaN;
+    else
+        [a(i) b(i)] = min(abs(shear_gcm_tanh(i)-shear_calc_Ri));
+        Ri_gcm_tanh(i) = Ri_min(b(i));
+    end
+end
+
+load('fig4/MITtopo4_kv1e-5_tt_tanh_zeroCenter.mat')
+shear_gcm_tanh_0Center = shear_MITgcm;
+grow_gcm_tanh_0Center = growth_MITgcm;
+for i=1:length(shear_gcm_tanh_0Center)
+    if(shear_gcm_tanh_0Center(i)>shear_convec)
+        shear_gcm_tanh_0Center(i)=NaN;
+        grow_gcm_tanh_0Center(i)=NaN;
+        Ri_gcm_tanh_0Center(i)=NaN;
+    else
+        [a(i) b(i)] = min(abs(shear_gcm_tanh_0Center(i)-shear_calc_Ri));
+        Ri_gcm_tanh_0Center(i) = Ri_min(b(i));
+    end
+end
+
 
 for i=1:length(shear_all)
     [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
@@ -205,16 +250,18 @@ max_grow_km = max(grow_rw,[],2);
 
 ax4 = subplot('position',[.57 .40 0.4 0.225]);
 annotation('textbox',[0.538+0.02 0.65 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-scatter(1./Ri_gcm,growth_MITgcm,36,blue,'LineWidth',2);
+scatter(1./Ri_gcm_linear,grow_gcm_linear,50,'^','MarkerEdgeColor',blue,'LineWidth',2);
 grid on;grid minor;
 hold on;
-% scatter(1./Ri_gcm_tanh,grow_gcm_tanh,50,black,'LineWidth',2);
+scatter(1./Ri_gcm_tanh,grow_gcm_tanh,50,black,'LineWidth',2);
+scatter(1./Ri_gcm_tanh_0Center,grow_gcm_tanh_0Center,50,'+','MarkerEdgeColor',yellow,'LineWidth',2);
 plot(1./Ri_km_diff,max_grow,'-','LineWidth',2,'Color',green);
 plot(1./Ri_km,max_grow_km,'--','LineWidth',2,'Color',darkgray);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-% l4 = legend('MITgcm: linear shear','MITgcm: tanh shear','Linear theory: viscous','Linear theory: inviscid','Position',[0.58 0.57 0.1871 0.0458],'interpreter','latex');
-l4 = legend('MITgcm: linear shear','Linear theory: viscous','Linear theory: inviscid','Position',[0.5751 0.5517 0.2033 0.0668],'interpreter','latex');
+l4 = legend('MITgcm: linear shear','MITgcm: tanh shear, zero bottom','MITgcm: tanh shear, zero center',...
+    'Linear theory: viscous','Linear theory: inviscid','Position',[0.5761 0.5108 0.2854 0.1087],'interpreter','latex');
+legend('boxoff')
 set(gca,'Fontsize',fontsize);
 % xlim([0 5.2])
 xlim([0 8])
@@ -333,7 +380,7 @@ l63 = legend(ah2,luB0x_lwBz, ...
 legend('boxoff') 
 
 
-print('-dpng','-r300','fig4/fig4_matlab.png');
+% print('-dpng','-r300','fig4/fig4_matlab.png');
 
 
 

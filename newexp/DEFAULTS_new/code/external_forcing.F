@@ -193,8 +193,8 @@ C      topog_slope = 4.d0
       temp_Alpha = 2.0e-4
       Tref_const = 0.d0
 
-      useLinearShear = .TRUE.
-      useTanhShear = .FALSE.
+      useLinearShear = .FALSE.
+      useTanhShear = .TRUE.
 
       amp_tide = u_shear * h_shear
 
@@ -208,9 +208,9 @@ C----------begin if useTanhShear----------
       if(useTanhShear) then
       Hmax = 800.0
 C--      zero velocity at sea floor
-      shearRatio=(1+tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
+C      shearRatio=(1+tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
 C--      zero velocity at center
-C      shearRatio=( tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
+      shearRatio=( tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
       end if
 C----------end if useTanhShear------------
 
