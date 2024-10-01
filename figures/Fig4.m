@@ -146,29 +146,20 @@ load('fig4/Ri_topo4.mat')
 lam_x_real = lam_x_real/6;
 max_grow_rw = max(grow_rw,[],2);
 
-% load('fig4/MIT_zeroCenter_tanh_topo4_kv5e-6_tt.mat')
-% grow_gcm_tanh = growth_MITgcm;
-% shear_gcm_tanh = shear_MITgcm;
-% for i=1:length(shear_gcm_tanh)
-%     [a(i) b(i)] = min(abs(shear_MITgcm(i)-shear_calc_Ri));
-%     Ri_gcm_tanh(i) = Ri_min(b(i));
-% end
-% clear growth_MITgcm shear_MITgcm
-
 
 % load('fig4/MIT_topo4_kv5e-6_tt.mat')
 load('fig4/MITtopo4_kv1e-5_tt.mat')
 shear_gcm_linear = shear_MITgcm;
 grow_gcm_linear = growth_MITgcm;
 for i=1:length(shear_gcm_linear)
-    if(shear_gcm_linear(i)>shear_convec)
-        shear_gcm_linear(i)=NaN;
-        grow_gcm_linear(i)=NaN;
-        Ri_gcm_linear(i)=NaN;
-    else
+    % if(shear_gcm_linear(i)>shear_convec)
+    %     shear_gcm_linear(i)=NaN;
+    %     grow_gcm_linear(i)=NaN;
+    %     Ri_gcm_linear(i)=NaN;
+    % else
         [a(i) b(i)] = min(abs(shear_gcm_linear(i)-shear_calc_Ri));
         Ri_gcm_linear(i) = Ri_min(b(i));
-    end
+    % end
 end
 
 load('fig4/MITtopo4_kv1e-5_tt_tanh.mat')
@@ -176,14 +167,8 @@ load('fig4/MITtopo4_kv1e-5_tt_tanh.mat')
 shear_gcm_tanh = shear_MITgcm;
 grow_gcm_tanh = growth_MITgcm;
 for i=1:length(shear_gcm_tanh)
-    if(shear_gcm_tanh(i)>shear_convec)
-        shear_gcm_tanh(i)=NaN;
-        grow_gcm_tanh(i)=NaN;
-        Ri_gcm_tanh(i)=NaN;
-    else
-        [a(i) b(i)] = min(abs(shear_gcm_tanh(i)-shear_calc_Ri));
-        Ri_gcm_tanh(i) = Ri_min(b(i));
-    end
+    [a(i) b(i)] = min(abs(shear_gcm_tanh(i)-shear_calc_Ri));
+    Ri_gcm_tanh(i) = Ri_min(b(i));
 end
 
 load('fig4/MITtopo4_kv1e-5_tt_tanh_zeroCenter.mat')
@@ -191,15 +176,18 @@ load('fig4/MITtopo4_kv1e-5_tt_tanh_zeroCenter.mat')
 shear_gcm_tanh_0Center = shear_MITgcm;
 grow_gcm_tanh_0Center = growth_MITgcm;
 for i=1:length(shear_gcm_tanh_0Center)
-    if(shear_gcm_tanh_0Center(i)>shear_convec)
-        shear_gcm_tanh_0Center(i)=NaN;
-        grow_gcm_tanh_0Center(i)=NaN;
-        Ri_gcm_tanh_0Center(i)=NaN;
-    else
-        [a(i) b(i)] = min(abs(shear_gcm_tanh_0Center(i)-shear_calc_Ri));
-        Ri_gcm_tanh_0Center(i) = Ri_min(b(i));
-    end
+    [a(i) b(i)] = min(abs(shear_gcm_tanh_0Center(i)-shear_calc_Ri));
+    Ri_gcm_tanh_0Center(i) = Ri_min(b(i));
 end
+
+
+
+load('../instability/products/GrowthRate_exps_linear_dz0.5.mat')
+for i=1:length(shear_Floquet)
+    [a(i) b(i)] = min(abs(shear_Floquet(i)-shear_calc_Ri));
+    Ri_Floquet(i) = Ri_min(b(i));
+end
+
 
 
 for i=1:length(shear_all)
@@ -259,6 +247,7 @@ scatter(1./Ri_gcm_tanh,grow_gcm_tanh,50,black,'LineWidth',2);
 scatter(1./Ri_gcm_tanh_0Center,grow_gcm_tanh_0Center,50,'+','MarkerEdgeColor',yellow,'LineWidth',2);
 plot(1./Ri_km_diff,max_grow,'-','LineWidth',1.5,'Color',green);
 plot(1./Ri_km,max_grow_km,'--','LineWidth',2,'Color',darkgray);
+% plot(1./Ri_Floquet,growth_Floquet,':','LineWidth',2,'Color',orange);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 l4 = legend('MITgcm: linear shear','MITgcm: tanh shear, zero bottom','MITgcm: tanh shear, zero center',...

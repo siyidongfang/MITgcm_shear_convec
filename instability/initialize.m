@@ -3,25 +3,25 @@ function [dt,Nt,tt,psi,zeta,buoy,p0,b0,z0,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4,..
             dbdt,dzetadt,b0_wgrid,dbdz,d2bdz2,d2zetadz2,dpsidz,dUdz,U,U_wgrid] ...
             = initialize(Umax,lambda,Ptide,USEdiffusion,nu,dz,Lt,Nr)
 
-        %%% Estimate time step
-        CFLx = 0.5;
-        if(Umax~=0)
-            dt_cfl = CFLx/Umax*lambda;   % The time step required to satisfy the CFL consition
-        else
-            dt_cfl = CFLx/0.0001*lambda;
-        end
+        % %%% Estimate time step
+        % CFLx = 0.8;
+        % if(Umax~=0)
+        %     dt_cfl = CFLx/Umax*lambda;   % The time step required to satisfy the CFL consition
+        % else
+        %     dt_cfl = CFLx/0.0001*lambda;
+        % end
         
-        dt_tide = Ptide/(72*5);       % The time step required to resolve tides
-        % dt_tide = Ptide/(72*2);  
-        dt = min([dt_tide dt_cfl]);
+        dt_tide = Ptide/(72*10);       % The time step required to resolve tides
+        % dt = min([dt_tide dt_cfl]);
+        dt = dt_tide;
         
-        if(USEdiffusion)
-            %%% Time step constraint based on horizontal diffusion 
-            deltaT_Ah = 0.5*(lambda/4)^2/(4*nu);  
-            %%% Time step constraint based on vertical diffusion
-            deltaT_Ar = 0.5*dz^2 / (4*nu);
-            dt = min([dt_tide dt_cfl deltaT_Ah deltaT_Ar])
-        end
+        % if(USEdiffusion)
+        %     %%% Time step constraint based on horizontal diffusion 
+        %     deltaT_Ah = 0.5*(lambda/4)^2/(4*nu);  
+        %     %%% Time step constraint based on vertical diffusion
+        %     deltaT_Ar = 0.5*dz^2 / (4*nu);
+        %     dt = min([dt_tide dt_cfl deltaT_Ah deltaT_Ar])
+        % end
         
         Nt = round(Lt/dt);
         tt = dt:dt:Nt*dt;

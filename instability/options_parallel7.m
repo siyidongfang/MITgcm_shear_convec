@@ -6,8 +6,8 @@
 clear all;
 close all;
 
-exppath = 'new_topo4_tanh/';
-constants_tanh;
+exppath = 'new_flat_linear/';
+constants_linear_flat;
 
 parfor Nexp_lambda =1:length(lambda_parm)
     lambda = lambda_parm(Nexp_lambda);

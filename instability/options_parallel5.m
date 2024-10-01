@@ -6,19 +6,16 @@
 clear all;
 close all;
 
-% exppath = 'exps_tanh_ZeroBot_dz0.5/';
-exppath = 'exps_linear_dz0.5/';
-constants;
+exppath = 'new_topo4_0Center/';
+constants_tanh;
 
 parfor Nexp_lambda =1:length(lambda_parm)
-% parfor Nexp_lambda =10:11
     lambda = lambda_parm(Nexp_lambda);
     kx = 2*pi/lambda;
     expfolder = [exppath 'lambda' num2str(lambda) '/']
     mkdir(expfolder); 
 
-    % for Nexp_shear =1:length(Shear_parm)
-    for Nexp_shear =17:19
+    for Nexp_shear =1:length(Shear_parm)
 
         Shear = Shear_parm(Nexp_shear)
         
@@ -45,14 +42,14 @@ parfor Nexp_lambda =1:length(lambda_parm)
             Umax = h_shear * Shear;
         end
         if(useTanhShear)
-            %%% Zero velocity at sea floor
-            Atide = h_shear*Shear *(1+ tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
-            Atide_wgrid = h_shear*Shear *(1+ tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
-            Umax = h_shear * Shear;
+            % %%% Zero velocity at sea floor
+            % Atide = h_shear*Shear *(1+ tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
+            % Atide_wgrid = h_shear*Shear *(1+ tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
+            % Umax = h_shear * Shear;
             %%% Zero velocity at center
-            % Atide = h_shear*Shear *(tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
-            % Atide_wgrid = h_shear*Shear *(tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
-            % Umax = h_shear * Shear /2;
+            Atide = h_shear*Shear *(tanh( (zz  -Hmax/2) / (h_shear/2) )) /2;
+            Atide_wgrid = h_shear*Shear *(tanh( (zz_wgrid  -Hmax/2) / (h_shear/2) )) /2;
+            Umax = h_shear * Shear /2;
         end
         dAdz = diff(Atide_wgrid)/dz;
 
@@ -166,7 +163,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
         zq3_int = real((sum(zq3(:,zidx_q),2)))';
         zq4_int = real((sum(zq4(:,zidx_q),2)))';
 
-        fit_span = round(Nt/NTtide*15)+1:Nt-1;
+        fit_span = round(Nt/NTtide*5)+1:Nt-1;
         
         % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
         TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);

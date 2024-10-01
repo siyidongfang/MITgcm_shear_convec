@@ -1,19 +1,21 @@
 
     addpath ../analysis/colormaps/    
-    Shear_parm = ([0:0.1:4.0])*1e-3;
-    lambda_parm = [50 75:25:1000 1050:50:2000 2200:200:3000 3500 4000 4500 5000 7500 10000]; 
+    Shear_parm = ([0.1:0.1:2.8])*1e-3;    %%% flat
+    % Shear_parm = ([0.1:0.1:2.0 2.07])*1e-3; %%% topo4
+    lambda_parm = [50:25:1000 1100:100:2000 2200:200:3000 3500:500:7500 7500:1000:12500]*2; 
     % lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
     lambda_parm = flip(lambda_parm);
-    lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
+    lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.7]) 3 1 0.1 0.01 0.001 0.0001]*2;
+    lambda_parm = flip(lambda_parm);
 
     % lambda_parm = lambda_parm(42:82);
 
-    Ptide_parm = [0.5:0.5:5 10000]*43200;
-    topo_parm = [1e-20 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20];
-    N_parm = [1e-20 0.01 0.05 0.1 0.25 0.5 0.75 1 2 3 4 5 6 7 8 9 10]*1e-3;
+    % Ptide_parm = [0.5:0.5:5 10000]*43200;
+    % topo_parm = [1e-20 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20];
+    % N_parm = [1e-20 0.01 0.05 0.1 0.25 0.5 0.75 1 2 3 4 5 6 7 8 9 10]*1e-3;
     
-    useLinearShear = true;
-    useTanhShear = false;
+    useLinearShear = false;
+    useTanhShear = true;
     USEdiffusion = true;  %%% Add diffusion/dissipation
  
     fontsize = 16;
@@ -22,16 +24,17 @@
     m1km = 1000;
     
     N = 1e-3;
-    topo = 4;
+    topo = 0;
     Ptide = 43200;
     omega = 2*pi/Ptide;
-    NTtide = 10;
+    NTtide = 30;
     Lt = NTtide*Ptide; 
     
     h_shear = 250;
-    dz = 1;      
+        
     
     if(useLinearShear)
+        dz = 1;  
         Hmax = h_shear;
         Nr = round(Hmax/dz);
         zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   
@@ -39,6 +42,7 @@
     end
     
     if(useTanhShear)
+        dz = 2; 
         Hmax = h_shear+250;
         Nr = round(Hmax/dz);
         zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   
@@ -48,8 +52,8 @@
     zspan = [0 Hmax];
 
     if(USEdiffusion)
-        nu = 2e-6; 
-        kappa = 2e-6;
+        nu = 1e-6; 
+        kappa = 1e-6;
         % nu = 2e-4; 
         % kappa = 2e-4;
     else

@@ -15,24 +15,40 @@ for i=1:length(shear_all)
 end
 
 load('GrowthRate_tanh_ZeroCenter_dz2.mat')
+grow_Floquet_0Center = growth_Floquet;
 for i=1:length(shear_Floquet)
     [a(i) b(i)] = min(abs(shear_Floquet(i)-shear_calc_Ri));
-    Ri_Flo(i) = Ri_min(b(i));
+    Ri_Flo_0Center(i) = Ri_min(b(i));
 end
+clear shear_Floquet growth_Floquet
 
-figure(1)
-plot(1./Ri_Flo,growth_Floquet)
+figure(10)
+plot(1./Ri_Flo_0Center,grow_Floquet_0Center)
 hold on;
 plot(1./Ri_km,max_grow)
 xlim([0 4])
 
-
+%%
 load('GrowthRate_tanh_BottomCenter_dz2.mat')
-plot(1./Ri_Flo,growth_Floquet,'--')
+grow_Floquet_tanh = growth_Floquet;
+for i=1:length(shear_Floquet)
+    [a(i) b(i)] = min(abs(shear_Floquet(i)-shear_calc_Ri));
+    Ri_Flo_tan(i) = Ri_min(b(i));
+end
+clear shear_Floquet growth_Floquet
+plot(1./Ri_Flo_tan,grow_Floquet_tanh,'--')
 
 
 load('GrowthRate_exps_linear_dz0.5.mat')
-plot(1./Ri_Flo,growth_Floquet,':')
+grow_Floquet_linear = growth_Floquet;
+% load('GrowthRate_exps_linear.mat')
+% grow_Floquet_linear = GrowthRate_KE;
+for i=1:length(shear_Floquet)
+    [a(i) b(i)] = min(abs(shear_Floquet(i)-shear_calc_Ri));
+    Ri_Flo_linear(i) = Ri_min(b(i));
+end
+clear shear_Floquet growth_Floquet
+plot(1./Ri_Flo_linear,grow_Floquet_linear,':')
 
 
 

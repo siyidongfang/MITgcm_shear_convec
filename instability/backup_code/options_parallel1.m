@@ -6,16 +6,19 @@
 clear all;
 close all;
 
-exppath = 'new_topo4_tanh/';
-constants_tanh;
+exppath = 'exps_new/'
+constants;
 
-parfor Nexp_lambda =1:length(lambda_parm)
+% parfor Nexp_lambda =1:length(lambda_parm)
+% parfor Nexp_lambda =10:11
+for Nexp_lambda =3
     lambda = lambda_parm(Nexp_lambda);
     kx = 2*pi/lambda;
     expfolder = [exppath 'lambda' num2str(lambda) '/']
     mkdir(expfolder); 
 
-    for Nexp_shear =1:length(Shear_parm)
+    % for Nexp_shear =1:length(Shear_parm)
+    for Nexp_shear =15
 
         Shear = Shear_parm(Nexp_shear)
         
@@ -163,7 +166,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
         zq3_int = real((sum(zq3(:,zidx_q),2)))';
         zq4_int = real((sum(zq4(:,zidx_q),2)))';
 
-        fit_span = round(Nt/NTtide*5)+1:Nt-1;
+        fit_span = round(Nt/NTtide*15)+1:Nt-1;
         
         % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
         TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
