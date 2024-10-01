@@ -3,18 +3,18 @@
 clear all;
 close all;
 
-Shear_parm = ([0:0.1:2.0])*1e-3;
-lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
+Shear_parm = ([0.1:0.1:2.0 2.07])*1e-3; %%% topo4
+lambda_parm = [50:25:700 750:50:1000 1200:200:2000 2400:400:3200 4000:1000:8000 10000:2000:12000]; 
 lambda_parm = flip(lambda_parm);
-lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
+lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.7]) 3];
 
-exppath = 'exps_linear/';
+exppath = 'new_topo4_linear/';
 
-topo = 0;
+topo = 4;
 Hmax = 250;
 N = 1e-3;
 
-for Nexp_lambda =40:length(lambda_parm)
+for Nexp_lambda =1:length(lambda_parm)
     lambda = lambda_parm(Nexp_lambda)
     expfolder = [exppath 'lambda' num2str(lambda) '/'];
 

@@ -3,19 +3,18 @@ close all;
 clear;
 fontsize = 22;
 
-dirname = 'exps_linear_dz0.5';
+dirname = 'new_topo4_linear';
 expfolder = [dirname '/lambda'];
-Shear_parm = ([0:0.1:2.0])*1e-3;
-lambda_parm = [50 75:25:1000 1050:50:2000 2200:200:3000 3500 4000 4500 5000 7500 10000]; 
-% lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
+% Shear_parm = ([0.1:0.1:2.8])*1e-3;    %%% flat
+Shear_parm = ([0.1:0.1:2.0 2.07])*1e-3; %%% topo4
+lambda_parm = [50:25:700 750:50:1000 1200:200:2000 2400:400:3200 4000:1000:8000 10000:2000:12000]; 
 lambda_parm = flip(lambda_parm);
-lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.5])];
+lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.7]) 3];
 
 GrowthRate = NaN.*zeros(length(lambda_parm),length(Shear_parm));
 grow =  NaN.*zeros(1,length(Shear_parm));
 
-% for Nexp_lambda = 8:length(lambda_parm)
-for Nexp_lambda=44:60
+for Nexp_lambda = 1:length(lambda_parm)
     Nexp_lambda
     lambda = lambda_parm(Nexp_lambda);
     grow = zeros(1,length(Shear_parm));
@@ -24,7 +23,7 @@ for Nexp_lambda=44:60
         Nexp_shear
         Shear = Shear_parm(Nexp_shear);
 
-        expname = ['topo0_H250_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
+        expname = ['topo4_H250_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
         expdir = [expfolder num2str(lambda) '/' expname];
         % clear uuu www psi NTtide tt Nr Nt Utide tt t1hour zz fit_span
 
@@ -111,7 +110,7 @@ title('Growth rate (1/hour)')
 ylabel('log_{10}(\lambda_x) (m)')
 
 GrowthRate_Floquet(isnan(GrowthRate_Floquet)) = 0;
-for ns = 1:21
+for ns = 1:length(shear_Floquet)
     [a(ns) b(ns)] = max(GrowthRate_Floquet(:,ns));
 end
 
