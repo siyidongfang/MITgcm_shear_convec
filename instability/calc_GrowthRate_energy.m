@@ -14,7 +14,7 @@ lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.7]) 3];
 GrowthRate = NaN.*zeros(length(lambda_parm),length(Shear_parm));
 grow =  NaN.*zeros(1,length(Shear_parm));
 
-for Nexp_lambda = 1:length(lambda_parm)
+parfor Nexp_lambda = 1:length(lambda_parm)
     Nexp_lambda
     lambda = lambda_parm(Nexp_lambda);
     grow = zeros(1,length(Shear_parm));
@@ -30,12 +30,12 @@ for Nexp_lambda = 1:length(lambda_parm)
         fname = [expdir 'output.mat'];
         if(isfile(fname))
             
-            load([expdir 'output.mat'])
-            make_figures
-            % [www re_psi NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(fname);
-            uuu = (re_psi(:,2:Nr+1)-re_psi(:,1:Nr))/dz;
+            % load([expdir 'output.mat'],'Nt','Nr','NTtide','uuu','www','re_buoy','nu','kappa','t1hour','tt')
+            % make_figures
+             [www uuu NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(fname);
+            % uuu = (re_psi(:,2:Nr+1)-re_psi(:,1:Nr))/dz;
             
-            fit_span = round(Nt/NTtide*20):Nt-1;
+            fit_span = round(Nt/NTtide*3):Nt-1;
 
             % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 pp S 
             TKE = 1/4*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
@@ -174,10 +174,10 @@ save(['GrowthRate_' dirname '.mat'],'a','b','lambda_Floquet','growth_Floquet','s
 % GrowthRate(5,Nexp_lambda,Nexp_shear) = p(1);
 
 
-function [www re_psi NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(file)
+function [www uuu NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(file)
         S = load( file );
         www = S.www;
-        re_psi = S.re_psi;
+        uuu = S.uuu;
         NTtide = S.NTtide;
         Nr = S.Nr;
         Nt = S.Nt;

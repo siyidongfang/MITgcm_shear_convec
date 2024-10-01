@@ -33,8 +33,8 @@ nDumps = length(dumpIters);
 
 %--- snapshots
 % o = 12*26+3;
-% o = 12*20+3;
-o = 12*15+3;
+o = 12*20+3;
+% o = 12*15+3;
 
 tt = squeeze(rdmds([exppath,'/results/THETA'],dumpIters(o)));
 tt(tt==0)=NaN;
@@ -82,7 +82,7 @@ load('fig2/fig2_new_1.7_kv1e-5.mat')
 YLIM = [0 250];
 % time_tidal=time_h/12;
 
-fit_span = [4*12:9.5*12];
+fit_span = [3.5*12:9.5*12];
 %%% TKE time series
 ax2 = subplot('position',[0.435 0.815 0.505 0.16]);
 annotation('textbox',[0.38 0.993 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
@@ -167,6 +167,8 @@ title('Temperature $T$ (snapshot)','Fontsize',fontsize+4,'interpreter','latex','
 colormap(mycolor);
 freezeColors;
 xticks([-1.5:0.5:1.5])
+xlim([-1.5 1.5])
+
 
 %%% N2 snapshot
 ax7 = subplot('position',[0.57 0.05 0.37 0.18]);
@@ -189,6 +191,7 @@ title('$\partial_{\tilde z} \mathcal B$ (snapshot)','Fontsize',fontsize+4,'inter
 colormap(mycolor);
 freezeColors;
 xticks([-1.5:0.5:1.5])
+xlim([-1.5 1.5])
 
 
 %%% N2
@@ -213,6 +216,7 @@ set(h5,'Position',[0.95    0.3   0.008    0.1]);
 set(get(h5,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'interpreter','latex','FontSize',fontsize);
 xlim(XLIM);
 
+
 %%% Save the figure
 
-% print('-dpng','-r300','fig2/fig2.png');
+print('-dpng','-r300','fig2/fig2.png');

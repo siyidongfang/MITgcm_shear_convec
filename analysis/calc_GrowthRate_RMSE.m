@@ -16,7 +16,7 @@ No =28*12;
 tidx = 1:No;
 
 % fit_span = 9*12+1:No;
-fit_span = 3*12+1:10*12;
+fit_span = 3.5*12+1:9.5*12;
 
 Nt = length(tidx);
 dz = delR(end);
@@ -110,7 +110,7 @@ hold on;
 % ylim([min(min([div_tt_zavg div_uu_zavg])) max(max([div_tt_zavg div_uu_zavg]))])
 
 % ylim([-40 5])
-print('-dpng','-r150',[expdir expname '_rmse_tt.png']);
+print('-dpng','-r150o',[expdir expname '_rmse_tt.png']);
 
 
 
