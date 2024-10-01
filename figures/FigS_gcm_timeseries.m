@@ -16,7 +16,7 @@ scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 800 900]);
 
 ax1 = subplot('position',[0.07 0.85 0.85 0.12]);
-annotation('textbox',[0 0.99 0.15 0.01],'String','a','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.99 0.15 0.01],'String','A','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(tidx,zz-botZ,tt_timeseries');
 hold on;
 contour(tidx,zz-botZ,tt_timeseries',[-0.405:0.015:0.405],'Color',darkgray,'LineWidth',0.5);
@@ -37,7 +37,7 @@ xlim([0 48])
 freezeColors(ax1)
 
 ax2 = subplot('position',[0.07 0.7 0.85 0.12]);
-annotation('textbox',[0 0.84 0.15 0.01],'String','b','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.84 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(tidx,zz-botZ,log10(epsilon_timeseries)');
 hold on;shading flat
 clim([-11 -8])
@@ -54,7 +54,7 @@ xlim([0 48])
 
 
 ax3 = subplot('position',[0.07 0.55 0.85 0.12]);
-annotation('textbox',[0 0.69 0.15 0.01],'String','c','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.69 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(tidx,zz-botZ,log10(chi_timeseries)');
 hold on;shading flat
 clim([-11 -9.4])
@@ -75,7 +75,7 @@ Nplot = N2_timeseries;
 Nplot(N2_timeseries<0)=0;
 Nplot=log10(sqrt(abs(Nplot)));
 ax4 = subplot('position',[0.07 0.4 0.85 0.12]);
-annotation('textbox',[0 0.54 0.15 0.01],'String','d','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.54 0.15 0.01],'String','D','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(tidx,zz-botZ,Nplot');
 shading flat
 hold on;
@@ -96,7 +96,7 @@ xlim([0 48])
 
 
 ax5 = subplot('position',[0.07 0.25 0.85 0.12]);
-annotation('textbox',[0 0.39 0.15 0.01],'String','e','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.39 0.15 0.01],'String','E','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(tidx,zz-botZ,uu_timeseries'*cosd(4)-ww_timeseries'*sind(4));
 hold on;shading flat
 ylim(YLIM)
@@ -113,7 +113,7 @@ xlim([0 48])
 
 
 ax6 = subplot('position',[0.07 0.1 0.85 0.12]);
-annotation('textbox',[0 0.24 0.15 0.01],'String','f','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
+annotation('textbox',[0 0.24 0.15 0.01],'String','F','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
 pcolor(tidx,zz-botZ,ww_timeseries'*cosd(4)+uu_timeseries'*sind(4));
 hold on;shading flat
 ylim(YLIM)

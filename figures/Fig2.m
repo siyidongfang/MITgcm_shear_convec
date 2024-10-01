@@ -6,8 +6,10 @@ load_colors;
 
 addpath ../analysis/
 addpath ../analysis/functions/
-expname='topo4_H500Lx3k_s1.70dz1dx3sm100'
-expdir = '../exps_kv5e-6/';
+% expdir = '../exps_kv5e-6/';
+% expname='topo4_H500Lx3k_s1.70dz1dx3sm100'
+expdir = '../exps_kv1e-5/';
+expname='topo4_H500Lx3k_s1.700dz1dx3sm100'
 topo=4;
 
 % expdir = '../exps_topo4_hires/';
@@ -31,7 +33,8 @@ nDumps = length(dumpIters);
 
 %--- snapshots
 % o = 12*26+3;
-o = 12*20+3;
+% o = 12*20+3;
+o = 12*15+3;
 
 tt = squeeze(rdmds([exppath,'/results/THETA'],dumpIters(o)));
 tt(tt==0)=NaN;
@@ -75,10 +78,11 @@ imshow('fig2/coordinate.png')
 %--- Load MITgcm simulation
 filename = [expdir expname '/RMSE_tt.mat'];
 load(filename)
-load('fig2/fig2_new_1.7.mat')
+load('fig2/fig2_new_1.7_kv1e-5.mat')
 YLIM = [0 250];
 % time_tidal=time_h/12;
 
+fit_span = [4*12:9.5*12];
 %%% TKE time series
 ax2 = subplot('position',[0.435 0.815 0.505 0.16]);
 annotation('textbox',[0.38 0.993 0.15 0.01],'String','B','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
@@ -162,6 +166,7 @@ title('Temperature $T$ (snapshot)','Fontsize',fontsize+4,'interpreter','latex','
 % xlim([0 3])
 colormap(mycolor);
 freezeColors;
+xticks([-1.5:0.5:1.5])
 
 %%% N2 snapshot
 ax7 = subplot('position',[0.57 0.05 0.37 0.18]);
@@ -183,6 +188,7 @@ title('$\partial_{\tilde z} \mathcal B$ (snapshot)','Fontsize',fontsize+4,'inter
 % xlim([0 3])
 colormap(mycolor);
 freezeColors;
+xticks([-1.5:0.5:1.5])
 
 
 %%% N2
@@ -209,4 +215,4 @@ xlim(XLIM);
 
 %%% Save the figure
 
-print('-dpng','-r300','fig2/fig2.png');
+% print('-dpng','-r300','fig2/fig2.png');

@@ -179,13 +179,13 @@ C-jmc: Without CD-scheme, this is OK ; but with CD-scheme, needs to cover [0:sNy
 
 C=== Yidongfang Si =====
       omega_tide = 1.454441043328608e-04
-      u_shear = 2.8e-03
+      u_shear = 0.9e-03
       h_shear = 250.0
       Nsquare_const = 1.0e-06
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
@@ -208,9 +208,9 @@ C----------begin if useTanhShear----------
       if(useTanhShear) then
       Hmax = 800.0
 C--      zero velocity at sea floor
-C      shearRatio=(1+tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
+      shearRatio=(1+tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
 C--      zero velocity at center
-      shearRatio=( tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
+C      shearRatio=( tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
       end if
 C----------end if useTanhShear------------
 
@@ -467,8 +467,8 @@ C      u_shear = 1.5e-03
 C      h_shear = 250.5
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)
@@ -879,8 +879,8 @@ C=== Yidongfang Si =====
       temp_Alpha = 2.0e-04
 
 C      topog_slope = 4.912113091736391
-C      topog_slope = 4.d0
-      topog_slope = 0.0
+      topog_slope = 4.d0
+C      topog_slope = 0.0
       pi_const = 3.141592653589793e+00
       cos_slope = cos(pi_const*topog_slope/180.)
       sin_slope = sin(pi_const*topog_slope/180.)

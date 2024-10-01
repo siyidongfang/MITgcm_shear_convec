@@ -7,10 +7,12 @@ load_colors;
 
 addpath ../analysis/
 addpath ../analysis/functions/
-expname='topo4_H500Lx3k_s1.70dz1dx3sm100'
-expdir = '../exps_kv5e-6/';
-% expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
-% expdir = '../exps_topo4/';
+% expname='topo4_H500Lx3k_s1.700dz1dx3sm100'
+% expdir = '../exps_kv1e-5/';
+% expname='topo4_H500Lx3k_s1.70dz1dx3sm100'
+% expdir = '../exps_kv5e-6/';
+expname = 'topo4_H500_smo100m_s0.0014_dz1dx3ln200n-20'
+expdir = '../exps_topo4_SIfigures/';
 loadexp;
 rhoConst = 999.8;
 YLIM = [0 400];
@@ -25,8 +27,9 @@ nDumps = length(dumpIters);
 botZ =zz(end);
 
 %--- snapshots
-% o = 12*26+3;
-o = 12*20+3;
+o = 12*26+3;
+% o = 12*20+3;
+% o = 12*15+3;
 tt = squeeze(rdmds([exppath,'/results/THETA'],dumpIters(o)));
 uu = squeeze(rdmds([exppath,'/results/UVEL'],dumpIters(o)));
 % vv = squeeze(rdmds([exppath,'/results/VVEL'],dumpIters(o)));
@@ -178,7 +181,7 @@ shading flat;
 clim([-1 1]*0.18)
 ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
-title('Across-isobath velocity $u$','Fontsize',fontsize+4,'interpreter','latex');
+title('Along-canyon velocity $u$','Fontsize',fontsize+4,'interpreter','latex');
 colormap(cmocean('balance'))
 h1 = colorbar(ax1,'Position',[0.44 0.72+0.015 0.008 0.18]);
 set(get(h1,'Title'),'String',{'$\ \ \ \ (\mathrm{m/s})$'},'interpreter','latex','FontSize',fontsize,'Position',[3.2000 128 0]);
@@ -205,8 +208,10 @@ ylim(YLIM)
 
 ax3 = subplot('position',[0.07 0.4 0.365 0.22]);
 annotation('textbox',[0 0.665 0.15 0.01],'String','C','FontSize',fontsize+3,'fontweight','bold','LineStyle','None');
-pcolor(xx/1000,zz-botZ,S');
+% pcolor(xx/1000,zz-botZ,log10(abs(S))');
+pcolor(xx/1000,zz-botZ,abs(S)');
 shading flat;
+% clim([-5 -2])
 clim([0 0.7]*3e-3)
 ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
@@ -235,7 +240,7 @@ ylim(YLIM)
 
 
 
-% print('-dpng','-r300',['fig_supp/figS_gcm_xz_matlab.png']);
+print('-dpng','-r300',['fig_supp/figS_gcm_xz_matlab.png']);
 
 
 
@@ -254,7 +259,7 @@ ylim(YLIM)
 % h5 = colorbar(ax5,'Position',[0.44 0.08+0.015 0.008 0.18]);
 % colormap(cmocean('haline'))
 % set(gca,'Fontsize',fontsize);
-% print('-dpng','-r300',['fig_supp/figS_gcm_xz_colorbar1.png']);
+% % print('-dpng','-r300',['fig_supp/figS_gcm_xz_colorbar1.png']);
 
 
 

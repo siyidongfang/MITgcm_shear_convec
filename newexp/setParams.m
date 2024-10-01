@@ -1038,10 +1038,10 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 %%
   if(useTanhShear)
       %%% Zero velocity at sea floor
-      % vrelax = h_shear*Shear *(1+ tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
+      vrelax = h_shear*Shear *(1+ tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
       
       % %%% Zero velocity at center
-      vrelax = h_shear*Shear *(   tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
+      % vrelax = h_shear*Shear *(   tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
   end
 
 %%

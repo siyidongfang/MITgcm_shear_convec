@@ -101,12 +101,12 @@ grid on;grid minor;
 hold on;
 scatter(1./Ri_gcm_tanh,grow_gcm_tanh,50,black,'LineWidth',2);
 scatter(1./Ri_gcm_tanh_0Center,grow_gcm_tanh_0Center,50,'+','MarkerEdgeColor',yellow,'LineWidth',2);
-plot(1./Ri_km_diff,max_grow,'-','LineWidth',2,'Color',green);
+plot(1./Ri_km_diff,max_grow,'-','LineWidth',1.5,'Color',green);
 plot(1./Ri_km,max_grow_km,'--','LineWidth',2,'Color',darkgray);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 l1 = legend('MITgcm: linear shear', 'MITgcm: tanh shear, zero bottom','MITgcm: tanh shear, zero center',...
-    'Linear theory: viscous', 'Linear theory: inviscid','Position', [0.5692 0.8589 0.2854 0.1087],'interpreter','latex');
+    'Theory: linear shear, viscous', 'Theory: linear shear, inviscid','Position', [0.5608 0.8601 0.2854 0.1087],'interpreter','latex');
 legend('boxoff')
 set(gca,'Fontsize',fontsize);
 xlim([0 8])
@@ -172,6 +172,7 @@ for i=1:length(shear_gcm_linear)
 end
 
 load('fig4/MITtopo4_kv1e-5_tt_tanh.mat')
+% growth_MITgcm(2)=NaN;
 shear_gcm_tanh = shear_MITgcm;
 grow_gcm_tanh = growth_MITgcm;
 for i=1:length(shear_gcm_tanh)
@@ -186,6 +187,7 @@ for i=1:length(shear_gcm_tanh)
 end
 
 load('fig4/MITtopo4_kv1e-5_tt_tanh_zeroCenter.mat')
+% growth_MITgcm(2)=NaN;
 shear_gcm_tanh_0Center = shear_MITgcm;
 grow_gcm_tanh_0Center = growth_MITgcm;
 for i=1:length(shear_gcm_tanh_0Center)
@@ -255,12 +257,12 @@ grid on;grid minor;
 hold on;
 scatter(1./Ri_gcm_tanh,grow_gcm_tanh,50,black,'LineWidth',2);
 scatter(1./Ri_gcm_tanh_0Center,grow_gcm_tanh_0Center,50,'+','MarkerEdgeColor',yellow,'LineWidth',2);
-plot(1./Ri_km_diff,max_grow,'-','LineWidth',2,'Color',green);
+plot(1./Ri_km_diff,max_grow,'-','LineWidth',1.5,'Color',green);
 plot(1./Ri_km,max_grow_km,'--','LineWidth',2,'Color',darkgray);
 ylabel('(hour$^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 l4 = legend('MITgcm: linear shear','MITgcm: tanh shear, zero bottom','MITgcm: tanh shear, zero center',...
-    'Linear theory: viscous','Linear theory: inviscid','Position',[0.5761 0.5108 0.2854 0.1087],'interpreter','latex');
+    'Theory: linear shear, viscous', 'Theory: linear shear, inviscid','Position',[0.5761 0.5108 0.2854 0.1087],'interpreter','latex');
 legend('boxoff')
 set(gca,'Fontsize',fontsize);
 % xlim([0 5.2])

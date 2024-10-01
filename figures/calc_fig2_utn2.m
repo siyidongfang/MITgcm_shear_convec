@@ -10,8 +10,10 @@ addpath ../analysis/functions/
 % expdir = '../exps_topo4/';
 
 %%% new
-expdir = '../exps_kv5e-6/';
-expname='topo4_H500Lx3k_s1.70dz1dx3sm100'
+% expdir = '../exps_kv5e-6/';
+% expname='topo4_H500Lx3k_s1.70dz1dx3sm100'
+expdir = '../exps_kv1e-5/';
+expname='topo4_H500Lx3k_s1.700dz1dx3sm100'
 topo = 4;
 
 % expname='flat_H500Lx3k_s1.80dz1dx3sm100';
@@ -37,9 +39,9 @@ nDumps = length(dumpIters);
 % xx = xx-xx(1);
 % No = nDumps;
 % No = 30*12;
- No = 28*12;
  % No = 28*12;
-
+ % No = 28*12;
+No = 15.25*12
 uu_timeseries= zeros(No,Nr);
 % shear_timeseries = zeros(No,Nr);
 % vv_timeseries = zeros(No,Nr);
@@ -112,7 +114,7 @@ end
 botN = Nr;
 botZ =zz(end);
 
-save('fig2/fig2_new_1.7.mat','time_tidal','zz','botZ','tt_timeseries','N2_timeseries','uu_timeseries')
+save('fig2/fig2_new_1.7_kv1e-5.mat','time_tidal','zz','botZ','tt_timeseries','N2_timeseries','uu_timeseries')
 
 % save('figS_gcm_flat/figS_gcm_flat_1.8.mat','time_tidal','zz','botZ','tt_timeseries','N2_timeseries','uu_timeseries')
 
