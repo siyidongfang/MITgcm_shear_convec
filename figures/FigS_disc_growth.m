@@ -29,7 +29,7 @@ plot(1./Ri_km,max_grow)
 xlim([0 4])
 
 %%
-load('GrowthRate_tanh_BottomCenter_dz2.mat')
+load('GrowthRate_new_flat_tanh.mat')
 grow_Floquet_tanh = growth_Floquet;
 for i=1:length(shear_Floquet)
     [a(i) b(i)] = min(abs(shear_Floquet(i)-shear_calc_Ri));
@@ -39,7 +39,7 @@ clear shear_Floquet growth_Floquet
 plot(1./Ri_Flo_tan,grow_Floquet_tanh,'--')
 
 
-load('GrowthRate_exps_linear_dz0.5.mat')
+load('GrowthRate_new_flat_linear.mat')
 grow_Floquet_linear = growth_Floquet;
 % load('GrowthRate_exps_linear.mat')
 % grow_Floquet_linear = GrowthRate_KE;
@@ -61,30 +61,4 @@ grid minor;
 % load('GrowthRate_exps_tanh_ZeroCenter_dz2.mat')
 % figure(1)
 % plot(shear_Floquet,growth_Floquet)
-
-
-% plot
-%%% 8 panels 
-
-%--- Flat bottom: growth rate as a function of inverse Ri and log10(lambda_x)
-
-%--- Sloping bottom: growth rate as a function of inverse Ri and log10(lambda_x)
-
-%--- Flat bottom: maximum growth rate as a function of inverse Ri (MITgcm vs theory)
-
-%--- Sloping bottom: maximum growth rate as a function of inverse Ri (MITgcm vs theory)
-
-%--- Flat bottom: buoyancy budget
-
-%--- Sloping bottom: buoyancy budget
-
-%--- Flat bottom: vorticity budget
-
-%--- Sloping bottom: vorticity budget
-
-
-% print('-dpng','-r200',['fig_supp/FigS_disc_growth.png']);
-
-
-
 
