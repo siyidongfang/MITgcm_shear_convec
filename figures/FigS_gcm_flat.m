@@ -97,7 +97,7 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-0.75:0.15:-0.15],'--','color',darkgr
 clim([-0.401 0.401])
 ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
-title('Across-isobath tidal velocity $u$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295-50])
+title('Across-isobath tidal velocity $u$','Fontsize',fontsize+4,'interpreter','latex','Position',[15-3.5,295-50])
 ylim(YLIM)
 h3=colorbar(ax3);
 set(h3,'Position',[0.95    0.62    0.008    0.11]);
@@ -120,7 +120,7 @@ contour(time_tidal,zz-botZ,uu_timeseries',[-0.75:0.15:-0.15],'--','color',darkgr
 ylabel('HAB (m)','interpreter','latex');
 clim([-0.1 0.1]);
 set(gca,'Fontsize',fontsize);
-title('Time-varying component of temperature','Fontsize',fontsize+4,'interpreter','latex','Position',[15,295-50])
+title('Time-varying component of temperature','Fontsize',fontsize+4,'interpreter','latex','Position',[15-3.5,295-50])
 ylim(YLIM)
 h4=colorbar(ax4);
 set(h4,'Position',[0.95    0.46   0.008    0.11]);
@@ -183,7 +183,7 @@ shading interp;
 xlabel('Time (tidal cycles)','interpreter','latex');
 ylabel('HAB (m)','interpreter','latex');
 set(gca,'Fontsize',fontsize);
-title('Vertical buoyancy gradient $\partial_{\tilde z} \mathcal B$','Fontsize',fontsize+4,'interpreter','latex','Position',[15,297-50])
+title('Vertical buoyancy gradient $\partial_{\tilde z} \mathcal B$','Fontsize',fontsize+4,'interpreter','latex','Position',[15-3.5,297-50])
 clim(([-1 1]+1)/1e6)
 ylim(YLIM)
 % colormap(cmocean('diff'));

@@ -20,7 +20,7 @@ legend('Flat bottom ($\theta=0^\circ$)','Sloping bottom ($\theta=4^\circ$)',...
 legend('boxoff');
 ylabel('Background shear $\Lambda$ (10$^{-3}\,$s $^{-1}$)','interpreter','latex');
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
-title('${R_i}_\mathrm{min}^{-1}$ vs Background Shear','interpreter','latex','FontSize',fontsize+3);
+title('${R_i}_\mathrm{min}^{-1}$ \textit{vs.} Background Shear','interpreter','latex','FontSize',fontsize+3);
 
 
 
@@ -49,7 +49,7 @@ ylim([0 0.4])
 set(gca,'FontSize',fontsize)
 xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','latex');
 ylabel('(hour$^{-1}$)','interpreter','latex');
-title('${R_i}_\mathrm{min}^{-1}$ vs Growth Rate','interpreter','latex','FontSize',fontsize+3);
+title('${R_i}_\mathrm{min}^{-1}$ \textit{vs.} Growth Rate','interpreter','latex','FontSize',fontsize+3);
 
 
 nexttile(4)
@@ -66,7 +66,7 @@ ylim([0 0.4])
 set(gca,'FontSize',fontsize)
 xlabel('Background shear $\Lambda$ (10$^{-3}\,$s $^{-1}$)','interpreter','latex');
 ylabel('(hour$^{-1}$)','interpreter','latex');
-title('Background Shear vs Growth Rate','interpreter','latex','FontSize',fontsize+3);
+title('Background Shear \textit{vs.} Growth Rate','interpreter','latex','FontSize',fontsize+3);
 
 
 
