@@ -1,7 +1,7 @@
 
 NTtide = 1;
 
-expdir = 'shear_methieu_noDiff_imag/';
+expdir = 'test1/';
 
 Diffusion = false;
 nt_percycle = 72*30; 
@@ -10,7 +10,8 @@ nt_percycle = 72*30;
 % topo_all = [0:2:20];
 % N_all = [0 0.1 0.5 1:2:11]*1e-3;
 
-topo_all = [0 4];
+% topo_all = [0 4];
+topo_all = 0;
 N_all = 1e-3;
 
 Ptide = 43200;
@@ -22,7 +23,8 @@ Ntopo = length(topo_all);
 h_shear = 250;
 m0_rw = 2*pi/h_shear;
 
-Ns = 1001; % length of shear_all
+% Ns = 1001; % length of shear_all
+Ns = 250;
 
 kappa_const = 1.4e-7;
 nu_const = 1e-6;
@@ -38,7 +40,8 @@ else
     nu = 0;
 
     lam_z_all = h_shear;
-    lam_x_all = [-8000:1:8000];
+    % lam_x_all = [-8000:1:8000];
+    lam_x_all = [0:20:9000];
 end
 
 m0_all = 2*pi./lam_z_all;

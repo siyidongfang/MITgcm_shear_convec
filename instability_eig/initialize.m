@@ -14,18 +14,17 @@ function [dt,Nt,tt,zeta,buoy,dbdt,dzetadt] = initialize(shear,h_shear,kx,m0,Diff
         %     dt_cfl = CFLx/0.0001*lambda;
         % end
 
-        dt_tide = Ptide/nt_percycle;       % The time step required to resolve tides
+        % dt_tide = Ptide/nt_percycle;       % The time step required to resolve tides
         % dt = min([dt_tide dt_cfl]);
-        dt = dt_tide;
 
-        if(Diffusion)
-            %%% Time step constraint based on horizontal diffusion
-            deltaT_Ah = 0.5*(lambda/4)^2/(4*nu);
-            %%% Time step constraint based on vertical diffusion
-            deltaT_Ar = 0.5*dz^2 / (4*nu);
-            % dt = min([dt_tide dt_cfl deltaT_Ah deltaT_Ar])
-            dt = min([dt_tide deltaT_Ah deltaT_Ar]);
-        end
+        % if(Diffusion)
+        %     %%% Time step constraint based on horizontal diffusion
+        %     deltaT_Ah = 0.5*(lambda/4)^2/(4*nu);
+        %     %%% Time step constraint based on vertical diffusion
+        %     deltaT_Ar = 0.5*dz^2 / (4*nu);
+        %     % dt = min([dt_tide dt_cfl deltaT_Ah deltaT_Ar])
+        %     dt = min([dt_tide deltaT_Ah deltaT_Ar]);
+        % end
 
     Lt = NTtide*Ptide;
     dt = Ptide/nt_percycle;

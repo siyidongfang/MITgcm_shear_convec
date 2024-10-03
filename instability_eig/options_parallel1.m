@@ -7,7 +7,6 @@ mkdir(expdir);
 
 
 for ntopo = 1:Ntopo
-% for ntopo = 1
 
     topo = topo_all(ntopo)
     cs = cosd(topo);
@@ -17,9 +16,10 @@ for ntopo = 1:Ntopo
         N = N_all(nn)
 
         clear shear_all;
-        shear_all = [0:3*N/(Ns-1):3*N]; 
+        % shear_all = [0:3*N/(Ns-1):3*N]; 
+        shear_all = [0.5e-3:0.025e-3:1.6e-3]; 
 
-        for ns =1:Ns
+        for ns =1:length(shear_all)
             shear = shear_all(ns)
             rs = shear/omega; %%% shear over omega 
             if(omega==0)
@@ -59,13 +59,14 @@ for ntopo = 1:Ntopo
                     % The eigenvalues are the diagonal elements of D
                     lambda(i,j,:) = diag(D);
                     % Compute the growth rate in 1/hour
-                    grow(i,j) = max(real(lambda(i,j,:)));
-        
+                    % grow(i,j) = max(real(lambda(i,j,:)));
+                    grow(i,j) = max(real(abs(lambda(i,j,:))));
+
                 end
                 
             end
         
-            clear M11 M12 M21 M22 lambda
+            % clear M11 M12 M21 M22 lambda
             save([expdir 'ptide' num2str(Ptide) '_topo' num2str(topo) '_N' num2str(N*1e3) '_shear' num2str(shear*1e3) '.mat']);
         
         end
