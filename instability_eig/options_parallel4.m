@@ -2,12 +2,12 @@
 %%%%% All variables are dimensional variables
 clear; close all;
 
-constants_sens_M2;
+constants_sens_K1;
 mkdir(expdir);
 
 
 % for ntopo = 1:Ntopo
-for ntopo = 1:5
+for ntopo = 6:Ntopo
 
     topo = topo_all(ntopo)
     cs = cosd(topo);

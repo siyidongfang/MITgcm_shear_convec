@@ -2,7 +2,7 @@
 %%%%% All variables are dimensional variables
 clear; close all;
 
-constants_sens_M2;
+constants_sens_K1;
 mkdir(expdir);
 
 

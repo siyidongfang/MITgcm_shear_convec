@@ -1,17 +1,16 @@
 
 NTtide = 1;
 
-expdir = 'test1/';
+expdir = 'exps_ref_Diff/';
 
-Diffusion = false;
+Diffusion = true;
 nt_percycle = 72*30; 
 
 % Ptide_all = [1 2]*43200;
 % topo_all = [0:2:20];
-% N_all = [0 0.1 0.5 1:2:11]*1e-3;
+% N_all = [0.1 0.5 1:2:11]*1e-3;
 
-% topo_all = [0 4];
-topo_all = 0;
+topo_all = [0 4];
 N_all = 1e-3;
 
 Ptide = 43200;
@@ -23,8 +22,7 @@ Ntopo = length(topo_all);
 h_shear = 250;
 m0_rw = 2*pi/h_shear;
 
-% Ns = 1001; % length of shear_all
-Ns = 250;
+Ns = 501; % length of shear_all
 
 kappa_const = 1.4e-7;
 nu_const = 1e-6;
@@ -34,14 +32,13 @@ if(Diffusion)
     nu = nu_const;
 
     lam_z_all = [-500:1:500];
-    lam_x_all = [-12000:10:12000];
+    lam_x_all = [-12000:5:12000];
 else 
     kappa = 0;
     nu = 0;
 
     lam_z_all = h_shear;
-    % lam_x_all = [-8000:1:8000];
-    lam_x_all = [0:20:9000];
+    lam_x_all = [-8000:2:8000];
 end
 
 m0_all = 2*pi./lam_z_all;
