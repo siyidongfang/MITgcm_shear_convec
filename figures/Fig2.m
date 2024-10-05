@@ -219,4 +219,5 @@ xlim(XLIM);
 
 %%% Save the figure
 
-print('-dpng','-r300','fig2/fig2.png');
+% print('-dpng','-r300','fig2/fig2.png');
+print('-r250','-depsc2', 'fig2/fig2');

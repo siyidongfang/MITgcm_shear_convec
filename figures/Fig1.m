@@ -250,5 +250,8 @@ set(get(h7,'Title'),'String',{'$\ \ \ \ (\mathrm{m/s^2})$',''},'Fontsize',fontsi
 % set(get(h7,'Title'),'String',{'$\ \ \ \ (1/\mathrm{s}^2)$',''},'Fontsize',fontsize,'interpreter','latex');
 xlim([0 48])
 
-print('-dpng','-r300','fig1/fig1_matlab.png');
+% print('-dpng','-r300','fig1/fig1_matlab.png');
 
+print('-r300','-depsc2', 'fig1/fig1_matlab');
+
+print('-r200','-depsc2', 'fig1/fig1_matlab_lores');

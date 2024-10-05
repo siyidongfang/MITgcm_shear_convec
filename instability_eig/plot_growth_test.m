@@ -9,7 +9,7 @@ h_shear = 250;
 lam_z_all = h_shear;
 lam_x_all = [0:20:9000];
 Nlam = length(lam_x_all);
-shear_all = [0.5e-3:0.025e-3:1.6e-3]; 
+shear_all = [1e-3:0.025e-3:1.6e-3]; 
 Ns = length(shear_all);
 
 r = lam_x_all/h_shear;
@@ -22,15 +22,6 @@ for ns=1:Ns
 
     grow(grow<=0)=NaN;
     grow = log(grow)/43200*3600;
-
-    % grow_pos(grow_pos<=0)=NaN;
-    % grow_pos = log(grow_pos)/43200*3600;
-    % 
-    % grow_neg(grow_neg<=0)=NaN;
-    % grow_neg = log(grow_neg)/43200*3600;
-
-    % grow_pos_all(ns,:) = grow_pos;
-    % grow_neg_all(ns,:) = grow_neg;
     grow_all(ns,:) = grow;
 
     max_grow_floquet(ns) =max(grow,[],'all','omitnan');
@@ -40,24 +31,10 @@ figure(1)
 clf;
 set(gcf,'Color','w')
 
-% subplot(1,3,1)
-% pcolor(shear_all,r,grow_pos_all');shading flat;colorbar;
-% colormap(redblue);
-% ylim([0 30])
-% clim([-5 5]/10)
-% 
-% subplot(1,3,2)
-% pcolor(shear_all,r,grow_neg_all');shading flat;colorbar;
-% colormap(redblue);
-% ylim([0 30])
-% clim([-5 5]/10)
-
-
-subplot(1,3,3)
 pcolor(shear_all,r,grow_all');shading flat;colorbar;
-colormap(redblue);
+colormap(WhiteBlueGreenYellowRed(0));
 ylim([0 30])
-clim([-5 5]/10)
+clim([0 0.4])
 
 
 

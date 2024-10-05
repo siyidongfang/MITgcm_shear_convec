@@ -39,8 +39,9 @@ box on;
 grid on;grid minor
 h3 = colorbar(ax2,'Position',[0.95 0.1400+0.002 0.0160/2 0.7800]);
 xlim([0 2.5])
-% print('-dpng','-r300','fig5/fig5_matlab.png');
+% % print('-dpng','-r300','fig5/fig5_matlab.png');
 
+print('-r300','-depsc2', 'fig5/fig5_matlab');
 
 
 
@@ -94,6 +95,9 @@ grid on;grid minor
 h3 = colorbar(ax2,'Position',[0.95 0.1400+0.002 0.0160/2 0.7800]);
 xlim([0 2.5])
 ylim([3 2000])
-% print('-dpng','-r300','fig5/fig5_matlab2.png');
+% % print('-dpng','-r300','fig5/fig5_matlab2.png');
+
+print('-r300','-depsc2', 'fig5/fig5_matlab2');
+
 
 

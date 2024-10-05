@@ -373,6 +373,8 @@ legend('boxoff')
 
 % print('-dpng','-r300','fig4/fig4_matlab.png');
 
+print('-r300','-depsc2', 'fig4/fig4_matlab');
+
 
 
 % figure(2)
