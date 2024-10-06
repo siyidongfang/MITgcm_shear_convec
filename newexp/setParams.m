@@ -169,8 +169,8 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
   % parm01.addParm('implicDiv2DFlow',0.6,PARM_REAL); %%% test20231027
 
   %------ viscosity and diffusivity
-  diffKhT = 5e-6; %%% Horizontal temp diffusion  
-  diffKrT = 5e-6; %%% Vertical temp diffusion    
+  diffKhT = 5e-5; %%% Horizontal temp diffusion  
+  diffKrT = 5e-5; %%% Vertical temp diffusion    
   Prandtl = 1;
   viscAh = diffKhT*Prandtl; %%% Horizontal viscosity        
   viscAr = diffKrT*Prandtl; %%% Vertical viscosity          
@@ -1037,11 +1037,11 @@ function [vrelax,nTimeSteps,h,tNorth,sNorth,rho_north,N]...
 
 %%
   if(useTanhShear)
-      %%% Zero velocity at sea floor
-      vrelax = h_shear*Shear *(1+ tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
+      % %%% Zero velocity at sea floor
+      % vrelax = h_shear*Shear *(1+ tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
       
-      % %%% Zero velocity at center
-      % vrelax = h_shear*Shear *(   tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
+      %%% Zero velocity at center
+      vrelax = h_shear*Shear *(   tanh( (zz+Hmax/2) / (h_shear/2) )) /2;
   end
 
 %%

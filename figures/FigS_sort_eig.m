@@ -1,6 +1,7 @@
 clear all;close all;
 
-addpath ../instability_eig/
+addpath ../instability_eig/products/
+
 
 load('grow_M2_calc.mat')
 mycolormap = WhiteBlueGreenYellowRed(8);
@@ -8,7 +9,6 @@ fontsize = 18;markersize = 36;
 
 figure(1);clf;
 scrsz = get(0,'ScreenSize');
-% set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1200 800],'Color','w');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 1450 750],'Color','w');
 Nidx = 1:Nn;
 
@@ -16,7 +16,7 @@ for nt =Ntopo:-1:1
     topo = topo_all(nt);
 
     Ri_flat = Ri(nt,Nidx,:); Ri_flat = Ri_flat(:);
-    grow_flat = grow_floquet(nt,Nidx,:); grow_flat = grow_flat(:);
+    grow_flat = grow_eig(nt,Nidx,:); grow_flat = grow_flat(:);
     Bu_flat = Bu(nt,Nidx,:); Bu_flat = Bu_flat(:);
     strat_flat = strat(nt,Nidx,:); strat_flat = strat_flat(:);
     isConvec_flat = isConvec(nt,Nidx,:); isConvec_flat = isConvec_flat(:);
@@ -45,7 +45,7 @@ for nn =Nidx
     N = N_all(nn);
 
     Ri_flat = Ri(:,nn,:); Ri_flat = Ri_flat(:);
-    grow_flat = grow_floquet(:,nn,:); grow_flat = grow_flat(:);
+    grow_flat = grow_eig(:,nn,:); grow_flat = grow_flat(:);
     Bu_flat = Bu(:,nn,:); Bu_flat = Bu_flat(:);
     isConvec_flat = isConvec(:,nn,:); isConvec_flat = isConvec_flat(:);
     
@@ -71,7 +71,7 @@ velocityshear_flat = velocityshear(:);
 [shear_sort,I] = sort(velocityshear_flat);
 
 Ri_flat = Ri(:);
-grow_flat = grow_floquet(:);
+grow_flat = grow_eig(:);
 Bu_flat = Bu(:);
 isConvec_flat = isConvec(:);
 
@@ -107,7 +107,7 @@ for nt =Ntopo:-1:1
     topo = topo_all(nt);
 
     Ri_flat = Ri(nt,Nidx,:); Ri_flat = Ri_flat(:);
-    grow_flat = grow_floquet(nt,Nidx,:); grow_flat = grow_flat(:);
+    grow_flat = grow_eig(nt,Nidx,:); grow_flat = grow_flat(:);
     Bu_flat = Bu(nt,Nidx,:); Bu_flat = Bu_flat(:);
     strat_flat = strat(nt,Nidx,:); strat_flat = strat_flat(:);
     isConvec_flat = isConvec(nt,Nidx,:); isConvec_flat = isConvec_flat(:);
@@ -167,7 +167,7 @@ for nn =Nidx
     N = N_all(nn);
 
     Ri_flat = Ri(:,nn,:); Ri_flat = Ri_flat(:);
-    grow_flat = grow_floquet(:,nn,:); grow_flat = grow_flat(:);
+    grow_flat = grow_eig(:,nn,:); grow_flat = grow_flat(:);
     Bu_flat = Bu(:,nn,:); Bu_flat = Bu_flat(:);
     isConvec_flat = isConvec(:,nn,:); isConvec_flat = isConvec_flat(:);
     
@@ -207,7 +207,7 @@ velocityshear_flat = velocityshear(:);
 [shear_sort,I] = sort(velocityshear_flat);
 
 Ri_flat = Ri(:);
-grow_flat = grow_floquet(:);
+grow_flat = grow_eig(:);
 Bu_flat = Bu(:);
 isConvec_flat = isConvec(:);
 
@@ -245,7 +245,7 @@ Bu_flat = Bu(:);
 
 velocityshear_flat = velocityshear(:);
 Ri_flat = Ri(:);
-grow_flat = grow_floquet(:);
+grow_flat = grow_eig(:);
 Bu_flat = Bu(:);
 isConvec_flat = isConvec(:);
 
@@ -277,4 +277,4 @@ title('Growth Rate vs. ${R_i}_\mathrm{min}$ Colored by $B_u=\tilde N\theta/f_0$'
 
 
 
-print('-dpng','-r300','fig_supp/figS_sort_eig_matlab.png');
+% print('-dpng','-r300','fig_supp/figS_sort_eig_matlab.png');

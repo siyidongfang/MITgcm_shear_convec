@@ -208,9 +208,9 @@ C----------begin if useTanhShear----------
       if(useTanhShear) then
       Hmax = 800.0
 C--      zero velocity at sea floor
-      shearRatio=(1+tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
+C      shearRatio=(1+tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
 C--      zero velocity at center
-C      shearRatio=( tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
+      shearRatio=( tanh((rC(kLev)+Hmax/2)/(h_shear/2)))/2
       end if
 C----------end if useTanhShear------------
 

@@ -1,8 +1,15 @@
 
     % expdir ='../../MITgcm_shear_convec/exps_kv5e-6/'
     expdir ='../../MITgcm_shear_convec/exps_kv1e-5/'
+    % expdir ='../../MITgcm_shear_convec/exps_kv5e-5/'
+
 
     EXPNAME = {
+        % 'tanh_topo4_H800Lx3k_s0.900dz1dx3sm100' %17
+        % 'tanh_topo4_H800Lx3k_s1.200dz1dx3sm100' %12.9
+        % 'zeroCenter_topo4_H800Lx3k_s0.900dz1dx3sm100'
+        % 'zeroCenter_topo4_H800Lx3k_s1.200dz1dx3sm100'
+        ...
         % 'topo4_H500Lx3k_s0.100dz1dx3sm100' %100
         % 'topo4_H500Lx3k_s0.400dz1dx3sm100' %62
         % 'topo4_H500Lx3k_s0.600dz1dx3sm100' %42
@@ -12,22 +19,22 @@
         % 'topo4_H500Lx3k_s1.400dz1dx3sm100' %18.5
         % 'topo4_H500Lx3k_s1.500dz1dx3sm100' %17.25
         % 'topo4_H500Lx3k_s1.600dz1dx3sm100' %15.75
-        'topo4_H500Lx3k_s1.700dz1dx3sm100' %28.75
+        % 'topo4_H500Lx3k_s1.700dz1dx3sm100' %28.75
         % 'topo4_H500Lx3k_s1.800dz1dx3sm100' %14.5
         % 'topo4_H500Lx3k_s1.900dz1dx3sm100' %13.5
         % 'topo4_H500Lx3k_s2.000dz1dx3sm100' %13
         % 'topo4_H500Lx3k_s2.070dz1dx3sm100' %12.5
         ...
-        % 'tanh_topo4_H800Lx3k_s0.400dz1dx3sm100' %38
-        % 'tanh_topo4_H800Lx3k_s0.900dz1dx3sm100' %17.25 % No grow, resubmit
-        % 'tanh_topo4_H800Lx3k_s1.000dz1dx3sm100' %29.5 
-        % 'tanh_topo4_H800Lx3k_s1.200dz1dx3sm100' %13
-        % 'tanh_topo4_H800Lx3k_s1.500dz1dx3sm100' %10.5
-        % 'tanh_topo4_H800Lx3k_s1.700dz1dx3sm100' %9
-        % 'tanh_topo4_H800Lx3k_s1.800dz1dx3sm100' %8.75
-        % 'tanh_topo4_H800Lx3k_s1.900dz1dx3sm100' %8.25
-        % 'tanh_topo4_H800Lx3k_s2.000dz1dx3sm100' %7.75
-        % 'tanh_topo4_H800Lx3k_s2.070dz1dx3sm100' %7.5
+        'tanh_topo4_H800Lx3k_s0.400dz1dx3sm100' %38
+        'tanh_topo4_H800Lx3k_s0.900dz1dx3sm100' %34.5
+        'tanh_topo4_H800Lx3k_s1.000dz1dx3sm100' %29.5 
+        'tanh_topo4_H800Lx3k_s1.200dz1dx3sm100' %13
+        'tanh_topo4_H800Lx3k_s1.500dz1dx3sm100' %10.5
+        'tanh_topo4_H800Lx3k_s1.700dz1dx3sm100' %9
+        'tanh_topo4_H800Lx3k_s1.800dz1dx3sm100' %8.75
+        'tanh_topo4_H800Lx3k_s1.900dz1dx3sm100' %8.25
+        'tanh_topo4_H800Lx3k_s2.000dz1dx3sm100' %7.75
+        'tanh_topo4_H800Lx3k_s2.070dz1dx3sm100' %7.5
         % ...
         % 'zeroCenter_tanh_topo4_H800Lx3k_s0.400dz1dx3sm100' %?? No grow
         % 'zeroCenter_topo4_H800Lx3k_s0.900dz1dx3sm100' %17, rapid grow

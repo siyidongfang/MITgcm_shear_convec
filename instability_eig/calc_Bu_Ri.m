@@ -2,14 +2,17 @@
 
 %%% Calculate the Slope Burger number and Richardson number
 
-load('grow_K1.mat')
-% load('grow_M2.mat')
+load('products/grow_K1.mat')
+constants_sens_K1
 
-grow_floquet = log(grow_floquet)/43200*3600;
+% load('products/grow_M2.mat')
+% constants_sens_M2
+
+% load('products/grow_ref.mat')
+% constants_ref;
 
 f0 = 1e-4;
 
-Ns = 31;
 Bu = NaN.*zeros(Ntopo,Nn,Ns);
 Ri = NaN.*zeros(Ntopo,Nn,Ns);
 strat = NaN.*zeros(Ntopo,Nn,Ns);
@@ -34,7 +37,7 @@ for ntopo = 1:Ntopo
         strat(ntopo,nn,:) = N;
 
         clear shear_all;
-        shear_all = [0:3*N/30:3*N]; 
+        shear_all = [0:3*N/(Ns-1):3*N]; 
         Ns = length(shear_all);
 
         for ns =1:Ns
@@ -56,12 +59,12 @@ for ntopo = 1:Ntopo
 end
 
 
-save('grow_K1_calc.mat')
+save('products/grow_K1_calc.mat')
 
 
 % % for ntopo = 1:Ntopo
 % for ntopo = 2
-%     grow_n = squeeze(grow_floquet(ntopo,:,:));
+%     grow_n = squeeze(grow_eig(ntopo,:,:));
 %     figure(1)
 %     pcolor(N_all,shear_all,grow_n')
 %     shading flat;
