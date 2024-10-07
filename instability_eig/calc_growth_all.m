@@ -1,7 +1,7 @@
 
 clear;
 
-constants_ref;
+constants_ref_Diff;
 
 grow_eig = NaN.*zeros(Ntopo,Nn,Ns);
 max_kidx = NaN.*zeros(Ntopo,Nn,Ns);
@@ -29,7 +29,7 @@ for ntopo = 1:Ntopo
     end
 end
 
-save('products/grow_ref.mat');
+save('products/grow_ref_Diff.mat');
 
 
 function grow =load_func(fname)

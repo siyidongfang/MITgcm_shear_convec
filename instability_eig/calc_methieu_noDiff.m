@@ -7,7 +7,7 @@ topo = 0;
 N = 1e-3;
 Ns = 1001;
 omega = 2*pi/Ptide;
-shear_all = [0:3*N/(Ns-1):3*N]; 
+shear_all = [0:3*N/(Ns-1):3*N];
 
 grow_all = [];
 omega0_all = [];
@@ -39,7 +39,7 @@ for ns=1:Ns
 
     %%% Compute Richardson number
     Ri_inverse = (shear*cos(omega*tt_ri)).^2./(N^2*cosd(topo) - N^2*sind(topo)/omega*shear*sin(omega*tt_ri));
-    Ri_shear(ns) = 1/max(Ri_inverse);  
+    Ri_shear(ns) = 1/max(Ri_inverse);
     if(min(Ri_inverse)<0)
         isConvec = 1
     end
@@ -76,8 +76,6 @@ save('../figures/fig5/fig5_topo0_noDiff_eig_imag.mat')
 % xlim([0 2.5])
 % % xlim([0 6])
 % ylim([0 4])
-% 
-% 
 % 
 % 
 % 
