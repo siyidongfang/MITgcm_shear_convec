@@ -10,15 +10,16 @@ function [p0,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
     %%% Solve the boundary value problem using the bvp4c solver.
     zeta0 = @(z) interp1(linspace(min(zspan),max(zspan),numel(z0)), z0, z);    
     %%% Form Initial Guess
-        % options = bvpset('RelTol', 1e-3, 'AbsTol', 1e-3, 'NMax', 20000);
-        % p0_guess = real(p0);
-        % solinit.y(1,:) = p0_guess;
-        % solinit.y(2,2:end-1) = (p0_guess(3:end)-p0_guess(1:end-2))/dz/2; %%% Centered difference
-        % solinit.y(2,1)=(p0_guess(2)-p0_guess(1))/dz;
-        % solinit.y(2,end)=(p0_guess(end)-p0_guess(end-1))/dz;
+    options = bvpset('RelTol', 1e-3, 'AbsTol', 1e-3, 'NMax', 20000);
+    % options = bvpset('NMax', 15000);
+    p0_guess = real(p0);
     xmesh = zz_wgrid;
     solinit = bvpinit(xmesh, [0 0]);
-    options = bvpset('NMax', 15000);
+    solinit.y(1,:) = p0_guess;
+    solinit.y(2,2:end-1) = (p0_guess(3:end)-p0_guess(1:end-2))/dz/2; %%% Centered difference
+    solinit.y(2,1)=(p0_guess(2)-p0_guess(1))/dz;
+    solinit.y(2,end)=(p0_guess(end)-p0_guess(end-1))/dz;
+
     if(~hydrostatic)
         %%% non-hydrostctic
         sol1 = bvp4c(@(z,y)bvpfun(z,y,kx,zeta0), @bcfun, solinit,options);
@@ -121,7 +122,11 @@ end
 
 
 %%% Code equations: see https://www.mathworks.com/help/matlab/math/solve-bvp-with-two-solutions.html
-%%% Non-hydrostatic
+%%% Non-hydrostatic??? (why did you call it non-hydrostatic???)
+%%% Re-write the relation between psi and zeta in two equations
+%%% psi = psi1
+%%% d(psi1)/dz = psi2
+%%% d(psi2)/dz = d^2(psi)/dz^2 = kx^2*psi+zeta = kx^2*psi1+zeta
 function dydz = bvpfun(z,y,kx,zeta)
     dydz = [y(2)
         kx^2*y(1)+zeta(z)];

@@ -22,7 +22,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
         expdir = [expfolder 'topo' num2str(topo) '_H' num2str(Hmax) ...
             '_N' num2str(N) '_S' num2str(Shear) ...
             '_lambda' num2str(lambda) '/'];
-        outputname = [expdir 'output.mat'];
+        outputname = [expdir 'output_new.mat'];
         
         if(~isfile(outputname))
 
