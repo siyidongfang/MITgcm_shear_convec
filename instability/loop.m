@@ -121,13 +121,14 @@ end
 
 
 %%% Code equations: see https://www.mathworks.com/help/matlab/math/solve-bvp-with-two-solutions.html
+%%% Non-hydrostatic
 function dydz = bvpfun(z,y,kx,zeta)
     dydz = [y(2)
         kx^2*y(1)+zeta(z)];
 end
 
 
-
+%%% Hydrostatic
 function dydz = bvpfun_hydro(z,y,zeta)
     dydz = [y(2)
           zeta(z)];

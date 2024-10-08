@@ -23,6 +23,9 @@ parfor Nexp_lambda =1:length(lambda_parm)
             '_N' num2str(N) '_S' num2str(Shear) ...
             '_lambda' num2str(lambda) '/'];
         outputname = [expdir 'output.mat'];
+
+        if(~isfile(outputname))
+
         mkdir(expdir);
 
         useRK4 = true;        %%% Use Tourth-order Runge-Kutta method
@@ -148,7 +151,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
             zidx_q = 1:Nr+1;
         end
         if(useTanhShear)
-            zidx_b = 1:round(h_shear/dz);
+            zidx_b = round(Nr/2-h_shear/dz):round(Nr/2+h_shear/dz);
             zidx_q = zidx_b;
         end
 
@@ -167,7 +170,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
         
         % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
         TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
-        KE_zavg = mean(TKE,2)';
+        KE_zavg = mean(TKE(:,zidx_b),2)';
         xxplot = tt/t1hour;
         yyplot = log(KE_zavg)/2;
         [pKE,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
@@ -175,7 +178,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
         pKE(1);
         [y_fit,delta_fit] = polyval(pKE,xxplot,S);
         
-        b2_zavg= mean(re_buoy.^2,2)';
+        b2_zavg= mean(re_buoy(:,zidx_b).^2,2)';
         yyplot_b2 = log(b2_zavg)/2;
         [pb2,S_b2] = polyfit(xxplot(fit_span),yyplot_b2(fit_span),1); 
         % GrowthRate(Nexp_lambda,Nexp_shear) = pb2(1);
@@ -191,6 +194,8 @@ parfor Nexp_lambda =1:length(lambda_parm)
             'Shear',Shear,'lambda',lambda,'kx',kx,'topo',topo,'Atide',Atide,'dAdz',dAdz,'expdir',expdir,...
             'KE_zavg',KE_zavg,'b2_zavg',b2_zavg,'y_fit',y_fit,'y_fit_b2',y_fit_b2);  
         save(sprintf(outputname),"-fromstruct",s);
+
+        end
         
     end
     
