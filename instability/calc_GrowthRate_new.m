@@ -27,7 +27,7 @@ parfor Nexp_lambda = 1:length(lambda_parm)
         expdir = [expfolder num2str(lambda) '/' expname];
         % clear uuu www psi NTtide tt Nr Nt Utide tt t1hour zz fit_span
 
-        fname = [expdir 'output_new.mat'];
+        fname = [expdir 'output.mat'];
         if(isfile(fname))
             
             pb2 =load_func(fname);
@@ -73,7 +73,7 @@ end
 
 GrowthRate_Floquet(GrowthRate_Floquet==0)=NaN;
 
-save(['GrowthRate_' dirname '_new.mat'],'a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
+save(['GrowthRate_' dirname '.mat'],'a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
 
 
 
