@@ -9,16 +9,24 @@ function [p0,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
     
     %%% Solve the boundary value problem using the bvp4c solver.
     zeta0 = @(z) interp1(linspace(min(zspan),max(zspan),numel(z0)), z0, z);    
-    %%% Form Initial Guess
-    options = bvpset('RelTol', 1e-3, 'AbsTol', 1e-3, 'NMax', 20000);
+    %%%%% Form Initial Guess -- old
     % options = bvpset('NMax', 15000);
-    p0_guess = real(p0);
+    % xmesh = zz_wgrid;
+    % solinit = bvpinit(xmesh, [0 0]);
+    %%%%% Form Initial Guess -- new
+    options = bvpset('RelTol', 1e-2, 'AbsTol', 100, 'NMax', 20000);
     xmesh = zz_wgrid;
-    solinit = bvpinit(xmesh, [0 0]);
-    solinit.y(1,:) = p0_guess;
-    solinit.y(2,2:end-1) = (p0_guess(3:end)-p0_guess(1:end-2))/dz/2; %%% Centered difference
-    solinit.y(2,1)=(p0_guess(2)-p0_guess(1))/dz;
-    solinit.y(2,end)=(p0_guess(end)-p0_guess(end-1))/dz;
+    solinit = bvpinit(xmesh,@(x)guess(x,max(zspan)));
+    %%%%% Form Initial Guess -- new
+    % options = bvpset('RelTol', 1e-3, 'AbsTol', 1e-3, 'NMax', 20000);
+    % options = bvpset('RelTol', 1e-2, 'AbsTol', 100, 'NMax', 20000);
+    % xmesh = zz_wgrid;
+    % solinit = bvpinit(xmesh, [0 0]);
+    % p0_guess = p0;
+    % solinit.y(1,:) = p0_guess;
+    % solinit.y(2,2:end-1) = (p0_guess(3:end)-p0_guess(1:end-2))/dz/2; %%% Centered difference
+    % solinit.y(2,1)=(p0_guess(2)-p0_guess(1))/dz;
+    % solinit.y(2,end)=(p0_guess(end)-p0_guess(end-1))/dz;
 
     if(~hydrostatic)
         %%% non-hydrostctic
@@ -151,4 +159,12 @@ end
     
 
 
+function y = guess(x,Hmax)
+   y = [sin(x/Hmax*pi)
+        pi/Hmax*cos(x/Hmax*pi)];
 
+    if(x==Hmax)
+    y(1,end)=0;
+    end
+
+end

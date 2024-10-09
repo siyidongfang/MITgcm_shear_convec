@@ -5,9 +5,9 @@
 #PBS -q main
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=128:mpiprocs=128:ompthreads=1
-#PBS -N   new_topo4_tanh
-#PBS -o   new_topo4_tanh/ne1.txt
-#PBS -e   new_topo4_tanh/ne1_e.txt 
+#PBS -N new_topo4_tanh
+#PBS -o new_topo4_tanh/ne1.txt
+#PBS -e new_topo4_tanh/ne1_e.txt 
 
 module load matlab
 matlab -nodisplay -nosplash -r options_parallel3

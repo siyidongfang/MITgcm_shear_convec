@@ -36,7 +36,7 @@ for nt =Ntopo:-1:1
     strat_sort = strat_sort(~isnan(grow_sort)); 
 
     subplot(2,2,1);hold on;
-    scatter(Ri_sort,grow_sort,markersize,topo.*ones(1,length(grow_sort)),'filled')
+    scatter(1./Ri_sort,grow_sort,markersize,topo.*ones(1,length(grow_sort)),'filled')
 end
 
 
@@ -62,7 +62,7 @@ for nn =Nidx
     Bu_sort = Bu_sort(~isnan(grow_sort));
     
     subplot(2,2,2);hold on;
-    scatter(Ri_sort,grow_sort,markersize,N.*ones(1,length(grow_sort)),'filled')
+    scatter(1./Ri_sort,grow_sort,markersize,N.*ones(1,length(grow_sort)),'filled')
 end
 
 
@@ -87,12 +87,12 @@ shear_sort = shear_sort(~isnan(grow_sort));
 grow_sort = grow_sort(~isnan(grow_sort));
 
 subplot(2,2,3);
-scatter(Ri_sort,grow_sort,markersize,log10(shear_sort),'filled')
+scatter(1./Ri_sort,grow_sort,markersize,log10(shear_sort),'filled')
 
 
 % Colored by Slope Burger Number
 subplot(2,2,4);
-scatter(Ri_sort,grow_sort,markersize,(Bu_sort),'filled')
+scatter(1./Ri_sort,grow_sort,markersize,(Bu_sort),'filled')
 
 
 %%
@@ -145,9 +145,9 @@ for nt =Ntopo:-1:1
     % ylabel('(hour$^{-1}$)','interpreter','latex');
 
     subplot(2,2,1);hold on;
-    scatter(Ri_sort,grow_sort,markersize,topo.*ones(1,length(grow_sort)))
-    set(gca,'xscale','log')
-    xlim([0 120])
+    scatter(1./Ri_sort,grow_sort,markersize,topo.*ones(1,length(grow_sort)))
+    % set(gca,'xscale','log')
+    % xlim([0 120])
     ylim([0 0.85])
     grid on;box on;
     set(gca,'Fontsize',fontsize)
@@ -187,9 +187,9 @@ for nn =Nidx
     Bu_sort = Bu_sort(~isnan(grow_sort));
     
     subplot(2,2,2);hold on;
-    scatter(Ri_sort,grow_sort,markersize,N.*ones(1,length(grow_sort)))
-    set(gca,'xscale','log')
-    xlim([0 120])
+    scatter(1./Ri_sort,grow_sort,markersize,N.*ones(1,length(grow_sort)))
+    % set(gca,'xscale','log')
+    % xlim([0 120])
     ylim([0 0.85])
     grid on;box on;
     set(gca,'Fontsize',fontsize)
@@ -224,9 +224,9 @@ grow_sort = grow_sort(~isnan(grow_sort));
 
 
 subplot(2,2,3);hold on;
-scatter(Ri_sort,grow_sort,markersize,log10(shear_sort))
-set(gca,'xscale','log')
-xlim([0 120])
+scatter(1./Ri_sort,grow_sort,markersize,log10(shear_sort))
+% set(gca,'xscale','log')
+% xlim([0 120])
 ylim([0 0.85])
 grid on;box on;
 set(gca,'Fontsize',fontsize)
@@ -262,9 +262,9 @@ grow_sort = grow_sort(~isnan(grow_sort));
 
 
 subplot(2,2,4);hold on;
-scatter(Ri_sort,grow_sort,markersize,(Bu_sort))
-set(gca,'xscale','log')
-xlim([0 120])
+scatter(1./Ri_sort,grow_sort,markersize,(Bu_sort))
+% set(gca,'xscale','log')
+% xlim([0 120])
 ylim([0 0.85])
 grid on;box on;
 set(gca,'Fontsize',fontsize)

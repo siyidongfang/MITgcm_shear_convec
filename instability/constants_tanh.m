@@ -51,8 +51,10 @@
     zspan = [0 Hmax];
 
     if(USEdiffusion)
-        nu = 1e-6; 
-        kappa = 1e-6;
+        nu = 1e-5; 
+        kappa = 1e-5;
+        % nu = 2e-6; 
+        % kappa = 2e-6;
         % nu = 2e-4; 
         % kappa = 2e-4;
     else

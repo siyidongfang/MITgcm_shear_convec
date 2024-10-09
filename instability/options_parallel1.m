@@ -22,7 +22,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
         expdir = [expfolder 'topo' num2str(topo) '_H' num2str(Hmax) ...
             '_N' num2str(N) '_S' num2str(Shear) ...
             '_lambda' num2str(lambda) '/'];
-        outputname = [expdir 'output_new.mat'];
+        outputname = [expdir 'output.mat'];
         
         if(~isfile(outputname))
 
@@ -151,7 +151,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
             zidx_q = 1:Nr+1;
         end
         if(useTanhShear)
-            zidx_b = round(Nr/2-h_shear/dz):round(Nr/2+h_shear/dz);
+            zidx_b = round(Nr/2-h_shear/dz/2):round(Nr/2+h_shear/dz/2);
             zidx_q = zidx_b;
         end
 
