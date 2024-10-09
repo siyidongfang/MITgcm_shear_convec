@@ -3,10 +3,10 @@ close all;
 clear;
 fontsize = 22;
 
-dirname = 'new_topo4_linear';
+dirname = 'new_flat_linear';
 expfolder = [dirname '/lambda'];
-% Shear_parm = ([0.1:0.1:2.8])*1e-3;    %%% flat
-Shear_parm = ([0.1:0.1:2.0 2.07])*1e-3; %%% topo4
+Shear_parm = ([0.1:0.1:2.8])*1e-3;    %%% flat
+% Shear_parm = ([0.1:0.1:2.0 2.07])*1e-3; %%% topo4
 lambda_parm = [50:25:700 750:50:1000 1200:200:2000 2400:400:3200 4000:1000:8000 10000:2000:12000]; 
 lambda_parm = flip(lambda_parm);
 lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.7]) 3];
@@ -27,14 +27,57 @@ parfor Nexp_lambda = 1:length(lambda_parm)
         expdir = [expfolder num2str(lambda) '/' expname];
         % clear uuu www psi NTtide tt Nr Nt Utide tt t1hour zz fit_span
 
-        fname = [expdir 'output_new.mat'];
+        fname = [expdir 'output.mat'];
         if(isfile(fname))
             
-            pb2 =load_func(file);
-            grow(Nexp_shear) = pb2;
+            % load([expdir 'output.mat'],'Nt','Nr','NTtide','uuu','www','re_buoy','nu','kappa','t1hour','tt')
+            % make_figures
+             [www uuu NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(fname);
+            % uuu = (re_psi(:,2:Nr+1)-re_psi(:,1:Nr))/dz;
+            
+            fit_span = round(Nt/NTtide*3):Nt-1;
+
+            % clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 pp S 
+            TKE = 1/4*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
+            Pr = nu/kappa;
+            TPE = Pr*re_buoy.^2/4;
+            KE_PE = TKE+TPE;
+            
+            KE_PE_zavg = mean(KE_PE,2,'omitnan');
+            xxplot = tt/t1hour;
+            yyplot = log(KE_PE_zavg)/2;
+            [pp,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+            grow(Nexp_shear) = pp(1);
         end
 
 
+            % % % pp(1);
+            % % % [y_fit,delta_fit] = polyval(pp,xxplot,S);
+            % % % 
+            % % % % b2 = mean(re_buoy.^2,2)';
+            % % % % yyplot_b2 = log(b2)/2;
+            % % % % [pb2,S_b2] = polyfit(xxplot(fit_span),yyplot_b2(fit_span),1); 
+            % % % % GrowthRate_b2(Nexp_lambda,Nexp_shear) = pb2(1);
+            % % % % growth(Nexp_lambda,Nexp_shear) = pb2(1)
+            % % % % [y_fit_b2,delta_fit_b2] = polyval(pb2,xxplot,S_b2);
+            % % % 
+            % % % 
+            % % % h=figure(1);
+            % % % clf;
+            % % % set(gcf,'color','w','Position',[85 222 979 420]);
+            % % % plot(xxplot/12,yyplot,'LineWidth',2)
+            % % % hold on
+            % % % % plot(xxplot/12,yyplot_b2,'LineWidth',2)
+            % % % plot(xxplot(fit_span)/12,y_fit(fit_span),':','LineWidth',1.5)
+            % % % % plot(xxplot(fit_span)/12,y_fit_b2(fit_span),':','LineWidth',1.5)
+            % % % grid on;grid minor;
+            % % % set(gca,'Fontsize',fontsize);
+            % % % ylim([pp(2)-3 pp(2)+pp(1)*max(xxplot)+2])
+            % % % xlabel('$t$ (tidal cycle)','Interpreter','Latex')
+            % % % ylabel('$\ln(e)/2$','Interpreter','Latex')
+            % % % hold off;
+            % % % % legend('TKE','b^2','Position',[0.8141 0.1988 0.0684 0.1393])
+            % % % saveas(h,[exppath 'energy.png'])
 
     end
 
@@ -73,11 +116,76 @@ end
 
 GrowthRate_Floquet(GrowthRate_Floquet==0)=NaN;
 
-save(['GrowthRate_' dirname '_new.mat'],'a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
+save(['products/GrowthRate_' dirname '.mat'],'a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
 
 
 
 
-function pb2 =load_func(file)
-        pb2 = load( file ,'pb2');
+% %%% Option 2
+% clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
+% TKE = 0.25* ( (uuu/U0).^2+(0.5*(www(:,1:Nr)+www(:,2:Nr+1))/U0).^2 );
+% TPE =  0.25* ( re_buoy.^2 );
+% KE_PE = TKE+TPE;
+% 
+% KE_PE_zavg = mean(KE_PE,2)';
+% 
+% xxplot = tt;
+% yyplot = log(KE_PE_zavg)/2;
+% [p,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+% GrowthRate(2,Nexp_lambda,Nexp_shear) = p(1);
+% 
+% %%% Option 3
+% clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
+% TKE1 = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
+% TKE2 = uuu.*(Utide*U0);
+% TKE = TKE1+TKE2;
+% 
+% TPE = -repmat(zzd,[length(re_buoyd) 1]).*re_buoyd;
+% KE_PE = TKE+TPE;
+% 
+% KE_PE_zavg = abs(mean(KE_PE,2))';
+% xxplot = ttd/t1hour;
+% yyplot = log(KE_PE_zavg)/2;
+% [p,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+% GrowthRate(3,Nexp_lambda,Nexp_shear) = p(1);
+% 
+% %%% Option 4
+% clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
+% TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
+% TPE = -repmat(zzd,[length(re_buoyd) 1]).*re_buoyd;
+% KE_PE = TKE+TPE;
+% 
+% KE_PE_zavg = abs(mean(KE_PE,2))';
+% xxplot = ttd/t1hour;
+% yyplot = log(KE_PE_zavg)/2;
+% [p,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+% GrowthRate(4,Nexp_lambda,Nexp_shear) = p(1);
+% 
+% %%% Option 5
+% clear TKE TPE KE_PE KE_PE_zavg TKE1 TKE2 p S 
+% TKE = 0.5*(uuu.^2+0.5*(www(:,1:Nr)+www(:,2:Nr+1)).^2);
+% TPE = abs(-repmat(zzd,[length(re_buoyd) 1]).*re_buoyd);
+% KE_PE = TKE+TPE;
+% 
+% KE_PE_zavg = mean(KE_PE,2)';
+% xxplot = ttd/t1hour;
+% yyplot = log(KE_PE_zavg)/2;
+% [p,S] = polyfit(xxplot(fit_span),yyplot(fit_span),1); 
+% GrowthRate(5,Nexp_lambda,Nexp_shear) = p(1);
+
+
+function [www uuu NTtide Nr Nt tt t1hour zz dz re_buoy nu kappa] =load_func(file)
+        S = load( file );
+        www = S.www;
+        uuu = S.uuu;
+        NTtide = S.NTtide;
+        Nr = S.Nr;
+        Nt = S.Nt;
+        tt = S.tt;
+        t1hour = S.t1hour;
+        zz = S.zz;
+        dz = S.dz;
+        re_buoy = S.re_buoy;
+        nu = S.nu;
+        kappa = S.kappa;
 end
