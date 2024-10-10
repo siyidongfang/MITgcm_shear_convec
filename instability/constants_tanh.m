@@ -1,11 +1,9 @@
 
     addpath ../analysis/colormaps/    
-    % Shear_parm = ([0.1:0.1:1.4 1.45 1.5:2.8])*1e-3;    %%% flat
-    Shear_parm = ([0.1:0.1:1.3 1.35 1.4:0.1:2.0 2.07])*1e-3; %%% topo4
-    lambda_parm = [50:25:700 750:50:1000 1200:200:2000 2400:400:3200 4000:1000:8000 10000:2000:12000]*2; 
-    % lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
-    lambda_parm = flip(lambda_parm);
-    lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.7]) 3]*2;
+    % Shear_parm = ([0.2:0.2:1.4 1.45 1.5:0.2:2.7])*1e-3;    %%% flat
+    Shear_parm = ([0.1:0.2:1.3 1.35 1.4:0.2:2.0 2.07])*1e-3; %%% topo4
+    lambda_parm = [10:10:40 50:25:700 750:50:1000 1200:200:2000 2400:400:3200 4000:1000:8000 10000:2000:14000]; 
+    lambda_parm = flip(lambda_parm)*2;
 
     % lambda_parm = lambda_parm(42:82);
 
@@ -26,7 +24,7 @@
     topo = 4;
     Ptide = 43200;
     omega = 2*pi/Ptide;
-    NTtide = 10;
+    NTtide = 7;
     Lt = NTtide*Ptide; 
     
     h_shear = 250;

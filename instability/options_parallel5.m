@@ -6,7 +6,7 @@
 clear all;
 close all;
 
-exppath = 'kv1e-4_topo4_0Center/';
+exppath = 'randn_topo4_0Center/';
 constants_tanh;
 
 parfor Nexp_lambda =1:length(lambda_parm)
@@ -21,7 +21,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
         
         expdir = [expfolder 'topo' num2str(topo) '_H' num2str(Hmax) ...
             '_N' num2str(N) '_S' num2str(Shear) ...
-            '_lambda' num2str(lambda) '/'];
+            '_lambda' num2str(lambda) '_'];
         outputname = [expdir 'output.mat'];
         
         if(~isfile(outputname))

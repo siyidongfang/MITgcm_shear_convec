@@ -23,7 +23,7 @@ parfor Nexp_lambda = 1:length(lambda_parm)
         Nexp_shear
         Shear = Shear_parm(Nexp_shear);
 
-        expname = ['topo0_H500_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
+        expname = ['topo0_H500_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '_'];
         expdir = [expfolder num2str(lambda) '/' expname];
         % clear uuu www psi NTtide tt Nr Nt Utide tt t1hour zz fit_span
 
@@ -33,16 +33,6 @@ parfor Nexp_lambda = 1:length(lambda_parm)
             pb2 =load_func(fname);
             grow(Nexp_shear) = pb2.pb2(1);
         end
-
-        fname = [expdir 'output_new.mat'];
-        if(isfile(fname))
-            
-            pb2 =load_func(fname);
-            grow(Nexp_shear) = pb2.pb2(1);
-        end
-
-
-
 
     end
 
@@ -81,7 +71,7 @@ end
 
 GrowthRate_Floquet(GrowthRate_Floquet==0)=NaN;
 
-save(['GrowthRate_' dirname '_new.mat'],'a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
+save(['products/grow_' dirname '.mat'],'a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
 
 
 

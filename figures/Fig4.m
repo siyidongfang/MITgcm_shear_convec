@@ -172,7 +172,7 @@ for i=1:length(shear_gcm_tanh)
 end
 
 load('fig4/MITtopo4_kv1e-5_tt_tanh_zeroCenter.mat')
-% growth_MITgcm(1:4)=NaN;
+growth_MITgcm(2:4)=NaN;
 shear_gcm_tanh_0Center = shear_MITgcm;
 grow_gcm_tanh_0Center = growth_MITgcm;
 for i=1:length(shear_gcm_tanh_0Center)

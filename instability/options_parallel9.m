@@ -6,7 +6,7 @@
 clear all;
 close all;
 
-exppath = 'new_flat_tanh/';
+exppath = 'randn_flat_tanh/';
 constants_tanh_flat;
 
 parfor Nexp_lambda =1:length(lambda_parm)
@@ -15,17 +15,16 @@ parfor Nexp_lambda =1:length(lambda_parm)
     expfolder = [exppath 'lambda' num2str(lambda) '/']
     mkdir(expfolder); 
 
-    for Nexp_shear =1:14
+    for Nexp_shear =1:length(Shear_parm)
 
         Shear = Shear_parm(Nexp_shear)
         
         expdir = [expfolder 'topo' num2str(topo) '_H' num2str(Hmax) ...
             '_N' num2str(N) '_S' num2str(Shear) ...
-            '_lambda' num2str(lambda) '/'];
+            '_lambda' num2str(lambda) '_'];
         outputname = [expdir 'output.mat'];
-        outputname2 = [expdir 'output_new.mat'];
-        if(~isfile(outputname) && ~isfile(outputname2))
-            outputname = [expdir 'output_new.mat'];
+
+        if(~isfile(outputname))
 
         mkdir(expdir);
 

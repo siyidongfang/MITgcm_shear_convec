@@ -10,7 +10,7 @@ function [p0,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
     %%% Solve the boundary value problem using the bvp4c solver.
     zeta0 = @(z) interp1(linspace(min(zspan),max(zspan),numel(z0)), z0, z);    
     %%%%% Form Initial Guess -- old
-    options = bvpset('NMax', 30000);
+    options = bvpset('NMax', 15000);
     xmesh = zz_wgrid;
     solinit = bvpinit(xmesh, [0 0]);
     %%%%% Form Initial Guess -- new
