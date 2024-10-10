@@ -1,6 +1,6 @@
 
-    % expdir ='../../MITgcm_shear_convec/exps_kv5e-6/'
-    expdir ='../../MITgcm_shear_convec/exps_kv1e-5/'
+    expdir ='../../MITgcm_shear_convec/exps_kv5e-6/'
+    % expdir ='../../MITgcm_shear_convec/exps_kv1e-5/'
     % expdir ='../../MITgcm_shear_convec/exps_kv5e-5/'
 
 
@@ -25,16 +25,16 @@
         % 'topo4_H500Lx3k_s2.000dz1dx3sm100' %13
         % 'topo4_H500Lx3k_s2.070dz1dx3sm100' %12.5
         ...
-        'tanh_topo4_H800Lx3k_s0.400dz1dx3sm100' %38
-        'tanh_topo4_H800Lx3k_s0.900dz1dx3sm100' %34.5
-        'tanh_topo4_H800Lx3k_s1.000dz1dx3sm100' %29.5 
-        'tanh_topo4_H800Lx3k_s1.200dz1dx3sm100' %13
-        'tanh_topo4_H800Lx3k_s1.500dz1dx3sm100' %10.5
-        'tanh_topo4_H800Lx3k_s1.700dz1dx3sm100' %9
-        'tanh_topo4_H800Lx3k_s1.800dz1dx3sm100' %8.75
-        'tanh_topo4_H800Lx3k_s1.900dz1dx3sm100' %8.25
-        'tanh_topo4_H800Lx3k_s2.000dz1dx3sm100' %7.75
-        'tanh_topo4_H800Lx3k_s2.070dz1dx3sm100' %7.5
+        % 'tanh_topo4_H800Lx3k_s0.400dz1dx3sm100' %38
+        % 'tanh_topo4_H800Lx3k_s0.900dz1dx3sm100' %34.5
+        % 'tanh_topo4_H800Lx3k_s1.000dz1dx3sm100' %29.5 
+        % 'tanh_topo4_H800Lx3k_s1.200dz1dx3sm100' %13
+        % 'tanh_topo4_H800Lx3k_s1.500dz1dx3sm100' %10.5
+        % 'tanh_topo4_H800Lx3k_s1.700dz1dx3sm100' %9
+        % 'tanh_topo4_H800Lx3k_s1.800dz1dx3sm100' %8.75
+        % 'tanh_topo4_H800Lx3k_s1.900dz1dx3sm100' %8.25
+        % 'tanh_topo4_H800Lx3k_s2.000dz1dx3sm100' %7.75
+        % 'tanh_topo4_H800Lx3k_s2.070dz1dx3sm100' %7.5
         % ...
         % 'zeroCenter_tanh_topo4_H800Lx3k_s0.400dz1dx3sm100' %?? No grow
         % 'zeroCenter_topo4_H800Lx3k_s0.900dz1dx3sm100' %17, rapid grow
@@ -64,7 +64,7 @@
         % 'tanh_topo0_H800Lx3k_s0.600dz1dx3sm100' %26
         % 'tanh_topo0_H800Lx3k_s0.800dz1dx3sm100' %19
         % 'tanh_topo0_H800Lx3k_s1.000dz1dx3sm100' %15 
-        % 'tanh_topo0_H800Lx3k_s1.200dz1dx3sm100' %13 --submitted
+        'tanh_topo0_H800Lx3k_s1.200dz1dx3sm100' %37
         % 'tanh_topo0_H800Lx3k_s1.400dz1dx3sm100' %11 --submitted
         % 'tanh_topo0_H800Lx3k_s1.600dz1dx3sm100' %9.5
         % 'tanh_topo0_H800Lx3k_s1.800dz1dx3sm100' %16.75
@@ -77,10 +77,10 @@
         % 'flat_H500Lx3k_s0.40dz1dx3sm100' %63
         % 'flat_H500Lx3k_s0.60dz1dx3sm100' %43
         % 'flat_H500Lx3k_s0.80dz1dx3sm100' %32
-        % 'flat_H500Lx3k_s1.00dz1dx3sm100' %26
+        'flat_H500Lx3k_s1.00dz1dx3sm100' %51
         % 'flat_H500Lx3k_s1.10dz1dx3sm100' %23
         % 'flat_H500Lx3k_s1.20dz1dx3sm100' %21
-        % 'flat_H500Lx3k_s1.30dz1dx3sm100' %20
+        'flat_H500Lx3k_s1.30dz1dx3sm100' %40
         % 'flat_H500Lx3k_s1.40dz1dx3sm100' %19
         % 'flat_H500Lx3k_s1.455dz1dx3sm100'%18
         % 'flat_H500Lx3k_s1.50dz1dx3sm100' %17

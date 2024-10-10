@@ -4,7 +4,11 @@
 % load('products/GrowthRate_new_topo4_linear.mat')
 % load('products/GrowthRate_new_topo4_tanh.mat')
 % load('products/GrowthRate_new_topo4_0Center.mat')
-
+% load('products/GrowthRate_kv1e-4_flat_linear.mat')
+% load('products/GrowthRate_kv1e-4_flat_tanh.mat')
+% load('products/GrowthRate_kv1e-4_topo4_linear.mat')
+% load('products/GrowthRate_kv1e-4_topo4_tanh.mat')
+% load('products/GrowthRate_kv1e-4_topo4_0Center.mat')
 figure(1)
 clf
 subplot(1,2,1)

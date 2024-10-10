@@ -1,7 +1,7 @@
 
     addpath ../analysis/colormaps/    
-    % Shear_parm = ([0.1:0.1:2.8])*1e-3;    %%% flat
-    Shear_parm = ([0.1:0.1:2.0 2.07])*1e-3; %%% topo4
+    % Shear_parm = ([0.1:0.1:1.4 1.45 1.5:2.8])*1e-3;    %%% flat
+    Shear_parm = ([0.1:0.1:1.3 1.35 1.4:0.1:2.0 2.07])*1e-3; %%% topo4
     lambda_parm = [50:25:700 750:50:1000 1200:200:2000 2400:400:3200 4000:1000:8000 10000:2000:12000]*2; 
     % lambda_parm = [round(10.^[1.7:0.05:3 3.1:0.1:3.4 3.6 3.8 4]/10)*10];
     lambda_parm = flip(lambda_parm);
@@ -33,7 +33,7 @@
         
     
     if(useLinearShear)
-        dz = 1;  
+        dz = 0.5;  
         Hmax = h_shear;
         Nr = round(Hmax/dz);
         zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   
@@ -41,7 +41,7 @@
     end
     
     if(useTanhShear)
-        dz = 2; 
+        dz = 1; 
         Hmax = h_shear+250;
         Nr = round(Hmax/dz);
         zz = dz/2:dz:(Nr*dz-dz/2);  % Height above topography   

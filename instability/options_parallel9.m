@@ -6,7 +6,7 @@
 clear all;
 close all;
 
-exppath = 'kv1e-4_flat_tanh/';
+exppath = 'new_flat_tanh/';
 constants_tanh_flat;
 
 parfor Nexp_lambda =1:length(lambda_parm)
@@ -15,7 +15,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
     expfolder = [exppath 'lambda' num2str(lambda) '/']
     mkdir(expfolder); 
 
-    for Nexp_shear =1:length(Shear_parm)
+    for Nexp_shear =1:14
 
         Shear = Shear_parm(Nexp_shear)
         
@@ -23,8 +23,8 @@ parfor Nexp_lambda =1:length(lambda_parm)
             '_N' num2str(N) '_S' num2str(Shear) ...
             '_lambda' num2str(lambda) '/'];
         outputname = [expdir 'output.mat'];
-        
-        if(~isfile(outputname))
+        outputname2 = [expdir 'output_new.mat'];
+        if(~isfile(outputname) && ~isfile(outputname2))
             outputname = [expdir 'output_new.mat'];
 
         mkdir(expdir);

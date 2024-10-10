@@ -3,13 +3,13 @@ close all;
 clear;
 fontsize = 22;
 
-dirname = 'new_topo4_linear';
+dirname = 'new_flat_tanh';
 expfolder = [dirname '/lambda'];
 % Shear_parm = ([0.1:0.1:2.8])*1e-3;    %%% flat
 Shear_parm = ([0.1:0.1:2.0 2.07])*1e-3; %%% topo4
-lambda_parm = [50:25:700 750:50:1000 1200:200:2000 2400:400:3200 4000:1000:8000 10000:2000:12000]; 
+lambda_parm = [50:25:700 750:50:1000 1200:200:2000 2400:400:3200 4000:1000:8000 10000:2000:12000]*2; 
 lambda_parm = flip(lambda_parm);
-lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.7]) 3];
+lambda_parm = [lambda_parm round(10.^[1.6:-0.1:0.7]) 3]*2;
 
 GrowthRate = NaN.*zeros(length(lambda_parm),length(Shear_parm));
 grow =  NaN.*zeros(1,length(Shear_parm));
@@ -23,7 +23,7 @@ parfor Nexp_lambda = 1:length(lambda_parm)
         Nexp_shear
         Shear = Shear_parm(Nexp_shear);
 
-        expname = ['topo4_H250_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
+        expname = ['topo0_H500_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '/'];
         expdir = [expfolder num2str(lambda) '/' expname];
         % clear uuu www psi NTtide tt Nr Nt Utide tt t1hour zz fit_span
 
@@ -31,8 +31,16 @@ parfor Nexp_lambda = 1:length(lambda_parm)
         if(isfile(fname))
             
             pb2 =load_func(fname);
-            grow(Nexp_shear) = pb2;
+            grow(Nexp_shear) = pb2.pb2(1);
         end
+
+        fname = [expdir 'output_new.mat'];
+        if(isfile(fname))
+            
+            pb2 =load_func(fname);
+            grow(Nexp_shear) = pb2.pb2(1);
+        end
+
 
 
 
@@ -73,7 +81,7 @@ end
 
 GrowthRate_Floquet(GrowthRate_Floquet==0)=NaN;
 
-save(['GrowthRate_' dirname '.mat'],'a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
+save(['GrowthRate_' dirname '_new.mat'],'a','b','lambda_Floquet','growth_Floquet','shear_Floquet','GrowthRate_Floquet')
 
 
 
