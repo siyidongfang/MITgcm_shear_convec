@@ -1,7 +1,7 @@
 
 function [p0,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
             = loop(o,Nr,t0,zspan,zz_wgrid,z0,dz,p0,b0,Atide,Atide_wgrid,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4,...
-                   kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3,hydrostatic)
+                   kx,omega,topo,nu,kappa,N,dAdz,noBQ2,noBQ3,noBQ4,noZQ2,noZQ3,hydrostatic,useTanhShear)
 
     %%%%%%%%%%%% B.C.-6 %%%%%%%%%%%%
     z0(1) = 0; z0(Nr+1) = 0; 
@@ -55,7 +55,28 @@ function [p0,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
     U = cos(omega*t0)*Atide;
     U_wgrid = cos(omega*t0)*Atide_wgrid;
 
-    % dUdz = (U_wgrid(2:Nr+1)-U_wgrid(1:Nr))/dz;
+
+    Uzz = zeros(1,Nr+1);                     %%% on w-grid
+    Uzzz = zeros(1,Nr+1);                    %%% on w-grid
+    Bzz = zeros(1,Nr);                       %%% on b-grid
+
+    if(useTanhShear)
+        Uz = (U_wgrid(2:Nr+1)-U_wgrid(1:Nr))/dz; %%% on b-grid
+        Uzz(2:Nr) = (Uz(2:Nr)-Uz(1:Nr-1))/dz;    %%% on w-grid
+        Uzz(1)=2*Uzz(2)-Uzz(3); % Linear extrapolation
+        Uzz(Nr+1)=2*Uzz(Nr)-Uzz(Nr-1);
+       
+        Uzzz(2:Nr)=(Uzz(3:Nr+1)-Uzz(1:Nr-1))/2/dz;    %%% on w-grid
+        Uzzz(1)=2*Uzzz(2)-Uzzz(3); % Linear extrapolation
+        Uzzz(Nr+1)=2*Uzzz(Nr)-Uzzz(Nr-1);
+    
+        Az = zeros(1,Nr+1);                            %%% on w-grid
+        Az(2:Nr) = (Atide(2:Nr)-Atide(1:Nr-1))/dz;     %%% on w-grid
+        Az(1)=2*Az(2)-Az(3); % Linear extrapolation
+        Az(Nr+1)=2*Az(Nr)-Az(Nr-1);
+        Azz = (Az(2:Nr+1)-Az(1:Nr))/dz;                %%% on b-grid
+        Bzz = -Azz/omega*N^2*sind(topo)*sin(omega*t0); %%% on b-grid
+    end
 
     dbdz(2:Nr) = (b0(2:Nr)-b0(1:Nr-1))/dz; %%% on w-grid
 
@@ -87,7 +108,7 @@ function [p0,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
     bq2(o,:) = -1i*kx*p0_ugrid*N^2*cosd(topo);
     bq3(o,:) = dpsidz*N^2*sind(topo);
     bq4(o,:) = 1i*kx*p0_ugrid.*dAdz/omega*N^2*sind(topo)*sin(omega*t0);
-    bq5(o,:) = kappa*(d2bdz2-kx^2.*b0);
+    bq5(o,:) = kappa*(d2bdz2-kx^2.*b0+Bzz);
  
     if(noBQ2)
         bq2(o,:) = 0;
@@ -112,10 +133,10 @@ function [p0,dzetadt,dbdt,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4] ...
     d2zetadz2 = interp1(zz_wgrid(2:Nr),d2zetadz2(2:Nr),zz_wgrid,'linear','extrap');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    zq1(o,:) = -1i*kx*U_wgrid.*z0;
+    zq1(o,:) = -1i*kx*U_wgrid.*z0 + 1i*kx*p0.*Uzz;
     zq2(o,:) = 1i*kx*b0_wgrid*cosd(topo);
     zq3(o,:) = -dbdz*sind(topo);
-    zq4(o,:) = nu*(d2zetadz2-kx^2.*z0);
+    zq4(o,:) = nu*(d2zetadz2-kx^2.*z0-Uzzz);
 
     if(noZQ2)
         zq2(o,:) = 0;
