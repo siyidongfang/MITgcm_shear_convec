@@ -3,8 +3,8 @@ close all;
 clear;
 fontsize = 22;
 
-dirname = 'randn_topo4_0Center';
-constants_tanh
+dirname = 'randn_flat_tanh';
+constants_tanh_flat
 expfolder = [dirname '/lambda'];
 
 GrowthRate = NaN.*zeros(length(lambda_parm),length(Shear_parm));
@@ -19,7 +19,7 @@ parfor Nexp_lambda = 1:length(lambda_parm)
         % Nexp_shear
         Shear = Shear_parm(Nexp_shear);
 
-        expname = ['topo4_H500_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '_'];
+        expname = ['topo0_H500_N0.001_S' num2str(Shear) '_lambda' num2str(lambda) '_'];
         expdir = [expfolder num2str(lambda) '/' expname];
         % clear uuu www psi NTtide tt Nr Nt Utide tt t1hour zz fit_span
 
@@ -28,6 +28,10 @@ parfor Nexp_lambda = 1:length(lambda_parm)
             
             pb2 =load_func(fname);
             grow(Nexp_shear) = pb2.pb2(1);
+        end
+
+        if( grow(Nexp_shear)>0.7)
+            grow(Nexp_shear)=NaN;
         end
 
     end

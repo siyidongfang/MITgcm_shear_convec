@@ -6,8 +6,8 @@
 clear all;
 close all;
 
-exppath = 'Uzz_flat_tanh/';
-constants_tanh_flat;
+exppath = 'smalldt_topo4_linear/';
+constants_linear;
 
 parfor Nexp_lambda =1:length(lambda_parm)
     lambda = lambda_parm(Nexp_lambda);
@@ -15,7 +15,8 @@ parfor Nexp_lambda =1:length(lambda_parm)
     expfolder = [exppath 'lambda' num2str(lambda) '/']
     mkdir(expfolder); 
 
-    for Nexp_shear =1:length(Shear_parm)
+    % for Nexp_shear =1:length(Shear_parm)
+    for Nexp_shear =10:12
 
         Shear = Shear_parm(Nexp_shear)
         
@@ -23,7 +24,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
             '_N' num2str(N) '_S' num2str(Shear) ...
             '_lambda' num2str(lambda) '_'];
         outputname = [expdir 'output.mat'];
-
+        
         if(~isfile(outputname))
 
         % mkdir(expdir);
@@ -196,7 +197,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
        
         s = struct('pKE',pKE,'pb2',pb2);  
         save(sprintf(outputname),"-fromstruct",s);
-        
+
         end
         
     end

@@ -16,7 +16,7 @@ parfor Nexp_lambda =1:length(lambda_parm)
     mkdir(expfolder); 
 
     % for Nexp_shear =1:length(Shear_parm)
-    for Nexp_shear =[1:3 13]
+    for Nexp_shear =10:12
 
         Shear = Shear_parm(Nexp_shear)
         

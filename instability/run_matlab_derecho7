@@ -5,9 +5,9 @@
 #PBS -q main
 #PBS -l walltime=12:00:00
 #PBS -l select=1:ncpus=128:mpiprocs=128:ompthreads=1
-#PBS -N Uzz_flat_linear
-#PBS -o Uzz_flat_linear/ne1.txt
-#PBS -e Uzz_flat_linear/ne1_e.txt 
+#PBS -N smalldt_topo4_tanh
+#PBS -o smalldt_topo4_tanh/ne7.txt
+#PBS -e smalldt_topo4_tanh/ne7_e.txt 
 
 module load matlab
 matlab -nodisplay -nosplash -r options_parallel7

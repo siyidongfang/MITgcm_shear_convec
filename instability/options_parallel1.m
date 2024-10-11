@@ -6,7 +6,7 @@
 clear all;
 close all;
 
-exppath = 'Uzz_topo4_linear/';
+exppath = 'smalldt_topo4_linear/';
 constants_linear;
 
 parfor Nexp_lambda =1:length(lambda_parm)
@@ -15,7 +15,8 @@ parfor Nexp_lambda =1:length(lambda_parm)
     expfolder = [exppath 'lambda' num2str(lambda) '/']
     mkdir(expfolder); 
 
-    for Nexp_shear =1:length(Shear_parm)
+    % for Nexp_shear =1:length(Shear_parm)
+    for Nexp_shear =[1:3 13]
 
         Shear = Shear_parm(Nexp_shear)
         

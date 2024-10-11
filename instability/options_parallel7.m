@@ -6,8 +6,8 @@
 clear all;
 close all;
 
-exppath = 'Uzz_flat_linear/';
-constants_linear_flat;
+exppath = 'smalldt_topo4_tanh/';
+constants_tanh;
 
 parfor Nexp_lambda =1:length(lambda_parm)
     lambda = lambda_parm(Nexp_lambda);
@@ -15,7 +15,8 @@ parfor Nexp_lambda =1:length(lambda_parm)
     expfolder = [exppath 'lambda' num2str(lambda) '/']
     mkdir(expfolder); 
 
-    for Nexp_shear =1:length(Shear_parm)
+    % for Nexp_shear =1:length(Shear_parm)
+    for Nexp_shear =7:9
 
         Shear = Shear_parm(Nexp_shear)
         

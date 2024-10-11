@@ -11,7 +11,7 @@ function [dt,Nt,tt,psi,zeta,buoy,p0,b0,z0,bq1,bq2,bq3,bq4,bq5,zq1,zq2,zq3,zq4,..
         %     dt_cfl = CFLx/0.0001*lambda;
         % end
         
-        dt_tide = Ptide/(72*5);       % The time step required to resolve tides
+        dt_tide = Ptide/(72*30);       % The time step required to resolve tides
         % dt = min([dt_tide dt_cfl]);
         dt = dt_tide;
         

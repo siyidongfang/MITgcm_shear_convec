@@ -1,14 +1,4 @@
-% clear;
-% load('products/GrowthRate_new_flat_linear.mat')
-% load('products/GrowthRate_new_flat_tanh.mat')
-% load('products/GrowthRate_new_topo4_linear.mat')
-% load('products/GrowthRate_new_topo4_tanh.mat')
-% load('products/GrowthRate_new_topo4_0Center.mat')
-% load('products/GrowthRate_kv1e-4_flat_linear.mat')
-% load('products/GrowthRate_kv1e-4_flat_tanh.mat')
-% load('products/GrowthRate_kv1e-4_topo4_linear.mat')
-% load('products/GrowthRate_kv1e-4_topo4_tanh.mat')
-% load('products/GrowthRate_kv1e-4_topo4_0Center.mat')
+
 figure(1)
 clf
 subplot(1,2,1)
@@ -20,5 +10,6 @@ hold on;
 load('../instability_km/exps_varyingN/N1e-3output.mat','shear_all','grow_rw')
 [max_grow_nodiff r_idx]=max(grow_rw,[],2);
 plot(shear_all,max_grow_nodiff)
+colormap(redblue)
 
 xlim([0 2e-3])
