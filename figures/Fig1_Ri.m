@@ -81,7 +81,7 @@ xlim(XLIM)
 ax2.YAxis(2).Color = blue;
 
 
-print('-dpng','-r300','fig1/fig1_Ri.png');
+% print('-dpng','-r300','fig1/fig1_Ri.png');
 
 
 
@@ -103,5 +103,5 @@ ylim([0 2])
 xlim(XLIM)
 ax2.YAxis(2).Color = blue;
 
-print('-dpng','-r300','fig1/fig1_Ri_axes.png');
+% print('-dpng','-r300','fig1/fig1_Ri_axes.png');
 

@@ -2,21 +2,24 @@
 
 clear;
 
-%--- MAVS1
-load('MAVS1_shear.mat') % microseconds==>hours since 2021-07-06 04:45:32.999788
-load('MAVS1_N2.mat')    % seconds since 2021-08-01 00:00:00
-% load('MAVS1_shear_100m.mat') 
-% load('MAVS1_N2_100m.mat')   
-n2start = 1;
-ustart = (31-6+1)*24*4-(4*4+3);
+% %--- MAVS1
+% load('MAVS1_shear.mat') % microseconds==>hours since 2021-07-06 04:45:32.999788
+% load('MAVS1_N2.mat')    % seconds since 2021-08-01 00:00:00
+% % load('MAVS1_shear_100m.mat') 
+% % load('MAVS1_N2_100m.mat')   
+% n2start = 1;
+% ustart = (31-6+1)*24*4-(4*4+3);
 
-% %--- MAVS2
-% % load('MAVS2_shear.mat') % microseconds==>hours since 2021-07-07 06:00:33.000323
-% % load('MAVS2_N2.mat')    % seconds since 2021-07-06 00:00:00
+%--- MAVS2
+load('MAVS2_LinearShear.mat') %% Linear-fit shear
+shear_zavg = shear_linear;
+time_uw=time/3600;
+% load('MAVS2_shear.mat') % microseconds==>hours since 2021-07-07 06:00:33.000323
+load('MAVS2_N2.mat')    % seconds since 2021-07-06 00:00:00
 % load('MAVS2_shear_100m.mat')
 % load('MAVS2_N2_100m.mat')    
-% n2start = 86400+6*3600+33;
-% ustart = 1;
+n2start = 86400+6*3600+33;
+ustart = 1;
 
 time_n2 = 1:length(time_temp); 
 time_n2 = time_n2/3600; %%% convert to hours

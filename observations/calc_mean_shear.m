@@ -46,7 +46,7 @@ xlabel('Time (days)')
 ylabel('shear (1/s)')
 title('Depth-averaged velocity shear at MAVS2')
 
-save('MAVS1_shear_100m.mat','time_uw','shear_zavg')
+% save('MAVS1_shear_100m.mat','time_uw','shear_zavg')
 
 
 %%

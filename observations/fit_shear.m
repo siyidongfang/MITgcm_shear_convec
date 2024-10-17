@@ -18,33 +18,34 @@ ratio = mean(abs(u2),'all','omitnan')/mean(abs(u1),'all','omitnan')
 
 %%% Calculate the linear fit of uu_tilde for each timestep
 dt = diff(time);
-zidx = 4:18;
+% zidx = 4:18;
+zidx = 4:10;
 
 
 for i=1:length(time)
     % i
 
-    % u_fit = uu_tilde(zidx,i);
-    % depth_fit = depth(zidx);
+    u_fit = uu_tilde(zidx,i);
+    depth_fit = depth(zidx);
     
-    u_fit = uu_tilde(:,i);
-    u_fit = u_fit(~isnan(u_fit));
-    depth_fit = depth(~isnan(uu_tilde(:,i)));
+    % u_fit = uu_tilde(:,i);
+    % u_fit = u_fit(~isnan(u_fit));
+    % depth_fit = depth(~isnan(uu_tilde(:,i)));
 
     [p,S] = polyfit(depth_fit,u_fit,1); 
     p1(i) = p(1);p2(i) = p(2);
     
-    figure(1)
-    clf;set(gcf,'color','w')
-    plot(u_fit,depth_fit,'LineWidth',2)
-    hold on;
-    plot(depth_fit*p1(i)+p2(i),depth_fit,'k--','LineWidth',2)
-    hold off;
-    grid on;grid minor;
-    ylabel('Depth (m)');xlabel('u (m/s)');set(gca,'FontSize',fontsize)
-    axis ij;
-    title('Along-canyon velocity')
-    ylim([depth(3) depth(19)]);xlim([-0.3 0.4])
+    % figure(1)
+    % clf;set(gcf,'color','w')
+    % plot(u_fit,depth_fit,'LineWidth',2)
+    % hold on;
+    % plot(depth_fit*p1(i)+p2(i),depth_fit,'k--','LineWidth',2)
+    % hold off;
+    % grid on;grid minor;
+    % ylabel('Depth (m)');xlabel('u (m/s)');set(gca,'FontSize',fontsize)
+    % axis ij;
+    % title('Along-canyon velocity')
+    % ylim([depth(3) depth(19)]);xlim([-0.3 0.4])
 
 end
 
@@ -53,6 +54,7 @@ shear_linear = p1;
 u_reconstruct = depth'.*p1+p2;
 
 % save('MAVS2_LinearShear.mat','depth','uu_tilde','topo','u_reconstruct','shear_linear','p1','p2','time')
+save('MAVS2_LinearShear_100m.mat','depth','uu_tilde','topo','u_reconstruct','shear_linear','p1','p2','time')
 
 
 %%
