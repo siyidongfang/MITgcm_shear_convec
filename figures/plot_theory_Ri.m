@@ -9,7 +9,7 @@ nexttile
 load('fig4/Ri_flat.mat')
 plot(1./Ri_min,shear_calc_Ri*1e3,'LineWidth',2)
 hold on;
-load('fig4/Ri_topo4.mat')
+load('fig4/Ri_topo4_new.mat')
 plot(1./Ri_min,shear_calc_Ri*1e3,'LineWidth',2)
 grid on;grid minor;
 xlim([0 10])
@@ -36,7 +36,7 @@ plot(1./Ri_km,max_grow,'LineWidth',2);
 hold on;
 clear Ri_km max_grow shear_all shear_calc_Ri
 load('../instability_km/exps_new/topo4_nu0_large_shearoutput.mat','grow_rw','shear_all')
-load('fig4/Ri_topo4.mat')
+load('fig4/Ri_topo4_new.mat')
 [max_grow ~]=max(grow_rw,[],2);
 for i=1:length(shear_all)
     [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));

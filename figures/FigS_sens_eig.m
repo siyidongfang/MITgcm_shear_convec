@@ -1,5 +1,7 @@
 clear;close all;
 
+addpath ../instability_eig/products/
+
 load_colors;
 fontsize = 18;
 
@@ -18,7 +20,7 @@ colorn1 = WhiteBlueGreenYellowRed(0);
 colorn1 = colorn1(25:25:end,:);
 colorn = cmocean('balance');
 colorn = colorn(25:30:end,:);
-% colorn = colorn1;
+colorn = colorn1;
 
 nexttile(1);
 hold on;
@@ -155,4 +157,4 @@ tiledlay.Padding = 'compact';
 AddLetters2Plots(fg1,'FontSize',fontsize+5,'FontWeight','normal','Direction','TopDown')
 
 
-% print('-dpng','-r300','fig_supp/figS_sens_eig_matlab2.png');
+print('-dpng','-r300','fig_supp/figS_sens_eig_matlab1.png');

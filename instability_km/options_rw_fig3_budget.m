@@ -12,26 +12,29 @@ nt_percycle = 72*30;
 Ptide = 43200;
 omega = 2*pi/Ptide;
 
-topo=0;
-load('../figures/fig4/Ri_flat.mat')
-shear_Ri0_25 = 2*N;
-shear_Ri1 = N;
-Nri = 693; %% flat, 1/Ri=3
-% rj = 2.5000e-102; %% flat, 1/Ri=3
-rj  =  1e-150;
-% Nri = 401; %% flat, 1/Ri=1
-% rj =14.56; %% flat, 1/Ri=1
+% topo=0;
+% load('../figures/fig4/Ri_flat.mat')
+% shear_Ri0_25 = 2*N;
+% shear_Ri1 = N;
+% Nri = 693; %% flat, 1/Ri=3
+% % rj = 2.5000e-102; %% flat, 1/Ri=3
+% rj  =  1e-150;
+% % Nri = 401; %% flat, 1/Ri=1
+% % rj =14.56; %% flat, 1/Ri=1
 
-% topo=4;
-% load('../figures/fig4/Ri_topo4.mat')
-% shear_Ri0_25 = 0.0018; % 0.0017525;
-% shear_Ri1 = 9.7e-04;
-% % Nri = 650; %% topo4, 1/Ri_min=2.5
-% % rj = cotd(4)-shear_calc_Ri(2923)/omega; %%%m0/k0
-% 
-% Nri = 700; %% topo4, 1/Ri_min = 3
+topo=4;
+load('../figures/fig4/Ri_topo4_new.mat')
+shear_Ri0_25 = 0.0018; % 0.0017525;
+shear_Ri1 = 9.7e-04;
+% Nri = 650; %% topo4, 1/Ri_min=2.5
+% rj = cotd(4)-shear_calc_Ri(2923)/omega; %%%m0/k0
+
+% Nri = 700 %% topo4, 1/Ri_min = 3
 % rj = cotd(4)-shear_calc_Ri(3148)/omega %%%m0/k0
-% 
+
+Nri = 702 %% topo4, 1/Ri_min = 3
+rj = cotd(4)-shear_calc_Ri(3160)/omega %%%m0/k0
+
 % % Nri = 699; %% topo4, 1/Ri_min=3
 % % rj = 3.3220; %% topo4, 1/Ri_min=3
 % % Nri = 432; %% topo4, 1/Ri_min=1
@@ -120,5 +123,5 @@ for ns =Nri
     end
 end
 
-save('budget/flat_output_Ri3.mat');
+save('budget/topo4_output_Ri3_new.mat');
 

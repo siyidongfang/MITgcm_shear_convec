@@ -10,7 +10,7 @@ set(gcf,'Color','w');
 scrsz = get(0,'ScreenSize');
 set(gcf,'Position',[0.03*scrsz(3) 0.3*scrsz(4) 950 900]);
 
-load('../instability_km/budget/topo4_output_Ri3.mat')
+load('../instability_km/budget/topo4_output_Ri3_new.mat')
 
 
 tidx = nt_percycle*5+1:nt_percycle*7;

@@ -1,6 +1,7 @@
 
 clear; close all;
 addpath ../transition/
+addpath ../analysis/colormaps/
 
 load_colors;
 
@@ -12,7 +13,7 @@ set(gcf,'Color','w','Position', [100 153 1200 800])
 
 tiledlay = tiledlayout(2,2);
 
-load('fig4/Ri_topo4.mat')
+load('fig4/Ri_topo4_new.mat')
 load('../instability_km/exps_new/topo4_nu0_large_shearoutput.mat')
 for i=1:length(shear_all)
     [a(i) b(i)] = min(abs(shear_all(i)-shear_calc_Ri));
@@ -95,7 +96,7 @@ shear_ana = sqrt(R_all.*N^2);
 
 % load('/Users/ysi/MITgcm_shear_convec/instability_km/exps_new/topo4_nu0_output.mat','grow_rw','shear_all')
 load('../instability_km/exps_new/topo4_nu0_output.mat','rw_all','grow_rw','shear_all')
-load('../figures/fig4/Ri_topo4.mat')
+load('../figures/fig4/Ri_topo4_new.mat')
 
 for i=1:length(shear_ana)
     [a(i) b(i)] = min(abs(shear_ana(i)-shear_calc_Ri));

@@ -43,7 +43,7 @@ xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','late
 ylabel('Perturbation aspect ratio $m_0/k_0$','interpreter','latex');
 title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
 ylim([0 30])
-xlim([0 8])
+xlim([0 7.85])
 set(gca,'TickDir','out');
 grid on;grid minor;
 
@@ -109,7 +109,7 @@ l1 = legend('MITgcm: linear shear', 'MITgcm: tanh shear, zero bottom','MITgcm: t
     'Theory: linear shear, viscous', 'Theory: linear shear, inviscid','Position', [0.5608 0.8601 0.2854 0.1087],'interpreter','latex');
 legend('boxoff')
 set(gca,'Fontsize',fontsize);
-xlim([0 8])
+xlim([0 7.85])
 % ylim([-1e-3 0.4])
 title('Growth rate (flat bottom)','interpreter','latex','Fontsize',fontsize+5);
 box on;
@@ -141,10 +141,13 @@ clear growth_MITgcm max_grow_rw Ri_gcm Ri_gcm_tanh Ri_km shear_MITgcm shear_all 
 %--- topo = 4 degrees
 % load('../instability_km/exps_new/topo4_nu0_output.mat')
 load('../instability_km/exps_new/topo4_nu0_large_shearoutput.mat')
-load('fig4/Ri_topo4.mat')
+% load('../instability_eig/products/grow_topo4_eig_km.mat')
+load('fig4/Ri_topo4_new.mat')
 
-lam_x_real = lam_x_real/6;
-max_grow_rw = max(grow_rw,[],2);
+% lam_x_real = lam_x_real/6;
+% max_grow_rw = max(grow_rw,[],2);
+
+
 
 
 % load('fig4/MIT_topo4_kv5e-6_tt.mat')
@@ -196,6 +199,7 @@ for i=1:length(shear_all)
 end
 
 clear r_mostunstable
+rw_all = kx_all./m0_rw;
 [max_grow r_idx]=max(grow_rw,[],2);
 for i=1:length(shear_all)
     r_mostunstable(i) = 1./rw_all(r_idx(i));
@@ -232,7 +236,7 @@ xlabel('Inverse Richardson number ${R_i}_\mathrm{min}^{-1}$','interpreter','late
 ylabel('Perturbation aspect ratio $m_0/k_0$','interpreter','latex');
 title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
 ylim([-21 14])
-xlim([0 8])
+xlim([0 7.85])
 set(gca,'TickDir','out');
 grid on;grid minor;
 
@@ -255,7 +259,7 @@ l4 = legend('MITgcm: linear shear','MITgcm: tanh shear, zero bottom','MITgcm: ta
 legend('boxoff')
 set(gca,'Fontsize',fontsize);
 % xlim([0 5.2])
-xlim([0 8])
+xlim([0 7.85])
 ylim([-1e-3 0.6])
 title('Growth rate (sloping bottom)','interpreter','latex','Fontsize',fontsize+5);
 box on;

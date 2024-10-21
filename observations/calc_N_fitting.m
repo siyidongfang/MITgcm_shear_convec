@@ -1,15 +1,16 @@
 clear all;close all
 
-fname = '_bottom_begin'
+% fname = '_bottom_begin'
+fname = '_full_begin'
 
 %--- MAVS2
-% load('MAVS2_LinearShear.mat') %% Linear-fit shear
-% load('MAVS2_N2.mat')    % seconds since 2021-07-06 00:00:00
-% % load('MAVS2_shear.mat') % microseconds==>hours since 2021-07-07 06:00:33.000323
+load('MAVS2_LinearShear.mat') %% Linear-fit shear
+load('MAVS2_N2.mat')    % seconds since 2021-07-06 00:00:00
+% load('MAVS2_shear.mat') % microseconds==>hours since 2021-07-07 06:00:33.000323
 
-load('MAVS2_LinearShear_100m.mat') %% Linear-fit shear
-load('MAVS2_N2_100m.mat')  
-% load('MAVS2_shear_100m.mat')
+% load('MAVS2_LinearShear_100m.mat') %% Linear-fit shear
+% load('MAVS2_N2_100m.mat')  
+% % load('MAVS2_shear_100m.mat')
 
 shear_zavg = shear_linear;
 time_uw=time/3600;
@@ -62,18 +63,20 @@ y=y(yidx);
 x=x(yidx);
 fo = fitoptions('Method','NonlinearLeastSquares');
 mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
-fittedmdl_shear = fit(x,y,mdl,'start',[rand(),omega_m2*86400,-pi/2,rand()])
+fittedmdl_shear= fit(x,y,mdl,'start',[rand(),omega_m2*86400,-pi/2,rand()])
 % mdl = fittype('a*sin(b*x+c)','indep','x','options',fo);
 % fittedmdl_shear = fit(x,y,mdl,'start',[rand(),omega_m2*86400,-pi/2])
+
+xfit_shear = x;
+yfit_shear = fittedmdl_shear(xfit_shear);
 
 
 figure(1);
 clf;set(gcf,'Color','w')
 hold on;
 plot(x,y,'Color','k','LineWidth',1.5)
-l1=plot(fittedmdl_shear);
-l1.LineWidth=2;
-l1.Color=yellow;
+% l1=plot(fittedmdl_shear);
+plot(xfit_shear,yfit_shear,'Color',yellow,'LineWidth',2);
 grid on;grid minor
 axis tight
 set(gca,'FontSize',fontsize);
@@ -82,15 +85,22 @@ ylabel('(1/s)')
 ylim([-2.5 2.5]*1e-3)
 xlabel('Time (days)')
 legend('Linear-fit shear','Sinusoidal curve fitting')
-y = smooth_n2';
-y=y(yidx);
-mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
-fittedmdl_N = fit(x,y,mdl,'start',[rand(),omega_m2*86400,-pi/4,rand()])
 box on;
 % xlim([10 14.2])
 xlim([0.5 3.7])
-print('-dpng','-r200',['figures/fig1' fname '.png']);
+% print('-dpng','-r200',['figures/fig1' fname '.png']);
 
+
+
+y = smooth_n2';
+y=y(yidx);
+mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
+fittedmdl_N2 = fit(x,y,mdl,'start',[rand(),omega_m2*86400,-pi/4,rand()])
+xfit_N2 = x;
+yfit_N2 = fittedmdl_N2(xfit_N2);
+
+
+Ri_curvefit = yfit_N2./(yfit_shear.^2);
 
 
 figure(2);
@@ -98,9 +108,7 @@ clf;set(gcf,'Color','w')
 hold on;
 plot(time_n2(yidx)/24,n2(yidx),'Color',gray,'LineWidth',1.5)
 plot(time_n2(yidx)/24,smooth_n2(yidx),'--','Color','k','LineWidth',1.5)
-l1 =plot(fittedmdl_N);
-l1.LineWidth=2;
-l1.Color=yellow;
+plot(xfit_N2,yfit_N2,'Color',yellow,'LineWidth',2);
 grid on;grid minor
 axis tight
 set(gca,'FontSize',fontsize);
@@ -112,10 +120,12 @@ xlabel('Time (days)')
 box on;
 % xlim([10 14.2])
 xlim([0.5 3.7])
-print('-dpng','-r200',['figures/fig2' fname '.png']);
+% print('-dpng','-r200',['figures/fig2' fname '.png']);
 
 
-%%
+
+
+
 
 Ri = n2./(shear_int.^2);
 smooth_Ri = smooth_n2./(shear_int.^2);
@@ -161,6 +171,7 @@ plot(time(yidx)/24, 1./Ri(yidx),'Color',gray,'LineWidth',1.5);grid on;
 hold on;
 plot(time(yidx)/24, 1./smooth_Ri(yidx),'--','Color','k','LineWidth',1.5);
 plot(time(yidx)/24, 1./Ri_min*ones(1,length(yidx)),'-','LineWidth',2);
+plot(time(yidx)/24, 1./Ri_curvefit,'--','LineWidth',2);
 set(gca,'FontSize',fontsize);
 legend('Unsmoothed','Smoothed')
 xlabel('Time (days)')
@@ -172,7 +183,7 @@ ylim([-0.5 5])
 xlim([0.5 3.7])
 legend('Inverse Ri (unsmoothed N^2)', 'Inverse Ri (smoothed N^2)','Inverse minimum Ri, sinusoidal curve fitting')
 
-print('-dpng','-r200',['figures/fig3' fname '.png']);
+% print('-dpng','-r200',['figures/fig3' fname '.png']);
 
 
 clear ustart uend fontsize time_n2 time_uw shear time_temp n2start n2idx uidx N2_zavg shear_zavg smooth_N2_zavg

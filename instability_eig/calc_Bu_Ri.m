@@ -2,11 +2,11 @@
 
 %%% Calculate the Slope Burger number and Richardson number
 
-load('products/grow_K1.mat')
-constants_sens_K1
+% load('products/grow_K1.mat')
+% constants_sens_K1
 
-% load('products/grow_M2.mat')
-% constants_sens_M2
+load('products/grow_M2.mat')
+constants_sens_M2
 
 % load('products/grow_ref.mat')
 % constants_ref;
@@ -27,6 +27,7 @@ tt_ri = dt_ri:dt_ri:Nt_ri*dt_ri;
 
 for ntopo = 1:Ntopo
 
+    ntopo
     topo = topo_all(ntopo);
     alpha = topo/180*pi; 
 
@@ -40,10 +41,10 @@ for ntopo = 1:Ntopo
         shear_all = [0:3*N/(Ns-1):3*N]; 
         Ns = length(shear_all);
 
-        for ns =1:Ns
+       parfor ns =1:Ns
             shear = shear_all(ns);
             % Richardson number
-            Ri_inverse = (shear*cos(omega*tt_ri)).^2./(N^2*cosd(topo) - N^2*sind(topo)/omega*shear*sin(omega*tt_ri));
+            Ri_inverse = (cosd(topo)*shear*cos(omega*tt_ri)).^2./(N^2 - N^2*sind(topo)*cosd(topo)/omega*shear*sin(omega*tt_ri));
             % figure(50);plot(tt_ri,Ri_inverse)
             Ri(ntopo,nn,ns) = 1/max(Ri_inverse);  
             if(min(Ri_inverse)<0)
@@ -59,7 +60,7 @@ for ntopo = 1:Ntopo
 end
 
 
-save('products/grow_K1_calc.mat')
+save('products/grow_M2_calc.mat')
 
 
 % % for ntopo = 1:Ntopo
