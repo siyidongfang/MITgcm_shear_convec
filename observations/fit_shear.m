@@ -18,8 +18,8 @@ ratio = mean(abs(u2),'all','omitnan')/mean(abs(u1),'all','omitnan')
 
 %%% Calculate the linear fit of uu_tilde for each timestep
 dt = diff(time);
-% zidx = 4:18;
-zidx = 4:10;
+zidx = 4:18; %%% Full depth
+% zidx = 12:18; %%% Bottom 100m
 
 
 for i=1:length(time)
@@ -49,12 +49,12 @@ for i=1:length(time)
 
 end
 
-shear_linear = p1;
+shear_linear = -p1;
 
-u_reconstruct = depth'.*p1+p2;
+u_reconstruct = -depth'.*shear_linear+p2;
 
-% save('MAVS2_LinearShear.mat','depth','uu_tilde','topo','u_reconstruct','shear_linear','p1','p2','time')
-save('MAVS2_LinearShear_100m.mat','depth','uu_tilde','topo','u_reconstruct','shear_linear','p1','p2','time')
+save('MAVS2_LinearShear.mat','depth','uu_tilde','topo','u_reconstruct','shear_linear','p1','p2','time')
+% save('MAVS2_LinearShear_100m.mat','depth','uu_tilde','topo','u_reconstruct','shear_linear','p1','p2','time')
 
 
 %%
