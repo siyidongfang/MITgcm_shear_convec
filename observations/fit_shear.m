@@ -1,31 +1,42 @@
 
 clear;
 % close all;
-% load('MAVS2_velocity.mat','uu_tilde','time','depth','topo')
-load('MAVS2_velocity.mat')
+% % load('MAVS2_velocity.mat','uu_tilde','time','depth','topo')
+% load('MAVS2_velocity.mat')
+% zidx = 4:18; %%% Full depth, MAVS 2
+% % zidx = 12:18; %%% Bottom 100m, MAVS 2
+
+load('MAVS1_velocity.mat')
+zidx = 5:18;%%% For MAVS1, full depth
+% zidx = 12:18;%%% For MAVS1, bottom 96m
+
 u1 = uu_tilde*cosd(topo);
 u2 = ww_tilde*sind(topo);
 
 fontsize = 20;
 
 ratio = mean(abs(u2),'all','omitnan')/mean(abs(u1),'all','omitnan')
-%--- u2 can be ignored since its magnitude is only 1.08% of u1
+%--- the magnitude of u2 is only 1.08% of u1
+% figure(1)
+% pcolor(uu(:,300:500));shading flat;colorbar;clim([-0.3 0.3]);colormap(redblue)
+% 
 % figure(2)
 % pcolor(u1(:,300:500));shading flat;colorbar;clim([-0.3 0.3]);colormap(redblue)
 % figure(3)
 % pcolor(u2(:,300:500));shading flat;colorbar;clim([-0.3 0.3]/80);colormap(redblue)
 
 
+%%
+
 %%% Calculate the linear fit of uu_tilde for each timestep
 dt = diff(time);
-zidx = 4:18; %%% Full depth
-% zidx = 12:18; %%% Bottom 100m
 
 
 for i=1:length(time)
     % i
 
-    u_fit = uu_tilde(zidx,i);
+    % u_fit = uu_tilde(zidx,i);
+    u_fit = uu(zidx,i);
     depth_fit = depth(zidx);
     
     % u_fit = uu_tilde(:,i);
@@ -53,7 +64,7 @@ shear_linear = -p1;
 
 u_reconstruct = -depth'.*shear_linear+p2;
 
-save('MAVS2_LinearShear.mat','depth','uu_tilde','topo','u_reconstruct','shear_linear','p1','p2','time')
+save('MAVS1_LinearShear.mat','depth','uu','uu_tilde','topo','u_reconstruct','shear_linear','p1','p2','time')
 % save('MAVS2_LinearShear_100m.mat','depth','uu_tilde','topo','u_reconstruct','shear_linear','p1','p2','time')
 
 
@@ -89,6 +100,8 @@ shading interp;colorbar;colormap(redblue);clim([-0.4 0.4])
 title('Along-canyon velocity: observed (m/s)')
 ylabel('Depth (m)');xlabel('time (days)');set(gca,'FontSize',fontsize)
 axis ij;
+
+
 
 
 

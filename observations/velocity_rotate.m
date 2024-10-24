@@ -10,28 +10,28 @@ addpath /Users/ysi/MITgcm_shear_convec/observations/moorings_gridded_adcp_v2/
 %%% Calculate along-canyon velocity uu and cross-slope velocity vv
 load("topog1D_28km.mat",'lat9','lon9','depth9')
 
-% ncfname = 'MAVS2_24606.nc';
-% lat = 54.18229903565569; 
-% lat1 = lat9(9);
-% lon1 = lon9(9);
-% lat2 = lat9(10);
-% lon2 = lon9(10);
-% t_idx = 32:8574;
-% depth1 = depth9(9);
-% depth2 = depth9(10);
-% zidx = 4:18;
+ncfname = 'MAVS2_24606.nc';
+lat = 54.18229903565569; 
+lat1 = lat9(9);
+lon1 = lon9(9);
+lat2 = lat9(10);
+lon2 = lon9(10);
+t_idx = 32:8574;
+depth1 = depth9(9);
+depth2 = depth9(10);
+zidx = 4:18;
 
 
-ncfname = 'MAVS1_24608.nc';
-lat = 54.197478060955085; 
-lat1 = lat9(8);
-lon1 = lon9(8);
-lat2 = lat9(9);
-lon2 = lon9(9);
-t_idx = 40:8756;
-depth1 = depth9(8);
-depth2 = depth9(9);
-zidx = 5:18;
+% ncfname = 'MAVS1_24608.nc';
+% lat = 54.197478060955085; 
+% lat1 = lat9(8);
+% lon1 = lon9(8);
+% lat2 = lat9(9);
+% lon2 = lon9(9);
+% t_idx = 40:8756;
+% depth1 = depth9(8);
+% depth2 = depth9(9);
+% zidx = 5:18;
 
 
 % ncfname = 'MP1_24839.nc';
@@ -74,6 +74,8 @@ vv = vv_tilde;
 fontsize = 20;
 % t_idx_plot = 97:96*10;
 t_idx_plot = 1:length(time);
+t_idx_plot = 1:1000;
+
 
 dz = diff(depth); %%% DOUBLE CHECK dz!!
 dz = dz(1)
@@ -81,11 +83,11 @@ dudz = diff(uu)./dz;
 % dvdz = diff(vv)./dz;
 % dwdz = diff(ww)./dz;
 
-save('MAVS1_velocity.mat',...
-    'uu','vv','ww',...
-    'uu_tilde','vv_tilde','ww_tilde',...
-    'u_meridional','v_zonal',...
-    'depth','angle_canyon','time','topo')
+% save('MAVS1_velocity.mat',...
+%     'uu','vv','ww',...
+%     'uu_tilde','vv_tilde','ww_tilde',...
+%     'u_meridional','v_zonal',...
+%     'depth','angle_canyon','time','topo')
 
 % figure(1);clf;set(gcf,'color','w');
 % subplot(2,1,1)
@@ -96,6 +98,9 @@ save('MAVS1_velocity.mat',...
 % plot(time/86400,tt);grid on;grid minor;
 % title('Temperature (^oC)');xlabel('time (days)')
 % set(gca,'FontSize',fontsize)
+
+
+
 
 figure(1);
 clf;set(gcf,'color','w','Position',[249 367 931 599]);
