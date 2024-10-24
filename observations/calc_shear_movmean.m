@@ -1,14 +1,16 @@
 %%%%%%%% Compute the move-mean average of the sinusoidal fit shear
 %%%%%%%% amplitude
 
-load('MAVS2_LinearShear.mat','time','shear_linear','topo')
-isnanidx = 32:8574;
-% load('MAVS1_LinearShear.mat','time','shear_linear','topo')
-% isnanidx = 40:8756;
+% load('MAVS2_LinearShear.mat','time','shear_linear','topo')
+% isnanidx = 32:8574;
+% time = time(isnanidx)+4500+86400;
 
-%%% Interpolating NaN-s
-shear_linear = shear_linear(isnanidx);
+load('MAVS1_LinearShear.mat','time','shear_linear','topo')
+isnanidx = 40:8756;
 time = time(isnanidx);
+
+shear_linear = shear_linear(isnanidx);
+%%% Interpolating NaN-s
 nanx = isnan(shear_linear);
 t    = 1:numel(shear_linear);
 shear_linear(nanx) = interp1(t(~nanx), shear_linear(~nanx), t(nanx));
@@ -129,4 +131,4 @@ subplot(3,1,3)
 plot(time(1:Nend)/86400,shear_phase)
 
 
-save('MAVS2_shear_movmean.mat')
+save('MAVS1_shear_movmean.mat')
