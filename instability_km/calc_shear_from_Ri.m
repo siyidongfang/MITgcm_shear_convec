@@ -19,6 +19,7 @@ if(topo==0)
     shear_convec = 5e-3;
 end
 shear_calc_Ri = 0:0.05e-5:(shear_convec+0.05e-5);
+% shear_calc_Ri = 10e-4
 % shear_calc_Ri = 0:0.25e-5:shear_convec;
 ns = length(shear_calc_Ri);
 
@@ -64,6 +65,6 @@ Ri0_25 = Ri_min(idx);
 shear_Ri0_25 = shear_calc_Ri(idx)
 
 clear Ri_inverse tt_ri
-save('../figures/fig4/Ri_topo4_new.mat')
+% save('../figures/fig4/Ri_topo4_new.mat')
 % save('../figures/fig4/Ri_flat_new.mat')
 

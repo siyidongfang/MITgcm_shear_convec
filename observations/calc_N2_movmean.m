@@ -96,4 +96,4 @@ subplot(3,1,3)
 plot(time(1:Nend)/86400,N2_phase)
 
 
-save('MAVS1_N2_movmean.mat')
+% save('MAVS1_N2_movmean.mat')

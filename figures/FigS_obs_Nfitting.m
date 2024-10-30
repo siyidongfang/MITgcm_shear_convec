@@ -120,10 +120,23 @@ box on;
 
 y = smooth_n2';
 y=y(yidx);
+
+% % Calculate the threshold for the lowest 10%
+% threshold = prctile(y, 10); % 10th percentile
+% % Create a logical index to exclude the lowest 10%
+% filteredIndex = y > threshold;
+% % Get the filtered array
+% y_filter = y(filteredIndex);
+% x_filter = x(filteredIndex);
+
 mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
 fittedmdl_N2 = fit(x,y,mdl,'start',[rand(),omega_m2*86400,pi/2,rand()])
 xfit_N2 = x;
 yfit_N2 = fittedmdl_N2(xfit_N2);
+
+% fittedmdl_N2 = fit(x_filter,y_filter,mdl,'start',[rand(),omega_m2*86400,pi/2,rand()])
+% xfit_N2 = x_filter;
+% yfit_N2 = fittedmdl_N2(xfit_N2);
 
 
 N2 = fittedmdl_N2.d;
@@ -136,8 +149,8 @@ alpha/alpha_theory
 
 yfit_N2_new = alpha_theory*sin(omega_m2*86400*x+pi/2)+fittedmdl_N2.d;
 
-Ri_curvefit = yfit_N2./(yfit_shear.^2)/(cosd(topo))^2;
-Ri_curvefit_new = yfit_N2_new./(shear_theory.^2)/(cosd(topo))^2;
+% Ri_curvefit = yfit_N2./(yfit_shear.^2)/(cosd(topo))^2;
+% Ri_curvefit_new = yfit_N2_new./(shear_theory.^2)/(cosd(topo))^2;
 
 
 N2_freq = fittedmdl_N2.b;
@@ -181,6 +194,8 @@ box on;
 % plot(xfit_shear,yfit_shear/1e3*2+4e-6,'Color',red,'LineWidth',2);
 
 
+
+%%
 Ri = n2./(shear_int.^2)/(cosd(topo)^2);
 smooth_Ri = smooth_n2./(shear_int.^2)/(cosd(topo)^2);
 
@@ -461,4 +476,4 @@ tiledlay.Padding = 'compact';
 addpath ~/MITgcm_shear_convec/figures/
 AddLetters2Plots(fg1,'FontSize',fontsize+5,'FontWeight','normal','Direction','TopDown')
 
-print('-dpng','-r300','fig_supp_new/figS_obs_Nfitting.png');
+% print('-dpng','-r300','fig_supp_new/figS_obs_Nfitting.png');
