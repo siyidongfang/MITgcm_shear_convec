@@ -54,8 +54,6 @@ shear = shear_linear;
 time = time_n2;
 
 
-
-
 %%% Interpolate 
 shear_int = interp1(time_uw,shear,time_n2,'linear','extrap');
 
@@ -78,21 +76,29 @@ yidx = Nstarty:Nendy;
 y=y(yidx);
 x=x(yidx);
 x=x-x(1);
-fo = fitoptions('Method','NonlinearLeastSquares');
-mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
-fittedmdl_shear= fit(x,y,mdl,'start',[rand(),omega_m2*86400,0,rand()])
-% mdl = fittype('a*sin(b*x+c)','indep','x','options',fo);
-% fittedmdl_shear = fit(x,y,mdl,'start',[rand(),omega_m2*86400,-pi/2])
+% fo = fitoptions('Method','NonlinearLeastSquares');
+% mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
+% fittedmdl_shear= fit(x,y,mdl,'start',[rand(),omega_m2*86400,0,rand()])
+% % mdl = fittype('a*sin(b*x+c)','indep','x','options',fo);
+% % fittedmdl_shear = fit(x,y,mdl,'start',[rand(),omega_m2*86400,-pi/2])
+
+fittedmdl_shear = fit(x,y,'sin8');
+coeffs = coeffvalues(fittedmdl_shear);
+amplitudes_shear = coeffs(1:3:end);   % Extracts every 3rd element starting from 1
+frequencies_shear = coeffs(2:3:end);  % Extracts every 3rd element starting from 2
+phases_shear = coeffs(3:3:end);       % Extracts every 3rd element starting from 3
+
+max_amplitude_shear = max(abs(amplitudes_shear));
 
 xfit_shear = x;
 yfit_shear = fittedmdl_shear(xfit_shear);
 
-shear_fit = fittedmdl_shear.a;
-shear_phase = fittedmdl_shear.c;
-shear_freq =  fittedmdl_shear.b;
-
-shear_theory = shear_fit*sin(omega_m2*86400*x+shear_phase);
-yfit_shear_new = shear_fit*sin(omega_m2*86400*x+shear_phase)+fittedmdl_shear.d;
+% shear_fit = fittedmdl_shear.a;
+% shear_phase = fittedmdl_shear.c;
+% shear_freq =  fittedmdl_shear.b;
+% 
+% shear_theory = shear_fit*sin(omega_m2*86400*x+shear_phase);
+% yfit_shear_new = shear_fit*sin(omega_m2*86400*x+shear_phase)+fittedmdl_shear.d;
 
 
 % figure(1);
@@ -118,63 +124,55 @@ box on;
 % print('-dpng','-r200',['figures/fig1' fname '.png']);
 
 
-y = smooth_n2';
-y=y(yidx);
-
-c1 = 1:12500;
-c2 = c1(end)+12500:c1(end)+44700;
-c3 = c2(end)+12500:c2(end)+44700;
-c4 = c3(end)+12500:c3(end)+44700;
-c5 = c4(end)+12500:c4(end)+44700;
-c6 = c5(end)+12500:c5(end)+44700;
-c7 = c6(end)+12500:length(y);
-crop_idx = [c1 c2 c3 c4 c5 c6 c7];
-
-y_crop = y(crop_idx);
-x_crop = x(crop_idx);
-figure(3)
-clf;
-hold on;
-plot(x,y)
-plot(x_crop,y_crop)
-grid on;grid minor;
-
-
-a_predict = mean(y)*shear_fit/omega_m2*sind(topo)*cosd(topo);
-b_predict = omega_m2*86400;
-c_predict = pi/2;
-d_predict = mean(y);
-mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
-fittedmdl_N2 = fit(x,y,mdl,'start',[a_predict,b_predict,c_predict,d_predict])
-xfit_N2 = x;
-yfit_N2 = fittedmdl_N2(xfit_N2);
-
-plot(xfit_N2,yfit_N2,'--')
-
-fittedmdl_N2 = fit(x_crop,y_crop,mdl,'start',[a_predict,b_predict,c_predict,d_predict])
-xfit_N2 = x_crop;
-yfit_N2 = fittedmdl_N2(xfit_N2);
-plot(xfit_N2,yfit_N2,':')
 
 
 %%
+y = smooth_n2';
+y=y(yidx);
 
-N2 = fittedmdl_N2.d;
-alpha = fittedmdl_N2.a;
-alpha_theory = N2*shear_fit/omega_m2*sind(topo)*cosd(topo);
-alpha/alpha_theory
-yfit_N2_new = alpha_theory*sin(omega_m2*86400*x+pi/2)+fittedmdl_N2.d;
+% a_predict = mean(y)*shear_fit/omega_m2*sind(topo)*cosd(topo);
+% b_predict = omega_m2*86400;
+% c_predict = pi/2;
+% d_predict = mean(y);
+% mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
+% fittedmdl_N2 = fit(x,y,mdl,'start',[a_predict,b_predict,c_predict,d_predict])
+% xfit_N2 = x;
+% yfit_N2 = fittedmdl_N2(xfit_N2);
 
-% Ri_curvefit = yfit_N2./(yfit_shear.^2)/(cosd(topo))^2;
-% Ri_curvefit_new = yfit_N2_new./(shear_theory.^2)/(cosd(topo))^2;
 
+fittedmdl_N2 = fit(x,y,'sin8');
+xfit_N2 = x;
+yfit_N2 = fittedmdl_N2(xfit_N2);
 
-N2_freq = fittedmdl_N2.b;
+coeffs = coeffvalues(fittedmdl_N2);
+amplitudes_N2 = coeffs(1:3:end);   % Extracts every 3rd element starting from 1
+frequencies_N2 = coeffs(2:3:end);  % Extracts every 3rd element starting from 2
+phases_N2 = coeffs(3:3:end);       % Extracts every 3rd element starting from 3
 
-%%%%%% Compute predicted N^2, using the kinematic model
-N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/(N2_freq/86400)*(-cos(N2_freq*x+shear_phase+0.2));
-% N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/omega_m2*(-cos(shear_freq*x+shear_phase));
-% N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/omega_m2*(-cos(omega_m2*86400*x+shear_phase+0.2));
+max_amplitude_N2 = max(abs(amplitudes_N2));
+
+mean(y)
+
+% N2 = fittedmdl_N2.d;
+% 
+% alpha = fittedmdl_N2.a;
+% 
+% alpha_theory = N2*shear_fit/omega_m2*sind(topo)*cosd(topo);
+% 
+% alpha/alpha_theory
+% 
+% yfit_N2_new = alpha_theory*sin(omega_m2*86400*x+pi/2)+fittedmdl_N2.d;
+% 
+% % Ri_curvefit = yfit_N2./(yfit_shear.^2)/(cosd(topo))^2;
+% % Ri_curvefit_new = yfit_N2_new./(shear_theory.^2)/(cosd(topo))^2;
+% 
+% 
+% N2_freq = fittedmdl_N2.b;
+% 
+% %%%%%% Compute predicted N^2, using the kinematic model
+% N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/(N2_freq/86400)*(-cos(N2_freq*x+shear_phase+0.2));
+% % N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/omega_m2*(-cos(shear_freq*x+shear_phase));
+% % N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/omega_m2*(-cos(omega_m2*86400*x+shear_phase+0.2));
 
 %%%%%%
 
@@ -188,7 +186,7 @@ plot(x,n2(yidx)*1e6,'Color',gray,'LineWidth',1.5)
 plot(x,smooth_n2(yidx)*1e6,'--','Color','k','LineWidth',1.5)
 plot(xfit_N2,yfit_N2*1e6,'Color',yellow,'LineWidth',2.5);
 % plot(xfit_N2,yfit_N2_new,'Color',red,'LineWidth',2);
-plot(x,N2_predict*1e6,'-.','Color',purple,'LineWidth',2);
+% plot(x,N2_predict*1e6,'-.','Color',purple,'LineWidth',2);
 grid on;grid minor
 axis tight
 set(gca,'FontSize',fontsize);
@@ -375,31 +373,34 @@ box on;
 y = smooth_n2';
 y=y(yidx);
 mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
-fittedmdl_N2 = fit(x,y,mdl,'start',[rand(),omega_m2*86400,pi/2,rand()])
+% fittedmdl_N2 = fit(x,y,mdl,'start',[rand(),omega_m2*86400,pi/2,rand()])
+% xfit_N2 = x;
+% yfit_N2 = fittedmdl_N2(xfit_N2);
+
+fittedmdl_N2 = fit(x,y,'sin8');
 xfit_N2 = x;
 yfit_N2 = fittedmdl_N2(xfit_N2);
 
-
-N2 = fittedmdl_N2.d;
-
-alpha = fittedmdl_N2.a;
-
-alpha_theory = N2*shear_fit/omega_m2*sind(topo)*cosd(topo);
-
-alpha/alpha_theory
-
-yfit_N2_new = alpha_theory*sin(omega_m2*86400*x+pi/2)+fittedmdl_N2.d;
-
-Ri_curvefit = yfit_N2./(yfit_shear.^2)/(cosd(topo))^2;
-Ri_curvefit_new = yfit_N2_new./(shear_theory.^2)/(cosd(topo))^2;
-
-
-N2_freq = fittedmdl_N2.b;
-
-%%%%%% Compute predicted N^2, using the kinematic model
-N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/(N2_freq/86400)*(-cos(N2_freq*x+shear_phase+0.73));
-% N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/omega_m2*(-cos(shear_freq*x+shear_phase));
-% N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/omega_m2*(-cos(omega_m2*86400*x+shear_phase+0.2));
+% N2 = fittedmdl_N2.d;
+% 
+% alpha = fittedmdl_N2.a;
+% 
+% alpha_theory = N2*shear_fit/omega_m2*sind(topo)*cosd(topo);
+% 
+% alpha/alpha_theory
+% 
+% yfit_N2_new = alpha_theory*sin(omega_m2*86400*x+pi/2)+fittedmdl_N2.d;
+% 
+% Ri_curvefit = yfit_N2./(yfit_shear.^2)/(cosd(topo))^2;
+% Ri_curvefit_new = yfit_N2_new./(shear_theory.^2)/(cosd(topo))^2;
+% 
+% 
+% N2_freq = fittedmdl_N2.b;
+% 
+% %%%%%% Compute predicted N^2, using the kinematic model
+% N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/(N2_freq/86400)*(-cos(N2_freq*x+shear_phase+0.73));
+% % N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/omega_m2*(-cos(shear_freq*x+shear_phase));
+% % N2_predict = N2 - N2*sind(topo)*cosd(topo)*shear_fit/omega_m2*(-cos(omega_m2*86400*x+shear_phase+0.2));
 
 %%%%%%
 
@@ -413,7 +414,7 @@ plot(x,n2(yidx)*1e6,'Color',gray,'LineWidth',1.5)
 plot(x,smooth_n2(yidx)*1e6,'--','Color','k','LineWidth',1.5)
 plot(xfit_N2,yfit_N2*1e6,'Color',yellow,'LineWidth',2.5);
 % plot(xfit_N2,yfit_N2_new,'Color',red,'LineWidth',2);
-plot(x,N2_predict*1e6,'-.','Color',purple,'LineWidth',2);
+% plot(x,N2_predict*1e6,'-.','Color',purple,'LineWidth',2);
 grid on;grid minor
 axis tight
 set(gca,'FontSize',fontsize);
@@ -433,7 +434,7 @@ box on;
 
 % plot(xfit_shear,yfit_shear/1e3*2+4e-6,'Color',red,'LineWidth',2);
 
-
+%%
 Ri = n2./(shear_int.^2)/(cosd(topo)^2);
 smooth_Ri = smooth_n2./(shear_int.^2)/(cosd(topo)^2);
 
