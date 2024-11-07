@@ -1,4 +1,4 @@
-clear all;close all
+clear;close all
 
 addpath ../observations/
 addpath ../analysis/colormaps/
@@ -121,22 +121,18 @@ box on;
 y = smooth_n2';
 y=y(yidx);
 
-% % Calculate the threshold for the lowest 10%
-% threshold = prctile(y, 10); % 10th percentile
-% % Create a logical index to exclude the lowest 10%
-% filteredIndex = y > threshold;
-% % Get the filtered array
-% y_filter = y(filteredIndex);
-% x_filter = x(filteredIndex);
+% a_predict = mean(y)*shear_fit/omega_m2*sind(topo)*cosd(topo);
+% b_predict = omega_m2*86400;
+% c_predict = pi/2;
+% d_predict = mean(y);
+% mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
+% fittedmdl_N2 = fit(x,y,mdl,'start',[a_predict,b_predict,c_predict,d_predict])
+% xfit_N2 = x;
+% yfit_N2 = fittedmdl_N2(xfit_N2);
 
-mdl = fittype('a*sin(b*x+c)+d','indep','x','options',fo);
-fittedmdl_N2 = fit(x,y,mdl,'start',[rand(),omega_m2*86400,pi/2,rand()])
+fittedmdl_N2 = fix(x,y,'sin8');
 xfit_N2 = x;
 yfit_N2 = fittedmdl_N2(xfit_N2);
-
-% fittedmdl_N2 = fit(x_filter,y_filter,mdl,'start',[rand(),omega_m2*86400,pi/2,rand()])
-% xfit_N2 = x_filter;
-% yfit_N2 = fittedmdl_N2(xfit_N2);
 
 
 N2 = fittedmdl_N2.d;
