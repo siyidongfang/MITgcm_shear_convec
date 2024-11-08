@@ -6,8 +6,10 @@ expdir = 'exps_sens_K1/';
 Diffusion = false;
 nt_percycle = 72*30; 
 
-topo_all = [0:2:18];
-N_all = [0.1 0.5 1:2:11]*1e-3;
+% topo_all = [0:2:18];
+topo_all = [0 4]
+N_all = 2e-3;
+% N_all = [0.1 0.5 1 2 3:2:11]*1e-3;
 
 Ptide = 43200*2;
 omega = 2*pi/Ptide;

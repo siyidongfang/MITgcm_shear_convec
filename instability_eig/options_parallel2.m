@@ -7,7 +7,7 @@ mkdir(expdir);
 
 
 % for ntopo = 1:Ntopo
-for ntopo = 6:Ntopo
+for ntopo = 2
 
     topo = topo_all(ntopo)
     cs = cosd(topo);

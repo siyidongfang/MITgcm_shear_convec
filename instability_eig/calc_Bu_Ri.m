@@ -2,11 +2,11 @@
 
 %%% Calculate the Slope Burger number and Richardson number
 
-% load('products/grow_K1.mat')
-% constants_sens_K1
+load('products/grow_K1_new.mat')
+constants_sens_K1
 
-load('products/grow_M2.mat')
-constants_sens_M2
+% load('products/grow_M2_new.mat')
+% constants_sens_M2
 
 % load('products/grow_ref.mat')
 % constants_ref;
@@ -60,7 +60,7 @@ for ntopo = 1:Ntopo
 end
 
 
-save('products/grow_M2_calc.mat')
+save('products/grow_K1_calc_new.mat')
 
 
 % % for ntopo = 1:Ntopo
